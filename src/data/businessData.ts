@@ -4,7 +4,7 @@ import { restaurants } from './restaurants';
 import { bakeries } from './bakeries';
 import { services } from './services';
 
-export { Business, BusinessCategory } from './types';
+export type { Business, BusinessCategory } from './types';
 
 export const businesses: Business[] = [
   ...restaurants,
