@@ -1,4 +1,3 @@
-
 export interface Business {
   id: string;
   name: string;
@@ -52,6 +51,28 @@ export const businesses: Business[] = [
       wednesday: "12:00 - 22:00",
       thursday: "12:00 - 22:00",
       friday: "12:00 - 23:00",
+      saturday: "12:00 - 23:00",
+      sunday: "12:00 - 21:00"
+    }
+  },
+  {
+    id: "b009",
+    name: "Nonna Lucrezia",
+    category: BusinessCategory.RESTAURANT,
+    description: "Cozy Italian restaurant with authentic Romanian influences, offering homemade pasta, traditional dishes, and a warm family atmosphere. Perfect for romantic dinners and family gatherings.",
+    address: "Dorpsstraat 45",
+    city: "Izegem",
+    phone: "+32 470 90 12 34",
+    email: "info@nonnalucrezia.be",
+    website: "https://www.nonnalucrezia.be",
+    imageUrl: "/images/restaurant.jpg",
+    featured: true,
+    openingHours: {
+      monday: "Closed",
+      tuesday: "17:00 - 22:00",
+      wednesday: "17:00 - 22:00",
+      thursday: "17:00 - 22:00",
+      friday: "17:00 - 23:00",
       saturday: "12:00 - 23:00",
       sunday: "12:00 - 21:00"
     }
