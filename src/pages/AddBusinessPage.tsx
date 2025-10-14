@@ -1,9 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -50,6 +51,7 @@ const formSchema = z.object({
 
 const AddBusinessPage = () => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,17 +70,53 @@ const AddBusinessPage = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
     
-    // In a real application, you would send this data to your backend
-    toast({
-      title: "Business submission received!",
-      description: "We'll review your business and add it to our directory soon.",
-    });
-    
-    // Reset the form
-    form.reset();
+    try {
+      // Insert business into Supabase
+      const { data, error } = await supabase
+        .from('businesses')
+        .insert({
+          business_name: values.businessName,
+          owner_name: values.ownerName,
+          email: values.email,
+          phone: values.phone,
+          address: values.address,
+          city: values.city,
+          postal_code: values.postalCode,
+          description: values.description,
+          category: values.category,
+          website: values.website || null,
+          status: 'pending'
+        })
+        .select()
+        .single();
+
+      if (error) {
+        throw error;
+      }
+
+      console.log('Business submitted successfully:', data);
+      
+      toast({
+        title: "Business submission received!",
+        description: "We'll review your business and add it to our directory soon.",
+      });
+      
+      // Reset the form
+      form.reset();
+    } catch (error) {
+      console.error('Error submitting business:', error);
+      
+      toast({
+        title: "Submission failed",
+        description: "There was an error submitting your business. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   const categories = [
@@ -296,8 +334,8 @@ const AddBusinessPage = () => {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full bg-romania-blue hover:bg-blue-700">
-                    Submit Business
+                  <Button type="submit" className="w-full bg-romania-blue hover:bg-blue-700" disabled={isSubmitting}>
+                    {isSubmitting ? 'Submitting...' : 'Submit Business'}
                   </Button>
                 </form>
               </Form>
