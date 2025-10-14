@@ -96,7 +96,9 @@
         
         <p>Use this checklist to manually test the Add Business functionality.</p>
         
-        <a href="http://localhost:8080/add-business" class="app-link" target="_blank">
+        <p><strong>Note:</strong> Make sure the development server is running (<code>npm run dev</code>) before testing.</p>
+        
+        <a href="/add-business" class="app-link" target="_blank">
             Open Add Business Form →
         </a>
 
@@ -238,6 +240,7 @@
             <div class="expected">
                 <strong>Expected Categories:</strong>
                 <p>Restaurant & Food, Bakery, Grocery, Beauty & Wellness, Car Services, Construction, Transportation, Travel & Tourism, Retail, Professional Services, Other</p>
+                <p><em>Note: Verify this list matches the categories in AddBusinessPage.tsx (lines 84-96)</em></p>
             </div>
             <ul class="checklist">
                 <li><input type="checkbox" id="test6-1"> All categories visible</li>
@@ -270,7 +273,7 @@
         <h2>Test Summary</h2>
         <p id="summary">Complete the tests above and check all boxes to verify functionality.</p>
         
-        <button onclick="checkProgress()" style="padding: 10px 20px; background-color: #002B7F; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 20px;">
+        <button id="check-progress-btn" onclick="checkProgress()" style="padding: 10px 20px; background-color: #002B7F; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 20px;">
             Check Progress
         </button>
         
@@ -325,7 +328,7 @@
                 document.getElementById('results').innerHTML = '';
             }
         };
-        document.querySelector('button').after(resetBtn);
+        document.getElementById('check-progress-btn').after(resetBtn);
     </script>
 </body>
 </html>
