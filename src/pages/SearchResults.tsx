@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { businesses } from '../data/businessData';
 import Navbar from '../components/Navbar';
@@ -10,17 +10,19 @@ const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
   
-  // Filter businesses based on search query
-  const filteredBusinesses = businesses.filter(business => {
-    const searchLower = query.toLowerCase();
-    return (
-      business.name.toLowerCase().includes(searchLower) ||
-      business.description.toLowerCase().includes(searchLower) ||
-      business.category.toLowerCase().includes(searchLower) ||
-      business.city.toLowerCase().includes(searchLower) ||
-      business.address.toLowerCase().includes(searchLower)
-    );
-  });
+  // Filter businesses based on search query (memoized for performance)
+  const filteredBusinesses = useMemo(() => {
+    return businesses.filter(business => {
+      const searchLower = query.toLowerCase();
+      return (
+        business.name.toLowerCase().includes(searchLower) ||
+        business.description.toLowerCase().includes(searchLower) ||
+        business.category.toLowerCase().includes(searchLower) ||
+        business.city.toLowerCase().includes(searchLower) ||
+        business.address.toLowerCase().includes(searchLower)
+      );
+    });
+  }, [query]);
 
   return (
     <div className="min-h-screen flex flex-col">
