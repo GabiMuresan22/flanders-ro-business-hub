@@ -63,7 +63,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-200 pt-8">
-          <p className="text-gray-500 text-center text-sm">
+          <p className="text-gray-700 text-center text-sm">
             © {new Date().getFullYear()} Romanian Business Hub - West Flanders. All rights reserved.
           </p>
         </div>
