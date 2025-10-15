@@ -3,44 +3,7 @@
  * This test validates the form schema and business logic without requiring database access
  */
 
-import { z } from 'zod';
-
-// Form schema from AddBusinessPage.tsx
-const formSchema = z.object({
-  businessName: z.string().min(2, {
-    message: "Business name must be at least 2 characters.",
-  }),
-  ownerName: z.string().min(2, {
-    message: "Owner name must be at least 2 characters.",
-  }),
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
-  phone: z.string().min(9, {
-    message: "Please enter a valid phone number.",
-  }),
-  address: z.string().min(5, {
-    message: "Address must be at least 5 characters.",
-  }),
-  city: z.string().min(2, {
-    message: "City must be at least 2 characters.",
-  }),
-  postalCode: z.string().min(4, {
-    message: "Please enter a valid postal code.",
-  }),
-  description: z.string().min(10, {
-    message: "Description must be at least 10 characters.",
-  }),
-  category: z.string({
-    required_error: "Please select a business category.",
-  }),
-  website: z.string().url({
-    message: "Please enter a valid website URL.",
-  }).optional().or(z.literal('')),
-  agreeTerms: z.boolean().refine(val => val === true, {
-    message: "You must agree to the terms and conditions."
-  }),
-});
+import { formSchema } from './src/lib/validation/businessFormSchema.mjs';
 
 // Test cases
 const testCases = [

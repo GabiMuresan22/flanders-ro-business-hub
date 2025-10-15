@@ -4,18 +4,27 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
+import { randomUUID } from 'crypto';
 
-// Load environment variables
-const SUPABASE_URL = process.env.VITE_SUPABASE_URL || 'https://qwwvnxrduakmrgdmiccs.supabase.co';
-const SUPABASE_KEY = process.env.VITE_SUPABASE_PUBLISHABLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3d3ZueHJkdWFrbXJnZG1pY2NzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0Nzg3NDUsImV4cCI6MjA3NjA1NDc0NX0.NsZmcanG3F1m7tNubq81DdH45mMAf7W7KS6A8lplNvM';
+// Load environment variables - fail gracefully if not provided
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
+const SUPABASE_KEY = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+  console.error('❌ Error: Required environment variables are not set.');
+  console.error('Please set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY');
+  process.exit(1);
+}
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Test data based on TESTING_ADD_BUSINESS.md
+// Using UUID for unique email to ensure test reliability
+const testId = randomUUID().substring(0, 8);
 const testBusiness = {
   business_name: "Test Romanian Restaurant",
   owner_name: "Ion Popescu",
-  email: `test${Date.now()}@romanianrestaurant.com`, // Make unique
+  email: `test-${testId}@romanianrestaurant.com`,
   phone: "+32 470 123 456",
   address: "Markt 15",
   city: "Bruges",
