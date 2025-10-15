@@ -57,7 +57,7 @@ const Navbar = () => {
                 placeholder="Search businesses..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue"
+                className="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue w-40 lg:w-auto"
               />
             </form>
           </div>
@@ -82,7 +82,7 @@ const Navbar = () => {
         
         {/* Mobile search input */}
         {isMobileSearchOpen && (
-          <div className="md:hidden mt-4">
+          <div className="md:hidden mt-2">
             <form onSubmit={handleSearch} className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
               <input
@@ -99,7 +99,7 @@ const Navbar = () => {
         
         {/* Mobile navigation menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4">
+          <div className="md:hidden mt-2 pb-2">
             <nav className="flex flex-col items-center space-y-3">
               <Link 
                 to="/" 
