@@ -4,15 +4,19 @@
 Users were experiencing an error when trying to add a new business through the Add Business page.
 
 ## Root Cause
-The error could have been caused by the Row Level Security (RLS) policy depending on which migration was active:
+The error was related to the Row Level Security (RLS) policy on the businesses table:
 
 ### Migration History:
-1. **20250101000000**: Original policy with `WITH CHECK (true)` - allows any insert
-2. **20251015115355**: Changed to `WITH CHECK (status = 'pending')` - requires status='pending'
-3. **20251015161410**: Latest policy reverted to `WITH CHECK (true)` - allows any insert
+The RLS policy has evolved across several migrations:
+
+1. **20250101000000**: Initial migration with `WITH CHECK (true)` - allows any insert
+2. **20251015115355**: Migration with `WITH CHECK (status = 'pending')` - requires explicit status
+3. **20251015161410**: Latest migration reverts to `WITH CHECK (true)` - allows any insert
+
+**Note**: The exact migration deployment state may vary across environments.
 
 ### The Issue:
-- **If migration #2 was active**: The `WITH CHECK (status = 'pending')` policy requires the status field to be explicitly set
+- **If a strict policy is active**: Any policy with `WITH CHECK (status = 'pending')` requires the status field to be explicitly set
 - **Original Code Behavior**: The insert statement did not explicitly set the `status` field, relying on the database default value
 - **Why This Could Cause Failure**: RLS policies evaluate data **before** database defaults are applied. Without an explicit `status` value, the policy would see `status = NULL`, failing the `WITH CHECK (status = 'pending')` condition.
 

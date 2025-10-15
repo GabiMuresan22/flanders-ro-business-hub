@@ -4,7 +4,7 @@
 Users were experiencing an error when trying to add a new business through the Add Business page.
 
 ## Investigation
-Upon investigation, I found that the RLS (Row Level Security) policies on the `businesses` table evolved through multiple migrations, and one of the intermediate versions (`20251015115355`) had a strict policy requiring `status = 'pending'`:
+Upon investigation, I found that RLS policies on the `businesses` table could require explicit `status` values. Migration files show that at least one version of the policy had:
 
 ```sql
 CREATE POLICY "Anyone can submit a business"
