@@ -60,6 +60,27 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## Testing
+
+This project includes automated tests for the Add Business feature.
+
+### Running Tests
+
+```bash
+# Run form validation tests
+npm run test:validation
+
+# Run database submission test (requires network access to Supabase)
+npm run test:business
+```
+
+### Test Documentation
+
+- `TEST_SUMMARY.md` - Quick overview of test results
+- `TEST_RESULTS.md` - Detailed test execution results
+- `TESTING.md` - Testing guide and instructions
+- `TESTING_ADD_BUSINESS.md` - Manual testing procedures
+
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/41908f42-ec12-47e5-8789-f495fa2ac907) and click on Share -> Publish.
