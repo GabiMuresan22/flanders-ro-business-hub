@@ -50,6 +50,9 @@ const Navbar = () => {
             <Link to="/faq" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
               FAQ
             </Link>
+            <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-2 px-6 rounded-lg transition-colors">
+              Add Business
+            </Link>
             <form onSubmit={handleSearch} className="relative hidden md:block">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
               <input
@@ -142,6 +145,13 @@ const Navbar = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 FAQ
+              </Link>
+              <Link 
+                to="/add-business" 
+                className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-2 px-6 rounded-lg transition-colors text-center"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Add Business
               </Link>
             </nav>
           </div>
