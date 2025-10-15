@@ -1,9 +1,22 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
 
 const Navbar = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
+      setIsMobileSearchOpen(false);
+    }
+  };
+
   return (
     <header className="bg-white shadow-sm">
       <div className="container mx-auto px-4 py-4">
@@ -36,18 +49,23 @@ const Navbar = () => {
             <Link to="/faq" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
               FAQ
             </Link>
-            <div className="relative">
+            <form onSubmit={handleSearch} className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
               <input
                 type="text"
                 placeholder="Search businesses..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue"
               />
-            </div>
+            </form>
           </div>
           
           <div className="md:hidden flex items-center space-x-4">
-            <button className="text-gray-700">
+            <button 
+              className="text-gray-700"
+              onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+            >
               <Search className="h-6 w-6" />
             </button>
             <button className="text-gray-700">
@@ -57,6 +75,23 @@ const Navbar = () => {
             </button>
           </div>
         </div>
+        
+        {/* Mobile search input */}
+        {isMobileSearchOpen && (
+          <div className="md:hidden mt-4">
+            <form onSubmit={handleSearch} className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <input
+                type="text"
+                placeholder="Search businesses..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue"
+                autoFocus
+              />
+            </form>
+          </div>
+        )}
       </div>
     </header>
   );
