@@ -25,10 +25,10 @@ const Navbar = () => {
           <Link to="/" className="flex items-center space-x-2">
             <div className="flex flex-col">
               <span className="font-playfair font-bold text-2xl text-romania-blue">Romanian</span>
-              <div className="flex space-x-1">
-                <span className="h-1 w-6 bg-romania-blue"></span>
-                <span className="h-1 w-6 bg-romania-yellow"></span>
-                <span className="h-1 w-6 bg-romania-red"></span>
+              <div className="flex w-full">
+                <span className="h-1 flex-1 bg-romania-blue"></span>
+                <span className="h-1 flex-1 bg-romania-yellow"></span>
+                <span className="h-1 flex-1 bg-romania-red"></span>
               </div>
               <span className="font-playfair text-lg text-gray-700">Business Hub</span>
             </div>
