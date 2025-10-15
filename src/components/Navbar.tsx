@@ -63,7 +63,7 @@ const Navbar = () => {
           
           <div className="md:hidden flex items-center space-x-4">
             <button 
-              className="text-gray-700"
+              className="text-gray-700 hover:cursor-pointer"
               onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
             >
               <Search className="h-6 w-6" />
