@@ -50,7 +50,7 @@ const Navbar = () => {
             <Link to="/faq" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
               FAQ
             </Link>
-            <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-2 px-4 rounded-lg transition-colors">
+            <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-2 px-6 rounded-lg transition-colors">
               Add Business
             </Link>
             <form onSubmit={handleSearch} className="relative hidden md:block">
