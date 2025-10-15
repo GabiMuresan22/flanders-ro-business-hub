@@ -70,7 +70,7 @@ const Navbar = () => {
               <Search className="h-6 w-6" />
             </button>
             <button 
-              className="text-gray-700 hover:cursor-pointer"
+              className="text-gray-700"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
