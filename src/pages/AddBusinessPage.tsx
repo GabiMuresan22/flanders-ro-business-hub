@@ -51,8 +51,7 @@ const AddBusinessPage = () => {
           postal_code: values.postalCode,
           description: values.description,
           category: values.category,
-          website: values.website || null,
-          status: 'pending'
+          website: values.website || null
         })
         .select()
         .single();
