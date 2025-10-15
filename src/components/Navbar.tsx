@@ -100,38 +100,38 @@ const Navbar = () => {
         {/* Mobile navigation menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4">
-            <nav className="flex flex-col space-y-3">
+            <nav className="flex flex-col items-center space-y-3">
               <Link 
                 to="/" 
-                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50"
+                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50 text-center"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Home
               </Link>
               <Link 
                 to="/categories" 
-                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50"
+                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50 text-center"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Categories
               </Link>
               <Link 
                 to="/about" 
-                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50"
+                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50 text-center"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 About
               </Link>
               <Link 
                 to="/contact" 
-                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50"
+                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50 text-center"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Contact
               </Link>
               <Link 
                 to="/faq" 
-                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50"
+                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50 text-center"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 FAQ
