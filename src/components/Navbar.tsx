@@ -50,14 +50,21 @@ const Navbar = () => {
             <Link to="/faq" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
               FAQ
             </Link>
-            <form onSubmit={handleSearch} className="relative">
+            <form onSubmit={handleSearch} className="relative hidden md:block">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue w-40 lg:hidden"
+              />
               <input
                 type="text"
                 placeholder="Search businesses..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue w-40 lg:w-auto"
+                className="hidden lg:block pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue w-auto"
               />
             </form>
           </div>
@@ -87,7 +94,7 @@ const Navbar = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
               <input
                 type="text"
-                placeholder="Search businesses..."
+                placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue"
