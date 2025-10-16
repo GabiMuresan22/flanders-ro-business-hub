@@ -72,6 +72,9 @@ npm run test:validation
 
 # Run database submission test (requires network access to Supabase)
 npm run test:business
+
+# Run Web Developer business test
+npm run test:webdev
 ```
 
 ### Test Documentation
@@ -80,6 +83,7 @@ npm run test:business
 - `TEST_RESULTS.md` - Detailed test execution results
 - `TESTING.md` - Testing guide and instructions
 - `TESTING_ADD_BUSINESS.md` - Manual testing procedures
+- `WEB_DEVELOPER_TEST_RESULTS.md` - Web Developer business test results
 
 ## How can I deploy this project?
 
