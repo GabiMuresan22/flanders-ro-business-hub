@@ -38,6 +38,13 @@ const AddBusinessPage = () => {
     setIsSubmitting(true);
     
     try {
+      // Get the current user
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        throw new Error("You must be logged in to submit a business");
+      }
+
       // Insert business into Supabase
       const { data, error } = await supabase
         .from('businesses')
@@ -52,7 +59,8 @@ const AddBusinessPage = () => {
           description: values.description,
           category: values.category,
           website: values.website || null,
-          status: 'pending'
+          status: 'pending',
+          user_id: user.id
         })
         .select()
         .single();
@@ -75,7 +83,7 @@ const AddBusinessPage = () => {
       
       toast({
         title: "Submission failed",
-        description: "There was an error submitting your business. Please try again.",
+        description: error instanceof Error ? error.message : "There was an error submitting your business. Please try again.",
         variant: "destructive",
       });
     } finally {
