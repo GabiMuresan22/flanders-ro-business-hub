@@ -89,7 +89,8 @@ const AddBusinessPage = () => {
           description: values.description,
           category: values.category,
           website: values.website || null,
-          status: 'pending'
+          status: 'pending',
+          user_id: user.id
         })
         .select()
         .single();
