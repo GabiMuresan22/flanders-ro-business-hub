@@ -27,11 +27,6 @@ const AddBusinessPage = () => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user ?? null);
-      
-      if (!session) {
-        navigate('/auth?redirect=/add-business');
-      }
-      
       setIsCheckingAuth(false);
     };
 
@@ -39,13 +34,10 @@ const AddBusinessPage = () => {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
-      if (!session && !isCheckingAuth) {
-        navigate('/auth?redirect=/add-business');
-      }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, []);
   
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -68,12 +60,8 @@ const AddBusinessPage = () => {
     setIsSubmitting(true);
     
     try {
-      // Get the current user
+      // Optional: Get the current user (for future use)
       const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        throw new Error("You must be logged in to submit a business");
-      }
 
       // Insert business into Supabase
       const { data, error } = await supabase
@@ -89,8 +77,7 @@ const AddBusinessPage = () => {
           description: values.description,
           category: values.category,
           website: values.website || null,
-          status: 'pending',
-          user_id: user.id
+          status: 'pending'
         })
         .select()
         .single();
