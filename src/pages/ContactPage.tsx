@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const ContactPage = () => {
   const { toast } = useToast();
@@ -13,30 +14,62 @@ const ContactPage = () => {
     subject: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // In a real app, you would send this data to your backend
-    console.log('Form submitted:', formData);
+    if (isSubmitting) return;
     
-    toast({
-      title: "Message Sent!",
-      description: "We've received your message and will get back to you soon.",
-    });
+    setIsSubmitting(true);
     
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
+    try {
+      // Save the contact message to Supabase
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        });
+      
+      if (error) {
+        console.error('Error submitting contact form:', error);
+        toast({
+          title: "Error",
+          description: "There was an error sending your message. Please try again or email us directly.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Message Sent!",
+          description: "We've received your message and will get back to you soon.",
+        });
+        
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      }
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -179,10 +212,11 @@ const ContactPage = () => {
                       
                       <button
                         type="submit"
-                        className="flex items-center justify-center bg-romania-blue text-white py-3 px-6 rounded-md hover:bg-blue-700 transition-colors"
+                        disabled={isSubmitting}
+                        className="flex items-center justify-center bg-romania-blue text-white py-3 px-6 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <Send className="h-5 w-5 mr-2" />
-                        Send Message
+                        {isSubmitting ? 'Sending...' : 'Send Message'}
                       </button>
                     </form>
                   </div>
