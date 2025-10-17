@@ -63,9 +63,6 @@ const Navbar = () => {
             <Link to="/faq" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
               FAQ
             </Link>
-            <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-1.5 px-4 rounded-md transition-colors">
-              Add Business
-            </Link>
             {user ? (
               <div className="flex items-center gap-3 ml-2">
                 <div className="hidden lg:flex flex-col items-end">
@@ -76,6 +73,9 @@ const Navbar = () => {
                   <User className="h-4 w-4" />
                   <span className="hidden lg:inline">Account</span>
                   <span className="lg:hidden">Profile</span>
+                </Link>
+                <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-1.5 px-4 rounded-md transition-colors">
+                  Add Business
                 </Link>
               </div>
             ) : (
