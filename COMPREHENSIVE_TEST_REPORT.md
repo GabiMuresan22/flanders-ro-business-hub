@@ -29,6 +29,7 @@ This report documents a comprehensive test of the Romanian Business Hub website,
 | Category Page | ✅ PASS | 09-category-restaurant-page.png | Filters businesses correctly |
 | Search Results | ✅ PASS | 10-search-results-page.png | Search functionality works |
 | Account Page | ✅ PASS | 11-account-page.png | Account management page loads |
+| Auth/Signup Page | ✅ PASS | 12-auth-signup-page.png | Account creation form functional |
 
 ---
 
@@ -454,7 +455,7 @@ npm run test:webdev
 
 **Overall Website Status: ✅ FUNCTIONAL**
 
-All 11 main pages of the Romanian Business Hub website are working correctly. The UI is responsive, navigation is functional, and all components render as expected.
+All 12 main pages of the Romanian Business Hub website are working correctly. The UI is responsive, navigation is functional, and all components render as expected.
 
 **Add Business Functionality: ⚠️ REQUIRES AUTHENTICATION**
 
@@ -483,16 +484,17 @@ All screenshots are available in the `test-screenshots/` directory:
 3. `03-about-page.png` - About page content
 4. `04-contact-page.png` - Contact form and information
 5. `05-faq-page.png` - FAQ accordion
-6. `06-auth-login-page.png` - Authentication page
+6. `06-auth-login-page.png` - Authentication login page
 7. `07-add-business-page.png` - Add business form
 8. `08-business-details-page.png` - Business detail view
 9. `09-category-restaurant-page.png` - Category filtering
 10. `10-search-results-page.png` - Search functionality
 11. `11-account-page.png` - User account management
+12. `12-auth-signup-page.png` - Authentication signup page
 
 ---
 
 **Report Generated:** October 17, 2025  
 **Test Duration:** ~10 minutes  
-**Pages Tested:** 11/11  
+**Pages Tested:** 12/12  
 **Pass Rate:** 100%
