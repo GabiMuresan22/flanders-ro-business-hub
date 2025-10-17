@@ -120,16 +120,12 @@ const AccountPage = () => {
           variant: "destructive",
         });
       } else {
-        toast({
-          title: "Signed out",
-          description: "You have been successfully signed out.",
-        });
         navigate("/");
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "An unexpected error occurred",
+        description: error.message || "An unexpected error occurred",
         variant: "destructive",
       });
     }
