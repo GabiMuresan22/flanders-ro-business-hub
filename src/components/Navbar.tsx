@@ -63,7 +63,7 @@ const Navbar = () => {
             <Link to="/faq" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
               FAQ
             </Link>
-            <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-2.5 px-5 rounded-lg transition-colors ml-2">
+            <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-1.5 px-4 rounded-md transition-colors">
               Add Business
             </Link>
             {user ? (
@@ -72,7 +72,7 @@ const Navbar = () => {
                   <span className="text-sm text-gray-600">Logged in as</span>
                   <span className="text-sm font-semibold text-romania-blue">{user.email}</span>
                 </div>
-                <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-2.5 px-5 rounded-lg transition-colors flex items-center gap-2">
+                <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-md transition-colors flex items-center gap-2">
                   <User className="h-4 w-4" />
                   <span className="hidden lg:inline">Account</span>
                   <span className="lg:hidden">Profile</span>
