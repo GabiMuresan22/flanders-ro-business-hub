@@ -157,8 +157,9 @@ git reset --hard HEAD~1
 ## Working with Lovable
 
 Since this project is connected to Lovable, be aware that:
-- Changes made in Lovable are automatically committed to the repository
-- Always pull before making local changes to avoid conflicts
+- Changes made in Lovable (through prompts and AI-generated code) are automatically committed and pushed to the repository when you publish changes
+- These automatic commits can cause conflicts if you're working locally at the same time
+- Always pull (`git pull origin main`) before making local changes to avoid conflicts
 - If you get push conflicts, follow the solutions above
 
 ## Getting Help
