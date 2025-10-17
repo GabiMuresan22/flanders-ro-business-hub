@@ -47,7 +47,7 @@ const Navbar = () => {
             </div>
           </Link>
           
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             <Link to="/" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
               Home
             </Link>
@@ -63,16 +63,16 @@ const Navbar = () => {
             <Link to="/faq" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
               FAQ
             </Link>
-            <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-2 px-6 rounded-lg transition-colors">
+            <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-2.5 px-5 rounded-lg transition-colors ml-2">
               Add Business
             </Link>
             {user ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 ml-2">
                 <div className="hidden lg:flex flex-col items-end">
                   <span className="text-sm text-gray-600">Logged in as</span>
                   <span className="text-sm font-semibold text-romania-blue">{user.email}</span>
                 </div>
-                <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors flex items-center gap-2">
+                <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-2.5 px-5 rounded-lg transition-colors flex items-center gap-2">
                   <User className="h-4 w-4" />
                   <span className="hidden lg:inline">Account</span>
                   <span className="lg:hidden">Profile</span>
