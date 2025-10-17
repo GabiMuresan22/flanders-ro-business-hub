@@ -21,11 +21,15 @@ const AuthPage = () => {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Get redirect parameter from URL
+    const params = new URLSearchParams(window.location.search);
+    const redirectPath = params.get('redirect') || '/';
+    
     // Check if user is already logged in
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate('/');
+        navigate(redirectPath);
       }
     };
     checkUser();
@@ -33,7 +37,7 @@ const AuthPage = () => {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
-        navigate('/');
+        navigate(redirectPath);
       }
     });
 

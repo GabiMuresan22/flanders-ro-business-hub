@@ -67,10 +67,17 @@ const Navbar = () => {
               Add Business
             </Link>
             {user ? (
-              <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors flex items-center gap-2">
-                <User className="h-4 w-4" />
-                Account
-              </Link>
+              <div className="flex items-center gap-3">
+                <div className="hidden lg:flex flex-col items-end">
+                  <span className="text-sm text-gray-600">Logged in as</span>
+                  <span className="text-sm font-semibold text-romania-blue">{user.email}</span>
+                </div>
+                <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors flex items-center gap-2">
+                  <User className="h-4 w-4" />
+                  <span className="hidden lg:inline">Account</span>
+                  <span className="lg:hidden">Profile</span>
+                </Link>
+              </div>
             ) : (
               <Link to="/auth" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
                 Login
@@ -177,14 +184,20 @@ const Navbar = () => {
                 Add Business
               </Link>
               {user ? (
-                <Link 
-                  to="/account" 
-                  className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors text-center flex items-center gap-2 justify-center"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <User className="h-4 w-4" />
-                  Account
-                </Link>
+                <div className="flex flex-col items-center gap-2 w-full">
+                  <div className="text-center">
+                    <p className="text-xs text-gray-600">Logged in as</p>
+                    <p className="text-sm font-semibold text-romania-blue">{user.email}</p>
+                  </div>
+                  <Link 
+                    to="/account" 
+                    className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors text-center flex items-center gap-2 justify-center w-full"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <User className="h-4 w-4" />
+                    Account
+                  </Link>
+                </div>
               ) : (
                 <Link 
                   to="/auth" 

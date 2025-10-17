@@ -1,8 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { formSchema, type FormSchema } from '@/lib/validation/businessFormSchema';
 import Navbar from '../components/Navbar';
@@ -12,10 +13,39 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
 
 const AddBusinessPage = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      
+      if (!session) {
+        navigate('/auth?redirect=/add-business');
+      }
+      
+      setIsCheckingAuth(false);
+    };
+
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (!session && !isCheckingAuth) {
+        navigate('/auth?redirect=/add-business');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
   
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -105,6 +135,18 @@ const AddBusinessPage = () => {
     "Other"
   ];
 
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-grow flex items-center justify-center">
+          <p className="text-gray-500">Loading...</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -122,7 +164,22 @@ const AddBusinessPage = () => {
         
         <section className="py-12">
           <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6 md:p-8">
+            <div className="max-w-3xl mx-auto space-y-6">
+              {!user && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Login Required</AlertTitle>
+                  <AlertDescription>
+                    You must be logged in to submit a business. Please{' '}
+                    <a href="/auth?redirect=/add-business" className="underline font-semibold">
+                      login or create an account
+                    </a>{' '}
+                    to continue.
+                  </AlertDescription>
+                </Alert>
+              )}
+              
+              <div className="bg-white shadow-md rounded-lg p-6 md:p-8">
               <h2 className="font-playfair text-2xl font-semibold text-gray-900 mb-6">Business Information</h2>
               
               <Form {...form}>
@@ -311,6 +368,7 @@ const AddBusinessPage = () => {
                   </Button>
                 </form>
               </Form>
+              </div>
             </div>
           </div>
         </section>
