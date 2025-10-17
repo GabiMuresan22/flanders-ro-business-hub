@@ -36,6 +36,8 @@ npm i
 npm run dev
 ```
 
+> **⚠️ Git Issues?** If you encounter problems pushing your changes (like "fetch first" errors), check out our [Git Troubleshooting Guide](GIT_TROUBLESHOOTING.md) for solutions.
+
 **Edit a file directly in GitHub**
 
 - Navigate to the desired file(s).
