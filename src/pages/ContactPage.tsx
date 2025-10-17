@@ -32,12 +32,12 @@ const ContactPage = () => {
       // Save the contact message to Supabase
       const { error } = await supabase
         .from('contact_messages')
-        .insert([{
+        .insert({
           name: formData.name,
           email: formData.email,
           subject: formData.subject,
           message: formData.message
-        }]);
+        });
       
       if (error) {
         console.error('Error submitting contact form:', error);
