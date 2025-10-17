@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Business Form - Manual Test Suite</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-suite {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #002B7F;
+            border-bottom: 3px solid #FCD116;
+            padding-bottom: 10px;
+        }
+        .test-case {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 4px solid #002B7F;
+            background-color: #f9f9f9;
+        }
+        .test-case h3 {
+            margin-top: 0;
+            color: #002B7F;
+        }
+        .test-step {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .expected {
+            background-color: #e7f3ff;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .checklist {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            margin: 8px 0;
+            padding: 5px;
+        }
+        .checklist input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status.pass {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status.pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .app-link {
+            display: inline-block;
+            background-color: #002B7F;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .app-link:hover {
+            background-color: #001a4d;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-suite">
+        <h1>Add Business Feature - Test Suite</h1>
+        
+        <p>Use this checklist to manually test the Add Business functionality.</p>
+        
+        <p><strong>Note:</strong> Make sure the development server is running (<code>npm run dev</code>) before testing.</p>
+        
+        <a href="/add-business" class="app-link" target="_blank">
+            Open Add Business Form →
+        </a>
+
+        <div class="test-case">
+            <h3>Test 1: Form Validation - Empty Submission</h3>
+            <div class="test-step">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Navigate to the Add Business page</li>
+                    <li>Click "Submit Business" without filling any fields</li>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Result:</strong>
+                <p>Validation errors should appear for all required fields</p>
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox" id="test1-1"> Business Name error displayed</li>
+                <li><input type="checkbox" id="test1-2"> Owner Name error displayed</li>
+                <li><input type="checkbox" id="test1-3"> Email error displayed</li>
+                <li><input type="checkbox" id="test1-4"> Phone error displayed</li>
+                <li><input type="checkbox" id="test1-5"> Address error displayed</li>
+                <li><input type="checkbox" id="test1-6"> City error displayed</li>
+                <li><input type="checkbox" id="test1-7"> Postal Code error displayed</li>
+                <li><input type="checkbox" id="test1-8"> Category error displayed</li>
+                <li><input type="checkbox" id="test1-9"> Description error displayed</li>
+                <li><input type="checkbox" id="test1-10"> Terms checkbox error displayed</li>
+            </ul>
+        </div>
+
+        <div class="test-case">
+            <h3>Test 2: Email Validation</h3>
+            <div class="test-step">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Enter invalid email formats: "test", "test@", "@example.com"</li>
+                    <li>Observe validation messages</li>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Result:</strong>
+                <p>Error message: "Please enter a valid email address."</p>
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox" id="test2-1"> Invalid email "test" rejected</li>
+                <li><input type="checkbox" id="test2-2"> Invalid email "test@" rejected</li>
+                <li><input type="checkbox" id="test2-3"> Valid email "test@example.com" accepted</li>
+            </ul>
+        </div>
+
+        <div class="test-case">
+            <h3>Test 3: Website URL Validation</h3>
+            <div class="test-step">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Enter invalid URL: "not-a-url"</li>
+                    <li>Enter valid URL: "https://example.com"</li>
+                    <li>Leave empty (optional field)</li>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Result:</strong>
+                <p>Invalid URLs show error, valid URLs and empty field are accepted</p>
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox" id="test3-1"> Invalid URL rejected</li>
+                <li><input type="checkbox" id="test3-2"> Valid URL accepted</li>
+                <li><input type="checkbox" id="test3-3"> Empty field accepted (optional)</li>
+            </ul>
+        </div>
+
+        <div class="test-case">
+            <h3>Test 4: Successful Form Submission</h3>
+            <div class="test-step">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Fill all required fields with valid data:
+                        <ul>
+                            <li>Business Name: <code>Test Romanian Restaurant</code></li>
+                            <li>Owner Name: <code>Ion Popescu</code></li>
+                            <li>Email: <code>test@romanianrestaurant.com</code></li>
+                            <li>Phone: <code>+32 470 123 456</code></li>
+                            <li>Address: <code>Markt 15</code></li>
+                            <li>City: <code>Bruges</code></li>
+                            <li>Postal Code: <code>8000</code></li>
+                            <li>Category: <code>Restaurant & Food</code></li>
+                            <li>Description: <code>We serve authentic Romanian cuisine...</code> (10+ chars)</li>
+                            <li>Check terms checkbox</li>
+                        </ul>
+                    </li>
+                    <li>Click "Submit Business"</li>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Result:</strong>
+                <ul>
+                    <li>Button shows "Submitting..." while processing</li>
+                    <li>Button is disabled during submission</li>
+                    <li>Success toast notification appears</li>
+                    <li>Form resets to empty values</li>
+                    <li>Data saved to Supabase with status "pending"</li>
+                </ul>
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox" id="test4-1"> Button text changes to "Submitting..."</li>
+                <li><input type="checkbox" id="test4-2"> Button disabled during submission</li>
+                <li><input type="checkbox" id="test4-3"> Success toast appears</li>
+                <li><input type="checkbox" id="test4-4"> Form resets after submission</li>
+            </ul>
+        </div>
+
+        <div class="test-case">
+            <h3>Test 5: Character Length Validations</h3>
+            <div class="test-step">
+                <strong>Steps:</strong>
+                <p>Test minimum character requirements for each field:</p>
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox" id="test5-1"> Business Name: minimum 2 characters</li>
+                <li><input type="checkbox" id="test5-2"> Owner Name: minimum 2 characters</li>
+                <li><input type="checkbox" id="test5-3"> Phone: minimum 9 characters</li>
+                <li><input type="checkbox" id="test5-4"> Address: minimum 5 characters</li>
+                <li><input type="checkbox" id="test5-5"> City: minimum 2 characters</li>
+                <li><input type="checkbox" id="test5-6"> Postal Code: minimum 4 characters</li>
+                <li><input type="checkbox" id="test5-7"> Description: minimum 10 characters</li>
+            </ul>
+        </div>
+
+        <div class="test-case">
+            <h3>Test 6: Category Selection</h3>
+            <div class="test-step">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Open the category dropdown</li>
+                    <li>Verify all categories are listed</li>
+                    <li>Select a category</li>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Categories:</strong>
+                <p>Restaurant & Food, Bakery, Grocery, Beauty & Wellness, Car Services, Construction, Transportation, Travel & Tourism, Retail, Professional Services, Other</p>
+                <p><em>Note: Verify this list matches the categories in AddBusinessPage.tsx (lines 84-96)</em></p>
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox" id="test6-1"> All categories visible</li>
+                <li><input type="checkbox" id="test6-2"> Category selection works</li>
+                <li><input type="checkbox" id="test6-3"> Required validation enforced</li>
+            </ul>
+        </div>
+
+        <div class="test-case">
+            <h3>Test 7: Terms and Conditions Checkbox</h3>
+            <div class="test-step">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Fill all fields correctly</li>
+                    <li>Leave terms checkbox unchecked</li>
+                    <li>Try to submit</li>
+                </ol>
+            </div>
+            <div class="expected">
+                <strong>Expected Result:</strong>
+                <p>Error message: "You must agree to the terms and conditions."</p>
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox" id="test7-1"> Unchecked terms prevents submission</li>
+                <li><input type="checkbox" id="test7-2"> Error message displayed</li>
+                <li><input type="checkbox" id="test7-3"> Checked terms allows submission</li>
+            </ul>
+        </div>
+
+        <h2>Test Summary</h2>
+        <p id="summary">Complete the tests above and check all boxes to verify functionality.</p>
+        
+        <button id="check-progress-btn" onclick="checkProgress()" style="padding: 10px 20px; background-color: #002B7F; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 20px;">
+            Check Progress
+        </button>
+        
+        <div id="results" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        function checkProgress() {
+            const total = document.querySelectorAll('input[type="checkbox"]').length;
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percentage = Math.round((checked / total) * 100);
+            
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <div style="padding: 20px; background-color: ${percentage === 100 ? '#d4edda' : '#fff3cd'}; border-radius: 8px;">
+                    <h3 style="margin-top: 0;">Progress: ${checked}/${total} tests completed (${percentage}%)</h3>
+                    ${percentage === 100 
+                        ? '<p style="color: #155724; font-weight: bold;">✓ All tests completed! The Add Business feature is working correctly.</p>' 
+                        : '<p style="color: #856404;">Continue testing to complete the test suite.</p>'
+                    }
+                    <div style="background-color: #e0e0e0; height: 20px; border-radius: 10px; overflow: hidden; margin-top: 10px;">
+                        <div style="width: ${percentage}%; height: 100%; background-color: #002B7F; transition: width 0.3s;"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Auto-save checkbox states to localStorage
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            // Load saved state
+            const saved = localStorage.getItem(checkbox.id);
+            if (saved === 'true') {
+                checkbox.checked = true;
+            }
+            
+            // Save on change
+            checkbox.addEventListener('change', function() {
+                localStorage.setItem(this.id, this.checked);
+            });
+        });
+
+        // Add reset button
+        const resetBtn = document.createElement('button');
+        resetBtn.textContent = 'Reset All Tests';
+        resetBtn.style.cssText = 'padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;';
+        resetBtn.onclick = function() {
+            if (confirm('Are you sure you want to reset all test checkboxes?')) {
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    cb.checked = false;
+                    localStorage.removeItem(cb.id);
+                });
+                document.getElementById('results').innerHTML = '';
+            }
+        };
+        document.getElementById('check-progress-btn').after(resetBtn);
+    </script>
+</body>
+</html>
