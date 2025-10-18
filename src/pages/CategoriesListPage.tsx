@@ -1,17 +1,33 @@
 
-import React from 'react';
-import { businesses, BusinessCategory } from '../data/businessData';
+import React, { useEffect, useState } from 'react';
+import { BusinessCategory } from '../data/businessData';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import CategoryCard from '../components/CategoryCard';
 import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const CategoriesListPage = () => {
-  // Count businesses in each category
-  const categoryCounts = Object.values(BusinessCategory).reduce((counts, category) => {
-    counts[category] = businesses.filter(business => business.category === category).length;
-    return counts;
-  }, {} as Record<BusinessCategory, number>);
+  const [categoryCounts, setCategoryCounts] = useState<Record<BusinessCategory, number>>({} as Record<BusinessCategory, number>);
+
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      const { data: businesses } = await supabase
+        .from('businesses')
+        .select('category')
+        .eq('status', 'approved');
+
+      if (businesses) {
+        const counts = Object.values(BusinessCategory).reduce((acc, category) => {
+          acc[category] = businesses.filter(b => b.category === category).length;
+          return acc;
+        }, {} as Record<BusinessCategory, number>);
+        setCategoryCounts(counts);
+      }
+    };
+
+    fetchBusinesses();
+  }, []);
 
   const categoryIcons = {
     [BusinessCategory.RESTAURANT]: <UtensilsCrossed size={48} />,

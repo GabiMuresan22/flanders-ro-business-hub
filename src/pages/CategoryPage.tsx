@@ -1,13 +1,15 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { businesses, BusinessCategory } from '../data/businessData';
+import { BusinessCategory } from '../data/businessData';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BusinessCard from '../components/BusinessCard';
+import { supabase } from '@/integrations/supabase/client';
 
 const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const [filteredBusinesses, setFilteredBusinesses] = useState<any[]>([]);
   
   // Convert slug to category enum value
   const categoryKey = slug?.toUpperCase().replace(/-/g, '_');
@@ -16,7 +18,22 @@ const CategoryPage = () => {
   );
   
   const category = categoryMatch ? categoryMatch[1] : undefined;
-  const filteredBusinesses = businesses.filter(b => b.category === category);
+
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      if (!category) return;
+      
+      const { data } = await supabase
+        .from('businesses')
+        .select('*')
+        .eq('status', 'approved')
+        .eq('category', category);
+
+      setFilteredBusinesses(data || []);
+    };
+
+    fetchBusinesses();
+  }, [category]);
   
   const getCategoryTitle = () => {
     if (category) {

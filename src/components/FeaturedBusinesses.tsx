@@ -1,10 +1,24 @@
 
-import React from 'react';
-import { businesses } from '../data/businessData';
+import React, { useEffect, useState } from 'react';
 import BusinessCard from './BusinessCard';
+import { supabase } from '@/integrations/supabase/client';
 
 const FeaturedBusinesses: React.FC = () => {
-  const featuredBusinesses = businesses.filter(business => business.featured);
+  const [featuredBusinesses, setFeaturedBusinesses] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      const { data } = await supabase
+        .from('businesses')
+        .select('*')
+        .eq('status', 'approved')
+        .limit(6);
+
+      setFeaturedBusinesses(data || []);
+    };
+
+    fetchBusinesses();
+  }, []);
   
   return (
     <section className="py-16 bg-gray-50">
