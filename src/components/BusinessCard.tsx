@@ -9,6 +9,21 @@ interface BusinessCardProps {
 }
 
 const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
+  // Map categories to default images
+  const getDefaultImage = (category: string) => {
+    const categoryImageMap: { [key: string]: string } = {
+      'Restaurant': '/images/restaurant.jpg',
+      'Bakery': '/images/bakery.jpg',
+      'Car Service': '/images/car-service.jpg',
+      'Grocery': '/images/grocery.jpg',
+      'Beauty Salon': '/images/beauty-salon.jpg',
+      'Construction': '/images/construction.jpg',
+      'Transport': '/images/transport.jpg',
+      'Travel Agency': '/images/travel-agency.jpg',
+    };
+    return categoryImageMap[category] || '/placeholder.svg';
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1">
       <div className="h-48 overflow-hidden bg-gray-200">
@@ -17,7 +32,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
           alt={business.name} 
           className="w-full h-full object-cover"
           onError={(e) => {
-            e.currentTarget.src = "/placeholder.svg";
+            e.currentTarget.src = getDefaultImage(business.category);
           }}
         />
       </div>

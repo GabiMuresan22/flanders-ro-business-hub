@@ -5,7 +5,10 @@ import Footer from '../components/Footer';
 import HeroSection from '../components/HeroSection';
 import FeaturedBusinesses from '../components/FeaturedBusinesses';
 import CategoriesSection from '../components/CategoriesSection';
+import WhyChooseUsSection from '../components/WhyChooseUsSection';
+import StatisticsSection from '../components/StatisticsSection';
 import TestimonialsSection from '../components/TestimonialsSection';
+import NewsletterSection from '../components/NewsletterSection';
 import CtaSection from '../components/CtaSection';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
@@ -44,7 +47,10 @@ const Index = () => {
           <HeroSection />
           <FeaturedBusinesses />
           <CategoriesSection />
+          <WhyChooseUsSection />
+          <StatisticsSection />
           <TestimonialsSection />
+          <NewsletterSection />
           <CtaSection />
         </main>
         <Footer />

@@ -1,14 +1,46 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { businesses } from '../data/businessData';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import ReviewCard from '../components/ReviewCard';
+import ReviewForm from '../components/ReviewForm';
 import { MapPin, Phone, Mail, Globe, Clock } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const BusinessDetails = () => {
   const { id } = useParams<{ id: string }>();
   const business = businesses.find(b => b.id === id);
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [averageRating, setAverageRating] = useState<number>(0);
+
+  const fetchReviews = async () => {
+    if (!id) return;
+    
+    const { data } = await supabase
+      .from('reviews')
+      .select(`
+        *,
+        profiles (
+          full_name
+        )
+      `)
+      .eq('business_id', id)
+      .order('created_at', { ascending: false });
+
+    if (data) {
+      setReviews(data);
+      if (data.length > 0) {
+        const avg = data.reduce((sum, review) => sum + review.rating, 0) / data.length;
+        setAverageRating(Math.round(avg * 10) / 10);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews();
+  }, [id]);
 
   if (!business) {
     return (
@@ -96,6 +128,27 @@ const BusinessDetails = () => {
                       </p>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              {/* Reviews Section */}
+              <div className="bg-white rounded-lg shadow-md p-8">
+                <h2 className="font-playfair text-2xl font-bold text-gray-800 mb-4">
+                  Reviews {averageRating > 0 && `(${averageRating} ⭐)`}
+                </h2>
+                
+                <ReviewForm businessId={id!} onReviewSubmitted={fetchReviews} />
+                
+                <div className="mt-6 space-y-4">
+                  {reviews.length > 0 ? (
+                    reviews.map((review) => (
+                      <ReviewCard key={review.id} review={review} />
+                    ))
+                  ) : (
+                    <p className="text-gray-500 text-center py-4">
+                      No reviews yet. Be the first to leave a review!
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

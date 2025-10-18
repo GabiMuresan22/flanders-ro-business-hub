@@ -1,28 +1,46 @@
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { businesses } from '../data/businessData';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BusinessCard from '../components/BusinessCard';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCity, setSelectedCity] = useState<string>('all');
   
-  // Filter businesses based on search query (memoized for performance)
+  // Get unique categories and cities
+  const categories = useMemo(() => {
+    const cats = new Set(businesses.map(b => b.category));
+    return ['all', ...Array.from(cats)];
+  }, []);
+
+  const cities = useMemo(() => {
+    const citySet = new Set(businesses.map(b => b.city));
+    return ['all', ...Array.from(citySet)];
+  }, []);
+  
+  // Filter businesses based on search query and filters
   const filteredBusinesses = useMemo(() => {
     return businesses.filter(business => {
       const searchLower = query.toLowerCase();
-      return (
+      const matchesSearch = 
         business.name.toLowerCase().includes(searchLower) ||
         business.description.toLowerCase().includes(searchLower) ||
         business.category.toLowerCase().includes(searchLower) ||
         business.city.toLowerCase().includes(searchLower) ||
-        business.address.toLowerCase().includes(searchLower)
-      );
+        business.address.toLowerCase().includes(searchLower);
+      
+      const matchesCategory = selectedCategory === 'all' || business.category === selectedCategory;
+      const matchesCity = selectedCity === 'all' || business.city === selectedCity;
+      
+      return matchesSearch && matchesCategory && matchesCity;
     });
-  }, [query]);
+  }, [query, selectedCategory, selectedCity]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -47,6 +65,43 @@ const SearchResults = () => {
         </div>
         
         <div className="container mx-auto px-4 py-12">
+          {/* Filters */}
+          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h3 className="font-semibold text-lg mb-4 text-foreground">Filter Results</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2 text-foreground">Category</label>
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="All Categories" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((cat) => (
+                      <SelectItem key={cat} value={cat}>
+                        {cat === 'all' ? 'All Categories' : cat}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-foreground">City</label>
+                <Select value={selectedCity} onValueChange={setSelectedCity}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="All Cities" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {cities.map((city) => (
+                      <SelectItem key={city} value={city}>
+                        {city === 'all' ? 'All Cities' : city}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+
           {filteredBusinesses.length > 0 ? (
             <div>
               <p className="text-gray-600 mb-8">
