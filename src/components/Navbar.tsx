@@ -194,14 +194,7 @@ const Navbar = () => {
                 className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50 text-center"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                FAQ
-              </Link>
-              <Link 
-                to="/add-business" 
-                className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-2 px-6 rounded-lg transition-colors text-center"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Add Business
+              FAQ
               </Link>
               {user ? (
                 <div className="flex flex-col items-center gap-2 w-full">
