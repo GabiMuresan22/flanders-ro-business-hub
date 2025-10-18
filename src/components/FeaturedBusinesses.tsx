@@ -6,14 +6,20 @@ import { supabase } from '@/integrations/supabase/client';
 const FeaturedBusinesses: React.FC = () => {
   const [featuredBusinesses, setFeaturedBusinesses] = useState<any[]>([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchBusinesses = async () => {
-      const { data } = await supabase
-        .from('public_businesses')
-        .select('*')
-        .limit(6);
+      try {
+        const { data } = await supabase
+          .from('public_businesses')
+          .select('*')
+          .limit(6);
 
-      setFeaturedBusinesses(data || []);
+        setFeaturedBusinesses(data || []);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchBusinesses();
@@ -29,11 +35,17 @@ const FeaturedBusinesses: React.FC = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredBusinesses.map((business) => (
-            <BusinessCard key={business.id} business={business} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="flex justify-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-romania-blue"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredBusinesses.map((business) => (
+              <BusinessCard key={business.id} business={business} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

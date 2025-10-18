@@ -26,6 +26,12 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1">
       <div className="h-48 overflow-hidden bg-gradient-to-br from-romania-blue to-romania-red opacity-80">
+        <img 
+          src={getDefaultImage(business.category)} 
+          alt={`${business.business_name} - ${business.category}`}
+          className="w-full h-full object-cover mix-blend-overlay"
+          loading="lazy"
+        />
       </div>
       <div className="p-5">
         <div className="flex justify-between items-start">
