@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, User } from 'lucide-react';
+import { Search, User, X, Menu } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 const Navbar = () => {
@@ -30,6 +30,18 @@ const Navbar = () => {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
 
   const checkAdminStatus = async (userId: string) => {
     const { data } = await supabase
@@ -124,126 +136,155 @@ const Navbar = () => {
           
           <div className="lg:hidden flex items-center space-x-3">
             <button 
-              className="text-gray-700 cursor-pointer"
+              className="text-gray-700 cursor-pointer p-2 hover:bg-gray-100 rounded-lg transition-colors"
               onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+              aria-label="Toggle search"
             >
               <Search className="h-6 w-6" />
             </button>
             <button 
-              className="text-gray-700"
+              className="text-gray-700 p-2 hover:bg-gray-100 rounded-lg transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
         
         {/* Mobile search input */}
         {isMobileSearchOpen && (
-          <div className="lg:hidden mt-2">
+          <div className="lg:hidden mt-3 animate-fade-in">
             <form onSubmit={handleSearch} className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search businesses..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue"
+                className="w-full pl-10 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-romania-blue transition-colors"
                 autoFocus
               />
             </form>
           </div>
         )}
         
+        {/* Mobile menu overlay */}
+        {isMobileMenuOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden animate-fade-in"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+        )}
+
         {/* Mobile navigation menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden mt-2 pb-2">
-            <nav className="flex flex-col items-center space-y-3">
-              <Link 
-                to="/" 
-                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50 text-center"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link 
-                to="/categories" 
-                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50 text-center"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Categories
-              </Link>
-              <Link 
-                to="/about" 
-                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50 text-center"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link 
-                to="/contact" 
-                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50 text-center"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Contact
-              </Link>
-              <Link 
-                to="/faq" 
-                className="font-medium text-gray-700 hover:text-romania-blue transition-colors py-2 px-4 rounded hover:bg-gray-50 text-center"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-              FAQ
-              </Link>
-              {user ? (
-                <div className="flex flex-col items-center gap-2 w-full">
-                  <div className="text-center">
-                    <p className="text-xs text-gray-600">Logged in as</p>
-                    <p className="text-sm font-semibold text-romania-blue">{user.email}</p>
-                  </div>
-                  <Link 
-                    to="/my-businesses" 
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-2 px-6 rounded-lg transition-colors text-center w-full"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    My Businesses
-                  </Link>
-                  <Link 
-                    to="/account" 
-                    className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors text-center flex items-center gap-2 justify-center w-full"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <User className="h-4 w-4" />
-                    Account
-                  </Link>
-                  {isAdmin && (
-                    <Link 
-                      to="/admin" 
-                      className="bg-romania-red hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors text-center w-full"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Admin Dashboard
-                    </Link>
-                  )}
-                  <Link 
-                    to="/add-business" 
-                    className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-2 px-6 rounded-lg transition-colors text-center w-full"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Add Business
-                  </Link>
-                </div>
-              ) : (
+          <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl z-50 lg:hidden animate-slide-in-right overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-gray-900">Menu</h2>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  aria-label="Close menu"
+                >
+                  <X className="h-6 w-6 text-gray-700" />
+                </button>
+              </div>
+              
+              <nav className="flex flex-col space-y-1">
                 <Link 
-                  to="/auth" 
-                  className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors text-center"
+                  to="/" 
+                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Login
+                  Home
                 </Link>
-              )}
-            </nav>
+                <Link 
+                  to="/categories" 
+                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Categories
+                </Link>
+                <Link 
+                  to="/about" 
+                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  About
+                </Link>
+                <Link 
+                  to="/contact" 
+                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Contact
+                </Link>
+                <Link 
+                  to="/faq" 
+                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  FAQ
+                </Link>
+                
+                <div className="my-4 border-t border-gray-200" />
+                
+                {user ? (
+                  <div className="flex flex-col gap-2 w-full">
+                    <div className="bg-romania-blue/10 p-4 rounded-lg mb-2">
+                      <p className="text-xs text-gray-600 mb-1">Logged in as</p>
+                      <p className="text-sm font-semibold text-romania-blue truncate">{user.email}</p>
+                    </div>
+                    <Link 
+                      to="/my-businesses" 
+                      className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      My Businesses
+                    </Link>
+                    <Link 
+                      to="/account" 
+                      className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-left flex items-center gap-2 w-full active:scale-95"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <User className="h-5 w-5" />
+                      Account
+                    </Link>
+                    {isAdmin && (
+                      <Link 
+                        to="/admin" 
+                        className="bg-romania-red hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        Admin Dashboard
+                      </Link>
+                    )}
+                    <Link 
+                      to="/add-business" 
+                      className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Add Business
+                    </Link>
+                  </div>
+                ) : (
+                  <Link 
+                    to="/auth" 
+                    className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-center w-full active:scale-95"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Login
+                  </Link>
+                )}
+              </nav>
+            </div>
           </div>
         )}
       </div>
