@@ -1,16 +1,19 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BusinessCategory } from '../data/businessData';
 
 interface CategoryCardProps {
-  category: BusinessCategory;
+  category: string;
   count: number;
   icon: React.ReactNode;
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ category, count, icon }) => {
-  const categorySlug = category.toLowerCase().replace(/ /g, '-');
+  // Convert category to slug (e.g., "Restaurant & Food" -> "restaurant-food")
+  const categorySlug = category.toLowerCase()
+    .replace(/&/g, '')  // Remove ampersands
+    .replace(/\s+/g, '-')  // Replace spaces with hyphens
+    .replace(/[^a-z0-9-]/g, '');  // Remove other special characters
   
   return (
     <Link to={`/category/${categorySlug}`} className="block">

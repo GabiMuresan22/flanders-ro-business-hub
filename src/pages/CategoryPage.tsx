@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { BusinessCategory } from '../data/businessData';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BusinessCard from '../components/BusinessCard';
@@ -10,37 +9,54 @@ import { supabase } from '@/integrations/supabase/client';
 const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const [filteredBusinesses, setFilteredBusinesses] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   
-  // Convert slug to category enum value
-  const categoryKey = slug?.toUpperCase().replace(/-/g, '_');
-  const categoryMatch = Object.entries(BusinessCategory).find(
-    ([key, value]) => key === categoryKey
-  );
-  
-  const category = categoryMatch ? categoryMatch[1] : undefined;
+  // Convert slug back to category name (e.g., "restaurant-food" -> "Restaurant & Food")
+  const categoryFromSlug = slug?.split('-').map(word => 
+    word.charAt(0).toUpperCase() + word.slice(1)
+  ).join(' ') || '';
 
   useEffect(() => {
     const fetchBusinesses = async () => {
-      if (!category) return;
+      if (!slug) return;
       
       const { data } = await supabase
         .from('businesses')
         .select('*')
-        .eq('status', 'approved')
-        .eq('category', category);
+        .eq('status', 'approved');
 
-      setFilteredBusinesses(data || []);
+      if (data) {
+        // Filter by matching category (case insensitive, flexible matching)
+        const filtered = data.filter(b => 
+          b.category.toLowerCase().replace(/[^a-z0-9]/g, '') === 
+          slug.toLowerCase().replace(/[^a-z0-9]/g, '')
+        );
+        setFilteredBusinesses(filtered);
+      }
+      setLoading(false);
     };
 
     fetchBusinesses();
-  }, [category]);
+  }, [slug]);
   
   const getCategoryTitle = () => {
-    if (category) {
-      return category;
+    if (filteredBusinesses.length > 0) {
+      return filteredBusinesses[0].category;
     }
-    return slug?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || '';
+    return categoryFromSlug;
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-grow container mx-auto px-4 py-12">
+          <div className="text-center">Loading...</div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">

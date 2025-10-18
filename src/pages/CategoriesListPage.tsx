@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from 'react';
-import { BusinessCategory } from '../data/businessData';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import CategoryCard from '../components/CategoryCard';
@@ -8,7 +7,7 @@ import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Brie
 import { supabase } from '@/integrations/supabase/client';
 
 const CategoriesListPage = () => {
-  const [categoryCounts, setCategoryCounts] = useState<Record<BusinessCategory, number>>({} as Record<BusinessCategory, number>);
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
     const fetchBusinesses = async () => {
@@ -18,10 +17,11 @@ const CategoriesListPage = () => {
         .eq('status', 'approved');
 
       if (businesses) {
-        const counts = Object.values(BusinessCategory).reduce((acc, category) => {
-          acc[category] = businesses.filter(b => b.category === category).length;
-          return acc;
-        }, {} as Record<BusinessCategory, number>);
+        // Count businesses per category dynamically
+        const counts: Record<string, number> = {};
+        businesses.forEach(b => {
+          counts[b.category] = (counts[b.category] || 0) + 1;
+        });
         setCategoryCounts(counts);
       }
     };
@@ -29,15 +29,21 @@ const CategoriesListPage = () => {
     fetchBusinesses();
   }, []);
 
-  const categoryIcons = {
-    [BusinessCategory.RESTAURANT]: <UtensilsCrossed size={48} />,
-    [BusinessCategory.BAKERY]: <Cake size={48} />,
-    [BusinessCategory.CAR_SERVICE]: <Car size={48} />,
-    [BusinessCategory.GROCERY]: <ShoppingBag size={48} />,
-    [BusinessCategory.TRANSPORT]: <Truck size={48} />,
-    [BusinessCategory.BEAUTY]: <Scissors size={48} />,
-    [BusinessCategory.CONSTRUCTION]: <HardHat size={48} />,
-    [BusinessCategory.OTHER]: <Briefcase size={48} />,
+  const getCategoryIcon = (category: string) => {
+    const iconMap: Record<string, JSX.Element> = {
+      'Restaurant & Food': <UtensilsCrossed size={48} />,
+      'Restaurant': <UtensilsCrossed size={48} />,
+      'Bakery': <Cake size={48} />,
+      'Car Services': <Car size={48} />,
+      'Car Service': <Car size={48} />,
+      'Grocery': <ShoppingBag size={48} />,
+      'Transport': <Truck size={48} />,
+      'Beauty Salon': <Scissors size={48} />,
+      'Construction': <HardHat size={48} />,
+      'Professional Services': <Briefcase size={48} />,
+      'Other Services': <Briefcase size={48} />,
+    };
+    return iconMap[category] || <Briefcase size={48} />;
   };
 
   return (
@@ -60,9 +66,9 @@ const CategoriesListPage = () => {
             {Object.entries(categoryCounts).map(([category, count]) => (
               <div key={category} className="flex flex-col">
                 <CategoryCard 
-                  category={category as BusinessCategory} 
+                  category={category} 
                   count={count} 
-                  icon={categoryIcons[category as BusinessCategory]} 
+                  icon={getCategoryIcon(category)} 
                 />
               </div>
             ))}
