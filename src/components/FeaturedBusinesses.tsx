@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import BusinessCard from './BusinessCard';
+import BusinessCardSkeleton from './skeletons/BusinessCardSkeleton';
 import { supabase } from '@/integrations/supabase/client';
 
 const FeaturedBusinesses: React.FC = () => {
@@ -36,14 +37,20 @@ const FeaturedBusinesses: React.FC = () => {
         </div>
         
         {isLoading ? (
-          <div className="flex justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-romania-blue"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <BusinessCardSkeleton key={i} />
+            ))}
           </div>
-        ) : (
+        ) : featuredBusinesses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredBusinesses.map((business) => (
               <BusinessCard key={business.id} business={business} />
             ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-gray-600">No businesses found at the moment.</p>
           </div>
         )}
       </div>

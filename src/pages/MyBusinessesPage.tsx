@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import BusinessListSkeleton from '@/components/skeletons/BusinessListSkeleton';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -118,8 +119,25 @@ const MyBusinessesPage = () => {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-grow flex items-center justify-center">
-          <p className="text-gray-500">Loading your businesses...</p>
+        <main className="flex-grow">
+          <div className="bg-romania-blue py-12">
+            <div className="container mx-auto px-4">
+              <div className="h-10 bg-white/20 rounded w-1/3 mx-auto mb-4 animate-pulse"></div>
+              <div className="h-6 bg-white/10 rounded w-1/2 mx-auto animate-pulse"></div>
+            </div>
+          </div>
+          
+          <section className="py-12">
+            <div className="container mx-auto px-4">
+              <div className="max-w-6xl mx-auto">
+                <div className="flex justify-between items-center mb-8">
+                  <div className="h-8 bg-gray-200 rounded w-1/4 animate-pulse"></div>
+                  <div className="h-10 bg-gray-200 rounded w-40 animate-pulse"></div>
+                </div>
+                <BusinessListSkeleton />
+              </div>
+            </div>
+          </section>
         </main>
         <Footer />
       </div>

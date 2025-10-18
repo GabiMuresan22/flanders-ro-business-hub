@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ReviewCard from '../components/ReviewCard';
 import ReviewForm from '../components/ReviewForm';
+import BusinessDetailsSkeleton from '../components/skeletons/BusinessDetailsSkeleton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
 import { MapPin, Phone, Mail, Globe } from 'lucide-react';
@@ -58,9 +59,7 @@ const BusinessDetails = () => {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-grow container mx-auto px-4 py-12">
-          <div className="text-center">Loading...</div>
-        </main>
+        <BusinessDetailsSkeleton />
         <Footer />
       </div>
     );

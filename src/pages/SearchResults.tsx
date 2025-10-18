@@ -4,6 +4,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BusinessCard from '../components/BusinessCard';
+import BusinessCardSkeleton from '../components/skeletons/BusinessCardSkeleton';
 import SEO from '../components/SEO';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
@@ -62,8 +63,30 @@ const SearchResults = () => {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-grow container mx-auto px-4 py-12">
-          <div className="text-center">Loading...</div>
+        <main className="flex-grow" aria-busy="true" aria-live="polite">
+          <div className="bg-gray-200 py-12 animate-pulse">
+            <div className="container mx-auto px-4">
+              <div className="h-6 bg-gray-300 rounded w-1/4 mb-4"></div>
+              <div className="h-10 bg-gray-300 rounded w-1/3"></div>
+            </div>
+          </div>
+          
+          <div className="container mx-auto px-4 py-12">
+            <div className="bg-white rounded-lg shadow-md p-6 mb-8 animate-pulse">
+              <div className="h-6 bg-gray-200 rounded w-1/4 mb-4"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="h-10 bg-gray-200 rounded"></div>
+                <div className="h-10 bg-gray-200 rounded"></div>
+              </div>
+            </div>
+            
+            <div className="h-6 bg-gray-200 rounded w-1/3 mb-8 animate-pulse"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <BusinessCardSkeleton key={i} />
+              ))}
+            </div>
+          </div>
         </main>
         <Footer />
       </div>

@@ -3,12 +3,14 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import CategoryCard from '../components/CategoryCard';
+import CategoryCardSkeleton from '../components/skeletons/CategoryCardSkeleton';
 import SEO from '../components/SEO';
 import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 const CategoriesListPage = () => {
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBusinesses = async () => {
@@ -24,6 +26,7 @@ const CategoriesListPage = () => {
         });
         setCategoryCounts(counts);
       }
+      setLoading(false);
     };
 
     fetchBusinesses();
@@ -69,17 +72,29 @@ const CategoriesListPage = () => {
         </div>
         
         <div className="container mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Object.entries(categoryCounts).map(([category, count]) => (
-              <div key={category} className="flex flex-col">
-                <CategoryCard 
-                  category={category} 
-                  count={count} 
-                  icon={getCategoryIcon(category)} 
-                />
-              </div>
-            ))}
-          </div>
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <CategoryCardSkeleton key={i} />
+              ))}
+            </div>
+          ) : Object.entries(categoryCounts).length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {Object.entries(categoryCounts).map(([category, count]) => (
+                <div key={category} className="flex flex-col">
+                  <CategoryCard 
+                    category={category} 
+                    count={count} 
+                    icon={getCategoryIcon(category)} 
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-600">No categories available at the moment.</p>
+            </div>
+          )}
         </div>
       </main>
       <Footer />

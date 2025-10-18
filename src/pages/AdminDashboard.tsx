@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import BusinessListSkeleton from '@/components/skeletons/BusinessListSkeleton';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -505,8 +506,35 @@ const AdminDashboard = () => {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-grow flex items-center justify-center">
-          <p className="text-muted-foreground">Loading...</p>
+        <main className="flex-grow">
+          <div className="bg-romania-blue py-12">
+            <div className="container mx-auto px-4">
+              <div className="h-10 bg-white/20 rounded w-1/3 mx-auto animate-pulse"></div>
+            </div>
+          </div>
+          
+          <div className="container mx-auto px-4 py-12">
+            <div className="max-w-6xl mx-auto">
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="bg-white rounded-lg shadow-md p-6 animate-pulse">
+                      <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+                      <div className="h-10 bg-gray-200 rounded w-2/3"></div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="bg-white rounded-lg shadow-md p-6">
+                  <div className="flex gap-4 mb-6">
+                    <div className="h-10 bg-gray-200 rounded w-32 animate-pulse"></div>
+                    <div className="h-10 bg-gray-200 rounded w-32 animate-pulse"></div>
+                  </div>
+                  <BusinessListSkeleton />
+                </div>
+              </div>
+            </div>
+          </div>
         </main>
         <Footer />
       </div>
