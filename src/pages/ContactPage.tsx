@@ -234,12 +234,15 @@ const ContactPage = () => {
                             value={formData.name}
                             onChange={handleChange}
                             maxLength={100}
-                            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent ${
-                              errors.name ? "border-red-500" : "border-gray-300"
+                            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent transition-colors ${
+                              errors.name ? "border-red-500 focus:ring-red-500" : "border-gray-300"
                             }`}
+                            aria-required="true"
+                            aria-invalid={errors.name ? 'true' : 'false'}
+                            aria-describedby={errors.name ? 'name-error' : undefined}
                           />
                           {errors.name && (
-                            <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                            <p id="name-error" className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
                               <AlertCircle className="h-4 w-4" />
                               {errors.name}
                             </p>
@@ -256,12 +259,15 @@ const ContactPage = () => {
                             value={formData.email}
                             onChange={handleChange}
                             maxLength={255}
-                            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent ${
-                              errors.email ? "border-red-500" : "border-gray-300"
+                            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent transition-colors ${
+                              errors.email ? "border-red-500 focus:ring-red-500" : "border-gray-300"
                             }`}
+                            aria-required="true"
+                            aria-invalid={errors.email ? 'true' : 'false'}
+                            aria-describedby={errors.email ? 'email-error' : undefined}
                           />
                           {errors.email && (
-                            <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                            <p id="email-error" className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
                               <AlertCircle className="h-4 w-4" />
                               {errors.email}
                             </p>
@@ -280,12 +286,15 @@ const ContactPage = () => {
                           value={formData.subject}
                           onChange={handleChange}
                           maxLength={200}
-                          className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent ${
-                            errors.subject ? "border-red-500" : "border-gray-300"
+                          className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent transition-colors ${
+                            errors.subject ? "border-red-500 focus:ring-red-500" : "border-gray-300"
                           }`}
+                          aria-required="true"
+                          aria-invalid={errors.subject ? 'true' : 'false'}
+                          aria-describedby={errors.subject ? 'subject-error' : undefined}
                         />
                         {errors.subject && (
-                          <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                          <p id="subject-error" className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
                             <AlertCircle className="h-4 w-4" />
                             {errors.subject}
                           </p>
@@ -323,10 +332,20 @@ const ContactPage = () => {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="flex items-center justify-center bg-romania-blue text-white py-3 px-6 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center justify-center bg-romania-blue text-white py-3 px-6 rounded-md hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
+                        aria-busy={isSubmitting}
                       >
-                        <Send className="h-5 w-5 mr-2" />
-                        {isSubmitting ? "Sending..." : "Send Message"}
+                        {isSubmitting ? (
+                          <>
+                            <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full mr-2" aria-hidden="true"></span>
+                            Sending...
+                          </>
+                        ) : (
+                          <>
+                            <Send className="h-5 w-5 mr-2" aria-hidden="true" />
+                            Send Message
+                          </>
+                        )}
                       </button>
                     </form>
                   </div>

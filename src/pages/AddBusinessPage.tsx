@@ -220,9 +220,20 @@ const AddBusinessPage = () => {
                         <FormItem>
                           <FormLabel>Business Name *</FormLabel>
                           <FormControl>
-                            <Input placeholder="Your business name" {...field} />
+                            <Input 
+                              placeholder="Your business name" 
+                              {...field}
+                              aria-required="true"
+                            />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="flex items-center gap-1 text-red-600">
+                            {form.formState.errors.businessName && (
+                              <>
+                                <span className="text-sm">⚠️</span>
+                                <span>{form.formState.errors.businessName.message}</span>
+                              </>
+                            )}
+                          </FormMessage>
                         </FormItem>
                       )}
                     />
@@ -248,9 +259,21 @@ const AddBusinessPage = () => {
                         <FormItem>
                           <FormLabel>Email *</FormLabel>
                           <FormControl>
-                            <Input type="email" placeholder="your@email.com" {...field} />
+                            <Input 
+                              type="email" 
+                              placeholder="your@email.com" 
+                              {...field}
+                              aria-required="true"
+                            />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="flex items-center gap-1 text-red-600">
+                            {form.formState.errors.email && (
+                              <>
+                                <span className="text-sm">⚠️</span>
+                                <span>{form.formState.errors.email.message}</span>
+                              </>
+                            )}
+                          </FormMessage>
                         </FormItem>
                       )}
                     />
@@ -361,10 +384,25 @@ const AddBusinessPage = () => {
                             <Textarea 
                               placeholder="Tell us about your business, services, and what makes it special..." 
                               className="min-h-[120px]"
+                              maxLength={1000}
                               {...field} 
+                              aria-required="true"
+                              aria-describedby="description-counter"
                             />
                           </FormControl>
-                          <FormMessage />
+                          <div className="flex justify-between items-start">
+                            <FormMessage className="flex items-center gap-1 text-red-600">
+                              {form.formState.errors.description && (
+                                <>
+                                  <span className="text-sm">⚠️</span>
+                                  <span>{form.formState.errors.description.message}</span>
+                                </>
+                              )}
+                            </FormMessage>
+                            <span id="description-counter" className="text-xs text-gray-500">
+                              {field.value?.length || 0}/1000
+                            </span>
+                          </div>
                         </FormItem>
                       )}
                     />
@@ -391,8 +429,20 @@ const AddBusinessPage = () => {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full bg-romania-blue hover:bg-blue-700" disabled={isSubmitting}>
-                    {isSubmitting ? 'Submitting...' : 'Submit Business'}
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-romania-blue hover:bg-blue-700 transition-all" 
+                    disabled={isSubmitting}
+                    aria-busy={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <span className="flex items-center gap-2 justify-center">
+                        <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" aria-hidden="true"></span>
+                        Submitting...
+                      </span>
+                    ) : (
+                      'Submit Business'
+                    )}
                   </Button>
                 </form>
               </Form>
