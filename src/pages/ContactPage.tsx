@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { contactFormSchema } from '@/lib/validation/contactFormSchema';
+import { z } from 'zod';
 
 const ContactPage = () => {
   const { toast } = useToast();
@@ -13,11 +15,21 @@ const ContactPage = () => {
     subject: '',
     message: ''
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
   };
   
   const handleSubmit = (e: React.FormEvent) => {
@@ -25,28 +37,53 @@ const ContactPage = () => {
     
     if (isSubmitting) return;
     
-    setIsSubmitting(true);
+    // Clear previous errors
+    setErrors({});
     
-    // Create mailto link
-    const mailtoLink = `mailto:contact@ro-businesshub.be?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
-    
-    // Open default email client
-    window.location.href = mailtoLink;
-    
-    toast({
-      title: "Opening Email Client",
-      description: "Your default email application will open. If it doesn't, please email us directly at contact@ro-businesshub.be",
-    });
-    
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
-    
-    setIsSubmitting(false);
+    // Validate form data
+    try {
+      const validatedData = contactFormSchema.parse(formData);
+      
+      setIsSubmitting(true);
+      
+      // Create mailto link with validated and sanitized data
+      const mailtoLink = `mailto:contact@ro-businesshub.be?subject=${encodeURIComponent(validatedData.subject)}&body=${encodeURIComponent(`Name: ${validatedData.name}\nEmail: ${validatedData.email}\n\nMessage:\n${validatedData.message}`)}`;
+      
+      // Open default email client
+      window.location.href = mailtoLink;
+      
+      toast({
+        title: "Opening Email Client",
+        description: "Your default email application will open. If it doesn't, please email us directly at contact@ro-businesshub.be",
+      });
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+      
+      setIsSubmitting(false);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        // Convert Zod errors to a more readable format
+        const fieldErrors: Record<string, string> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            fieldErrors[err.path[0] as string] = err.message;
+          }
+        });
+        setErrors(fieldErrors);
+        
+        toast({
+          title: "Validation Error",
+          description: "Please check the form for errors and try again.",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   return (
@@ -137,9 +174,17 @@ const ContactPage = () => {
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
-                            required
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent"
+                            maxLength={100}
+                            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent ${
+                              errors.name ? 'border-red-500' : 'border-gray-300'
+                            }`}
                           />
+                          {errors.name && (
+                            <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                              <AlertCircle className="h-4 w-4" />
+                              {errors.name}
+                            </p>
+                          )}
                         </div>
                         <div>
                           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -151,9 +196,17 @@ const ContactPage = () => {
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
-                            required
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent"
+                            maxLength={255}
+                            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent ${
+                              errors.email ? 'border-red-500' : 'border-gray-300'
+                            }`}
                           />
+                          {errors.email && (
+                            <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                              <AlertCircle className="h-4 w-4" />
+                              {errors.email}
+                            </p>
+                          )}
                         </div>
                       </div>
                       
@@ -167,14 +220,22 @@ const ContactPage = () => {
                           name="subject"
                           value={formData.subject}
                           onChange={handleChange}
-                          required
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent"
+                          maxLength={200}
+                          className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent ${
+                            errors.subject ? 'border-red-500' : 'border-gray-300'
+                          }`}
                         />
+                        {errors.subject && (
+                          <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                            <AlertCircle className="h-4 w-4" />
+                            {errors.subject}
+                          </p>
+                        )}
                       </div>
                       
                       <div className="mb-6">
                         <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                          Your Message *
+                          Your Message * <span className="text-gray-500 text-xs">(min 10 characters)</span>
                         </label>
                         <textarea
                           id="message"
@@ -182,9 +243,24 @@ const ContactPage = () => {
                           rows={5}
                           value={formData.message}
                           onChange={handleChange}
-                          required
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent"
+                          maxLength={2000}
+                          className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent ${
+                            errors.message ? 'border-red-500' : 'border-gray-300'
+                          }`}
                         />
+                        <div className="flex justify-between items-start mt-1">
+                          <div className="flex-1">
+                            {errors.message && (
+                              <p className="text-sm text-red-600 flex items-center gap-1">
+                                <AlertCircle className="h-4 w-4" />
+                                {errors.message}
+                              </p>
+                            )}
+                          </div>
+                          <span className="text-xs text-gray-500">
+                            {formData.message.length}/2000
+                          </span>
+                        </div>
                       </div>
                       
                       <button
