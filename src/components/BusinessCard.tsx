@@ -1,11 +1,10 @@
 
 import React from 'react';
-import { Business } from '../data/businessData';
 import { Link } from 'react-router-dom';
 import { Phone, Globe, MapPin } from 'lucide-react';
 
 interface BusinessCardProps {
-  business: Business;
+  business: any;
 }
 
 const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
@@ -26,19 +25,11 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1">
-      <div className="h-48 overflow-hidden bg-gray-200">
-        <img 
-          src={business.imageUrl} 
-          alt={business.name} 
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            e.currentTarget.src = getDefaultImage(business.category);
-          }}
-        />
+      <div className="h-48 overflow-hidden bg-gradient-to-br from-romania-blue to-romania-red opacity-80">
       </div>
       <div className="p-5">
         <div className="flex justify-between items-start">
-          <h3 className="font-playfair text-xl font-bold text-gray-800 mb-2">{business.name}</h3>
+          <h3 className="font-playfair text-xl font-bold text-gray-800 mb-2">{business.business_name}</h3>
           <span className="bg-romania-blue text-white text-xs px-2 py-1 rounded-full">
             {business.category}
           </span>

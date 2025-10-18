@@ -1,35 +1,51 @@
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { businesses } from '../data/businessData';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BusinessCard from '../components/BusinessCard';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { supabase } from '@/integrations/supabase/client';
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedCity, setSelectedCity] = useState<string>('all');
+  const [businesses, setBusinesses] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      const { data } = await supabase
+        .from('businesses')
+        .select('*')
+        .eq('status', 'approved');
+      
+      setBusinesses(data || []);
+      setLoading(false);
+    };
+
+    fetchBusinesses();
+  }, []);
   
   // Get unique categories and cities
   const categories = useMemo(() => {
     const cats = new Set(businesses.map(b => b.category));
     return ['all', ...Array.from(cats)];
-  }, []);
+  }, [businesses]);
 
   const cities = useMemo(() => {
     const citySet = new Set(businesses.map(b => b.city));
     return ['all', ...Array.from(citySet)];
-  }, []);
+  }, [businesses]);
   
   // Filter businesses based on search query and filters
   const filteredBusinesses = useMemo(() => {
     return businesses.filter(business => {
       const searchLower = query.toLowerCase();
       const matchesSearch = 
-        business.name.toLowerCase().includes(searchLower) ||
+        business.business_name.toLowerCase().includes(searchLower) ||
         business.description.toLowerCase().includes(searchLower) ||
         business.category.toLowerCase().includes(searchLower) ||
         business.city.toLowerCase().includes(searchLower) ||
@@ -40,7 +56,19 @@ const SearchResults = () => {
       
       return matchesSearch && matchesCategory && matchesCity;
     });
-  }, [query, selectedCategory, selectedCity]);
+  }, [businesses, query, selectedCategory, selectedCity]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-grow container mx-auto px-4 py-12">
+          <div className="text-center">Loading...</div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
