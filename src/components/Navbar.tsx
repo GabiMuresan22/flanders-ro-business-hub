@@ -53,21 +53,21 @@ const Navbar = () => {
 
   return (
     <header className="bg-white shadow-sm">
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-3 lg:py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center">
             <div className="flex flex-col">
-              <span className="font-playfair font-bold text-2xl text-romania-blue">Romanian</span>
+              <span className="font-playfair font-bold text-xl sm:text-2xl text-romania-blue">Romanian</span>
               <div className="flex w-full">
-                <span className="h-1 flex-1 bg-romania-blue"></span>
-                <span className="h-1 flex-1 bg-romania-yellow"></span>
-                <span className="h-1 flex-1 bg-romania-red"></span>
+                <span className="h-0.5 sm:h-1 flex-1 bg-romania-blue"></span>
+                <span className="h-0.5 sm:h-1 flex-1 bg-romania-yellow"></span>
+                <span className="h-0.5 sm:h-1 flex-1 bg-romania-red"></span>
               </div>
-              <span className="font-playfair text-lg text-gray-700">Business Hub</span>
+              <span className="font-playfair text-sm sm:text-lg text-gray-700">Business Hub</span>
             </div>
           </Link>
           
-          <div className="hidden md:flex items-center space-x-8 ml-12">
+          <div className="hidden lg:flex items-center space-x-6 xl:space-x-8 ml-8 xl:ml-12">
             <Link to="/" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
               Home
             </Link>
@@ -84,49 +84,42 @@ const Navbar = () => {
               FAQ
             </Link>
             {user ? (
-              <div className="flex items-center gap-3 ml-2">
-                <div className="hidden lg:flex flex-col items-end">
-                  <span className="text-sm text-gray-600">Logged in as</span>
-                  <span className="text-sm font-semibold text-romania-blue">{user.email}</span>
+              <div className="flex items-center gap-2 xl:gap-3 ml-2">
+                <div className="hidden xl:flex flex-col items-end">
+                  <span className="text-xs text-gray-600">Logged in as</span>
+                  <span className="text-xs font-semibold text-romania-blue truncate max-w-[150px]">{user.email}</span>
                 </div>
-                <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-md transition-colors flex items-center gap-1">
+                <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded-md transition-colors flex items-center gap-1">
                   <User className="h-4 w-4" />
-                  <span>Account</span>
+                  <span className="text-sm">Account</span>
                 </Link>
                 {isAdmin && (
-                  <Link to="/admin" className="bg-romania-red hover:bg-red-700 text-white font-semibold py-1.5 px-4 rounded-md transition-colors">
+                  <Link to="/admin" className="bg-romania-red hover:bg-red-700 text-white font-semibold py-1.5 px-3 rounded-md transition-colors text-sm">
                     Admin
                   </Link>
                 )}
-                <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-1.5 px-4 rounded-md transition-colors whitespace-nowrap">
+                <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-1.5 px-3 rounded-md transition-colors whitespace-nowrap text-sm">
                   Add Business
                 </Link>
               </div>
             ) : (
-              <Link to="/auth" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-md transition-colors">
+              <Link to="/auth" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-md transition-colors text-sm">
                 Login
               </Link>
             )}
-            <form onSubmit={handleSearch} className="relative hidden md:block">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue w-40 lg:hidden"
-              />
+            <form onSubmit={handleSearch} className="relative hidden xl:block">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
               <input
                 type="text"
                 placeholder="Search businesses..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="hidden lg:block pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue w-auto"
+                className="pl-9 pr-4 py-1.5 text-sm rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue w-48"
               />
             </form>
           </div>
           
-          <div className="md:hidden flex items-center space-x-4">
+          <div className="lg:hidden flex items-center space-x-3">
             <button 
               className="text-gray-700 cursor-pointer"
               onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
@@ -146,7 +139,7 @@ const Navbar = () => {
         
         {/* Mobile search input */}
         {isMobileSearchOpen && (
-          <div className="md:hidden mt-2">
+          <div className="lg:hidden mt-2">
             <form onSubmit={handleSearch} className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
               <input
@@ -163,7 +156,7 @@ const Navbar = () => {
         
         {/* Mobile navigation menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-2 pb-2">
+          <div className="lg:hidden mt-2 pb-2">
             <nav className="flex flex-col items-center space-y-3">
               <Link 
                 to="/" 
