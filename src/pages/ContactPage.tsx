@@ -57,7 +57,9 @@ const ContactPage = () => {
         });
 
       if (error) {
-        console.error('Error saving contact message:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error saving contact message:', error);
+        }
         toast({
           title: "Error",
           description: "Failed to send message. Please try again later.",

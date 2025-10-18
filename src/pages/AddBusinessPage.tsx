@@ -93,7 +93,9 @@ const AddBusinessPage = () => {
         throw error;
       }
 
-      console.log('Business submitted successfully:', data);
+      if (import.meta.env.DEV) {
+        console.log('Business submitted successfully:', data);
+      }
       
       toast({
         title: "Business submission received!",
@@ -103,11 +105,13 @@ const AddBusinessPage = () => {
       // Reset the form
       form.reset();
     } catch (error) {
-      console.error('Error submitting business:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error submitting business:', error);
+      }
       
       toast({
         title: "Submission failed",
-        description: error instanceof Error ? error.message : "There was an error submitting your business. Please try again.",
+        description: "Unable to submit your business. Please try again later.",
         variant: "destructive",
       });
     } finally {
