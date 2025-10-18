@@ -34,6 +34,7 @@ const SEO = ({
     updateMetaTag('property', 'og:type', type);
     updateMetaTag('property', 'og:url', currentUrl);
     updateMetaTag('property', 'og:image', ogImage);
+    updateMetaTag('name', 'twitter:card', 'summary_large_image');
     updateMetaTag('name', 'twitter:title', title);
     updateMetaTag('name', 'twitter:description', description);
     updateMetaTag('name', 'twitter:image', ogImage);

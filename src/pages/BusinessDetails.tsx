@@ -5,6 +5,8 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ReviewCard from '../components/ReviewCard';
 import ReviewForm from '../components/ReviewForm';
+import SEO from '../components/SEO';
+import StructuredData from '../components/StructuredData';
 import { MapPin, Phone, Mail, Globe } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -82,9 +84,47 @@ const BusinessDetails = () => {
     );
   }
 
+  const businessStructuredData = business ? {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": business.business_name,
+    "description": business.description,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": business.address,
+      "addressLocality": business.city,
+      "postalCode": business.postal_code,
+      "addressCountry": "BE"
+    },
+    "telephone": business.phone,
+    "email": business.email,
+    ...(business.website && { "url": business.website }),
+    ...(averageRating > 0 && {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": averageRating,
+        "reviewCount": reviews.length,
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    })
+  } : null;
+
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
+    <>
+      {business && (
+        <>
+          <SEO 
+            title={`${business.business_name} - ${business.category} in ${business.city} | Romanian Business Hub`}
+            description={`${business.description.substring(0, 150)}... Find ${business.business_name} in ${business.city}, West Flanders. Contact: ${business.phone}`}
+            keywords={`${business.business_name}, ${business.category}, Romanian business ${business.city}, ${business.category} West Flanders`}
+            type="business.business"
+          />
+          {businessStructuredData && <StructuredData data={businessStructuredData} />}
+        </>
+      )}
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
       <main className="flex-grow">
         {/* Hero Banner */}
         <div className="h-64 md:h-80 bg-gray-200 relative">
@@ -178,7 +218,8 @@ const BusinessDetails = () => {
         </div>
       </main>
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 

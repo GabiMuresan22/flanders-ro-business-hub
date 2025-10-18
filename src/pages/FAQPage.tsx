@@ -2,6 +2,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import { 
   Accordion, 
   AccordionContent, 
@@ -12,6 +13,12 @@ import {
 const FAQPage = () => {
   return (
     <>
+      <SEO 
+        title="FAQ - Frequently Asked Questions | Romanian Business Hub"
+        description="Find answers to common questions about listing your Romanian business, searching the directory, reviews, and more. Get help with the Romanian Business Hub platform."
+        keywords="Romanian business FAQ, business directory help, list business Belgium, Romanian services questions"
+        type="website"
+      />
       <Navbar />
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">

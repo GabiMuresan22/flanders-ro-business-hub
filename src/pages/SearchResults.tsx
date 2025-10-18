@@ -4,6 +4,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BusinessCard from '../components/BusinessCard';
+import SEO from '../components/SEO';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -70,8 +71,15 @@ const SearchResults = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
+    <>
+      <SEO 
+        title={query ? `Search Results for "${query}" | Romanian Business Hub` : "Search Romanian Businesses | Romanian Business Hub"}
+        description={query ? `Find Romanian businesses matching "${query}" in West Flanders. Search results for restaurants, services, and more.` : "Search for Romanian businesses across West Flanders by name, category, or location. Find the best Romanian services in Belgium."}
+        keywords={query ? `${query}, Romanian business search, find ${query} Belgium` : "search Romanian businesses, find Romanian services, business directory Belgium"}
+        type="website"
+      />
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
       <main className="flex-grow">
         <div className="bg-romania-blue py-12">
           <div className="container mx-auto px-4">
@@ -168,7 +176,8 @@ const SearchResults = () => {
         </div>
       </main>
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 

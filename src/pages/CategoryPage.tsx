@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BusinessCard from '../components/BusinessCard';
+import SEO from '../components/SEO';
 import { supabase } from '@/integrations/supabase/client';
 
 const CategoryPage = () => {
@@ -57,9 +58,18 @@ const CategoryPage = () => {
     );
   }
 
+  const categoryTitle = getCategoryTitle();
+
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
+    <>
+      <SEO 
+        title={`${categoryTitle} Businesses in West Flanders | Romanian Business Hub`}
+        description={`Find trusted Romanian ${categoryTitle.toLowerCase()} businesses in West Flanders, Belgium. Browse verified listings with contact information, reviews, and more.`}
+        keywords={`Romanian ${categoryTitle} West Flanders, ${categoryTitle} Belgium, Romanian ${categoryTitle} businesses, ${categoryTitle} services Belgium`}
+        type="website"
+      />
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
       <main className="flex-grow">
         <div className="bg-romania-blue py-12">
           <div className="container mx-auto px-4">
@@ -71,7 +81,7 @@ const CategoryPage = () => {
               <span className="text-white">{getCategoryTitle()}</span>
             </nav>
             <h1 className="font-playfair text-3xl md:text-4xl font-bold text-white">
-              {getCategoryTitle()} Businesses
+              {categoryTitle} Businesses
             </h1>
           </div>
         </div>
@@ -80,7 +90,7 @@ const CategoryPage = () => {
           {filteredBusinesses.length > 0 ? (
             <div>
               <p className="text-gray-600 mb-8">
-                Showing {filteredBusinesses.length} {getCategoryTitle()} businesses in West Flanders
+                Showing {filteredBusinesses.length} {categoryTitle} businesses in West Flanders
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredBusinesses.map((business) => (
@@ -105,7 +115,8 @@ const CategoryPage = () => {
         </div>
       </main>
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import SEO from "../components/SEO";
 import { Mail, Phone, MapPin, Send, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { contactFormSchema } from "@/lib/validation/contactFormSchema";
@@ -122,8 +123,15 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
+    <>
+      <SEO 
+        title="Contact Us - Romanian Business Hub West Flanders"
+        description="Get in touch with Romanian Business Hub. Have questions about listing your business or need support? Contact our team in West Flanders, Belgium."
+        keywords="contact Romanian Business Hub, Romanian business support Belgium, list business West Flanders, Romanian directory contact"
+        type="website"
+      />
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
       <main className="flex-grow">
         <div className="bg-romania-blue py-12">
           <div className="container mx-auto px-4">
@@ -322,7 +330,8 @@ const ContactPage = () => {
         </section>
       </main>
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 

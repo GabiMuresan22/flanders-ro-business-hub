@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import CategoryCard from '../components/CategoryCard';
+import SEO from '../components/SEO';
 import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -46,8 +47,15 @@ const CategoriesListPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
+    <>
+      <SEO 
+        title="Browse Romanian Business Categories - West Flanders | Romanian Business Hub"
+        description="Explore Romanian businesses by category in West Flanders: restaurants, bakeries, car services, construction, beauty salons, transportation, and professional services."
+        keywords="Romanian business categories Belgium, Romanian services types, Romanian restaurants West Flanders, Romanian bakery, Romanian construction services"
+        type="website"
+      />
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
       <main className="flex-grow">
         <div className="bg-romania-blue py-12">
           <div className="container mx-auto px-4">
@@ -75,7 +83,8 @@ const CategoriesListPage = () => {
         </div>
       </main>
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 

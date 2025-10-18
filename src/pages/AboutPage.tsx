@@ -3,11 +3,19 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import CtaSection from '../components/CtaSection';
+import SEO from '../components/SEO';
 
 const AboutPage = () => {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
+    <>
+      <SEO 
+        title="About Us - Romanian Business Hub West Flanders"
+        description="Learn about Romanian Business Hub, our mission to connect Romanian businesses with the local community in West Flanders, Belgium. Supporting Romanian entrepreneurs since 2025."
+        keywords="about Romanian Business Hub, Romanian community Belgium, Romanian entrepreneurs West Flanders, Romanian business directory"
+        type="website"
+      />
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
       <main className="flex-grow">
         <div className="bg-romania-blue py-12">
           <div className="container mx-auto px-4">
@@ -72,7 +80,8 @@ const AboutPage = () => {
         <CtaSection />
       </main>
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 
