@@ -5,6 +5,7 @@ import { Mail, Phone, MapPin, Send, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { contactFormSchema } from "@/lib/validation/contactFormSchema";
 import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactPage = () => {
   const { toast } = useToast();
@@ -31,7 +32,7 @@ const ContactPage = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (isSubmitting) return;
@@ -45,16 +46,30 @@ const ContactPage = () => {
 
       setIsSubmitting(true);
 
-      // Create mailto link with validated and sanitized data
-      const mailtoLink = `mailto:gabimuresan2289@gmail.com?subject=${encodeURIComponent(validatedData.subject)}&body=${encodeURIComponent(`Name: ${validatedData.name}\nEmail: ${validatedData.email}\n\nMessage:\n${validatedData.message}`)}`;
+      // Save to database
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert({
+          name: validatedData.name,
+          email: validatedData.email,
+          subject: validatedData.subject,
+          message: validatedData.message,
+        });
 
-      // Open default email client
-      window.location.href = mailtoLink;
+      if (error) {
+        console.error('Error saving contact message:', error);
+        toast({
+          title: "Error",
+          description: "Failed to send message. Please try again later.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
       toast({
-        title: "Opening Email Client",
-        description:
-          "Your default email application will open. If it doesn't, please email us directly at contact@ro-businesshub.be",
+        title: "Message Sent!",
+        description: "Thank you for contacting us. We'll get back to you soon.",
       });
 
       // Reset form
@@ -83,6 +98,7 @@ const ContactPage = () => {
           variant: "destructive",
         });
       }
+      setIsSubmitting(false);
     }
   };
 
