@@ -14,7 +14,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Upload, X } from 'lucide-react';
 
 const AddBusinessPage = () => {
   const { toast } = useToast();
@@ -22,6 +22,8 @@ const AddBusinessPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -52,9 +54,47 @@ const AddBusinessPage = () => {
       description: "",
       category: "",
       website: "",
+      businessImage: undefined,
       agreeTerms: false,
     },
   });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "File too large",
+          description: "Image must be less than 5MB",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        toast({
+          title: "Invalid file type",
+          description: "Please upload an image file",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setSelectedFile(null);
+    setImagePreview(null);
+  };
 
   async function onSubmit(values: FormSchema) {
     if (!user) {
@@ -69,6 +109,32 @@ const AddBusinessPage = () => {
     setIsSubmitting(true);
     
     try {
+      let imageUrl = null;
+
+      // Upload image if selected
+      if (selectedFile) {
+        const fileExt = selectedFile.name.split('.').pop();
+        const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+        
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('business-images')
+          .upload(fileName, selectedFile, {
+            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (uploadError) {
+          throw new Error(`Image upload failed: ${uploadError.message}`);
+        }
+
+        // Get public URL
+        const { data: { publicUrl } } = supabase.storage
+          .from('business-images')
+          .getPublicUrl(fileName);
+
+        imageUrl = publicUrl;
+      }
+
       // Insert business into Supabase with user_id
       const { data, error } = await supabase
         .from('businesses')
@@ -83,6 +149,7 @@ const AddBusinessPage = () => {
           description: values.description,
           category: values.category,
           website: values.website || null,
+          image_url: imageUrl,
           status: 'pending',
           user_id: user.id
         })
@@ -121,8 +188,10 @@ const AddBusinessPage = () => {
         description: "We'll review your business and add it to our directory soon.",
       });
       
-      // Reset the form
+      // Reset the form and image
       form.reset();
+      setSelectedFile(null);
+      setImagePreview(null);
     } catch (error: any) {
       if (import.meta.env.DEV) {
         console.error('Error submitting business:', error);
@@ -373,6 +442,49 @@ const AddBusinessPage = () => {
                         </FormItem>
                       )}
                     />
+
+                    <div className="space-y-2">
+                      <FormLabel>Business Photo (Optional)</FormLabel>
+                      <div className="flex flex-col gap-4">
+                        {imagePreview ? (
+                          <div className="relative w-full max-w-md">
+                            <img 
+                              src={imagePreview} 
+                              alt="Business preview" 
+                              className="w-full h-48 object-cover rounded-lg border-2 border-gray-200"
+                            />
+                            <button
+                              type="button"
+                              onClick={removeImage}
+                              className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors"
+                              aria-label="Remove image"
+                            >
+                              <X size={16} />
+                            </button>
+                          </div>
+                        ) : (
+                          <label 
+                            htmlFor="business-image" 
+                            className="flex flex-col items-center justify-center w-full max-w-md h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors"
+                          >
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                              <Upload className="w-10 h-10 mb-3 text-gray-400" />
+                              <p className="mb-2 text-sm text-gray-500">
+                                <span className="font-semibold">Click to upload</span> or drag and drop
+                              </p>
+                              <p className="text-xs text-gray-500">PNG, JPG or WEBP (max 5MB)</p>
+                            </div>
+                            <input
+                              id="business-image"
+                              type="file"
+                              className="hidden"
+                              accept="image/*"
+                              onChange={handleFileChange}
+                            />
+                          </label>
+                        )}
+                      </div>
+                    </div>
 
                     <FormField
                       control={form.control}

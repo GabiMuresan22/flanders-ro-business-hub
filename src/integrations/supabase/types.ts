@@ -24,6 +24,7 @@ export type Database = {
           description: string
           email: string
           id: string
+          image_url: string | null
           owner_name: string
           phone: string
           postal_code: string
@@ -41,6 +42,7 @@ export type Database = {
           description: string
           email: string
           id?: string
+          image_url?: string | null
           owner_name: string
           phone: string
           postal_code: string
@@ -58,6 +60,7 @@ export type Database = {
           description?: string
           email?: string
           id?: string
+          image_url?: string | null
           owner_name?: string
           phone?: string
           postal_code?: string

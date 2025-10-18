@@ -36,6 +36,7 @@ export const formSchema = z.object({
   website: z.string().url({
     message: "Please enter a valid website URL.",
   }).optional().or(z.literal('')),
+  businessImage: z.any().optional(),
   agreeTerms: z.boolean().refine(val => val === true, {
     message: "You must agree to the terms and conditions."
   }),
