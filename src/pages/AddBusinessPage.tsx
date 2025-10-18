@@ -123,14 +123,25 @@ const AddBusinessPage = () => {
       
       // Reset the form
       form.reset();
-    } catch (error) {
+    } catch (error: any) {
       if (import.meta.env.DEV) {
         console.error('Error submitting business:', error);
       }
       
+      let errorMessage = "Unable to submit your business. Please try again later.";
+      
+      // Provide more specific error messages
+      if (error.message?.includes('duplicate')) {
+        errorMessage = "This business has already been submitted.";
+      } else if (error.message?.includes('network') || error.message?.includes('fetch')) {
+        errorMessage = "Network error. Please check your connection and try again.";
+      } else if (error.code === '23505') {
+        errorMessage = "A business with this information already exists.";
+      }
+      
       toast({
         title: "Submission failed",
-        description: "Unable to submit your business. Please try again later.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {

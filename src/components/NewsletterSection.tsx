@@ -12,14 +12,36 @@ const NewsletterSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Basic email validation
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast({
+        title: 'Invalid email',
+        description: 'Please enter a valid email address.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
     setLoading(true);
 
     try {
       const { error } = await supabase
         .from('newsletter_subscribers')
-        .insert([{ email }]);
+        .insert([{ email: email.trim().toLowerCase() }]);
 
-      if (error) throw error;
+      if (error) {
+        // Handle duplicate email
+        if (error.code === '23505') {
+          toast({
+            title: 'Already subscribed',
+            description: 'This email is already subscribed to our newsletter.',
+            variant: 'destructive',
+          });
+          return;
+        }
+        throw error;
+      }
 
       toast({
         title: 'Success!',
@@ -27,9 +49,15 @@ const NewsletterSection = () => {
       });
       setEmail('');
     } catch (error: any) {
+      let errorMessage = 'Failed to subscribe. Please try again.';
+      
+      if (error.message?.includes('network') || error.message?.includes('fetch')) {
+        errorMessage = 'Network error. Please check your connection.';
+      }
+      
       toast({
         title: 'Error',
-        description: error.message || 'Failed to subscribe. Please try again.',
+        description: errorMessage,
         variant: 'destructive',
       });
     } finally {

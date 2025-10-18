@@ -61,9 +61,16 @@ const ContactPage = () => {
         if (import.meta.env.DEV) {
           console.error('Error saving contact message:', error);
         }
+        
+        let errorMessage = "Failed to send message. Please try again later.";
+        
+        if (error.message?.includes('network') || error.message?.includes('fetch')) {
+          errorMessage = "Network error. Please check your connection and try again.";
+        }
+        
         toast({
           title: "Error",
-          description: "Failed to send message. Please try again later.",
+          description: errorMessage,
           variant: "destructive",
         });
         setIsSubmitting(false);
