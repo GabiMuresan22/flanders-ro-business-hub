@@ -29,7 +29,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await resend.emails.send({
       from: "Business Directory <onboarding@resend.dev>",
-      to: ["admin@yourdomain.com"], // Replace with actual admin email
+      to: ["gabimuresan2289@gmail.com"],
       subject: `New Business Submission: ${business_name}`,
       html: `
         <h1>New Business Submission</h1>
