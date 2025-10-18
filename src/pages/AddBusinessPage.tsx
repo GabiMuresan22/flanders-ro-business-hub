@@ -57,13 +57,19 @@ const AddBusinessPage = () => {
   });
 
   async function onSubmit(values: FormSchema) {
+    if (!user) {
+      toast({
+        title: "Authentication required",
+        description: "Please log in to submit a business.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
-      // Optional: Get the current user (for future use)
-      const { data: { user } } = await supabase.auth.getUser();
-
-      // Insert business into Supabase
+      // Insert business into Supabase with user_id
       const { data, error } = await supabase
         .from('businesses')
         .insert({
@@ -77,7 +83,8 @@ const AddBusinessPage = () => {
           description: values.description,
           category: values.category,
           website: values.website || null,
-          status: 'pending'
+          status: 'pending',
+          user_id: user.id
         })
         .select()
         .single();

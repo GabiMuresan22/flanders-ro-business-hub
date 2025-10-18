@@ -29,6 +29,7 @@ export type Database = {
           postal_code: string
           status: string
           updated_at: string
+          user_id: string | null
           website: string | null
         }
         Insert: {
@@ -45,6 +46,7 @@ export type Database = {
           postal_code: string
           status?: string
           updated_at?: string
+          user_id?: string | null
           website?: string | null
         }
         Update: {
@@ -61,37 +63,8 @@ export type Database = {
           postal_code?: string
           status?: string
           updated_at?: string
+          user_id?: string | null
           website?: string | null
-        }
-        Relationships: []
-      }
-      contact_messages: {
-        Row: {
-          created_at: string
-          email: string
-          id: string
-          message: string
-          name: string
-          status: string
-          subject: string
-        }
-        Insert: {
-          created_at?: string
-          email: string
-          id?: string
-          message: string
-          name: string
-          status?: string
-          subject: string
-        }
-        Update: {
-          created_at?: string
-          email?: string
-          id?: string
-          message?: string
-          name?: string
-          status?: string
-          subject?: string
         }
         Relationships: []
       }
