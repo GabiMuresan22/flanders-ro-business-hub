@@ -8,19 +8,39 @@ const Navbar = () => {
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
+      if (session?.user) {
+        checkAdminStatus(session.user.id);
+      }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      if (session?.user) {
+        checkAdminStatus(session.user.id);
+      } else {
+        setIsAdmin(false);
+      }
     });
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const checkAdminStatus = async (userId: string) => {
+    const { data } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', userId)
+      .eq('role', 'admin')
+      .single();
+    
+    setIsAdmin(!!data);
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,6 +94,11 @@ const Navbar = () => {
                   <span className="hidden lg:inline">Account</span>
                   <span className="lg:hidden">Profile</span>
                 </Link>
+                {isAdmin && (
+                  <Link to="/admin" className="bg-romania-red hover:bg-red-700 text-white font-semibold py-1.5 px-4 rounded-md transition-colors">
+                    Admin
+                  </Link>
+                )}
                 <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-1.5 px-4 rounded-md transition-colors">
                   Add Business
                 </Link>
@@ -197,6 +222,15 @@ const Navbar = () => {
                     <User className="h-4 w-4" />
                     Account
                   </Link>
+                  {isAdmin && (
+                    <Link 
+                      to="/admin" 
+                      className="bg-romania-red hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors text-center w-full"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Admin Dashboard
+                    </Link>
+                  )}
                 </div>
               ) : (
                 <Link 
