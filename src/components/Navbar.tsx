@@ -89,6 +89,9 @@ const Navbar = () => {
                   <span className="text-xs text-gray-600">Logged in as</span>
                   <span className="text-xs font-semibold text-romania-blue truncate max-w-[150px]">{user.email}</span>
                 </div>
+                <Link to="/my-businesses" className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-1.5 px-3 rounded-md transition-colors text-sm whitespace-nowrap">
+                  My Businesses
+                </Link>
                 <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded-md transition-colors flex items-center gap-1">
                   <User className="h-4 w-4" />
                   <span className="text-sm">Account</span>
@@ -207,6 +210,13 @@ const Navbar = () => {
                     <p className="text-sm font-semibold text-romania-blue">{user.email}</p>
                   </div>
                   <Link 
+                    to="/my-businesses" 
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-2 px-6 rounded-lg transition-colors text-center w-full"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    My Businesses
+                  </Link>
+                  <Link 
                     to="/account" 
                     className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors text-center flex items-center gap-2 justify-center w-full"
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -223,6 +233,13 @@ const Navbar = () => {
                       Admin Dashboard
                     </Link>
                   )}
+                  <Link 
+                    to="/add-business" 
+                    className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-2 px-6 rounded-lg transition-colors text-center w-full"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Add Business
+                  </Link>
                 </div>
               ) : (
                 <Link 

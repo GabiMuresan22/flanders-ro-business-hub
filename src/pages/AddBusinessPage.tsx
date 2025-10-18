@@ -96,6 +96,25 @@ const AddBusinessPage = () => {
       if (import.meta.env.DEV) {
         console.log('Business submitted successfully:', data);
       }
+
+      // Send email notification to admin
+      try {
+        await supabase.functions.invoke('notify-new-business', {
+          body: {
+            business_name: values.businessName,
+            owner_name: values.ownerName,
+            email: values.email,
+            phone: values.phone,
+            category: values.category,
+            city: values.city,
+          },
+        });
+      } catch (emailError) {
+        // Log but don't fail the submission
+        if (import.meta.env.DEV) {
+          console.error('Failed to send notification email:', emailError);
+        }
+      }
       
       toast({
         title: "Business submission received!",

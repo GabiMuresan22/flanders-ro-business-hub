@@ -69,6 +69,23 @@ const ContactPage = () => {
         return;
       }
 
+      // Send email notification to admin
+      try {
+        await supabase.functions.invoke('notify-new-contact', {
+          body: {
+            name: validatedData.name,
+            email: validatedData.email,
+            subject: validatedData.subject,
+            message: validatedData.message,
+          },
+        });
+      } catch (emailError) {
+        // Log but don't fail the submission
+        if (import.meta.env.DEV) {
+          console.error('Failed to send notification email:', emailError);
+        }
+      }
+
       toast({
         title: "Message Sent!",
         description: "Thank you for contacting us. We'll get back to you soon.",

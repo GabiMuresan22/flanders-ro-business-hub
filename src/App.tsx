@@ -12,6 +12,7 @@ import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import FAQPage from "./pages/FAQPage";
 import AddBusinessPage from "./pages/AddBusinessPage";
+import MyBusinessesPage from "./pages/MyBusinessesPage";
 import SearchResults from "./pages/SearchResults";
 import AuthPage from "./pages/AuthPage";
 import AccountPage from "./pages/AccountPage";
@@ -35,6 +36,7 @@ const App = () => (
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/add-business" element={<AddBusinessPage />} />
+          <Route path="/my-businesses" element={<MyBusinessesPage />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/account" element={<AccountPage />} />
