@@ -12,9 +12,8 @@ const CategoriesListPage = () => {
   useEffect(() => {
     const fetchBusinesses = async () => {
       const { data: businesses } = await supabase
-        .from('businesses')
-        .select('category')
-        .eq('status', 'approved');
+        .from('public_businesses')
+        .select('category');
 
       if (businesses) {
         // Count businesses per category dynamically

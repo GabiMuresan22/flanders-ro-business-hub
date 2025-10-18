@@ -9,9 +9,8 @@ const FeaturedBusinesses: React.FC = () => {
   useEffect(() => {
     const fetchBusinesses = async () => {
       const { data } = await supabase
-        .from('businesses')
+        .from('public_businesses')
         .select('*')
-        .eq('status', 'approved')
         .limit(6);
 
       setFeaturedBusinesses(data || []);

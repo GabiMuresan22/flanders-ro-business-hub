@@ -21,9 +21,8 @@ const CategoryPage = () => {
       if (!slug) return;
       
       const { data } = await supabase
-        .from('businesses')
-        .select('*')
-        .eq('status', 'approved');
+        .from('public_businesses')
+        .select('*');
 
       if (data) {
         // Filter by matching category (case insensitive, flexible matching)

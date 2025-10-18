@@ -11,9 +11,8 @@ const StatisticsSection = () => {
   useEffect(() => {
     const fetchStats = async () => {
       const { data: businesses } = await supabase
-        .from('businesses')
-        .select('category, city')
-        .eq('status', 'approved');
+        .from('public_businesses')
+        .select('category, city');
 
       if (businesses) {
         const uniqueCategories = new Set(businesses.map(b => b.category)).size;

@@ -18,9 +18,8 @@ const SearchResults = () => {
   useEffect(() => {
     const fetchBusinesses = async () => {
       const { data } = await supabase
-        .from('businesses')
-        .select('*')
-        .eq('status', 'approved');
+        .from('public_businesses')
+        .select('*');
       
       setBusinesses(data || []);
       setLoading(false);
