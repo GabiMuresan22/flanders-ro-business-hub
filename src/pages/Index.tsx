@@ -12,6 +12,7 @@ import NewsletterSection from '../components/NewsletterSection';
 import CtaSection from '../components/CtaSection';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
+import SkipToContent from '../components/SkipToContent';
 
 const Index = () => {
   const structuredData = {
@@ -42,8 +43,9 @@ const Index = () => {
       <StructuredData data={structuredData} />
       
       <div className="min-h-screen flex flex-col">
+        <SkipToContent />
         <Navbar />
-        <main className="flex-grow">
+        <main id="main-content" className="flex-grow" tabIndex={-1}>
           <HeroSection />
           <FeaturedBusinesses />
           <CategoriesSection />

@@ -24,11 +24,11 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1">
-      <div className="h-48 overflow-hidden bg-gradient-to-br from-romania-blue to-romania-red opacity-80">
+    <article className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1">
+      <div className="h-48 overflow-hidden bg-gradient-to-br from-romania-blue to-romania-red opacity-80" aria-hidden="true">
         <img 
           src={getDefaultImage(business.category)} 
-          alt={`${business.business_name} - ${business.category}`}
+          alt=""
           className="w-full h-full object-cover mix-blend-overlay"
           loading="lazy"
         />
@@ -42,29 +42,42 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
         </div>
         <p className="text-gray-600 mb-4 line-clamp-2">{business.description}</p>
         <div className="flex items-center text-gray-500 mb-2">
-          <MapPin className="h-4 w-4 mr-2" />
-          <span className="text-sm">{business.city}</span>
+          <MapPin className="h-4 w-4 mr-2" aria-hidden="true" />
+          <span className="text-sm">
+            <span className="sr-only">Located in </span>
+            {business.city}
+          </span>
         </div>
         <div className="flex items-center text-gray-500 mb-2">
-          <Phone className="h-4 w-4 mr-2" />
-          <span className="text-sm">{business.phone}</span>
+          <Phone className="h-4 w-4 mr-2" aria-hidden="true" />
+          <a href={`tel:${business.phone}`} className="text-sm hover:text-romania-blue focus:outline-none focus:underline">
+            <span className="sr-only">Phone number: </span>
+            {business.phone}
+          </a>
         </div>
         {business.website && (
           <div className="flex items-center text-gray-500 mb-4">
-            <Globe className="h-4 w-4 mr-2" />
-            <a href={business.website} className="text-sm text-romania-blue hover:underline" target="_blank" rel="noopener noreferrer">
+            <Globe className="h-4 w-4 mr-2" aria-hidden="true" />
+            <a 
+              href={business.website} 
+              className="text-sm text-romania-blue hover:underline focus:outline-none focus:ring-2 focus:ring-romania-blue rounded" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              aria-label={`Visit ${business.business_name} website`}
+            >
               Visit Website
             </a>
           </div>
         )}
         <Link 
           to={`/business/${business.id}`} 
-          className="block mt-4 text-center bg-romania-yellow hover:bg-romania-blue text-gray-900 hover:text-white font-medium py-2 px-4 rounded transition-colors"
+          className="block mt-4 text-center bg-romania-yellow hover:bg-romania-blue text-gray-900 hover:text-white font-medium py-2 px-4 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-romania-blue focus:ring-offset-2"
+          aria-label={`View details for ${business.business_name}`}
         >
           View Details
         </Link>
       </div>
-    </div>
+    </article>
   );
 };
 
