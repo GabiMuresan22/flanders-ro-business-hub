@@ -50,7 +50,7 @@ const SearchResults = () => {
         business.description.toLowerCase().includes(searchLower) ||
         business.category.toLowerCase().includes(searchLower) ||
         business.city.toLowerCase().includes(searchLower) ||
-        business.address.toLowerCase().includes(searchLower);
+        (business.postal_code && business.postal_code.toLowerCase().includes(searchLower));
       
       const matchesCategory = selectedCategory === 'all' || business.category === selectedCategory;
       const matchesCity = selectedCity === 'all' || business.city === selectedCity;
