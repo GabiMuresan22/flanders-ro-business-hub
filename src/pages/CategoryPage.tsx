@@ -18,6 +18,14 @@ const CategoryPage = () => {
     word.charAt(0).toUpperCase() + word.slice(1)
   ).join(' ') || '';
 
+  // Helper function to convert category name to slug (same as CategoryCard)
+  const categoryToSlug = (category: string) => {
+    return category.toLowerCase()
+      .replace(/&/g, '')  // Remove ampersands
+      .replace(/\s+/g, '-')  // Replace spaces with hyphens
+      .replace(/[^a-z0-9-]/g, '');  // Remove other special characters
+  };
+
   useEffect(() => {
     const fetchBusinesses = async () => {
       if (!slug) return;
@@ -27,10 +35,9 @@ const CategoryPage = () => {
         .select('*');
 
       if (data) {
-        // Filter by matching category (case insensitive, flexible matching)
+        // Filter by matching category slug
         const filtered = data.filter(b => 
-          b.category.toLowerCase().replace(/[^a-z0-9]/g, '') === 
-          slug.toLowerCase().replace(/[^a-z0-9]/g, '')
+          categoryToSlug(b.category) === slug.toLowerCase()
         );
         setFilteredBusinesses(filtered);
       }
