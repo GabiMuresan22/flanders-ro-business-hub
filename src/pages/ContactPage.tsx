@@ -165,9 +165,9 @@ const ContactPage = () => {
               <div className="max-w-5xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="md:col-span-1">
-                    <div className="bg-white shadow-md rounded-lg p-6 h-full flex flex-col">
-                      <div className="flex-1 flex flex-col items-center justify-center">
-                        <h2 className="font-playfair text-xl font-semibold text-gray-900 mb-6">Contact Information</h2>
+                    <div className="bg-white shadow-md rounded-lg p-6 h-full flex flex-col justify-between">
+                      <div className="flex-1 flex flex-col justify-center">
+                        <h2 className="font-playfair text-xl font-semibold text-gray-900 mb-6 text-center">Contact Information</h2>
                         <div className="space-y-4 w-full max-w-sm mx-auto">
                           <div className="flex items-start">
                             <Mail className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
