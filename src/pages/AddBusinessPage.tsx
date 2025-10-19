@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,10 +14,12 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, Upload, X } from 'lucide-react';
+import { useAntiSpam } from '@/hooks/useAntiSpam';
 
 const AddBusinessPage = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const antiSpam = useAntiSpam(5000);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
@@ -101,6 +102,17 @@ const AddBusinessPage = () => {
       toast({
         title: "Authentication required",
         description: "Please log in to submit a business.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Anti-spam validation
+    const spamCheck = await antiSpam.validateSubmission();
+    if (!spamCheck.isValid) {
+      toast({
+        title: "Submission Error",
+        description: spamCheck.error,
         variant: "destructive",
       });
       return;
@@ -281,6 +293,17 @@ const AddBusinessPage = () => {
               
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  {/* Honeypot field - hidden from users */}
+                  <input
+                    type="text"
+                    name={antiSpam.honeypotField.name}
+                    value={antiSpam.honeypotField.value}
+                    onChange={(e) => antiSpam.honeypotField.onChange(e.target.value)}
+                    style={antiSpam.honeypotField.style}
+                    tabIndex={antiSpam.honeypotField.tabIndex}
+                    autoComplete="off"
+                    aria-hidden="true"
+                  />
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField
                       control={form.control}

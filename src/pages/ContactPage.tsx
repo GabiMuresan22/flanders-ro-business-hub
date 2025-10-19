@@ -7,9 +7,11 @@ import { useToast } from "@/hooks/use-toast";
 import { contactFormSchema } from "@/lib/validation/contactFormSchema";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { useAntiSpam } from "@/hooks/useAntiSpam";
 
 const ContactPage = () => {
   const { toast } = useToast();
+  const antiSpam = useAntiSpam(3000);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -40,6 +42,17 @@ const ContactPage = () => {
 
     // Clear previous errors
     setErrors({});
+
+    // Anti-spam validation
+    const spamCheck = await antiSpam.validateSubmission();
+    if (!spamCheck.isValid) {
+      toast({
+        title: "Submission Error",
+        description: spamCheck.error,
+        variant: "destructive",
+      });
+      return;
+    }
 
     // Validate form data
     try {
@@ -222,6 +235,17 @@ const ContactPage = () => {
                   <div className="bg-white shadow-md rounded-lg p-6">
                     <h2 className="font-playfair text-xl font-semibold text-gray-900 mb-6">Send Us a Message</h2>
                     <form onSubmit={handleSubmit}>
+                      {/* Honeypot field - hidden from users */}
+                      <input
+                        type="text"
+                        name={antiSpam.honeypotField.name}
+                        value={antiSpam.honeypotField.value}
+                        onChange={(e) => antiSpam.honeypotField.onChange(e.target.value)}
+                        style={antiSpam.honeypotField.style}
+                        tabIndex={antiSpam.honeypotField.tabIndex}
+                        autoComplete="off"
+                        aria-hidden="true"
+                      />
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                         <div>
                           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
