@@ -168,29 +168,28 @@ const ContactPage = () => {
                     <div className="bg-white shadow-md rounded-lg p-6 h-full flex flex-col">
                       <div className="flex-1 flex flex-col items-center justify-center">
                         <h2 className="font-playfair text-xl font-semibold text-gray-900 mb-6">Contact Information</h2>
-                        <div className="space-y-4 w-full max-w-sm">
-                          <div className="flex items-start justify-center">
+                        <div className="space-y-4 w-full max-w-sm mx-auto">
+                          <div className="flex items-start">
                             <Mail className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
-                            <div className="text-left">
+                            <div>
                               <p className="text-gray-600">Email us at:</p>
                               <a href="mailto:gabimuresan2289@gmail.com" className="text-romania-blue hover:underline">
                                 contact@ro-flanders-business.be
                               </a>
                             </div>
                           </div>
-                          <div className="flex items-start justify-center">
+                          <div className="flex items-start">
                             <Phone className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
-                            <div className="text-left">
+                            <div>
                               <p className="text-gray-600">Call us at:</p>
                               <p className="text-gray-800">+32 467 789 259</p>
                             </div>
                           </div>
-                          <div className="flex items-start justify-center">
+                          <div className="flex items-start">
                             <MapPin className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
-                            <div className="text-left">
+                            <div>
                               <p className="text-gray-600">Address:</p>
                               <p className="text-gray-800">
-                                <br />
                                 8800 Roeselare
                                 <br />
                                 West Flanders, Belgium
