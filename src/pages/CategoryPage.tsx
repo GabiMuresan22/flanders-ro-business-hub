@@ -7,6 +7,7 @@ import BusinessCard from '../components/BusinessCard';
 import BusinessCardSkeleton from '../components/skeletons/BusinessCardSkeleton';
 import SEO from '../components/SEO';
 import { supabase } from '@/integrations/supabase/client';
+import { categoryToSlug } from '@/lib/utils';
 
 const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -17,14 +18,6 @@ const CategoryPage = () => {
   const categoryFromSlug = slug?.split('-').map(word => 
     word.charAt(0).toUpperCase() + word.slice(1)
   ).join(' ') || '';
-
-  // Helper function to convert category name to slug (same as CategoryCard)
-  const categoryToSlug = (category: string) => {
-    return category.toLowerCase()
-      .replace(/&/g, '')  // Remove ampersands
-      .replace(/\s+/g, '-')  // Replace spaces with hyphens
-      .replace(/[^a-z0-9-]/g, '');  // Remove other special characters
-  };
 
   useEffect(() => {
     const fetchBusinesses = async () => {
