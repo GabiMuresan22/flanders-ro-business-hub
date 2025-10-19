@@ -273,7 +273,6 @@ const MyBusinessesPage = () => {
                             variant="outline"
                             size="sm"
                             onClick={() => navigate(`/business/${business.id}/edit`)}
-                            disabled={business.status === 'approved'}
                           >
                             <Edit className="h-4 w-4 mr-2" />
                             Edit
@@ -304,12 +303,6 @@ const MyBusinessesPage = () => {
                             </AlertDialogContent>
                           </AlertDialog>
                         </div>
-
-                        {business.status === 'approved' && (
-                          <p className="text-sm text-gray-500 mt-2 italic">
-                            Note: Approved businesses cannot be edited. Please contact us if you need to make changes.
-                          </p>
-                        )}
                       </CardContent>
                     </Card>
                   ))}
