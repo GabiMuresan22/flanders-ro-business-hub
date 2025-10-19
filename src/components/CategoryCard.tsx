@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { categoryToSlug } from '@/lib/utils';
 
 interface CategoryCardProps {
   category: string;
@@ -10,10 +11,7 @@ interface CategoryCardProps {
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ category, count, icon }) => {
   // Convert category to slug (e.g., "Restaurant & Food" -> "restaurant-food")
-  const categorySlug = category.toLowerCase()
-    .replace(/&/g, '')  // Remove ampersands
-    .replace(/\s+/g, '-')  // Replace spaces with hyphens
-    .replace(/[^a-z0-9-]/g, '');  // Remove other special characters
+  const categorySlug = categoryToSlug(category);
   
   return (
     <Link 

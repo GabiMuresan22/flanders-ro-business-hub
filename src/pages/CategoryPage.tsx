@@ -7,6 +7,7 @@ import BusinessCard from '../components/BusinessCard';
 import BusinessCardSkeleton from '../components/skeletons/BusinessCardSkeleton';
 import SEO from '../components/SEO';
 import { supabase } from '@/integrations/supabase/client';
+import { categoryToSlug } from '@/lib/utils';
 
 const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -27,10 +28,9 @@ const CategoryPage = () => {
         .select('*');
 
       if (data) {
-        // Filter by matching category (case insensitive, flexible matching)
+        // Filter by matching category slug
         const filtered = data.filter(b => 
-          b.category.toLowerCase().replace(/[^a-z0-9]/g, '') === 
-          slug.toLowerCase().replace(/[^a-z0-9]/g, '')
+          categoryToSlug(b.category) === slug.toLowerCase()
         );
         setFilteredBusinesses(filtered);
       }

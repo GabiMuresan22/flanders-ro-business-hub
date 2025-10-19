@@ -59,7 +59,7 @@ const Footer = () => {
               <li><Link to="/category/bakery" className="text-gray-600 hover:text-romania-blue">Bakeries</Link></li>
               <li><Link to="/category/grocery" className="text-gray-600 hover:text-romania-blue">Grocery Stores</Link></li>
               <li><Link to="/category/car-service" className="text-gray-600 hover:text-romania-blue">Car Services</Link></li>
-              <li><Link to="/category/beauty" className="text-gray-600 hover:text-romania-blue">Beauty Salons</Link></li>
+              <li><Link to="/category/beauty-salon" className="text-gray-600 hover:text-romania-blue">Beauty Salons</Link></li>
               <li><Link to="/category/construction" className="text-gray-600 hover:text-romania-blue">Construction</Link></li>
             </ul>
           </nav>
