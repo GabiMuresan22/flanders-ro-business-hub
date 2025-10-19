@@ -87,7 +87,7 @@ const Footer = () => {
                 +32 467 78 92 59
               </a>
             </p>
-            <p className="text-gray-600">8800 Roeselare,<br> West Flanders, Belgium</p>
+            <p className="text-gray-600">8800 Roeselare,<br /> West Flanders, Belgium</p>
           </address>
         </div>
         
