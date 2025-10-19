@@ -163,44 +163,46 @@ const ContactPage = () => {
           <section className="py-16">
             <div className="container mx-auto px-4">
               <div className="max-w-5xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="md:col-span-1">
-                    <div className="bg-white shadow-md rounded-lg p-6">
-                      <h2 className="font-playfair text-xl font-semibold text-gray-900 mb-6">Contact Information</h2>
-                      <div className="space-y-4">
-                        <div className="flex items-start">
-                          <Mail className="h-6 w-6 text-romania-blue mr-3 mt-0.5" />
-                          <div>
-                            <p className="text-gray-600">Email us at:</p>
-                            <a href="mailto:gabimuresan2289@gmail.com" className="text-romania-blue hover:underline">
-                              contact@ro-flanders-business.be
-                            </a>
+                    <div className="bg-white shadow-md rounded-lg p-6 h-full flex flex-col">
+                      <div className="flex-1 flex flex-col items-center justify-center">
+                        <h2 className="font-playfair text-xl font-semibold text-gray-900 mb-6">Contact Information</h2>
+                        <div className="space-y-4 w-full max-w-sm">
+                          <div className="flex items-start justify-center">
+                            <Mail className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
+                            <div className="text-left">
+                              <p className="text-gray-600">Email us at:</p>
+                              <a href="mailto:gabimuresan2289@gmail.com" className="text-romania-blue hover:underline">
+                                contact@ro-flanders-business.be
+                              </a>
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex items-start">
-                          <Phone className="h-6 w-6 text-romania-blue mr-3 mt-0.5" />
-                          <div>
-                            <p className="text-gray-600">Call us at:</p>
-                            <p className="text-gray-800">+32 467 789 259</p>
+                          <div className="flex items-start justify-center">
+                            <Phone className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
+                            <div className="text-left">
+                              <p className="text-gray-600">Call us at:</p>
+                              <p className="text-gray-800">+32 467 789 259</p>
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex items-start">
-                          <MapPin className="h-6 w-6 text-romania-blue mr-3 mt-0.5" />
-                          <div>
-                            <p className="text-gray-600">Address:</p>
-                            <p className="text-gray-800">
-                              <br />
-                              8800 Roeselare
-                              <br />
-                              West Flanders, Belgium
-                            </p>
+                          <div className="flex items-start justify-center">
+                            <MapPin className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
+                            <div className="text-left">
+                              <p className="text-gray-600">Address:</p>
+                              <p className="text-gray-800">
+                                <br />
+                                8800 Roeselare
+                                <br />
+                                West Flanders, Belgium
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="mt-6 pt-6 border-t border-gray-200">
+                      <div className="mt-6 pt-6 border-t border-gray-200 text-center">
                         <h3 className="font-medium text-gray-800 mb-3">Follow Us</h3>
-                        <div className="flex space-x-4">
+                        <div className="flex space-x-4 justify-center">
                           <a href="#" className="text-romania-blue hover:text-romania-red transition-colors">
                             <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                               <path
@@ -229,8 +231,8 @@ const ContactPage = () => {
                     </div>
                   </div>
 
-                  <div className="md:col-span-2">
-                    <div className="bg-white shadow-md rounded-lg p-6">
+                  <div className="md:col-span-1">
+                    <div className="bg-white shadow-md rounded-lg p-6 h-full">
                       <h2 className="font-playfair text-xl font-semibold text-gray-900 mb-6">Send Us a Message</h2>
                       <form onSubmit={handleSubmit}>
                         {/* Honeypot field - hidden from users */}
