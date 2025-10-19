@@ -163,8 +163,8 @@ const ContactPage = () => {
           <section className="py-16">
             <div className="container mx-auto px-4">
               <div className="max-w-5xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="md:col-span-1">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+                  <div className="md:col-span-2">
                     <div className="bg-white shadow-md rounded-lg p-6 h-full flex flex-col justify-between">
                       <div className="flex-1 flex flex-col justify-center">
                         <h2 className="font-playfair text-xl font-semibold text-gray-900 mb-6 text-center">Contact Information</h2>
@@ -230,7 +230,7 @@ const ContactPage = () => {
                     </div>
                   </div>
 
-                  <div className="md:col-span-1">
+                  <div className="md:col-span-3">
                     <div className="bg-white shadow-md rounded-lg p-6 h-full">
                       <h2 className="font-playfair text-xl font-semibold text-gray-900 mb-6">Send Us a Message</h2>
                       <form onSubmit={handleSubmit}>
