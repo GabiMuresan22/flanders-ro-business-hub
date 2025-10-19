@@ -79,15 +79,15 @@ const Footer = () => {
             <h3 className="font-playfair text-xl font-semibold mb-4 text-romania-blue">Contact Us</h3>
             <p className="text-gray-600 mb-2">
               <a href="mailto:info@ro-businesshub.be" className="hover:text-romania-blue focus:outline-none focus:underline">
-                info@ro-businesshub.be
+                info@ro-flanders-business.be
               </a>
             </p>
             <p className="text-gray-600 mb-2">
               <a href="tel:+32470XXXXXX" className="hover:text-romania-blue focus:outline-none focus:underline">
-                +32 470 XX XX XX
+                +32 467 78 92 59
               </a>
             </p>
-            <p className="text-gray-600">Bruges, West Flanders, Belgium</p>
+            <p className="text-gray-600">8800 Roeselare,<br> West Flanders, Belgium</p>
           </address>
         </div>
         
