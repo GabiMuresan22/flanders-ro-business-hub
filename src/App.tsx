@@ -18,6 +18,7 @@ const AboutPage = lazy(() => import("./pages/AboutPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const FAQPage = lazy(() => import("./pages/FAQPage"));
 const AddBusinessPage = lazy(() => import("./pages/AddBusinessPage"));
+const EditBusinessPage = lazy(() => import("./pages/EditBusinessPage"));
 const MyBusinessesPage = lazy(() => import("./pages/MyBusinessesPage"));
 const SearchResults = lazy(() => import("./pages/SearchResults"));
 const AuthPage = lazy(() => import("./pages/AuthPage"));
@@ -45,6 +46,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/business/:id" element={<BusinessDetails />} />
+              <Route path="/business/:id/edit" element={<EditBusinessPage />} />
               <Route path="/category/:slug" element={<CategoryPage />} />
               <Route path="/categories" element={<CategoriesListPage />} />
               <Route path="/about" element={<AboutPage />} />
