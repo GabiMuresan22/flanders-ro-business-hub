@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { LanguageProvider } from "./contexts/LanguageContext";
 
 // Eager load home page for better initial load
 import Index from "./pages/Index";
@@ -38,12 +39,13 @@ const queryClient = new QueryClient();
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
+      <LanguageProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/business/:id" element={<BusinessDetails />} />
               <Route path="/business/:id/edit" element={<EditBusinessPage />} />
@@ -60,10 +62,11 @@ const App = () => (
               <Route path="/admin" element={<AdminDashboard />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </TooltipProvider>
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </TooltipProvider>
+      </LanguageProvider>
     </QueryClientProvider>
   </ErrorBoundary>
 );

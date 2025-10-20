@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "home": "Home",
+    "categories": "Categories",
+    "about": "About",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "addBusiness": "Add Business",
+    "login": "Login",
+    "logout": "Logout",
+    "account": "Account",
+    "myBusinesses": "My Businesses",
+    "adminDashboard": "Admin Dashboard",
+    "search": "Search businesses..."
+  },
+  "hero": {
+    "title": "Discover Romanian Businesses in West Flanders",
+    "subtitle": "Connect with authentic Romanian services, restaurants, and shops in your area",
+    "cta": "Explore Businesses"
+  },
+  "footer": {
+    "description": "Connecting the Romanian business community in West Flanders with local customers.",
+    "categories": "Categories",
+    "quickLinks": "Quick Links",
+    "contact": "Contact Us",
+    "rights": "Romanian Business Hub - West Flanders. All rights reserved."
+  }
+}

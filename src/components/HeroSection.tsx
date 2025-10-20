@@ -1,11 +1,12 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const HeroSection: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,10 +23,10 @@ const HeroSection: React.FC = () => {
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="font-playfair font-bold text-4xl md:text-5xl lg:text-6xl text-white mb-6">
-            Discover Romanian Businesses in West Flanders
+            {t('hero.title')}
           </h1>
           <p className="text-white/90 text-xl mb-10">
-            Find the best Romanian restaurants, shops, services and more in your area
+            {t('hero.subtitle')}
           </p>
           
           <div className="relative max-w-xl mx-auto">
@@ -51,7 +52,7 @@ const HeroSection: React.FC = () => {
                   className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-4 px-8 rounded-r-lg transition-colors focus:outline-none focus:ring-2 focus:ring-romania-yellow focus:ring-offset-2"
                   aria-label="Search"
                 >
-                  Search
+                  {t('hero.cta')}
                 </button>
               </div>
             </form>

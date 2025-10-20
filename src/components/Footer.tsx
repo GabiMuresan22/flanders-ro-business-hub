@@ -1,8 +1,11 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Footer = () => {
+  const { t } = useLanguage();
+  
   return (
     <footer className="bg-gray-100 pt-12 pb-8" role="contentinfo">
       <div className="container mx-auto px-4">
@@ -10,7 +13,7 @@ const Footer = () => {
           <div>
             <h3 className="font-playfair text-xl font-semibold mb-4 text-romania-blue">Romanian Business Hub</h3>
             <p className="text-gray-600 mb-4">
-              Connecting the Romanian business community in West Flanders with local customers.
+              {t('footer.description')}
             </p>
             <div className="flex space-x-4" role="list" aria-label="Social media links">
               <a 
@@ -53,7 +56,7 @@ const Footer = () => {
           </div>
           
           <nav aria-label="Business categories">
-            <h3 className="font-playfair text-xl font-semibold mb-4 text-romania-blue">Categories</h3>
+            <h3 className="font-playfair text-xl font-semibold mb-4 text-romania-blue">{t('footer.categories')}</h3>
             <ul className="space-y-2">
               <li><Link to="/category/restaurant" className="text-gray-600 hover:text-romania-blue">Restaurants</Link></li>
               <li><Link to="/category/bakery" className="text-gray-600 hover:text-romania-blue">Bakeries</Link></li>
@@ -65,18 +68,18 @@ const Footer = () => {
           </nav>
           
           <nav aria-label="Quick links">
-            <h3 className="font-playfair text-xl font-semibold mb-4 text-romania-blue">Quick Links</h3>
+            <h3 className="font-playfair text-xl font-semibold mb-4 text-romania-blue">{t('footer.quickLinks')}</h3>
             <ul className="space-y-2">
-              <li><Link to="/" className="text-gray-600 hover:text-romania-blue">Home</Link></li>
-              <li><Link to="/about" className="text-gray-600 hover:text-romania-blue">About Us</Link></li>
-              <li><Link to="/contact" className="text-gray-600 hover:text-romania-blue">Contact</Link></li>
-              <li><Link to="/add-business" className="text-gray-600 hover:text-romania-blue">Add Your Business</Link></li>
-              <li><Link to="/faq" className="text-gray-600 hover:text-romania-blue">FAQ</Link></li>
+              <li><Link to="/" className="text-gray-600 hover:text-romania-blue">{t('nav.home')}</Link></li>
+              <li><Link to="/about" className="text-gray-600 hover:text-romania-blue">{t('nav.about')}</Link></li>
+              <li><Link to="/contact" className="text-gray-600 hover:text-romania-blue">{t('nav.contact')}</Link></li>
+              <li><Link to="/add-business" className="text-gray-600 hover:text-romania-blue">{t('nav.addBusiness')}</Link></li>
+              <li><Link to="/faq" className="text-gray-600 hover:text-romania-blue">{t('nav.faq')}</Link></li>
             </ul>
           </nav>
           
           <address className="not-italic">
-            <h3 className="font-playfair text-xl font-semibold mb-4 text-romania-blue">Contact Us</h3>
+            <h3 className="font-playfair text-xl font-semibold mb-4 text-romania-blue">{t('footer.contact')}</h3>
             <p className="text-gray-600 mb-2">
               <a href="mailto:info@ro-businesshub.be" className="hover:text-romania-blue focus:outline-none focus:underline">
                 info@ro-flanders-business.be
@@ -93,7 +96,7 @@ const Footer = () => {
         
         <div className="border-t border-gray-200 pt-8">
           <p className="text-gray-700 text-center text-sm">
-            © {new Date().getFullYear()} Romanian Business Hub - West Flanders. All rights reserved.
+            © {new Date().getFullYear()} {t('footer.rights')}
           </p>
         </div>
       </div>

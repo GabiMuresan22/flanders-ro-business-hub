@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, User, X, Menu } from 'lucide-react';
+import { Search, User, X, Menu, Languages } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -10,6 +11,7 @@ const Navbar = () => {
   const [user, setUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
+  const { language, toggleLanguage, t } = useLanguage();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -81,19 +83,19 @@ const Navbar = () => {
           
           <div className="hidden lg:flex items-center space-x-6 xl:space-x-8 ml-8 xl:ml-12">
             <Link to="/" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
-              Home
+              {t('nav.home')}
             </Link>
             <Link to="/categories" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
-              Categories
+              {t('nav.categories')}
             </Link>
             <Link to="/about" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
-              About
+              {t('nav.about')}
             </Link>
             <Link to="/contact" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
-              Contact
+              {t('nav.contact')}
             </Link>
             <Link to="/faq" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
-              FAQ
+              {t('nav.faq')}
             </Link>
             {user ? (
               <div className="flex items-center gap-2 xl:gap-3 ml-2">
@@ -101,32 +103,50 @@ const Navbar = () => {
                   <span className="text-xs text-gray-600">Logged in as</span>
                   <span className="text-xs font-semibold text-romania-blue truncate max-w-[150px]">{user.email}</span>
                 </div>
+                <button
+                  onClick={toggleLanguage}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700"
+                  aria-label="Toggle language"
+                >
+                  <Languages className="h-4 w-4" />
+                  {language === 'en' ? 'RO' : 'EN'}
+                </button>
                 <Link to="/my-businesses" className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-1.5 px-3 rounded-md transition-colors text-sm whitespace-nowrap">
-                  My Businesses
+                  {t('nav.myBusinesses')}
                 </Link>
                 <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded-md transition-colors flex items-center gap-1">
                   <User className="h-4 w-4" />
-                  <span className="text-sm">Account</span>
+                  <span className="text-sm">{t('nav.account')}</span>
                 </Link>
                 {isAdmin && (
                   <Link to="/admin" className="bg-romania-red hover:bg-red-700 text-white font-semibold py-1.5 px-3 rounded-md transition-colors text-sm">
-                    Admin
+                    {t('nav.adminDashboard')}
                   </Link>
                 )}
                 <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-1.5 px-3 rounded-md transition-colors whitespace-nowrap text-sm">
-                  Add Business
+                  {t('nav.addBusiness')}
                 </Link>
               </div>
             ) : (
-              <Link to="/auth" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-md transition-colors text-sm">
-                Login
-              </Link>
+              <>
+                <button
+                  onClick={toggleLanguage}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700"
+                  aria-label="Toggle language"
+                >
+                  <Languages className="h-4 w-4" />
+                  {language === 'en' ? 'RO' : 'EN'}
+                </button>
+                <Link to="/auth" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-md transition-colors text-sm">
+                  {t('nav.login')}
+                </Link>
+              </>
             )}
             <form onSubmit={handleSearch} className="relative hidden xl:block">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
               <input
                 type="text"
-                placeholder="Search businesses..."
+                placeholder={t('nav.search')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9 pr-4 py-1.5 text-sm rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue w-48"
@@ -163,7 +183,7 @@ const Navbar = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
               <input
                 type="text"
-                placeholder="Search businesses..."
+                placeholder={t('nav.search')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-romania-blue transition-colors"
@@ -203,38 +223,46 @@ const Navbar = () => {
                   className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Home
+                  {t('nav.home')}
                 </Link>
                 <Link 
                   to="/categories" 
                   className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Categories
+                  {t('nav.categories')}
                 </Link>
                 <Link 
                   to="/about" 
                   className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  About
+                  {t('nav.about')}
                 </Link>
                 <Link 
                   to="/contact" 
                   className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Contact
+                  {t('nav.contact')}
                 </Link>
                 <Link 
                   to="/faq" 
                   className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  FAQ
+                  {t('nav.faq')}
                 </Link>
                 
                 <div className="my-4 border-t border-gray-200" />
+                
+                <button
+                  onClick={toggleLanguage}
+                  className="flex items-center justify-center gap-2 w-full bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all mb-4"
+                >
+                  <Languages className="h-5 w-5" />
+                  {language === 'en' ? 'Română' : 'English'}
+                </button>
                 
                 {user ? (
                   <div className="flex flex-col gap-2 w-full">
@@ -247,7 +275,7 @@ const Navbar = () => {
                       className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      My Businesses
+                      {t('nav.myBusinesses')}
                     </Link>
                     <Link 
                       to="/account" 
@@ -255,7 +283,7 @@ const Navbar = () => {
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <User className="h-5 w-5" />
-                      Account
+                      {t('nav.account')}
                     </Link>
                     {isAdmin && (
                       <Link 
@@ -263,7 +291,7 @@ const Navbar = () => {
                         className="bg-romania-red hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        Admin Dashboard
+                        {t('nav.adminDashboard')}
                       </Link>
                     )}
                     <Link 
@@ -271,7 +299,7 @@ const Navbar = () => {
                       className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Add Business
+                      {t('nav.addBusiness')}
                     </Link>
                   </div>
                 ) : (
@@ -280,7 +308,7 @@ const Navbar = () => {
                     className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-center w-full active:scale-95"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Login
+                    {t('nav.login')}
                   </Link>
                 )}
               </nav>
