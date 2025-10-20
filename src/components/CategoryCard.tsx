@@ -16,10 +16,10 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, count, icon }) =>
   return (
     <Link 
       to={`/category/${categorySlug}`} 
-      className="block focus:outline-none focus:ring-2 focus:ring-romania-blue focus:ring-offset-2 rounded-lg"
+      className="block h-full focus:outline-none focus:ring-2 focus:ring-romania-blue focus:ring-offset-2 rounded-lg"
       aria-label={`View ${count} ${category} businesses`}
     >
-      <article className="bg-white p-6 rounded-lg shadow-md transition-all hover:shadow-lg hover:border-romania-blue border-2 border-transparent">
+      <article className="bg-white p-6 rounded-lg shadow-md transition-all hover:shadow-lg hover:border-romania-blue border-2 border-transparent h-full flex flex-col">
         <div className="flex justify-center mb-4 text-romania-blue" aria-hidden="true">
           {icon}
         </div>
