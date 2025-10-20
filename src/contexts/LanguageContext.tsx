@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import enTranslations from '../translations/en.json';
+import roTranslations from '../translations/ro.json';
 
 type Language = 'en' | 'ro';
 
@@ -9,6 +11,11 @@ interface LanguageContextType {
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+const translations = {
+  en: enTranslations,
+  ro: roTranslations,
+};
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
@@ -33,9 +40,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const t = (key: string): string => {
-    const translations = require(`../translations/${language}.json`);
     const keys = key.split('.');
-    let value: any = translations;
+    let value: any = translations[language];
     
     for (const k of keys) {
       value = value?.[k];
