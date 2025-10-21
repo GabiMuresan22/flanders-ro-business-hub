@@ -49,7 +49,7 @@ const HeroSection: React.FC = () => {
                 </div>
                 <button 
                   type="submit"
-                  className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-4 px-4 md:px-8 text-sm md:text-base rounded-r-lg transition-colors focus:outline-none focus:ring-2 focus:ring-romania-yellow focus:ring-offset-2"
+                  className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-4 px-4 sm:px-6 md:px-8 rounded-r-lg transition-colors focus:outline-none focus:ring-2 focus:ring-romania-yellow focus:ring-offset-2 whitespace-nowrap"
                   aria-label="Search"
                 >
                   {t('hero.cta')}
