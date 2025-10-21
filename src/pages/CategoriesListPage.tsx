@@ -7,10 +7,12 @@ import CategoryCardSkeleton from '../components/skeletons/CategoryCardSkeleton';
 import SEO from '../components/SEO';
 import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const CategoriesListPage = () => {
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const fetchBusinesses = async () => {
@@ -52,9 +54,9 @@ const CategoriesListPage = () => {
   return (
     <>
       <SEO 
-        title="Browse Romanian Business Categories - West Flanders | Romanian Business Hub"
-        description="Explore Romanian businesses by category in West Flanders: restaurants, bakeries, car services, construction, beauty salons, transportation, and professional services."
-        keywords="Romanian business categories Belgium, Romanian services types, Romanian restaurants West Flanders, Romanian bakery, Romanian construction services"
+        title={t('categoriesListPage.seoTitle')}
+        description={t('categoriesListPage.seoDescription')}
+        keywords={t('categoriesListPage.seoKeywords')}
         type="website"
       />
       <div className="min-h-screen flex flex-col">
@@ -63,10 +65,10 @@ const CategoriesListPage = () => {
         <div className="bg-romania-blue py-12">
           <div className="container mx-auto px-4">
             <h1 className="font-playfair text-3xl md:text-4xl font-bold text-white text-center">
-              Browse Business Categories
+              {t('categoriesListPage.title')}
             </h1>
             <p className="text-white/90 text-center mt-4 max-w-xl mx-auto">
-              Explore Romanian businesses across West Flanders by category
+              {t('categoriesListPage.subtitle')}
             </p>
           </div>
         </div>
@@ -92,7 +94,7 @@ const CategoriesListPage = () => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-600">No categories available at the moment.</p>
+              <p className="text-gray-600">{t('categoriesListPage.noCategories')}</p>
             </div>
           )}
         </div>
