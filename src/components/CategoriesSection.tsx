@@ -41,7 +41,7 @@ const CategoriesSection: React.FC = () => {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="font-playfair text-3xl font-bold text-gray-900 mb-4">Browse by Category</h2>
+          <h2 className="font-playfair text-3xl font-bold text-gray-900 mb-4">Browse Categories</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Find Romanian businesses by category across West Flanders
           </p>
