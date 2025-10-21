@@ -35,6 +35,14 @@
     "seoDescription": "Find trusted Romanian {category} businesses in West Flanders, Belgium. Browse verified listings with contact information, reviews, and more.",
     "seoKeywords": "Romanian {category} West Flanders, {category} Belgium, Romanian {category} businesses, {category} services Belgium"
   },
+  "categoriesListPage": {
+    "title": "Browse Business Categories",
+    "subtitle": "Explore Romanian businesses across West Flanders by category",
+    "noCategories": "No categories available at the moment.",
+    "seoTitle": "Browse Romanian Business Categories - West Flanders | Romanian Business Hub",
+    "seoDescription": "Explore Romanian businesses by category in West Flanders: restaurants, bakeries, car services, construction, beauty salons, transportation, and professional services.",
+    "seoKeywords": "Romanian business categories Belgium, Romanian services types, Romanian restaurants West Flanders, Romanian bakery, Romanian construction services"
+  },
   "common": {
     "home": "Home",
     "categories": "Categories",
