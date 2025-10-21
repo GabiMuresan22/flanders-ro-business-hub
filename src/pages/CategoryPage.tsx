@@ -8,11 +8,13 @@ import BusinessCardSkeleton from '../components/skeletons/BusinessCardSkeleton';
 import SEO from '../components/SEO';
 import { supabase } from '@/integrations/supabase/client';
 import { categoryToSlug } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const [filteredBusinesses, setFilteredBusinesses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
   
   // Convert slug back to category name (e.g., "restaurant-food" -> "Restaurant & Food")
   const categoryFromSlug = slug?.split('-').map(word => 
@@ -78,9 +80,9 @@ const CategoryPage = () => {
   return (
     <>
       <SEO 
-        title={`${categoryTitle} Businesses in West Flanders | Romanian Business Hub`}
-        description={`Find trusted Romanian ${categoryTitle.toLowerCase()} businesses in West Flanders, Belgium. Browse verified listings with contact information, reviews, and more.`}
-        keywords={`Romanian ${categoryTitle} West Flanders, ${categoryTitle} Belgium, Romanian ${categoryTitle} businesses, ${categoryTitle} services Belgium`}
+        title={`${categoryTitle} ${t('categoryPage.businesses')} ${t('categoryPage.inWestFlanders')} | Romanian Business Hub`}
+        description={t('categoryPage.seoDescription').replace('{category}', categoryTitle.toLowerCase())}
+        keywords={t('categoryPage.seoKeywords').replace(/{category}/g, categoryTitle)}
         type="website"
       />
       <div className="min-h-screen flex flex-col">
@@ -89,14 +91,14 @@ const CategoryPage = () => {
         <div className="bg-romania-blue py-12">
           <div className="container mx-auto px-4">
             <nav className="flex mb-4 text-white/75">
-              <Link to="/" className="hover:text-white">Home</Link>
+              <Link to="/" className="hover:text-white">{t('common.home')}</Link>
               <span className="mx-2">/</span>
-              <Link to="/categories" className="hover:text-white">Categories</Link>
+              <Link to="/categories" className="hover:text-white">{t('common.categories')}</Link>
               <span className="mx-2">/</span>
               <span className="text-white">{getCategoryTitle()}</span>
             </nav>
             <h1 className="font-playfair text-3xl md:text-4xl font-bold text-white">
-              {categoryTitle} Businesses
+              {categoryTitle} {t('categoryPage.businesses')}
             </h1>
           </div>
         </div>
@@ -105,7 +107,9 @@ const CategoryPage = () => {
           {filteredBusinesses.length > 0 ? (
             <div>
               <p className="text-gray-600 mb-8">
-                Showing {filteredBusinesses.length} {categoryTitle} businesses in West Flanders
+                {t('categoryPage.showingCount')
+                  .replace('{count}', filteredBusinesses.length.toString())
+                  .replace('{category}', categoryTitle)}
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredBusinesses.map((business) => (
@@ -115,15 +119,15 @@ const CategoryPage = () => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">No businesses found</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('categoryPage.noBusinessesTitle')}</h2>
               <p className="text-gray-600 mb-8">
-                Sorry, we couldn't find any businesses in this category. Try exploring other categories.
+                {t('categoryPage.noBusinessesMessage')}
               </p>
               <Link 
                 to="/categories" 
                 className="bg-romania-blue text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors"
               >
-                View All Categories
+                {t('categoryPage.viewAllCategories')}
               </Link>
             </div>
           )}
