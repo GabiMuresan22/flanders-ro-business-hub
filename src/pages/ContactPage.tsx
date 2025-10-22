@@ -173,7 +173,7 @@ const ContactPage = () => {
                             <Mail className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
                             <div>
                               <p className="text-gray-600">Email us at:</p>
-                              <a href="mailto:gabimuresan2289@gmail.com" className="text-romania-blue hover:underline">
+                              <a href="mailto:contact@ro-flanders-business.be" className="text-romania-blue hover:underline">
                                 contact@ro-flanders-business.be
                               </a>
                             </div>
