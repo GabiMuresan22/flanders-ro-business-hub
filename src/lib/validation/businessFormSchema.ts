@@ -40,6 +40,15 @@ export const formSchema = z.object({
   agreeTerms: z.boolean().refine(val => val === true, {
     message: "You must agree to the terms and conditions."
   }),
+  openingHours: z.object({
+    monday: z.string().optional(),
+    tuesday: z.string().optional(),
+    wednesday: z.string().optional(),
+    thursday: z.string().optional(),
+    friday: z.string().optional(),
+    saturday: z.string().optional(),
+    sunday: z.string().optional(),
+  }).optional(),
 });
 
 export type FormSchema = z.infer<typeof formSchema>;

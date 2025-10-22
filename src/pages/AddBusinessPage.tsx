@@ -57,6 +57,15 @@ const AddBusinessPage = () => {
       website: "",
       businessImage: undefined,
       agreeTerms: false,
+      openingHours: {
+        monday: "",
+        tuesday: "",
+        wednesday: "",
+        thursday: "",
+        friday: "",
+        saturday: "",
+        sunday: "",
+      },
     },
   });
 
@@ -163,7 +172,8 @@ const AddBusinessPage = () => {
           website: values.website || null,
           image_url: imageUrl,
           status: 'pending',
-          user_id: user.id
+          user_id: user.id,
+          opening_hours: values.openingHours || null,
         })
         .select()
         .single();
@@ -465,6 +475,31 @@ const AddBusinessPage = () => {
                         </FormItem>
                       )}
                     />
+
+                    {/* Opening Hours Section */}
+                    <div className="space-y-4">
+                      <h3 className="font-playfair text-lg font-semibold text-gray-800">Opening Hours (Optional)</h3>
+                      <p className="text-sm text-gray-600">Enter your business hours for each day (e.g., "09:00 - 17:00" or "Closed")</p>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].map((day) => (
+                          <FormField
+                            key={day}
+                            control={form.control}
+                            name={`openingHours.${day}` as any}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="capitalize">{day}</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="e.g., 09:00 - 17:00" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        ))}
+                      </div>
+                    </div>
 
                     <div className="space-y-2">
                       <FormLabel>Business Photo (Optional)</FormLabel>
