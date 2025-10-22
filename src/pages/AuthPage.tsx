@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
+import { AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -17,8 +18,41 @@ const AuthPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // Real-time email validation
+  useEffect(() => {
+    if (emailTouched) {
+      try {
+        emailSchema.parse(email);
+        setEmailError('');
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          setEmailError(error.errors[0].message);
+        }
+      }
+    }
+  }, [email, emailTouched]);
+
+  // Real-time password validation
+  useEffect(() => {
+    if (passwordTouched) {
+      try {
+        passwordSchema.parse(password);
+        setPasswordError('');
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          setPasswordError(error.errors[0].message);
+        }
+      }
+    }
+  }, [password, passwordTouched]);
 
   useEffect(() => {
     // Get redirect parameter from URL
@@ -45,20 +79,29 @@ const AuthPage = () => {
   }, [navigate]);
 
   const validateInputs = () => {
+    let isValid = true;
+    
     try {
       emailSchema.parse(email);
-      passwordSchema.parse(password);
-      return true;
+      setEmailError('');
     } catch (error) {
       if (error instanceof z.ZodError) {
-        toast({
-          title: 'Validation Error',
-          description: error.errors[0].message,
-          variant: 'destructive',
-        });
+        setEmailError(error.errors[0].message);
+        isValid = false;
       }
-      return false;
     }
+    
+    try {
+      passwordSchema.parse(password);
+      setPasswordError('');
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setPasswordError(error.errors[0].message);
+        isValid = false;
+      }
+    }
+    
+    return isValid;
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -164,37 +207,92 @@ const AuthPage = () => {
             
             <form onSubmit={isLogin ? handleLogin : handleSignup} className="space-y-4">
               <div>
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={loading}
-                />
+                <Label htmlFor="email">Email *</Label>
+                <div className="relative">
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    onBlur={() => setEmailTouched(true)}
+                    required
+                    disabled={loading}
+                    className={emailError && emailTouched ? 'border-red-500 focus-visible:ring-red-500' : ''}
+                    aria-invalid={emailError && emailTouched ? 'true' : 'false'}
+                    aria-describedby={emailError && emailTouched ? 'email-error' : undefined}
+                  />
+                  {emailTouched && !emailError && email && (
+                    <CheckCircle2 className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-green-500" aria-hidden="true" />
+                  )}
+                </div>
+                {emailError && emailTouched && (
+                  <p id="email-error" className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
+                    <AlertCircle className="h-4 w-4" />
+                    {emailError}
+                  </p>
+                )}
               </div>
               
               <div>
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  disabled={loading}
-                />
+                <Label htmlFor="password">Password *</Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    onBlur={() => setPasswordTouched(true)}
+                    required
+                    disabled={loading}
+                    className={passwordError && passwordTouched ? 'border-red-500 focus-visible:ring-red-500 pr-20' : 'pr-20'}
+                    aria-invalid={passwordError && passwordTouched ? 'true' : 'false'}
+                    aria-describedby={passwordError && passwordTouched ? 'password-error' : 'password-hint'}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-romania-blue rounded p-1"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    tabIndex={0}
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
+                {!isLogin && !passwordError && (
+                  <p id="password-hint" className="mt-1 text-sm text-gray-500">
+                    Must be at least 6 characters
+                  </p>
+                )}
+                {passwordError && passwordTouched && (
+                  <p id="password-error" className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
+                    <AlertCircle className="h-4 w-4" />
+                    {passwordError}
+                  </p>
+                )}
+                {passwordTouched && !passwordError && password && (
+                  <p className="mt-1 text-sm text-green-600 flex items-center gap-1">
+                    <CheckCircle2 className="h-4 w-4" />
+                    Password meets requirements
+                  </p>
+                )}
               </div>
 
               <Button 
                 type="submit" 
-                className="w-full bg-romania-blue hover:bg-blue-700"
-                disabled={loading}
+                className="w-full bg-romania-blue hover:bg-blue-700 transition-all"
+                disabled={loading || (emailTouched && !!emailError) || (passwordTouched && !!passwordError)}
+                aria-busy={loading}
               >
-                {loading ? 'Please wait...' : (isLogin ? 'Login' : 'Create Account')}
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" aria-hidden="true"></span>
+                    Please wait...
+                  </span>
+                ) : (
+                  isLogin ? 'Login' : 'Create Account'
+                )}
               </Button>
             </form>
 
@@ -204,8 +302,12 @@ const AuthPage = () => {
                 onClick={() => {
                   setIsLogin(!isLogin);
                   setPassword('');
+                  setEmailError('');
+                  setPasswordError('');
+                  setEmailTouched(false);
+                  setPasswordTouched(false);
                 }}
-                className="text-romania-blue hover:underline"
+                className="text-romania-blue hover:underline focus:outline-none focus:ring-2 focus:ring-romania-blue rounded"
                 disabled={loading}
               >
                 {isLogin 

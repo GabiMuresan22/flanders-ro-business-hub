@@ -1,7 +1,9 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import { 
   Accordion, 
   AccordionContent, 
@@ -12,6 +14,12 @@ import {
 const FAQPage = () => {
   return (
     <>
+      <SEO 
+        title="FAQ - Frequently Asked Questions | Romanian Business Hub"
+        description="Find answers to common questions about listing your Romanian business, searching the directory, reviews, and more. Get help with the Romanian Business Hub platform."
+        keywords="Romanian business FAQ, business directory help, list business Belgium, Romanian services questions"
+        type="website"
+      />
       <Navbar />
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
@@ -111,12 +119,12 @@ const FAQPage = () => {
             <p className="text-gray-600 mb-4">
               If you couldn't find the answer to your question, please don't hesitate to contact us directly.
             </p>
-            <a 
-              href="/contact" 
+            <Link 
+              to="/contact" 
               className="inline-block bg-romania-blue text-white px-6 py-2 rounded hover:bg-blue-800 transition-colors"
             >
               Contact Us
-            </a>
+            </Link>
           </div>
         </div>
       </div>

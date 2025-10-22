@@ -1,32 +1,108 @@
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { businesses } from '../data/businessData';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BusinessCard from '../components/BusinessCard';
+import BusinessCardSkeleton from '../components/skeletons/BusinessCardSkeleton';
+import SEO from '../components/SEO';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { supabase } from '@/integrations/supabase/client';
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCity, setSelectedCity] = useState<string>('all');
+  const [businesses, setBusinesses] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      const { data } = await supabase
+        .from('public_businesses')
+        .select('*');
+      
+      setBusinesses(data || []);
+      setLoading(false);
+    };
+
+    fetchBusinesses();
+  }, []);
   
-  // Filter businesses based on search query (memoized for performance)
+  // Get unique categories and cities
+  const categories = useMemo(() => {
+    const cats = new Set(businesses.map(b => b.category));
+    return ['all', ...Array.from(cats)];
+  }, [businesses]);
+
+  const cities = useMemo(() => {
+    const citySet = new Set(businesses.map(b => b.city));
+    return ['all', ...Array.from(citySet)];
+  }, [businesses]);
+  
+  // Filter businesses based on search query and filters
   const filteredBusinesses = useMemo(() => {
     return businesses.filter(business => {
       const searchLower = query.toLowerCase();
-      return (
-        business.name.toLowerCase().includes(searchLower) ||
-        business.description.toLowerCase().includes(searchLower) ||
-        business.category.toLowerCase().includes(searchLower) ||
-        business.city.toLowerCase().includes(searchLower) ||
-        business.address.toLowerCase().includes(searchLower)
-      );
+      const matchesSearch = 
+        (business.business_name && business.business_name.toLowerCase().includes(searchLower)) ||
+        (business.description && business.description.toLowerCase().includes(searchLower)) ||
+        (business.category && business.category.toLowerCase().includes(searchLower)) ||
+        (business.city && business.city.toLowerCase().includes(searchLower)) ||
+        (business.postal_code && business.postal_code.toLowerCase().includes(searchLower));
+      
+      const matchesCategory = selectedCategory === 'all' || business.category === selectedCategory;
+      const matchesCity = selectedCity === 'all' || business.city === selectedCity;
+      
+      return matchesSearch && matchesCategory && matchesCity;
     });
-  }, [query]);
+  }, [businesses, query, selectedCategory, selectedCity]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-grow" aria-busy="true" aria-live="polite">
+          <div className="bg-gray-200 py-12 animate-pulse">
+            <div className="container mx-auto px-4">
+              <div className="h-6 bg-gray-300 rounded w-1/4 mb-4"></div>
+              <div className="h-10 bg-gray-300 rounded w-1/3"></div>
+            </div>
+          </div>
+          
+          <div className="container mx-auto px-4 py-12">
+            <div className="bg-white rounded-lg shadow-md p-6 mb-8 animate-pulse">
+              <div className="h-6 bg-gray-200 rounded w-1/4 mb-4"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="h-10 bg-gray-200 rounded"></div>
+                <div className="h-10 bg-gray-200 rounded"></div>
+              </div>
+            </div>
+            
+            <div className="h-6 bg-gray-200 rounded w-1/3 mb-8 animate-pulse"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <BusinessCardSkeleton key={i} />
+              ))}
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
+    <>
+      <SEO 
+        title={query ? `Search Results for "${query}" | Romanian Business Hub` : "Search Romanian Businesses | Romanian Business Hub"}
+        description={query ? `Find Romanian businesses matching "${query}" in West Flanders. Search results for restaurants, services, and more.` : "Search for Romanian businesses across West Flanders by name, category, or location. Find the best Romanian services in Belgium."}
+        keywords={query ? `${query}, Romanian business search, find ${query} Belgium` : "search Romanian businesses, find Romanian services, business directory Belgium"}
+        type="website"
+      />
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
       <main className="flex-grow">
         <div className="bg-romania-blue py-12">
           <div className="container mx-auto px-4">
@@ -47,6 +123,43 @@ const SearchResults = () => {
         </div>
         
         <div className="container mx-auto px-4 py-12">
+          {/* Filters */}
+          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h3 className="font-semibold text-lg mb-4 text-foreground">Filter Results</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2 text-foreground">Category</label>
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="All Categories" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((cat) => (
+                      <SelectItem key={cat} value={cat}>
+                        {cat === 'all' ? 'All Categories' : cat}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-foreground">City</label>
+                <Select value={selectedCity} onValueChange={setSelectedCity}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="All Cities" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {cities.map((city) => (
+                      <SelectItem key={city} value={city}>
+                        {city === 'all' ? 'All Cities' : city}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+
           {filteredBusinesses.length > 0 ? (
             <div>
               <p className="text-gray-600 mb-8">
@@ -86,7 +199,8 @@ const SearchResults = () => {
         </div>
       </main>
       <Footer />
-    </div>
+      </div>
+    </>
   );
 };
 

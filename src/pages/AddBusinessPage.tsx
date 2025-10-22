@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,14 +13,18 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Upload, X } from 'lucide-react';
+import { useAntiSpam } from '@/hooks/useAntiSpam';
 
 const AddBusinessPage = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const antiSpam = useAntiSpam(5000);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -52,18 +55,108 @@ const AddBusinessPage = () => {
       description: "",
       category: "",
       website: "",
+      businessImage: undefined,
       agreeTerms: false,
+      openingHours: {
+        monday: "",
+        tuesday: "",
+        wednesday: "",
+        thursday: "",
+        friday: "",
+        saturday: "",
+        sunday: "",
+      },
     },
   });
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "File too large",
+          description: "Image must be less than 5MB",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        toast({
+          title: "Invalid file type",
+          description: "Please upload an image file",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setSelectedFile(null);
+    setImagePreview(null);
+  };
+
   async function onSubmit(values: FormSchema) {
+    if (!user) {
+      toast({
+        title: "Authentication required",
+        description: "Please log in to submit a business.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Anti-spam validation
+    const spamCheck = await antiSpam.validateSubmission();
+    if (!spamCheck.isValid) {
+      toast({
+        title: "Submission Error",
+        description: spamCheck.error,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
-      // Optional: Get the current user (for future use)
-      const { data: { user } } = await supabase.auth.getUser();
+      let imageUrl = null;
 
-      // Insert business into Supabase
+      // Upload image if selected
+      if (selectedFile) {
+        const fileExt = selectedFile.name.split('.').pop();
+        const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+        
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('business-images')
+          .upload(fileName, selectedFile, {
+            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (uploadError) {
+          throw new Error(`Image upload failed: ${uploadError.message}`);
+        }
+
+        // Get public URL
+        const { data: { publicUrl } } = supabase.storage
+          .from('business-images')
+          .getPublicUrl(fileName);
+
+        imageUrl = publicUrl;
+      }
+
+      // Insert business into Supabase with user_id
       const { data, error } = await supabase
         .from('businesses')
         .insert({
@@ -77,7 +170,10 @@ const AddBusinessPage = () => {
           description: values.description,
           category: values.category,
           website: values.website || null,
-          status: 'pending'
+          image_url: imageUrl,
+          status: 'pending',
+          user_id: user.id,
+          opening_hours: values.openingHours || null,
         })
         .select()
         .single();
@@ -86,21 +182,57 @@ const AddBusinessPage = () => {
         throw error;
       }
 
-      console.log('Business submitted successfully:', data);
+      if (import.meta.env.DEV) {
+        console.log('Business submitted successfully:', data);
+      }
+
+      // Send email notification to admin
+      try {
+        await supabase.functions.invoke('notify-new-business', {
+          body: {
+            business_name: values.businessName,
+            owner_name: values.ownerName,
+            email: values.email,
+            phone: values.phone,
+            category: values.category,
+            city: values.city,
+          },
+        });
+      } catch (emailError) {
+        // Log but don't fail the submission
+        if (import.meta.env.DEV) {
+          console.error('Failed to send notification email:', emailError);
+        }
+      }
       
       toast({
         title: "Business submission received!",
         description: "We'll review your business and add it to our directory soon.",
       });
       
-      // Reset the form
+      // Reset the form and image
       form.reset();
-    } catch (error) {
-      console.error('Error submitting business:', error);
+      setSelectedFile(null);
+      setImagePreview(null);
+    } catch (error: any) {
+      if (import.meta.env.DEV) {
+        console.error('Error submitting business:', error);
+      }
+      
+      let errorMessage = "Unable to submit your business. Please try again later.";
+      
+      // Provide more specific error messages
+      if (error.message?.includes('duplicate')) {
+        errorMessage = "This business has already been submitted.";
+      } else if (error.message?.includes('network') || error.message?.includes('fetch')) {
+        errorMessage = "Network error. Please check your connection and try again.";
+      } else if (error.code === '23505') {
+        errorMessage = "A business with this information already exists.";
+      }
       
       toast({
         title: "Submission failed",
-        description: error instanceof Error ? error.message : "There was an error submitting your business. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -171,6 +303,17 @@ const AddBusinessPage = () => {
               
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  {/* Honeypot field - hidden from users */}
+                  <input
+                    type="text"
+                    name={antiSpam.honeypotField.name}
+                    value={antiSpam.honeypotField.value}
+                    onChange={(e) => antiSpam.honeypotField.onChange(e.target.value)}
+                    style={antiSpam.honeypotField.style}
+                    tabIndex={antiSpam.honeypotField.tabIndex}
+                    autoComplete="off"
+                    aria-hidden="true"
+                  />
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField
                       control={form.control}
@@ -179,9 +322,20 @@ const AddBusinessPage = () => {
                         <FormItem>
                           <FormLabel>Business Name *</FormLabel>
                           <FormControl>
-                            <Input placeholder="Your business name" {...field} />
+                            <Input 
+                              placeholder="Your business name" 
+                              {...field}
+                              aria-required="true"
+                            />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="flex items-center gap-1 text-red-600">
+                            {form.formState.errors.businessName && (
+                              <>
+                                <span className="text-sm">⚠️</span>
+                                <span>{form.formState.errors.businessName.message}</span>
+                              </>
+                            )}
+                          </FormMessage>
                         </FormItem>
                       )}
                     />
@@ -207,9 +361,21 @@ const AddBusinessPage = () => {
                         <FormItem>
                           <FormLabel>Email *</FormLabel>
                           <FormControl>
-                            <Input type="email" placeholder="your@email.com" {...field} />
+                            <Input 
+                              type="email" 
+                              placeholder="your@email.com" 
+                              {...field}
+                              aria-required="true"
+                            />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="flex items-center gap-1 text-red-600">
+                            {form.formState.errors.email && (
+                              <>
+                                <span className="text-sm">⚠️</span>
+                                <span>{form.formState.errors.email.message}</span>
+                              </>
+                            )}
+                          </FormMessage>
                         </FormItem>
                       )}
                     />
@@ -310,6 +476,74 @@ const AddBusinessPage = () => {
                       )}
                     />
 
+                    {/* Opening Hours Section */}
+                    <div className="space-y-4">
+                      <h3 className="font-playfair text-lg font-semibold text-gray-800">Opening Hours (Optional)</h3>
+                      <p className="text-sm text-gray-600">Enter your business hours for each day (e.g., "09:00 - 17:00" or "Closed")</p>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].map((day) => (
+                          <FormField
+                            key={day}
+                            control={form.control}
+                            name={`openingHours.${day}` as any}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="capitalize">{day}</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="e.g., 09:00 - 17:00" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <FormLabel>Business Photo (Optional)</FormLabel>
+                      <div className="flex flex-col gap-4">
+                        {imagePreview ? (
+                          <div className="relative w-full max-w-md">
+                            <img 
+                              src={imagePreview} 
+                              alt="Business preview" 
+                              className="w-full h-48 object-cover rounded-lg border-2 border-gray-200"
+                            />
+                            <button
+                              type="button"
+                              onClick={removeImage}
+                              className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors"
+                              aria-label="Remove image"
+                            >
+                              <X size={16} />
+                            </button>
+                          </div>
+                        ) : (
+                          <label 
+                            htmlFor="business-image" 
+                            className="flex flex-col items-center justify-center w-full max-w-md h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors"
+                          >
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                              <Upload className="w-10 h-10 mb-3 text-gray-400" />
+                              <p className="mb-2 text-sm text-gray-500">
+                                <span className="font-semibold">Click to upload</span> or drag and drop
+                              </p>
+                              <p className="text-xs text-gray-500">PNG, JPG or WEBP (max 5MB)</p>
+                            </div>
+                            <input
+                              id="business-image"
+                              type="file"
+                              className="hidden"
+                              accept="image/*"
+                              onChange={handleFileChange}
+                            />
+                          </label>
+                        )}
+                      </div>
+                    </div>
+
                     <FormField
                       control={form.control}
                       name="description"
@@ -320,10 +554,25 @@ const AddBusinessPage = () => {
                             <Textarea 
                               placeholder="Tell us about your business, services, and what makes it special..." 
                               className="min-h-[120px]"
+                              maxLength={1000}
                               {...field} 
+                              aria-required="true"
+                              aria-describedby="description-counter"
                             />
                           </FormControl>
-                          <FormMessage />
+                          <div className="flex justify-between items-start">
+                            <FormMessage className="flex items-center gap-1 text-red-600">
+                              {form.formState.errors.description && (
+                                <>
+                                  <span className="text-sm">⚠️</span>
+                                  <span>{form.formState.errors.description.message}</span>
+                                </>
+                              )}
+                            </FormMessage>
+                            <span id="description-counter" className="text-xs text-gray-500">
+                              {field.value?.length || 0}/1000
+                            </span>
+                          </div>
                         </FormItem>
                       )}
                     />
@@ -350,8 +599,20 @@ const AddBusinessPage = () => {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full bg-romania-blue hover:bg-blue-700" disabled={isSubmitting}>
-                    {isSubmitting ? 'Submitting...' : 'Submit Business'}
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-romania-blue hover:bg-blue-700 transition-all" 
+                    disabled={isSubmitting}
+                    aria-busy={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <span className="flex items-center gap-2 justify-center">
+                        <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" aria-hidden="true"></span>
+                        Submitting...
+                      </span>
+                    ) : (
+                      'Submit Business'
+                    )}
                   </Button>
                 </form>
               </Form>

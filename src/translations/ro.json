@@ -1,0 +1,63 @@
+{
+  "nav": {
+    "home": "Acasă",
+    "categories": "Categorii",
+    "about": "Despre",
+    "contact": "Contact",
+    "faq": "Întrebări Frecvente",
+    "addBusiness": "Adaugă Afacere",
+    "login": "Autentificare",
+    "logout": "Deconectare",
+    "account": "Cont",
+    "myBusinesses": "Afacerile Mele",
+    "adminDashboard": "Panou Admin",
+    "search": "Caută afaceri..."
+  },
+  "hero": {
+    "title": "Descoperă Afaceri Românești în Flandra de Vest",
+    "subtitle": "Conectează-te cu servicii, restaurante și magazine românești autentice din zona ta",
+    "cta": "Explorează Afaceri"
+  },
+  "footer": {
+    "description": "Conectăm comunitatea de afaceri românească din Flandra de Vest cu clienții locali.",
+    "categories": "Categorii",
+    "quickLinks": "Link-uri Rapide",
+    "contact": "Contactează-ne",
+    "rights": "Romanian Business Hub - Flandra de Vest. Toate drepturile rezervate."
+  },
+  "categoryPage": {
+    "businesses": "Afaceri",
+    "showingCount": "Se afișează {count} afaceri {category} în Flandra de Vest",
+    "noBusinessesTitle": "Nu s-au găsit afaceri",
+    "noBusinessesMessage": "Ne pare rău, nu am putut găsi nicio afacere în această categorie. Încearcă să explorezi alte categorii.",
+    "viewAllCategories": "Vezi Toate Categoriile",
+    "inWestFlanders": "în Flandra de Vest",
+    "seoDescription": "Găsește afaceri românești {category} de încredere în Flandra de Vest, Belgia. Răsfoiește listări verificate cu informații de contact, recenzii și multe altele.",
+    "seoKeywords": "Românesc {category} Flandra de Vest, {category} Belgia, afaceri românești {category}, servicii {category} Belgia"
+  },
+  "categoriesListPage": {
+    "title": "Explorează Categoriile de Afaceri",
+    "subtitle": "Explorează afaceri românești din Flandra de Vest pe categorii",
+    "noCategories": "Nu sunt categorii disponibile momentan.",
+    "seoTitle": "Explorează Categoriile de Afaceri Românești - Flandra de Vest | Romanian Business Hub",
+    "seoDescription": "Explorează afaceri românești pe categorii în Flandra de Vest: restaurante, patiserii, service auto, construcții, saloane de înfrumusețare, transport și servicii profesionale.",
+    "seoKeywords": "categorii afaceri românești Belgia, tipuri servicii românești, restaurante românești Flandra de Vest, patiserie românească, servicii construcții românești"
+  },
+  "common": {
+    "home": "Acasă",
+    "categories": "Categorii",
+    "business": "Afacere",
+    "businesses": "Afaceri",
+    "loading": "Se încarcă...",
+    "error": "Eroare",
+    "success": "Succes",
+    "save": "Salvează",
+    "cancel": "Anulează",
+    "submit": "Trimite",
+    "delete": "Șterge",
+    "edit": "Editează",
+    "back": "Înapoi",
+    "view": "Vizualizează",
+    "search": "Caută"
+  }
+}
