@@ -182,7 +182,9 @@ const ContactPage = () => {
                             <Phone className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
                             <div>
                               <p className="text-gray-600">Call us at:</p>
-                              <p className="text-gray-800">+32 467 789 259</p>
+                              <a href="tel:+32467789259" className="text-romania-blue hover:underline">
+                                +32 467 78 92 59
+                              </a>
                             </div>
                           </div>
                           <div className="flex items-start">
