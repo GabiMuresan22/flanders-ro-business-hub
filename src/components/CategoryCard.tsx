@@ -19,12 +19,12 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, count, icon }) =>
       className="block h-full focus:outline-none focus:ring-2 focus:ring-romania-blue focus:ring-offset-2 rounded-lg"
       aria-label={`View ${count} ${category} businesses`}
     >
-      <article className="bg-white p-6 rounded-lg shadow-md transition-all hover:shadow-lg hover:border-romania-blue border-2 border-transparent h-full flex flex-col">
-        <div className="flex justify-center mb-4 text-romania-blue" aria-hidden="true">
+      <article className="bg-white p-8 rounded-lg shadow-md transition-all hover:shadow-lg hover:border-romania-blue border-2 border-transparent h-full flex flex-col items-center justify-center min-h-[200px]">
+        <div className="flex justify-center mb-6 text-romania-blue" aria-hidden="true">
           {icon}
         </div>
-        <h3 className="text-xl font-playfair font-semibold text-center text-gray-800">{category}</h3>
-        <p className="text-center text-gray-500 mt-2">
+        <h3 className="text-2xl font-playfair font-semibold text-center text-gray-800 mb-3">{category}</h3>
+        <p className="text-center text-gray-500">
           <span className="sr-only">There are </span>
           {count} businesses
         </p>

@@ -87,7 +87,7 @@ const EditBusinessPage = () => {
               website: business.website || "",
               businessImage: undefined,
               agreeTerms: true,
-              openingHours: business.opening_hours || {
+              openingHours: {
                 monday: "",
                 tuesday: "",
                 wednesday: "",

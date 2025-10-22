@@ -47,15 +47,14 @@ const CategoriesSection: React.FC = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Object.entries(categoryCounts).map(([category, count]) => (
-            <div key={category} className="flex">
-              <CategoryCard 
-                category={category as BusinessCategory} 
-                count={count} 
-                icon={categoryIcons[category as BusinessCategory]} 
-              />
-            </div>
+            <CategoryCard 
+              key={category}
+              category={category as BusinessCategory} 
+              count={count} 
+              icon={categoryIcons[category as BusinessCategory]} 
+            />
           ))}
         </div>
       </div>

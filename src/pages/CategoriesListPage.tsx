@@ -75,21 +75,20 @@ const CategoriesListPage = () => {
         
         <div className="container mx-auto px-4 py-16">
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <CategoryCardSkeleton key={i} />
               ))}
             </div>
           ) : Object.entries(categoryCounts).length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {Object.entries(categoryCounts).map(([category, count]) => (
-                <div key={category} className="flex flex-col">
-                  <CategoryCard 
-                    category={category} 
-                    count={count} 
-                    icon={getCategoryIcon(category)} 
-                  />
-                </div>
+                <CategoryCard 
+                  key={category}
+                  category={category} 
+                  count={count} 
+                  icon={getCategoryIcon(category)} 
+                />
               ))}
             </div>
           ) : (

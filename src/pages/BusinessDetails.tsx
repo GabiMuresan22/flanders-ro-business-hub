@@ -159,7 +159,7 @@ const BusinessDetails = () => {
                       hours && (
                         <div key={day} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
                           <span className="text-gray-700 font-medium capitalize">{day}</span>
-                          <span className="text-gray-600">{hours}</span>
+                          <span className="text-gray-600">{String(hours)}</span>
                         </div>
                       )
                     ))}
