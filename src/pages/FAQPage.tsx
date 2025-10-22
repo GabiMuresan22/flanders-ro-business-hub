@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
@@ -118,12 +119,12 @@ const FAQPage = () => {
             <p className="text-gray-600 mb-4">
               If you couldn't find the answer to your question, please don't hesitate to contact us directly.
             </p>
-            <a 
-              href="/contact" 
+            <Link 
+              to="/contact" 
               className="inline-block bg-romania-blue text-white px-6 py-2 rounded hover:bg-blue-800 transition-colors"
             >
               Contact Us
-            </a>
+            </Link>
           </div>
         </div>
       </div>
