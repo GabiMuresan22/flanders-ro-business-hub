@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import ReviewCard from '../components/ReviewCard';
 import ReviewForm from '../components/ReviewForm';
 import BusinessDetailsSkeleton from '../components/skeletons/BusinessDetailsSkeleton';
+import { ReportIssueDialog } from '../components/ReportIssueDialog';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
 import { MapPin, Phone, Mail, Globe, Clock } from 'lucide-react';
@@ -130,10 +131,15 @@ const BusinessDetails = () => {
           <div className="w-full h-full bg-gradient-to-br from-romania-blue to-romania-red opacity-80"></div>
           <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
             <div className="container mx-auto">
-              <span className="inline-block bg-romania-yellow text-gray-900 text-sm font-medium px-3 py-1 rounded-full mb-2">
-                {business.category}
-              </span>
-              <h1 className="text-3xl md:text-4xl font-playfair font-bold text-white">{business.business_name}</h1>
+              <div className="flex justify-between items-end">
+                <div>
+                  <span className="inline-block bg-romania-yellow text-gray-900 text-sm font-medium px-3 py-1 rounded-full mb-2">
+                    {business.category}
+                  </span>
+                  <h1 className="text-3xl md:text-4xl font-playfair font-bold text-white">{business.business_name}</h1>
+                </div>
+                <ReportIssueDialog businessId={business.id} businessName={business.business_name} />
+              </div>
             </div>
           </div>
         </div>
