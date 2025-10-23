@@ -143,6 +143,15 @@ const NewsletterSection = () => {
                 {emailError}
               </p>
             )}
+            <div className="mt-3 text-center">
+              <label className="text-xs text-muted-foreground flex items-center gap-2 justify-center">
+                <input type="checkbox" required className="rounded" />
+                I agree to receive newsletters and accept the{" "}
+                <a href="/privacy-policy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
+                  Privacy Policy
+                </a>
+              </label>
+            </div>
           </form>
         </div>
       </div>

@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import { CookieConsent } from "./components/CookieConsent";
 
 // Eager load home page for better initial load
 import Index from "./pages/Index";
@@ -26,6 +27,7 @@ const AuthPage = lazy(() => import("./pages/AuthPage"));
 const AccountPage = lazy(() => import("./pages/AccountPage"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -54,6 +56,7 @@ const App = () => (
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/faq" element={<FAQPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/add-business" element={<AddBusinessPage />} />
               <Route path="/my-businesses" element={<MyBusinessesPage />} />
               <Route path="/search" element={<SearchResults />} />
@@ -64,6 +67,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
+            <CookieConsent />
           </BrowserRouter>
         </TooltipProvider>
       </LanguageProvider>
