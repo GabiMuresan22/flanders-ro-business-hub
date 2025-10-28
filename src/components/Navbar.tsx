@@ -220,35 +220,35 @@ const Navbar = () => {
               <nav className="flex flex-col space-y-1">
                 <Link 
                   to="/" 
-                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
+                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-center w-full"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {t('nav.home')}
                 </Link>
                 <Link 
                   to="/categories" 
-                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
+                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-center w-full"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {t('nav.categories')}
                 </Link>
                 <Link 
                   to="/about" 
-                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
+                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-center w-full"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {t('nav.about')}
                 </Link>
                 <Link 
                   to="/contact" 
-                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
+                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-center w-full"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {t('nav.contact')}
                 </Link>
                 <Link 
                   to="/faq" 
-                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
+                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-center w-full"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {t('nav.faq')}
@@ -272,14 +272,14 @@ const Navbar = () => {
                     </div>
                     <Link 
                       to="/my-businesses" 
-                      className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95"
+                      className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-center w-full active:scale-95"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {t('nav.myBusinesses')}
                     </Link>
                     <Link 
                       to="/account" 
-                      className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-left flex items-center gap-2 w-full active:scale-95"
+                      className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-center flex items-center justify-center gap-2 w-full active:scale-95"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <User className="h-5 w-5" />
@@ -288,7 +288,7 @@ const Navbar = () => {
                     {isAdmin && (
                       <Link 
                         to="/admin" 
-                        className="bg-romania-red hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95"
+                        className="bg-romania-red hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-center w-full active:scale-95"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         {t('nav.adminDashboard')}
@@ -296,7 +296,7 @@ const Navbar = () => {
                     )}
                     <Link 
                       to="/add-business" 
-                      className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95"
+                      className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-center w-full active:scale-95"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {t('nav.addBusiness')}
