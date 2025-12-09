@@ -82,7 +82,7 @@ const Footer = () => {
             <h3 className="font-playfair text-xl font-semibold mb-4 text-romania-blue">{t('footer.contact')}</h3>
             <p className="text-gray-600 mb-2">
               <a href="mailto:info@ro-businesshub.be" className="hover:text-romania-blue focus:outline-none focus:underline">
-                info@ro-flanders-business.be
+                info@ro-businesshub.be
               </a>
             </p>
             <p className="text-gray-600 mb-2">
