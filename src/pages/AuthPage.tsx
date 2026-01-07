@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
 import { AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react';
@@ -23,6 +24,7 @@ const AuthPage = () => {
   const [passwordError, setPasswordError] = useState('');
   const [emailTouched, setEmailTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
+  const [gdprConsent, setGdprConsent] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -279,10 +281,39 @@ const AuthPage = () => {
                 )}
               </div>
 
-              <Button 
+              {!isLogin && (
+                <div className="flex items-start space-x-3">
+                  <Checkbox
+                    id="gdpr-consent"
+                    checked={gdprConsent}
+                    onCheckedChange={(checked) => setGdprConsent(checked === true)}
+                    disabled={loading}
+                    aria-describedby="gdpr-consent-label"
+                  />
+                  <div className="grid gap-1.5 leading-none">
+                    <label
+                      htmlFor="gdpr-consent"
+                      id="gdpr-consent-label"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      I agree to the{' '}
+                      <Link 
+                        to="/privacy-policy" 
+                        className="text-romania-blue hover:underline"
+                        target="_blank"
+                      >
+                        Privacy Policy
+                      </Link>{' '}
+                      and consent to the processing of my personal data *
+                    </label>
+                  </div>
+                </div>
+              )}
+
+              <Button
                 type="submit" 
                 className="w-full bg-romania-blue hover:bg-blue-700 transition-all"
-                disabled={loading || (emailTouched && !!emailError) || (passwordTouched && !!passwordError)}
+                disabled={loading || (emailTouched && !!emailError) || (passwordTouched && !!passwordError) || (!isLogin && !gdprConsent)}
                 aria-busy={loading}
               >
                 {loading ? (
@@ -306,6 +337,7 @@ const AuthPage = () => {
                   setPasswordError('');
                   setEmailTouched(false);
                   setPasswordTouched(false);
+                  setGdprConsent(false);
                 }}
                 className="text-romania-blue hover:underline focus:outline-none focus:ring-2 focus:ring-romania-blue rounded"
                 disabled={loading}
