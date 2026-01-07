@@ -14,4 +14,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://romanianbusinesshub.ro/sitemap.xml
+Sitemap: https://www.ro-businesshub.be/sitemap.xml
