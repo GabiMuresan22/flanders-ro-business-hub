@@ -24,6 +24,7 @@ const EditBusinessPage = lazy(() => import("./pages/EditBusinessPage"));
 const MyBusinessesPage = lazy(() => import("./pages/MyBusinessesPage"));
 const SearchResults = lazy(() => import("./pages/SearchResults"));
 const AuthPage = lazy(() => import("./pages/AuthPage"));
+const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const AccountPage = lazy(() => import("./pages/AccountPage"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -61,6 +62,7 @@ const App = () => (
               <Route path="/my-businesses" element={<MyBusinessesPage />} />
               <Route path="/search" element={<SearchResults />} />
               <Route path="/auth" element={<AuthPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/account" element={<AccountPage />} />
               <Route path="/admin" element={<AdminDashboard />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

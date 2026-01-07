@@ -45,6 +45,8 @@
     "updatePassword": "Update Password",
     "passwordsDoNotMatch": "Passwords do not match.",
     "passwordUpdated": "Password updated successfully.",
+    "invalidResetLink": "Invalid or Expired Link",
+    "invalidResetLinkDescription": "This password reset link is invalid or has expired. Please request a new one.",
     "passwordUpdateFailed": "Failed to update password. Please request a new reset link.",
     "backToLogin": "Back to Login",
     "noAccount": "Don't have an account? Sign up",
