@@ -45,6 +45,8 @@
     "updatePassword": "Actualizează Parola",
     "passwordsDoNotMatch": "Parolele nu se potrivesc.",
     "passwordUpdated": "Parola a fost actualizată cu succes.",
+    "invalidResetLink": "Link Invalid sau Expirat",
+    "invalidResetLinkDescription": "Acest link de resetare a parolei este invalid sau a expirat. Vă rugăm să solicitați unul nou.",
     "passwordUpdateFailed": "Nu s-a putut actualiza parola. Te rugăm să ceri un nou link de resetare.",
     "backToLogin": "Înapoi la Autentificare",
     "noAccount": "Nu ai cont? Înregistrează-te",
