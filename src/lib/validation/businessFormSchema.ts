@@ -15,8 +15,8 @@ export const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email address.",
   }),
-  phone: z.string().min(9, {
-    message: "Please enter a valid phone number.",
+  phone: z.string().min(1, {
+    message: "Please enter a phone number.",
   }),
   address: z.string().min(5, {
     message: "Address must be at least 5 characters.",
