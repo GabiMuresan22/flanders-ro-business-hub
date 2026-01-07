@@ -78,11 +78,13 @@ const NewsletterSection = () => {
       });
       setEmail('');
       setTouched(false);
-    } catch (error: any) {
+    } catch (error) {
       let errorMessage = 'Failed to subscribe. Please try again.';
       
-      if (error.message?.includes('network') || error.message?.includes('fetch')) {
-        errorMessage = 'Network error. Please check your connection.';
+      if (error instanceof Error) {
+        if (error.message.includes('network') || error.message.includes('fetch')) {
+          errorMessage = 'Network error. Please check your connection.';
+        }
       }
       
       toast({

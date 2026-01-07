@@ -3,8 +3,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Globe, MapPin } from 'lucide-react';
 
+interface Business {
+  id: string;
+  business_name: string;
+  category: string;
+  description: string;
+  city: string;
+  phone?: string;
+  website?: string | null;
+}
+
 interface BusinessCardProps {
-  business: any;
+  business: Business;
 }
 
 const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {

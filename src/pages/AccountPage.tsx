@@ -90,7 +90,7 @@ const AccountPage = () => {
         title: "Profile updated",
         description: "Your account information has been saved.",
       });
-    } catch (error: any) {
+    } catch (error) {
       if (error instanceof z.ZodError) {
         toast({
           title: "Validation Error",
@@ -98,9 +98,10 @@ const AccountPage = () => {
           variant: "destructive",
         });
       } else {
+        const errorMessage = error instanceof Error ? error.message : "Failed to update profile";
         toast({
           title: "Error",
-          description: error.message || "Failed to update profile",
+          description: errorMessage,
           variant: "destructive",
         });
       }
@@ -122,10 +123,11 @@ const AccountPage = () => {
       } else {
         navigate("/");
       }
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
       toast({
         title: "Error",
-        description: error.message || "An unexpected error occurred",
+        description: errorMessage,
         variant: "destructive",
       });
     }
