@@ -30,8 +30,8 @@ export const formSchema = z.object({
   description: z.string().min(10, {
     message: "Description must be at least 10 characters.",
   }),
-  category: z.string({
-    required_error: "Please select a business category.",
+  category: z.string().min(1, {
+    message: "Please select a business category.",
   }),
   website: z.string().url({
     message: "Please enter a valid website URL.",
