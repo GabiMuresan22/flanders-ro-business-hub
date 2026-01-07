@@ -43,7 +43,7 @@ const ContactPage = () => {
     // Clear previous errors
     setErrors({});
 
-    // Anti-spam validation
+    // Anti-spam validation (client-side first layer)
     const spamCheck = await antiSpam.validateSubmission();
     if (!spamCheck.isValid) {
       toast({
@@ -60,23 +60,21 @@ const ContactPage = () => {
 
       setIsSubmitting(true);
 
-      // Save to database
-      const { error } = await supabase.from("contact_messages").insert({
-        name: validatedData.name,
-        email: validatedData.email,
-        subject: validatedData.subject,
-        message: validatedData.message,
+      // Submit via rate-limited edge function
+      const { data, error } = await supabase.functions.invoke("submit-contact", {
+        body: {
+          name: validatedData.name,
+          email: validatedData.email,
+          subject: validatedData.subject,
+          message: validatedData.message,
+        },
       });
 
-      if (error) {
+      if (error || !data?.success) {
+        const errorMessage = data?.error || error?.message || "Failed to send message. Please try again later.";
+        
         if (import.meta.env.DEV) {
-          console.error("Error saving contact message:", error);
-        }
-
-        let errorMessage = "Failed to send message. Please try again later.";
-
-        if (error.message?.includes("network") || error.message?.includes("fetch")) {
-          errorMessage = "Network error. Please check your connection and try again.";
+          console.error("Error saving contact message:", error || data?.error);
         }
 
         toast({
