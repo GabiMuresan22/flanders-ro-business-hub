@@ -41,13 +41,17 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const t = (key: string): string => {
     const keys = key.split('.');
-    let value: any = translations[language];
+    let value: Record<string, unknown> | string | undefined = translations[language];
     
     for (const k of keys) {
-      value = value?.[k];
+      if (typeof value === 'object' && value !== null) {
+        value = value[k] as Record<string, unknown> | string | undefined;
+      } else {
+        return key;
+      }
     }
     
-    return value || key;
+    return typeof value === 'string' ? value : key;
   };
 
   return (

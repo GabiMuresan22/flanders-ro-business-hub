@@ -214,7 +214,7 @@ const AddBusinessPage = () => {
       form.reset();
       setSelectedFile(null);
       setImagePreview(null);
-    } catch (error: any) {
+    } catch (error) {
       if (import.meta.env.DEV) {
         console.error('Error submitting business:', error);
       }
@@ -222,11 +222,17 @@ const AddBusinessPage = () => {
       let errorMessage = "Unable to submit your business. Please try again later.";
       
       // Provide more specific error messages
-      if (error.message?.includes('duplicate')) {
-        errorMessage = "This business has already been submitted.";
-      } else if (error.message?.includes('network') || error.message?.includes('fetch')) {
-        errorMessage = "Network error. Please check your connection and try again.";
-      } else if (error.code === '23505') {
+      if (error instanceof Error) {
+        if (error.message.includes('duplicate')) {
+          errorMessage = "This business has already been submitted.";
+        } else if (error.message.includes('network') || error.message.includes('fetch')) {
+          errorMessage = "Network error. Please check your connection and try again.";
+        }
+      }
+      
+      // Check for Postgres error codes
+      const pgError = error as { code?: string };
+      if (pgError.code === '23505') {
         errorMessage = "A business with this information already exists.";
       }
       
