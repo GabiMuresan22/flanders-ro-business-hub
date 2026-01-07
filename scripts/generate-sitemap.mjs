@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { writeFileSync } from 'fs';
 
-const SITE_URL = 'https://romanianbusinesshub.ro';
+const SITE_URL = 'https://www.ro-businesshub.be';
 
 // Static routes
 const staticRoutes = [
