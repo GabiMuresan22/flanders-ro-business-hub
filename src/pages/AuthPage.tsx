@@ -36,7 +36,7 @@ const AuthPage = () => {
         setEmailError('');
       } catch (error) {
         if (error instanceof z.ZodError) {
-          setEmailError(error.errors[0].message);
+          setEmailError(error.issues[0].message);
         }
       }
     }
@@ -50,7 +50,7 @@ const AuthPage = () => {
         setPasswordError('');
       } catch (error) {
         if (error instanceof z.ZodError) {
-          setPasswordError(error.errors[0].message);
+          setPasswordError(error.issues[0].message);
         }
       }
     }
@@ -88,7 +88,7 @@ const AuthPage = () => {
       setEmailError('');
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setEmailError(error.errors[0].message);
+        setEmailError(error.issues[0].message);
         isValid = false;
       }
     }
@@ -98,7 +98,7 @@ const AuthPage = () => {
       setPasswordError('');
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setPasswordError(error.errors[0].message);
+        setPasswordError(error.issues[0].message);
         isValid = false;
       }
     }
