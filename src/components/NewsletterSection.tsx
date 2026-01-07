@@ -45,21 +45,31 @@ const NewsletterSection = () => {
     setLoading(true);
 
     try {
-      const { error } = await supabase
-        .from('newsletter_subscribers')
-        .insert([{ email: email.trim().toLowerCase() }]);
+      // Submit via rate-limited edge function
+      const { data, error } = await supabase.functions.invoke('submit-newsletter', {
+        body: { email: email.trim() },
+      });
 
-      if (error) {
-        // Handle duplicate email
-        if (error.code === '23505') {
+      if (error || !data?.success) {
+        const errorMessage = data?.error || 'Failed to subscribe. Please try again.';
+        
+        // Handle already subscribed
+        if (data?.message === 'Already subscribed') {
           toast({
             title: 'Already subscribed',
             description: 'This email is already subscribed to our newsletter.',
-            variant: 'destructive',
           });
+          setEmail('');
+          setTouched(false);
           return;
         }
-        throw error;
+        
+        toast({
+          title: 'Subscription failed',
+          description: errorMessage,
+          variant: 'destructive',
+        });
+        return;
       }
 
       toast({
