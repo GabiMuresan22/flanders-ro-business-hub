@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      business_reports: {
+        Row: {
+          business_id: string
+          created_at: string
+          description: string
+          id: string
+          issue_type: string
+          reporter_email: string
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          description: string
+          id?: string
+          issue_type: string
+          reporter_email: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          description?: string
+          id?: string
+          issue_type?: string
+          reporter_email?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_reports_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_reports_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "public_businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       businesses: {
         Row: {
           address: string
@@ -146,6 +197,27 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_limits: {
+        Row: {
+          action_type: string
+          created_at: string
+          id: string
+          ip_address: string
+        }
+        Insert: {
+          action_type: string
+          created_at?: string
+          id?: string
+          ip_address: string
+        }
+        Update: {
+          action_type?: string
+          created_at?: string
+          id?: string
+          ip_address?: string
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           business_id: string
@@ -207,6 +279,7 @@ export type Database = {
           created_at: string | null
           description: string | null
           id: string | null
+          image_url: string | null
           postal_code: string | null
           status: string | null
           updated_at: string | null
@@ -219,6 +292,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: string | null
+          image_url?: string | null
           postal_code?: string | null
           status?: string | null
           updated_at?: string | null
@@ -231,6 +305,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: string | null
+          image_url?: string | null
           postal_code?: string | null
           status?: string | null
           updated_at?: string | null
@@ -240,6 +315,7 @@ export type Database = {
       }
     }
     Functions: {
+      cleanup_old_rate_limits: { Args: never; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

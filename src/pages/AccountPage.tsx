@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { z } from "zod";
-import type { User } from "@/types/database";
+import type { User } from "@supabase/supabase-js";
 
 const profileSchema = z.object({
   full_name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
@@ -95,7 +95,7 @@ const AccountPage = () => {
       if (error instanceof z.ZodError) {
         toast({
           title: "Validation Error",
-          description: error.errors[0].message,
+          description: error.issues[0].message,
           variant: "destructive",
         });
       } else {
