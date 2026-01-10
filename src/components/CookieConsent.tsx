@@ -29,29 +29,32 @@ export const CookieConsent = () => {
     }
   }, []);
 
+  // Create a helper to save and notify
+  const saveAndNotify = (preferences: CookiePreferences) => {
+    localStorage.setItem("cookieConsent", JSON.stringify(preferences));
+    // Dispatch event so Analytics.tsx knows to start tracking immediately
+    window.dispatchEvent(new Event('cookieConsentUpdated'));
+    setShowBanner(false);
+  };
+
   const handleAcceptAll = () => {
-    const allAccepted = {
+    saveAndNotify({
       essential: true,
       analytics: true,
       marketing: true,
-    };
-    localStorage.setItem("cookieConsent", JSON.stringify(allAccepted));
-    setShowBanner(false);
+    });
   };
 
   const handleRejectNonEssential = () => {
-    const essentialOnly = {
+    saveAndNotify({
       essential: true,
       analytics: false,
       marketing: false,
-    };
-    localStorage.setItem("cookieConsent", JSON.stringify(essentialOnly));
-    setShowBanner(false);
+    });
   };
 
   const handleSavePreferences = () => {
-    localStorage.setItem("cookieConsent", JSON.stringify(preferences));
-    setShowBanner(false);
+    saveAndNotify(preferences);
   };
 
   if (!showBanner) return null;

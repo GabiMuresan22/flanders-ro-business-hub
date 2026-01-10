@@ -8,6 +8,7 @@ import { lazy, Suspense } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { CookieConsent } from "./components/CookieConsent";
+import { Analytics } from "./components/Analytics";
 
 // Eager load home page for better initial load
 import Index from "./pages/Index";
@@ -47,6 +48,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <Analytics />
             <Suspense fallback={<PageLoader />}>
               <Routes>
               <Route path="/" element={<Index />} />
