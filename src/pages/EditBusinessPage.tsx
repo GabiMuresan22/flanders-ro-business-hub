@@ -381,11 +381,11 @@ const EditBusinessPage = () => {
                   <p className="text-sm text-gray-600">Enter your business hours for each day (e.g., "09:00 - 17:00" or "Closed")</p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].map((day) => (
+                    {(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const).map((day) => (
                       <FormField
                         key={day}
                         control={form.control}
-                        name={`openingHours.${day}` as any}
+                        name={`openingHours.${day}` as `openingHours.monday` | `openingHours.tuesday` | `openingHours.wednesday` | `openingHours.thursday` | `openingHours.friday` | `openingHours.saturday` | `openingHours.sunday`}
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="capitalize">{day}</FormLabel>

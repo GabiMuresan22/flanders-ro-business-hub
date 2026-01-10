@@ -1,3 +1,6 @@
+// Ensure we use development build of React
+process.env.NODE_ENV = 'test';
+
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',

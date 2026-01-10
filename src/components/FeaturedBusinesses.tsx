@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import BusinessCard from './BusinessCard';
 import BusinessCardSkeleton from './skeletons/BusinessCardSkeleton';
 import { supabase } from '@/integrations/supabase/client';
+import type { PublicBusiness } from '@/types/database';
 
 const FeaturedBusinesses: React.FC = () => {
-  const [featuredBusinesses, setFeaturedBusinesses] = useState<any[]>([]);
+  const [featuredBusinesses, setFeaturedBusinesses] = useState<PublicBusiness[]>([]);
 
   const [isLoading, setIsLoading] = useState(true);
 

@@ -10,28 +10,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Building2, Edit, Trash2, Plus, Mail, Phone, MapPin, Globe, Clock } from 'lucide-react';
-
-interface Business {
-  id: string;
-  business_name: string;
-  owner_name: string;
-  email: string;
-  phone: string;
-  address: string;
-  city: string;
-  postal_code: string;
-  description: string;
-  category: string;
-  website: string | null;
-  status: string;
-  created_at: string;
-  updated_at: string;
-}
+import type { BusinessRow, User } from '@/types/database';
 
 const MyBusinessesPage = () => {
-  const [businesses, setBusinesses] = useState<Business[]>([]);
+  const [businesses, setBusinesses] = useState<BusinessRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 

@@ -3,12 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Search, User, X, Menu, Languages } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
+import type { User } from '@/types/database';
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const { language, toggleLanguage, t } = useLanguage();

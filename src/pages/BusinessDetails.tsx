@@ -10,12 +10,13 @@ import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
 import { MapPin, Phone, Mail, Globe, Clock } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import type { BusinessRow, ReviewRow } from '@/types/database';
 
 const BusinessDetails = () => {
   const { id } = useParams<{ id: string }>();
-  const [business, setBusiness] = useState<any>(null);
+  const [business, setBusiness] = useState<BusinessRow | null>(null);
   const [loading, setLoading] = useState(true);
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<ReviewRow[]>([]);
   const [averageRating, setAverageRating] = useState<number>(0);
 
   const fetchBusiness = async () => {

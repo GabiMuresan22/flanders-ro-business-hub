@@ -12,22 +12,9 @@ describe('BusinessCard', () => {
       business_name: 'Test Bakery',
       category: BusinessCategory.BAKERY,
       description: 'A great bakery.',
-      address: 'Main St 1',
       city: 'Bruges',
       phone: '123456789',
-      email: 'test@bakery.com',
       website: 'https://bakery.com',
-      imageUrl: '',
-      featured: false,
-      openingHours: {
-        monday: '8-18',
-        tuesday: '8-18',
-        wednesday: '8-18',
-        thursday: '8-18',
-        friday: '8-18',
-        saturday: '8-18',
-        sunday: 'Closed',
-      },
     };
     render(
       <MemoryRouter>

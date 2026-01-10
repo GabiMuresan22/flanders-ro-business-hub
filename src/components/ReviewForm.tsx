@@ -75,10 +75,11 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ businessId, onReviewSubmitted }
       setRating(0);
       setComment('');
       onReviewSubmitted();
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to submit review. Please try again.';
       toast({
         title: 'Submission failed',
-        description: error.message || 'Failed to submit review. Please try again.',
+        description: errorMessage,
         variant: 'destructive',
       });
     } finally {

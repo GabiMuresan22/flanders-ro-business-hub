@@ -11,8 +11,8 @@
     "preview": "vite preview",
     "test:validation": "node test-form-validation.mjs",
     "test:business": "node test-business-submission.mjs",
-    "test:webdev": "node test-web-developer-business.mjs"
-    ,"test": "jest"
+    "test:webdev": "node test-web-developer-business.mjs",
+    "test": "jest"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

@@ -68,10 +68,10 @@ const NewsletterSection = () => {
       });
       setEmail('');
       setTouched(false);
-    } catch (error: any) {
+    } catch (error: unknown) {
       let errorMessage = 'Failed to subscribe. Please try again.';
       
-      if (error.message?.includes('network') || error.message?.includes('fetch')) {
+      if (error instanceof Error && (error.message?.includes('network') || error.message?.includes('fetch'))) {
         errorMessage = 'Network error. Please check your connection.';
       }
       

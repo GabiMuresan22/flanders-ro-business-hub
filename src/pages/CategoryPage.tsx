@@ -9,10 +9,11 @@ import SEO from '../components/SEO';
 import { supabase } from '@/integrations/supabase/client';
 import { categoryToSlug } from '@/lib/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
+import type { PublicBusiness } from '@/types/database';
 
 const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [filteredBusinesses, setFilteredBusinesses] = useState<any[]>([]);
+  const [filteredBusinesses, setFilteredBusinesses] = useState<PublicBusiness[]>([]);
   const [loading, setLoading] = useState(true);
   const { t } = useLanguage();
   

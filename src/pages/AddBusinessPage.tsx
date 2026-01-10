@@ -15,13 +15,14 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, Upload, X } from 'lucide-react';
 import { useAntiSpam } from '@/hooks/useAntiSpam';
+import type { User } from '@/types/database';
 
 const AddBusinessPage = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const antiSpam = useAntiSpam(5000);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -214,7 +215,7 @@ const AddBusinessPage = () => {
       form.reset();
       setSelectedFile(null);
       setImagePreview(null);
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (import.meta.env.DEV) {
         console.error('Error submitting business:', error);
       }
@@ -222,12 +223,17 @@ const AddBusinessPage = () => {
       let errorMessage = "Unable to submit your business. Please try again later.";
       
       // Provide more specific error messages
-      if (error.message?.includes('duplicate')) {
-        errorMessage = "This business has already been submitted.";
-      } else if (error.message?.includes('network') || error.message?.includes('fetch')) {
-        errorMessage = "Network error. Please check your connection and try again.";
-      } else if (error.code === '23505') {
-        errorMessage = "A business with this information already exists.";
+      if (error instanceof Error) {
+        if (error.message?.includes('duplicate')) {
+          errorMessage = "This business has already been submitted.";
+        } else if (error.message?.includes('network') || error.message?.includes('fetch')) {
+          errorMessage = "Network error. Please check your connection and try again.";
+        }
+        
+        // Check for PostgreSQL error code
+        if ('code' in error && error.code === '23505') {
+          errorMessage = "A business with this information already exists.";
+        }
       }
       
       toast({
@@ -482,11 +488,11 @@ const AddBusinessPage = () => {
                       <p className="text-sm text-gray-600">Enter your business hours for each day (e.g., "09:00 - 17:00" or "Closed")</p>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].map((day) => (
+                        {(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const).map((day) => (
                           <FormField
                             key={day}
                             control={form.control}
-                            name={`openingHours.${day}` as any}
+                            name={`openingHours.${day}` as `openingHours.monday` | `openingHours.tuesday` | `openingHours.wednesday` | `openingHours.thursday` | `openingHours.friday` | `openingHours.saturday` | `openingHours.sunday`}
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel className="capitalize">{day}</FormLabel>

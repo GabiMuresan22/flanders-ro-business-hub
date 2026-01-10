@@ -8,13 +8,14 @@ import BusinessCardSkeleton from '../components/skeletons/BusinessCardSkeleton';
 import SEO from '../components/SEO';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
+import type { PublicBusiness } from '@/types/database';
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedCity, setSelectedCity] = useState<string>('all');
-  const [businesses, setBusinesses] = useState<any[]>([]);
+  const [businesses, setBusinesses] = useState<PublicBusiness[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

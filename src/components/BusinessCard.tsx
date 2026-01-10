@@ -2,9 +2,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Globe, MapPin } from 'lucide-react';
+import type { BusinessCardData } from '@/types/database';
 
 interface BusinessCardProps {
-  business: any;
+  business: BusinessCardData;
 }
 
 const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {

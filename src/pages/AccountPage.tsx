@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { z } from "zod";
+import type { User } from "@/types/database";
 
 const profileSchema = z.object({
   full_name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
@@ -19,7 +20,7 @@ const AccountPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [formData, setFormData] = useState({
     full_name: "",
     phone: "",
@@ -90,7 +91,7 @@ const AccountPage = () => {
         title: "Profile updated",
         description: "Your account information has been saved.",
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof z.ZodError) {
         toast({
           title: "Validation Error",
@@ -98,9 +99,10 @@ const AccountPage = () => {
           variant: "destructive",
         });
       } else {
+        const errorMessage = error instanceof Error ? error.message : "Failed to update profile";
         toast({
           title: "Error",
-          description: error.message || "Failed to update profile",
+          description: errorMessage,
           variant: "destructive",
         });
       }
@@ -122,10 +124,11 @@ const AccountPage = () => {
       } else {
         navigate("/");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
       toast({
         title: "Error",
-        description: error.message || "An unexpected error occurred",
+        description: errorMessage,
         variant: "destructive",
       });
     }
