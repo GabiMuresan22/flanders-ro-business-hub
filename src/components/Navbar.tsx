@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, User, X, Menu, Languages } from 'lucide-react';
+import { Search, User as UserIcon, X, Menu, Languages } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
-import type { User } from '@/types/database';
+import type { User } from '@supabase/supabase-js';
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -116,7 +116,7 @@ const Navbar = () => {
                   {t('nav.myBusinesses')}
                 </Link>
                 <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded-md transition-colors flex items-center gap-1">
-                  <User className="h-4 w-4" />
+                  <UserIcon className="h-4 w-4" />
                   <span className="text-sm">{t('nav.account')}</span>
                 </Link>
                 {isAdmin && (
@@ -283,7 +283,7 @@ const Navbar = () => {
                       className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-left flex items-center gap-2 w-full active:scale-95"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      <User className="h-5 w-5" />
+                      <UserIcon className="h-5 w-5" />
                       {t('nav.account')}
                     </Link>
                     {isAdmin && (

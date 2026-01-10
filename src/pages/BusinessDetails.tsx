@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -8,7 +8,7 @@ import ReviewForm from '../components/ReviewForm';
 import BusinessDetailsSkeleton from '../components/skeletons/BusinessDetailsSkeleton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
-import { MapPin, Phone, Mail, Globe, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail, Globe } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import type { BusinessRow, ReviewRow } from '@/types/database';
 
@@ -19,7 +19,7 @@ const BusinessDetails = () => {
   const [reviews, setReviews] = useState<ReviewRow[]>([]);
   const [averageRating, setAverageRating] = useState<number>(0);
 
-  const fetchBusiness = async () => {
+  const fetchBusiness = useCallback(async () => {
     if (!id) return;
     
     const { data } = await supabase
@@ -31,9 +31,9 @@ const BusinessDetails = () => {
 
     setBusiness(data);
     setLoading(false);
-  };
+  }, [id]);
 
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     if (!id) return;
     
     const { data } = await supabase
@@ -49,12 +49,12 @@ const BusinessDetails = () => {
         setAverageRating(Math.round(avg * 10) / 10);
       }
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchBusiness();
     fetchReviews();
-  }, [id]);
+  }, [fetchBusiness, fetchReviews]);
 
   if (loading) {
     return (
@@ -148,25 +148,6 @@ const BusinessDetails = () => {
                 <p className="text-gray-600 mb-6">{business.description}</p>
               </div>
 
-              {/* Opening Hours Section */}
-              {business.opening_hours && (
-                <div className="bg-white rounded-lg shadow-md p-8 mb-8">
-                  <div className="flex items-center mb-4">
-                    <Clock className="h-6 w-6 text-romania-blue mr-2" />
-                    <h2 className="font-playfair text-2xl font-bold text-gray-800">Opening Hours</h2>
-                  </div>
-                  <div className="space-y-2">
-                    {Object.entries(business.opening_hours).map(([day, hours]) => (
-                      hours && (
-                        <div key={day} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
-                          <span className="text-gray-700 font-medium capitalize">{day}</span>
-                          <span className="text-gray-600">{String(hours)}</span>
-                        </div>
-                      )
-                    ))}
-                  </div>
-                </div>
-              )}
 
               {/* Reviews Section */}
               <div className="bg-white rounded-lg shadow-md p-8">
