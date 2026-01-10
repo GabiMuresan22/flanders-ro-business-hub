@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -10,7 +10,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Building2, Edit, Trash2, Plus, Mail, Phone, MapPin, Globe, Clock } from 'lucide-react';
-import type { BusinessRow, User } from '@/types/database';
+import type { BusinessRow } from '@/types/database';
+import type { User } from '@supabase/supabase-js';
 
 const MyBusinessesPage = () => {
   const [businesses, setBusinesses] = useState<BusinessRow[]>([]);
@@ -19,23 +20,7 @@ const MyBusinessesPage = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkAuthAndFetchBusinesses = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        navigate('/auth?redirect=/my-businesses');
-        return;
-      }
-
-      setUser(session.user);
-      await fetchBusinesses(session.user.id);
-    };
-
-    checkAuthAndFetchBusinesses();
-  }, [navigate]);
-
-  const fetchBusinesses = async (userId: string) => {
+  const fetchBusinesses = useCallback(async (userId: string) => {
     setIsLoading(true);
     try {
       const { data, error } = await supabase
@@ -57,9 +42,27 @@ const MyBusinessesPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    const checkAuthAndFetchBusinesses = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        navigate('/auth?redirect=/my-businesses');
+        return;
+      }
+
+      setUser(session.user);
+      await fetchBusinesses(session.user.id);
+    };
+
+    checkAuthAndFetchBusinesses();
+  }, [navigate, fetchBusinesses]);
 
   const handleDelete = async (businessId: string) => {
+    if (!user) return;
+    
     try {
       const { error } = await supabase
         .from('businesses')

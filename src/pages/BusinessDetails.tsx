@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -19,7 +19,7 @@ const BusinessDetails = () => {
   const [reviews, setReviews] = useState<ReviewRow[]>([]);
   const [averageRating, setAverageRating] = useState<number>(0);
 
-  const fetchBusiness = async () => {
+  const fetchBusiness = useCallback(async () => {
     if (!id) return;
     
     const { data } = await supabase
@@ -31,9 +31,9 @@ const BusinessDetails = () => {
 
     setBusiness(data);
     setLoading(false);
-  };
+  }, [id]);
 
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     if (!id) return;
     
     const { data } = await supabase
@@ -49,12 +49,12 @@ const BusinessDetails = () => {
         setAverageRating(Math.round(avg * 10) / 10);
       }
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchBusiness();
     fetchReviews();
-  }, [id]);
+  }, [fetchBusiness, fetchReviews]);
 
   if (loading) {
     return (
