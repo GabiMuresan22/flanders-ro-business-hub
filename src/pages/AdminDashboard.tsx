@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -47,9 +47,88 @@ const AdminDashboard = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [processingId, setProcessingId] = useState<string | null>(null);
 
+  const fetchBusinesses = useCallback(async () => {
+    try {
+      const { data, error } = await supabase
+        .from('businesses')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setBusinesses(data || []);
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.error('Error fetching businesses:', error);
+      }
+      toast({
+        title: "Error",
+        description: "Failed to load businesses.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }, [toast]);
+
+  const fetchMessages = useCallback(async () => {
+    try {
+      const { data, error } = await supabase
+        .from('contact_messages')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setMessages(data || []);
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.error('Error fetching messages:', error);
+      }
+      toast({
+        title: "Error",
+        description: "Failed to load messages.",
+        variant: "destructive",
+      });
+    }
+  }, [toast]);
+
+  const checkAdminStatus = useCallback(async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        navigate('/auth');
+        return;
+      }
+
+      const { data: roles } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id)
+        .eq('role', 'admin')
+        .single();
+
+      if (!roles) {
+        toast({
+          title: "Access Denied",
+          description: "You don't have admin privileges.",
+          variant: "destructive",
+        });
+        navigate('/');
+        return;
+      }
+
+      setIsAdmin(true);
+    } catch (error) {
+      if (import.meta.env.DEV) {
+        console.error('Error checking admin status:', error);
+      }
+      navigate('/');
+    }
+  }, [navigate, toast]);
+
   useEffect(() => {
     checkAdminStatus();
-  }, []);
+  }, [checkAdminStatus]);
 
   useEffect(() => {
     if (isAdmin) {
@@ -93,86 +172,7 @@ const AdminDashboard = () => {
         supabase.removeChannel(messagesChannel);
       };
     }
-  }, [isAdmin]);
-
-  const checkAdminStatus = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        navigate('/auth');
-        return;
-      }
-
-      const { data: roles } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', user.id)
-        .eq('role', 'admin')
-        .single();
-
-      if (!roles) {
-        toast({
-          title: "Access Denied",
-          description: "You don't have admin privileges.",
-          variant: "destructive",
-        });
-        navigate('/');
-        return;
-      }
-
-      setIsAdmin(true);
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error('Error checking admin status:', error);
-      }
-      navigate('/');
-    }
-  };
-
-  const fetchBusinesses = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('businesses')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setBusinesses(data || []);
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error('Error fetching businesses:', error);
-      }
-      toast({
-        title: "Error",
-        description: "Failed to load businesses.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchMessages = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('contact_messages')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setMessages(data || []);
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error('Error fetching messages:', error);
-      }
-      toast({
-        title: "Error",
-        description: "Failed to load messages.",
-        variant: "destructive",
-      });
-    }
-  };
+  }, [isAdmin, fetchBusinesses, fetchMessages]);
 
   const updateBusinessStatus = async (id: string, status: 'approved' | 'rejected') => {
     setProcessingId(id);

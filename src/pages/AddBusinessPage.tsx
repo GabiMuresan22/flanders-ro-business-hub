@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, Upload, X } from 'lucide-react';
 import { useAntiSpam } from '@/hooks/useAntiSpam';
-import type { User } from '@/types/database';
+import type { User } from '@supabase/supabase-js';
 
 const AddBusinessPage = () => {
   const { toast } = useToast();
