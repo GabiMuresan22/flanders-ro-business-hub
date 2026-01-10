@@ -4,6 +4,16 @@ import { Link } from 'react-router-dom';
 import { Phone, Globe, MapPin } from 'lucide-react';
 import type { BusinessCardData } from '@/types/database';
 
+interface Business {
+  id: string;
+  business_name: string;
+  category: string;
+  description: string;
+  city: string;
+  phone?: string;
+  website?: string | null;
+}
+
 interface BusinessCardProps {
   business: BusinessCardData;
 }

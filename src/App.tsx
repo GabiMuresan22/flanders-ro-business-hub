@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import { CookieConsent } from "./components/CookieConsent";
 
 // Eager load home page for better initial load
 import Index from "./pages/Index";
@@ -23,9 +24,11 @@ const EditBusinessPage = lazy(() => import("./pages/EditBusinessPage"));
 const MyBusinessesPage = lazy(() => import("./pages/MyBusinessesPage"));
 const SearchResults = lazy(() => import("./pages/SearchResults"));
 const AuthPage = lazy(() => import("./pages/AuthPage"));
+const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const AccountPage = lazy(() => import("./pages/AccountPage"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -54,16 +57,19 @@ const App = () => (
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/faq" element={<FAQPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/add-business" element={<AddBusinessPage />} />
               <Route path="/my-businesses" element={<MyBusinessesPage />} />
               <Route path="/search" element={<SearchResults />} />
               <Route path="/auth" element={<AuthPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/account" element={<AccountPage />} />
               <Route path="/admin" element={<AdminDashboard />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
+            <CookieConsent />
           </BrowserRouter>
         </TooltipProvider>
       </LanguageProvider>

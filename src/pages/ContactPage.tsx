@@ -43,7 +43,7 @@ const ContactPage = () => {
     // Clear previous errors
     setErrors({});
 
-    // Anti-spam validation
+    // Anti-spam validation (client-side first layer)
     const spamCheck = await antiSpam.validateSubmission();
     if (!spamCheck.isValid) {
       toast({
@@ -60,23 +60,21 @@ const ContactPage = () => {
 
       setIsSubmitting(true);
 
-      // Save to database
-      const { error } = await supabase.from("contact_messages").insert({
-        name: validatedData.name,
-        email: validatedData.email,
-        subject: validatedData.subject,
-        message: validatedData.message,
+      // Submit via rate-limited edge function
+      const { data, error } = await supabase.functions.invoke("submit-contact", {
+        body: {
+          name: validatedData.name,
+          email: validatedData.email,
+          subject: validatedData.subject,
+          message: validatedData.message,
+        },
       });
 
-      if (error) {
+      if (error || !data?.success) {
+        const errorMessage = data?.error || error?.message || "Failed to send message. Please try again later.";
+        
         if (import.meta.env.DEV) {
-          console.error("Error saving contact message:", error);
-        }
-
-        let errorMessage = "Failed to send message. Please try again later.";
-
-        if (error.message?.includes("network") || error.message?.includes("fetch")) {
-          errorMessage = "Network error. Please check your connection and try again.";
+          console.error("Error saving contact message:", error || data?.error);
         }
 
         toast({
@@ -123,7 +121,7 @@ const ContactPage = () => {
       if (error instanceof z.ZodError) {
         // Convert Zod errors to a more readable format
         const fieldErrors: Record<string, string> = {};
-        error.errors.forEach((err) => {
+        error.issues.forEach((err) => {
           if (err.path[0]) {
             fieldErrors[err.path[0] as string] = err.message;
           }
@@ -173,8 +171,8 @@ const ContactPage = () => {
                             <Mail className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
                             <div>
                               <p className="text-gray-600">Email us at:</p>
-                              <a href="mailto:gabimuresan2289@gmail.com" className="text-romania-blue hover:underline">
-                                contact@ro-flanders-business.be
+                              <a href="mailto:info@ro-businesshub.be" className="text-romania-blue hover:underline">
+                                info@ro-businesshub.be
                               </a>
                             </div>
                           </div>
@@ -182,7 +180,9 @@ const ContactPage = () => {
                             <Phone className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
                             <div>
                               <p className="text-gray-600">Call us at:</p>
-                              <p className="text-gray-800">+32 467 789 259</p>
+                              <a href="tel:+32467789259" className="text-romania-blue hover:underline">
+                                +32 467 78 92 59
+                              </a>
                             </div>
                           </div>
                           <div className="flex items-start">
@@ -350,6 +350,9 @@ const ContactPage = () => {
                             className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-romania-blue focus:border-transparent ${
                               errors.message ? "border-red-500" : "border-gray-300"
                             }`}
+                            aria-required="true"
+                            aria-invalid={errors.message ? "true" : "false"}
+                            aria-describedby={errors.message ? "message-error" : undefined}
                           />
                           <div className="flex justify-between items-start mt-1">
                             <div className="flex-1">
@@ -362,6 +365,22 @@ const ContactPage = () => {
                             </div>
                             <span className="text-xs text-gray-500">{formData.message.length}/2000</span>
                           </div>
+                        </div>
+
+                        <div className="mb-6 flex items-start gap-3">
+                          <input
+                            type="checkbox"
+                            id="gdpr-consent"
+                            required
+                            className="mt-1 h-4 w-4 text-romania-blue focus:ring-romania-blue border-gray-300 rounded"
+                          />
+                          <label htmlFor="gdpr-consent" className="text-sm text-gray-700">
+                            I agree to the processing of my personal data as described in the{" "}
+                            <a href="/privacy-policy" className="text-romania-blue hover:underline" target="_blank" rel="noopener noreferrer">
+                              Privacy Policy
+                            </a>{" "}
+                            and consent to be contacted regarding my inquiry. *
+                          </label>
                         </div>
 
                         <button

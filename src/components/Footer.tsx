@@ -75,6 +75,7 @@ const Footer = () => {
               <li><Link to="/contact" className="text-gray-600 hover:text-romania-blue">{t('nav.contact')}</Link></li>
               <li><Link to="/add-business" className="text-gray-600 hover:text-romania-blue">{t('nav.addBusiness')}</Link></li>
               <li><Link to="/faq" className="text-gray-600 hover:text-romania-blue">{t('nav.faq')}</Link></li>
+              <li><Link to="/privacy-policy" className="text-gray-600 hover:text-romania-blue">Privacy Policy</Link></li>
             </ul>
           </nav>
           
@@ -86,7 +87,7 @@ const Footer = () => {
               </a>
             </p>
             <p className="text-gray-600 mb-2">
-              <a href="tel:+32470XXXXXX" className="hover:text-romania-blue focus:outline-none focus:underline">
+              <a href="tel:+32467789259" className="hover:text-romania-blue focus:outline-none focus:underline">
                 +32 467 78 92 59
               </a>
             </p>
