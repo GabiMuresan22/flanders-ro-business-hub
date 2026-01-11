@@ -8,9 +8,12 @@ import { contactFormSchema } from "@/lib/validation/contactFormSchema";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useAntiSpam } from "@/hooks/useAntiSpam";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Link } from "react-router-dom";
 
 const ContactPage = () => {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const antiSpam = useAntiSpam(3000);
   const [formData, setFormData] = useState({
     name: "",
@@ -25,7 +28,6 @@ const ContactPage = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // Clear error for this field when user starts typing
     if (errors[name]) {
       setErrors((prev) => {
         const newErrors = { ...prev };
@@ -40,27 +42,23 @@ const ContactPage = () => {
 
     if (isSubmitting) return;
 
-    // Clear previous errors
     setErrors({});
 
-    // Anti-spam validation (client-side first layer)
     const spamCheck = await antiSpam.validateSubmission();
     if (!spamCheck.isValid) {
       toast({
-        title: "Submission Error",
+        title: t('contact.submissionError'),
         description: spamCheck.error,
         variant: "destructive",
       });
       return;
     }
 
-    // Validate form data
     try {
       const validatedData = contactFormSchema.parse(formData);
 
       setIsSubmitting(true);
 
-      // Submit via rate-limited edge function
       const { data, error } = await supabase.functions.invoke("submit-contact", {
         body: {
           name: validatedData.name,
@@ -78,7 +76,7 @@ const ContactPage = () => {
         }
 
         toast({
-          title: "Error",
+          title: t('contact.errorTitle'),
           description: errorMessage,
           variant: "destructive",
         });
@@ -86,7 +84,6 @@ const ContactPage = () => {
         return;
       }
 
-      // Send email notification to admin
       try {
         await supabase.functions.invoke("notify-new-contact", {
           body: {
@@ -97,18 +94,16 @@ const ContactPage = () => {
           },
         });
       } catch (emailError) {
-        // Log but don't fail the submission
         if (import.meta.env.DEV) {
           console.error("Failed to send notification email:", emailError);
         }
       }
 
       toast({
-        title: "Message Sent!",
-        description: "Thank you for contacting us. We'll get back to you soon.",
+        title: t('contact.successTitle'),
+        description: t('contact.successMessage'),
       });
 
-      // Reset form
       setFormData({
         name: "",
         email: "",
@@ -119,7 +114,6 @@ const ContactPage = () => {
       setIsSubmitting(false);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        // Convert Zod errors to a more readable format
         const fieldErrors: Record<string, string> = {};
         error.issues.forEach((err) => {
           if (err.path[0]) {
@@ -129,8 +123,8 @@ const ContactPage = () => {
         setErrors(fieldErrors);
 
         toast({
-          title: "Validation Error",
-          description: "Please check the form for errors and try again.",
+          title: t('contact.validationError'),
+          description: t('contact.validationErrorMessage'),
           variant: "destructive",
         });
       }
@@ -141,9 +135,9 @@ const ContactPage = () => {
   return (
     <>
       <SEO
-        title="Contact Us - Romanian Business Hub West Flanders"
-        description="Get in touch with Romanian Business Hub. Have questions about listing your business or need support? Contact our team in West Flanders, Belgium."
-        keywords="contact Romanian Business Hub, Romanian business support Belgium, list business West Flanders, Romanian directory contact"
+        title={t('contact.seoTitle')}
+        description={t('contact.seoDescription')}
+        keywords={t('contact.seoKeywords')}
         type="website"
       />
       <div className="min-h-screen flex flex-col">
@@ -151,9 +145,9 @@ const ContactPage = () => {
         <main className="flex-grow">
           <div className="bg-romania-blue py-12">
             <div className="container mx-auto px-4">
-              <h1 className="font-playfair text-3xl md:text-4xl font-bold text-white text-center">Contact Us</h1>
+              <h1 className="font-playfair text-3xl md:text-4xl font-bold text-white text-center">{t('contact.title')}</h1>
               <p className="text-white/90 text-center mt-4 max-w-xl mx-auto">
-                Have questions or feedback? We'd love to hear from you.
+                {t('contact.subtitle')}
               </p>
             </div>
           </div>
@@ -165,12 +159,12 @@ const ContactPage = () => {
                   <div className="md:col-span-2">
                     <div className="bg-white shadow-md rounded-lg p-6 h-full flex flex-col justify-between">
                       <div className="flex-1 flex flex-col justify-center">
-                        <h2 className="font-playfair text-xl font-semibold text-gray-900 mb-6 text-center">Contact Information</h2>
+                        <h2 className="font-playfair text-xl font-semibold text-gray-900 mb-6 text-center">{t('contact.infoTitle')}</h2>
                         <div className="space-y-4 w-full max-w-sm mx-auto">
                           <div className="flex items-start">
                             <Mail className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
                             <div>
-                              <p className="text-gray-600">Email us at:</p>
+                              <p className="text-gray-600">{t('contact.emailLabel')}</p>
                               <a href="mailto:info@ro-businesshub.be" className="text-romania-blue hover:underline">
                                 info@ro-businesshub.be
                               </a>
@@ -179,7 +173,7 @@ const ContactPage = () => {
                           <div className="flex items-start">
                             <Phone className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
                             <div>
-                              <p className="text-gray-600">Call us at:</p>
+                              <p className="text-gray-600">{t('contact.phoneLabel')}</p>
                               <a href="tel:+32467789259" className="text-romania-blue hover:underline">
                                 +32 467 78 92 59
                               </a>
@@ -188,7 +182,7 @@ const ContactPage = () => {
                           <div className="flex items-start">
                             <MapPin className="h-6 w-6 text-romania-blue mr-3 mt-0.5 flex-shrink-0" />
                             <div>
-                              <p className="text-gray-600">Address:</p>
+                              <p className="text-gray-600">{t('contact.addressLabel')}</p>
                               <p className="text-gray-800">
                                 8800 Roeselare
                                 <br />
@@ -200,7 +194,7 @@ const ContactPage = () => {
                       </div>
 
                       <div className="mt-6 pt-6 border-t border-gray-200 text-center">
-                        <h3 className="font-medium text-gray-800 mb-3">Follow Us</h3>
+                        <h3 className="font-medium text-gray-800 mb-3">{t('contact.followUs')}</h3>
                         <div className="flex space-x-4 justify-center">
                           <a href="#" className="text-romania-blue hover:text-romania-red transition-colors">
                             <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -232,9 +226,8 @@ const ContactPage = () => {
 
                   <div className="md:col-span-3">
                     <div className="bg-white shadow-md rounded-lg p-6 h-full">
-                      <h2 className="font-playfair text-xl font-semibold text-gray-900 mb-6">Send Us a Message</h2>
+                      <h2 className="font-playfair text-xl font-semibold text-gray-900 mb-6">{t('contact.formTitle')}</h2>
                       <form onSubmit={handleSubmit}>
-                        {/* Honeypot field - hidden from users */}
                         <input
                           type="text"
                           name={antiSpam.honeypotField.name}
@@ -248,7 +241,7 @@ const ContactPage = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                           <div>
                             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                              Your Name *
+                              {t('contact.nameLabel')} *
                             </label>
                             <input
                               type="text"
@@ -277,7 +270,7 @@ const ContactPage = () => {
                           </div>
                           <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                              Your Email *
+                              {t('contact.emailFieldLabel')} *
                             </label>
                             <input
                               type="email"
@@ -308,7 +301,7 @@ const ContactPage = () => {
 
                         <div className="mb-6">
                           <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                            Subject *
+                            {t('contact.subjectLabel')} *
                           </label>
                           <input
                             type="text"
@@ -338,7 +331,7 @@ const ContactPage = () => {
 
                         <div className="mb-6">
                           <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                            Your Message * <span className="text-gray-500 text-xs">(min 10 characters)</span>
+                            {t('contact.messageLabel')} * <span className="text-gray-500 text-xs">{t('contact.messageHint')}</span>
                           </label>
                           <textarea
                             id="message"
@@ -353,54 +346,44 @@ const ContactPage = () => {
                             aria-required="true"
                             aria-invalid={errors.message ? "true" : "false"}
                             aria-describedby={errors.message ? "message-error" : undefined}
-                          />
-                          <div className="flex justify-between items-start mt-1">
-                            <div className="flex-1">
-                              {errors.message && (
-                                <p className="text-sm text-red-600 flex items-center gap-1">
-                                  <AlertCircle className="h-4 w-4" />
-                                  {errors.message}
-                                </p>
-                              )}
-                            </div>
-                            <span className="text-xs text-gray-500">{formData.message.length}/2000</span>
-                          </div>
+                          ></textarea>
+                          {errors.message && (
+                            <p
+                              id="message-error"
+                              className="mt-1 text-sm text-red-600 flex items-center gap-1"
+                              role="alert"
+                            >
+                              <AlertCircle className="h-4 w-4" />
+                              {errors.message}
+                            </p>
+                          )}
                         </div>
 
-                        <div className="mb-6 flex items-start gap-3">
-                          <input
-                            type="checkbox"
-                            id="gdpr-consent"
-                            required
-                            className="mt-1 h-4 w-4 text-romania-blue focus:ring-romania-blue border-gray-300 rounded"
-                          />
-                          <label htmlFor="gdpr-consent" className="text-sm text-gray-700">
-                            I agree to the processing of my personal data as described in the{" "}
-                            <a href="/privacy-policy" className="text-romania-blue hover:underline" target="_blank" rel="noopener noreferrer">
-                              Privacy Policy
-                            </a>{" "}
-                            and consent to be contacted regarding my inquiry. *
-                          </label>
+                        <div className="mb-6">
+                          <p className="text-sm text-gray-600">
+                            {t('contact.gdprText')}{" "}
+                            <Link to="/privacy-policy" className="text-romania-blue hover:underline">
+                              {t('auth.privacyPolicy')}
+                            </Link>{" "}
+                            {t('contact.gdprSuffix')}
+                          </p>
                         </div>
 
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="flex items-center justify-center bg-romania-blue text-white py-3 px-6 rounded-md hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
-                          aria-busy={isSubmitting}
+                          className={`w-full flex justify-center items-center py-3 px-4 rounded-md text-white font-semibold transition-colors ${
+                            isSubmitting
+                              ? "bg-gray-400 cursor-not-allowed"
+                              : "bg-romania-blue hover:bg-blue-700"
+                          }`}
                         >
                           {isSubmitting ? (
-                            <>
-                              <span
-                                className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full mr-2"
-                                aria-hidden="true"
-                              ></span>
-                              Sending...
-                            </>
+                            t('contact.submitting')
                           ) : (
                             <>
-                              <Send className="h-5 w-5 mr-2" aria-hidden="true" />
-                              Send Message
+                              <Send className="h-5 w-5 mr-2" />
+                              {t('contact.submitButton')}
                             </>
                           )}
                         </button>
