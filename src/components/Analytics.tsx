@@ -11,7 +11,7 @@ interface CookiePreferences {
 const GA_MEASUREMENT_ID = 'G-H8JZ4G2QE3';
 
 // Facebook Pixel ID - Replace with your actual Pixel ID when available
-const FB_PIXEL_ID = process.env.VITE_FB_PIXEL_ID || '';
+const FB_PIXEL_ID = import.meta.env.VITE_FB_PIXEL_ID || '';
 
 /**
  * GDPR-compliant Analytics component
