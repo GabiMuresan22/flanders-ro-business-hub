@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 
 interface CookiePreferences {
   essential: boolean;
@@ -207,8 +208,8 @@ export const Analytics = () => {
     }
   }, [location.pathname, location.search]);
 
-  // This component doesn't render anything
-  return null;
+  // Render Vercel Analytics component alongside other analytics
+  return <VercelAnalytics />;
 };
 
 // Extend Window interface for TypeScript
