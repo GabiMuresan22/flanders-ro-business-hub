@@ -184,5 +184,58 @@
     "description": "Alătură-te directorului nostru pentru a-ți crește vizibilitatea și a te conecta cu comunitatea locală. Listarea afacerii tale este rapidă, ușoară și îi ajută pe clienți să te găsească.",
     "addBusiness": "Adaugă Afacerea Ta",
     "contactUs": "Contactează-ne"
+  },
+  "featured": {
+    "title": "Afaceri Românești Recomandate",
+    "subtitle": "Descoperă unele dintre cele mai populare afaceri românești din Flandra de Vest, care oferă produse și servicii autentice",
+    "noBusinesses": "Nu s-au găsit afaceri momentan."
+  },
+  "whyChooseUs": {
+    "title": "De Ce Să Alegi Romanian Business Hub?",
+    "subtitle": "Directorul tău de încredere pentru afaceri românești autentice în Flandra de Vest",
+    "verifiedTitle": "Afaceri Verificate",
+    "verifiedDesc": "Toate afacerile sunt verificate și aprobate de echipa noastră",
+    "communityTitle": "Bazat pe Comunitate",
+    "communityDesc": "Construit de și pentru comunitatea românească din Flandra de Vest",
+    "updatedTitle": "Mereu Actualizat",
+    "updatedDesc": "Informații proaspete și afaceri noi adăugate regulat",
+    "qualityTitle": "Servicii de Calitate",
+    "qualityDesc": "Doar cele mai bune afaceri românești ajung în directorul nostru"
+  },
+  "statistics": {
+    "businesses": "Afaceri",
+    "categories": "Categorii",
+    "cities": "Orașe",
+    "happyCustomers": "Clienți Mulțumiți"
+  },
+  "testimonials": {
+    "title": "Ce Spun Proprietarii de Afaceri",
+    "subtitle": "Ascultă experiențele proprietarilor de afaceri românești care au beneficiat de platforma noastră",
+    "role1": "Proprietar Restaurant",
+    "content1": "Listarea pe Romanian Business Hub a crescut semnificativ vizibilitatea noastră în Flandra de Vest. Am văzut mai mulți clienți belgieni venind să încerce bucătăria noastră românească autentică.",
+    "role2": "Proprietar Service Auto",
+    "content2": "Această platformă m-a ajutat să mă conectez cu comunitatea românească din Belgia și să îmi dezvolt afacerea. Listarea în director a fost de neprețuit pentru a ajunge la clienți noi.",
+    "role3": "Proprietar Patiserie",
+    "content3": "Datorită Romanian Business Hub, localnicii știu acum unde să găsească produse de patiserie românești autentice. Baza noastră de clienți s-a diversificat semnificativ de când ne-am alăturat."
+  },
+  "categoriesSection": {
+    "title": "Răsfoiește pe Categorii",
+    "subtitle": "Găsește afaceri românești pe categorii în toată Flandra de Vest"
+  },
+  "newsletter": {
+    "title": "Rămâi la Curent",
+    "subtitle": "Abonează-te la newsletter-ul nostru și primește notificări despre afaceri noi, oferte speciale și evenimente comunitare",
+    "placeholder": "Introdu email-ul tău",
+    "subscribe": "Abonează-te",
+    "subscribing": "Se abonează...",
+    "emailRequired": "Email-ul este obligatoriu",
+    "invalidEmail": "Te rugăm să introduci o adresă de email validă",
+    "alreadySubscribed": "Deja abonat",
+    "alreadySubscribedDesc": "Acest email este deja abonat la newsletter-ul nostru.",
+    "successTitle": "Abonat cu succes!",
+    "successDesc": "Mulțumim pentru abonarea la newsletter-ul nostru.",
+    "failedTitle": "Abonare eșuată",
+    "failedDesc": "Nu s-a putut efectua abonarea. Te rugăm să încerci din nou.",
+    "networkError": "Eroare de rețea. Te rugăm să verifici conexiunea."
   }
 }

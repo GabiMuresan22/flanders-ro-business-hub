@@ -184,5 +184,58 @@
     "description": "Join our directory to increase your visibility and connect with the local community. Listing your business is quick, easy, and helps customers find you.",
     "addBusiness": "Add Your Business",
     "contactUs": "Contact Us"
+  },
+  "featured": {
+    "title": "Featured Romanian Businesses",
+    "subtitle": "Discover some of the most popular Romanian businesses across West Flanders, offering authentic products and services",
+    "noBusinesses": "No businesses found at the moment."
+  },
+  "whyChooseUs": {
+    "title": "Why Choose Romanian Business Hub?",
+    "subtitle": "Your trusted directory for authentic Romanian businesses in West Flanders",
+    "verifiedTitle": "Verified Businesses",
+    "verifiedDesc": "All businesses are verified and approved by our team",
+    "communityTitle": "Community Driven",
+    "communityDesc": "Built by and for the Romanian community in West Flanders",
+    "updatedTitle": "Always Updated",
+    "updatedDesc": "Fresh information and new businesses added regularly",
+    "qualityTitle": "Quality Service",
+    "qualityDesc": "Only the best Romanian businesses make it to our directory"
+  },
+  "statistics": {
+    "businesses": "Businesses",
+    "categories": "Categories",
+    "cities": "Cities",
+    "happyCustomers": "Happy Customers"
+  },
+  "testimonials": {
+    "title": "What Business Owners Say",
+    "subtitle": "Hear from Romanian business owners who have benefited from our platform",
+    "role1": "Restaurant Owner",
+    "content1": "Being listed on the Romanian Business Hub has significantly increased our visibility in West Flanders. We've seen more Belgian customers coming to try our authentic Romanian cuisine.",
+    "role2": "Car Service Owner",
+    "content2": "This platform has helped me connect with the Romanian community in Belgium and grow my business. The directory listing has been invaluable for reaching new customers.",
+    "role3": "Bakery Owner",
+    "content3": "Thanks to Romanian Business Hub, locals now know where to find authentic Romanian pastries. Our customer base has diversified significantly since joining."
+  },
+  "categoriesSection": {
+    "title": "Browse by Category",
+    "subtitle": "Find Romanian businesses by category across West Flanders"
+  },
+  "newsletter": {
+    "title": "Stay Updated",
+    "subtitle": "Subscribe to our newsletter and get notified about new businesses, special offers, and community events",
+    "placeholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "subscribing": "Subscribing...",
+    "emailRequired": "Email is required",
+    "invalidEmail": "Please enter a valid email address",
+    "alreadySubscribed": "Already subscribed",
+    "alreadySubscribedDesc": "This email is already subscribed to our newsletter.",
+    "successTitle": "Successfully subscribed!",
+    "successDesc": "Thank you for subscribing to our newsletter.",
+    "failedTitle": "Subscription failed",
+    "failedDesc": "Failed to subscribe. Please try again.",
+    "networkError": "Network error. Please check your connection."
   }
 }

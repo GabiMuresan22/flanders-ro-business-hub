@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const StatisticsSection = () => {
+  const { t } = useLanguage();
   const [stats, setStats] = useState({
     businesses: 0,
     categories: 0,
@@ -30,10 +32,10 @@ const StatisticsSection = () => {
   }, []);
 
   const statistics = [
-    { label: 'Businesses', value: stats.businesses, suffix: '+' },
-    { label: 'Categories', value: stats.categories, suffix: '+' },
-    { label: 'Cities', value: stats.cities, suffix: '+' },
-    { label: 'Happy Customers', value: '1000', suffix: '+' }
+    { labelKey: 'statistics.businesses', value: stats.businesses, suffix: '+' },
+    { labelKey: 'statistics.categories', value: stats.categories, suffix: '+' },
+    { labelKey: 'statistics.cities', value: stats.cities, suffix: '+' },
+    { labelKey: 'statistics.happyCustomers', value: '1000', suffix: '+' }
   ];
 
   return (
@@ -45,7 +47,7 @@ const StatisticsSection = () => {
               <div className="text-4xl md:text-5xl font-bold text-white mb-2">
                 {stat.value}{stat.suffix}
               </div>
-              <div className="text-white/90 text-lg">{stat.label}</div>
+              <div className="text-white/90 text-lg">{t(stat.labelKey)}</div>
             </div>
           ))}
         </div>

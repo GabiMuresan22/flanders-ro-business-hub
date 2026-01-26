@@ -4,8 +4,10 @@ import { BusinessCategory } from '../data/businessData';
 import CategoryCard from './CategoryCard';
 import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const CategoriesSection: React.FC = () => {
+  const { t } = useLanguage();
   const [categoryCounts, setCategoryCounts] = useState<Record<BusinessCategory, number>>({} as Record<BusinessCategory, number>);
 
   useEffect(() => {
@@ -41,9 +43,9 @@ const CategoriesSection: React.FC = () => {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="font-playfair text-3xl font-bold text-gray-900 mb-4">Browse by Category</h2>
+          <h2 className="font-playfair text-3xl font-bold text-gray-900 mb-4">{t('categoriesSection.title')}</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Find Romanian businesses by category across West Flanders
+            {t('categoriesSection.subtitle')}
           </p>
         </div>
         
