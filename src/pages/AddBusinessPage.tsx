@@ -15,11 +15,13 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, Upload, X } from 'lucide-react';
 import { useAntiSpam } from '@/hooks/useAntiSpam';
+import { useLanguage } from '@/contexts/LanguageContext';
 import type { User } from '@supabase/supabase-js';
 
 const AddBusinessPage = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const antiSpam = useAntiSpam(5000);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [user, setUser] = useState<User | null>(null);
@@ -53,6 +55,7 @@ const AddBusinessPage = () => {
       address: "",
       city: "",
       postalCode: "",
+      btwNumber: "",
       description: "",
       category: "",
       website: "",
@@ -77,8 +80,8 @@ const AddBusinessPage = () => {
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         toast({
-          title: "File too large",
-          description: "Image must be less than 5MB",
+          title: t('addBusiness.fileTooLarge'),
+          description: t('addBusiness.fileTooLargeMessage'),
           variant: "destructive",
         });
         return;
@@ -87,8 +90,8 @@ const AddBusinessPage = () => {
       // Validate file type
       if (!file.type.startsWith('image/')) {
         toast({
-          title: "Invalid file type",
-          description: "Please upload an image file",
+          title: t('addBusiness.invalidFileType'),
+          description: t('addBusiness.invalidFileTypeMessage'),
           variant: "destructive",
         });
         return;
@@ -111,8 +114,8 @@ const AddBusinessPage = () => {
   async function onSubmit(values: FormSchema) {
     if (!user) {
       toast({
-        title: "Authentication required",
-        description: "Please log in to submit a business.",
+        title: t('addBusiness.authRequired'),
+        description: t('addBusiness.authRequiredMessage'),
         variant: "destructive",
       });
       return;
@@ -122,7 +125,7 @@ const AddBusinessPage = () => {
     const spamCheck = await antiSpam.validateSubmission();
     if (!spamCheck.isValid) {
       toast({
-        title: "Submission Error",
+        title: t('addBusiness.submissionError'),
         description: spamCheck.error,
         variant: "destructive",
       });
@@ -169,6 +172,7 @@ const AddBusinessPage = () => {
           address: values.address,
           city: values.city,
           postal_code: values.postalCode,
+          btw_number: values.btwNumber,
           description: values.description,
           category: values.category,
           website: values.website || null,
@@ -208,8 +212,8 @@ const AddBusinessPage = () => {
       }
       
       toast({
-        title: "Business submission received!",
-        description: "We'll review your business and add it to our directory soon.",
+        title: t('addBusiness.successTitle'),
+        description: t('addBusiness.successMessage'),
       });
       
       // Reset the form and image
@@ -221,24 +225,24 @@ const AddBusinessPage = () => {
         console.error('Error submitting business:', error);
       }
       
-      let errorMessage = "Unable to submit your business. Please try again later.";
+      let errorMessage = t('addBusiness.genericError');
       
       // Provide more specific error messages
       if (error instanceof Error) {
         if (error.message?.includes('duplicate')) {
-          errorMessage = "This business has already been submitted.";
+          errorMessage = t('addBusiness.duplicateError');
         } else if (error.message?.includes('network') || error.message?.includes('fetch')) {
-          errorMessage = "Network error. Please check your connection and try again.";
+          errorMessage = t('addBusiness.networkError');
         }
         
         // Check for PostgreSQL error code
         if ('code' in error && error.code === '23505') {
-          errorMessage = "A business with this information already exists.";
+          errorMessage = t('addBusiness.duplicateInfoError');
         }
       }
       
       toast({
-        title: "Submission failed",
+        title: t('addBusiness.errorTitle'),
         description: errorMessage,
         variant: "destructive",
       });
@@ -280,10 +284,10 @@ const AddBusinessPage = () => {
         <div className="bg-romania-blue py-12">
           <div className="container mx-auto px-4">
             <h1 className="font-playfair text-3xl md:text-4xl font-bold text-white text-center">
-              Add Your Business
+              {t('addBusiness.title')}
             </h1>
             <p className="text-white/90 text-center mt-4 max-w-xl mx-auto">
-              Join our directory to increase your visibility and connect with the local Romanian community in West Flanders.
+              {t('addBusiness.subtitle')}
             </p>
           </div>
         </div>
@@ -294,19 +298,19 @@ const AddBusinessPage = () => {
               {!user && (
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Login Required</AlertTitle>
+                  <AlertTitle>{t('addBusiness.loginRequired')}</AlertTitle>
                   <AlertDescription>
-                    You must be logged in to submit a business. Please{' '}
+                    {t('addBusiness.loginRequiredMessage')}{' '}
                     <a href="/auth?redirect=/add-business" className="underline font-semibold">
-                      login or create an account
+                      {t('addBusiness.loginLink')}
                     </a>{' '}
-                    to continue.
+                    {t('addBusiness.loginRequiredSuffix')}
                   </AlertDescription>
                 </Alert>
               )}
               
               <div className="bg-white shadow-md rounded-lg p-6 md:p-8">
-              <h2 className="font-playfair text-2xl font-semibold text-gray-900 mb-6">Business Information</h2>
+              <h2 className="font-playfair text-2xl font-semibold text-gray-900 mb-6">{t('addBusiness.businessInfo')}</h2>
               
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -327,10 +331,10 @@ const AddBusinessPage = () => {
                       name="businessName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Business Name *</FormLabel>
+                          <FormLabel>{t('addBusiness.businessName')} *</FormLabel>
                           <FormControl>
                             <Input 
-                              placeholder="Your business name" 
+                              placeholder={t('addBusiness.businessNamePlaceholder')} 
                               {...field}
                               aria-required="true"
                             />
@@ -352,9 +356,9 @@ const AddBusinessPage = () => {
                       name="ownerName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Owner Name *</FormLabel>
+                          <FormLabel>{t('addBusiness.ownerName')} *</FormLabel>
                           <FormControl>
-                            <Input placeholder="Your full name" {...field} />
+                            <Input placeholder={t('addBusiness.ownerNamePlaceholder')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -366,11 +370,11 @@ const AddBusinessPage = () => {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email *</FormLabel>
+                          <FormLabel>{t('addBusiness.email')} *</FormLabel>
                           <FormControl>
                             <Input 
                               type="email" 
-                              placeholder="your@email.com" 
+                              placeholder={t('addBusiness.emailPlaceholder')} 
                               {...field}
                               aria-required="true"
                             />
@@ -392,9 +396,9 @@ const AddBusinessPage = () => {
                       name="phone"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Phone Number *</FormLabel>
+                          <FormLabel>{t('addBusiness.phone')} *</FormLabel>
                           <FormControl>
-                            <Input placeholder="+32 xxx xx xx xx" {...field} />
+                            <Input placeholder={t('addBusiness.phonePlaceholder')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -408,9 +412,9 @@ const AddBusinessPage = () => {
                       name="address"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Address *</FormLabel>
+                          <FormLabel>{t('addBusiness.address')} *</FormLabel>
                           <FormControl>
-                            <Input placeholder="Street address" {...field} />
+                            <Input placeholder={t('addBusiness.addressPlaceholder')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -423,9 +427,9 @@ const AddBusinessPage = () => {
                         name="city"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>City *</FormLabel>
+                            <FormLabel>{t('addBusiness.city')} *</FormLabel>
                             <FormControl>
-                              <Input placeholder="City" {...field} />
+                              <Input placeholder={t('addBusiness.cityPlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -437,9 +441,9 @@ const AddBusinessPage = () => {
                         name="postalCode"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Postal Code *</FormLabel>
+                            <FormLabel>{t('addBusiness.postalCode')} *</FormLabel>
                             <FormControl>
-                              <Input placeholder="Postal code" {...field} />
+                              <Input placeholder={t('addBusiness.postalCodePlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -449,16 +453,31 @@ const AddBusinessPage = () => {
 
                     <FormField
                       control={form.control}
+                      name="btwNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('addBusiness.btwNumber')} *</FormLabel>
+                          <FormControl>
+                            <Input placeholder={t('addBusiness.btwNumberPlaceholder')} {...field} />
+                          </FormControl>
+                          <p className="text-sm text-muted-foreground">{t('addBusiness.btwNumberRequired')}</p>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
                       name="category"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Business Category *</FormLabel>
+                          <FormLabel>{t('addBusiness.category')} *</FormLabel>
                           <FormControl>
                             <select
                               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                               {...field}
                             >
-                              <option value="" disabled>Select a category</option>
+                              <option value="" disabled>{t('addBusiness.categorySelect')}</option>
                               {categories.map((category) => (
                                 <option key={category} value={category}>{category}</option>
                               ))}
@@ -474,9 +493,9 @@ const AddBusinessPage = () => {
                       name="website"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Website (Optional)</FormLabel>
+                          <FormLabel>{t('addBusiness.website')}</FormLabel>
                           <FormControl>
-                            <Input placeholder="https://yourwebsite.com" {...field} />
+                            <Input placeholder={t('addBusiness.websitePlaceholder')} {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -485,8 +504,8 @@ const AddBusinessPage = () => {
 
                     {/* Opening Hours Section */}
                     <div className="space-y-4">
-                      <h3 className="font-playfair text-lg font-semibold text-gray-800">Opening Hours (Optional)</h3>
-                      <p className="text-sm text-gray-600">Enter your business hours for each day (e.g., "09:00 - 17:00" or "Closed")</p>
+                      <h3 className="font-playfair text-lg font-semibold text-gray-800">{t('addBusiness.openingHours')}</h3>
+                      <p className="text-sm text-gray-600">{t('addBusiness.openingHoursHelp')}</p>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const).map((day) => (
@@ -498,7 +517,7 @@ const AddBusinessPage = () => {
                               <FormItem>
                                 <FormLabel className="capitalize">{day}</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="e.g., 09:00 - 17:00" {...field} />
+                                  <Input placeholder={t('addBusiness.openingHoursPlaceholder')} {...field} />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -509,7 +528,7 @@ const AddBusinessPage = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <FormLabel>Business Photo (Optional)</FormLabel>
+                      <FormLabel>{t('addBusiness.businessPhoto')}</FormLabel>
                       <div className="flex flex-col gap-4">
                         {imagePreview ? (
                           <div className="relative w-full max-w-md">
@@ -535,9 +554,9 @@ const AddBusinessPage = () => {
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
                               <Upload className="w-10 h-10 mb-3 text-gray-400" />
                               <p className="mb-2 text-sm text-gray-500">
-                                <span className="font-semibold">Click to upload</span> or drag and drop
+                                <span className="font-semibold">{t('addBusiness.uploadClick')}</span> {t('addBusiness.uploadDrag')}
                               </p>
-                              <p className="text-xs text-gray-500">PNG, JPG or WEBP (max 5MB)</p>
+                              <p className="text-xs text-gray-500">{t('addBusiness.uploadFormat')}</p>
                             </div>
                             <input
                               id="business-image"
@@ -556,10 +575,10 @@ const AddBusinessPage = () => {
                       name="description"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Business Description *</FormLabel>
+                          <FormLabel>{t('addBusiness.description')} *</FormLabel>
                           <FormControl>
                             <Textarea 
-                              placeholder="Tell us about your business, services, and what makes it special..." 
+                              placeholder={t('addBusiness.descriptionPlaceholder')} 
                               className="min-h-[120px]"
                               maxLength={1000}
                               {...field} 
@@ -567,6 +586,7 @@ const AddBusinessPage = () => {
                               aria-describedby="description-counter"
                             />
                           </FormControl>
+                          <p className="text-sm text-muted-foreground">{t('addBusiness.descriptionHint')}</p>
                           <div className="flex justify-between items-start">
                             <FormMessage className="flex items-center gap-1 text-red-600">
                               {form.formState.errors.description && (
@@ -597,10 +617,10 @@ const AddBusinessPage = () => {
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>
-                              By appointment only
+                              {t('addBusiness.appointmentOnly')}
                             </FormLabel>
                             <p className="text-sm text-muted-foreground">
-                              Check this if your business operates only by appointment
+                              {t('addBusiness.appointmentOnlyHelp')}
                             </p>
                           </div>
                         </FormItem>
@@ -620,7 +640,7 @@ const AddBusinessPage = () => {
                           </FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel>
-                              I agree to the terms and conditions and privacy policy *
+                              {t('addBusiness.agreeTerms')} *
                             </FormLabel>
                             <FormMessage />
                           </div>
@@ -632,16 +652,16 @@ const AddBusinessPage = () => {
                   <Button 
                     type="submit" 
                     className="w-full bg-romania-blue hover:bg-blue-700 transition-all" 
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !user}
                     aria-busy={isSubmitting}
                   >
                     {isSubmitting ? (
                       <span className="flex items-center gap-2 justify-center">
                         <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" aria-hidden="true"></span>
-                        Submitting...
+                        {t('addBusiness.submitting')}
                       </span>
                     ) : (
-                      'Submit Business'
+                      t('addBusiness.submitButton')
                     )}
                   </Button>
                 </form>
