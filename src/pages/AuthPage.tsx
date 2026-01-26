@@ -405,7 +405,7 @@ const AuthPage = () => {
                 </div>
                 {!isLogin && !passwordError && (
                   <p id="password-hint" className="mt-1 text-sm text-gray-500">
-                    {t('auth.passwordHint')}
+                    {t('auth.passwordHint')} {t('auth.passwordStrengthHint')}
                   </p>
                 )}
                 {passwordError && passwordTouched && (
