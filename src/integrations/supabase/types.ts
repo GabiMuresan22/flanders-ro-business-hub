@@ -68,6 +68,7 @@ export type Database = {
       businesses: {
         Row: {
           address: string
+          appointment_only: boolean
           business_name: string
           category: string
           city: string
@@ -86,6 +87,7 @@ export type Database = {
         }
         Insert: {
           address: string
+          appointment_only?: boolean
           business_name: string
           category: string
           city: string
@@ -104,6 +106,7 @@ export type Database = {
         }
         Update: {
           address?: string
+          appointment_only?: boolean
           business_name?: string
           category?: string
           city?: string
@@ -273,6 +276,7 @@ export type Database = {
     Views: {
       public_businesses: {
         Row: {
+          appointment_only: boolean | null
           business_name: string | null
           category: string | null
           city: string | null
@@ -288,6 +292,7 @@ export type Database = {
           website: string | null
         }
         Insert: {
+          appointment_only?: boolean | null
           business_name?: string | null
           category?: string | null
           city?: string | null
@@ -303,6 +308,7 @@ export type Database = {
           website?: string | null
         }
         Update: {
+          appointment_only?: boolean | null
           business_name?: string | null
           category?: string | null
           city?: string | null

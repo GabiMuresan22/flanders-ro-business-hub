@@ -57,6 +57,7 @@ const AddBusinessPage = () => {
       category: "",
       website: "",
       businessImage: undefined,
+      appointmentOnly: false,
       agreeTerms: false,
       openingHours: {
         monday: "",
@@ -174,6 +175,7 @@ const AddBusinessPage = () => {
           image_url: imageUrl,
           status: 'pending',
           user_id: user.id,
+          appointment_only: values.appointmentOnly || false,
         })
         .select()
         .single();
@@ -577,6 +579,29 @@ const AddBusinessPage = () => {
                             <span id="description-counter" className="text-xs text-gray-500">
                               {field.value?.length || 0}/1000
                             </span>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="appointmentOnly"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-4 border border-input">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>
+                              By appointment only
+                            </FormLabel>
+                            <p className="text-sm text-muted-foreground">
+                              Check this if your business operates only by appointment
+                            </p>
                           </div>
                         </FormItem>
                       )}
