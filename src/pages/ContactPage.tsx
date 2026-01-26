@@ -84,20 +84,7 @@ const ContactPage = () => {
         return;
       }
 
-      try {
-        await supabase.functions.invoke("notify-new-contact", {
-          body: {
-            name: validatedData.name,
-            email: validatedData.email,
-            subject: validatedData.subject,
-            message: validatedData.message,
-          },
-        });
-      } catch (emailError) {
-        if (import.meta.env.DEV) {
-          console.error("Failed to send notification email:", emailError);
-        }
-      }
+      // Email notification is now handled by the submit-contact edge function
 
       toast({
         title: t('contact.successTitle'),

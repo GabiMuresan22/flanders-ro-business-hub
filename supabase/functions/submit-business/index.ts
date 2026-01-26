@@ -6,8 +6,8 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const RATE_LIMIT = 3; // Max submissions
-const RATE_LIMIT_WINDOW_HOURS = 1; // Per hour
+const RATE_LIMIT = 5; // Max submissions per window
+const RATE_LIMIT_WINDOW_HOURS = 24; // Per day
 
 // HTML escape function to prevent injection
 const escapeHtml = (text: string): string => {
@@ -21,6 +21,21 @@ const escapeHtml = (text: string): string => {
   return text.replace(/[&<>"']/g, (char) => htmlEntities[char] || char);
 };
 
+interface BusinessSubmission {
+  business_name: string;
+  owner_name: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  postal_code: string;
+  description: string;
+  category: string;
+  website?: string;
+  image_url?: string;
+  opening_hours?: string;
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -31,7 +46,28 @@ Deno.serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Get client IP
+    // Verify JWT and get user
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const { data: authData, error: authError } = await supabase.auth.getUser(token);
+    
+    if (authError || !authData?.user) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const userId = authData.user.id;
+
+    // Get client IP for rate limiting
     const forwarded = req.headers.get('x-forwarded-for');
     const ip = forwarded ? forwarded.split(',')[0].trim() : 'unknown';
 
@@ -43,7 +79,7 @@ Deno.serve(async (req) => {
       .from('rate_limits')
       .select('*', { count: 'exact', head: true })
       .eq('ip_address', ip)
-      .eq('action_type', 'contact')
+      .eq('action_type', 'business_submission')
       .gte('created_at', windowStart.toISOString());
 
     if (countError) {
@@ -64,17 +100,25 @@ Deno.serve(async (req) => {
     }
 
     // Parse and validate input
-    const { name, email, subject, message } = await req.json();
+    const body: BusinessSubmission = await req.json();
+    const { 
+      business_name, owner_name, email, phone, address, 
+      city, postal_code, description, category, website, 
+      image_url, opening_hours 
+    } = body;
 
-    if (!name || !email || !subject || !message) {
+    // Required field validation
+    if (!business_name || !owner_name || !email || !phone || !address || !city || !postal_code || !description || !category) {
       return new Response(
-        JSON.stringify({ success: false, error: 'All fields are required' }),
+        JSON.stringify({ success: false, error: 'All required fields must be provided' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    // Basic validation
-    if (name.length > 100 || email.length > 255 || subject.length > 200 || message.length > 2000) {
+    // Length validation
+    if (business_name.length > 100 || owner_name.length > 100 || email.length > 255 || 
+        phone.length > 20 || address.length > 200 || city.length > 100 || 
+        postal_code.length > 20 || description.length > 2000 || category.length > 50) {
       return new Response(
         JSON.stringify({ success: false, error: 'Field exceeds maximum length' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -92,18 +136,34 @@ Deno.serve(async (req) => {
     // Record rate limit entry
     await supabase.from('rate_limits').insert({
       ip_address: ip,
-      action_type: 'contact',
+      action_type: 'business_submission',
     });
 
-    // Insert contact message
-    const { error: insertError } = await supabase
-      .from('contact_messages')
-      .insert({ name, email, subject, message });
+    // Insert business
+    const { data: businessData, error: insertError } = await supabase
+      .from('businesses')
+      .insert({
+        business_name,
+        owner_name,
+        email,
+        phone,
+        address,
+        city,
+        postal_code,
+        description,
+        category,
+        website: website || null,
+        image_url: image_url || null,
+        status: 'pending',
+        user_id: userId,
+      })
+      .select()
+      .single();
 
     if (insertError) {
       console.error('Insert error:', insertError);
       return new Response(
-        JSON.stringify({ success: false, error: 'Failed to submit message' }),
+        JSON.stringify({ success: false, error: 'Failed to submit business' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -116,22 +176,22 @@ Deno.serve(async (req) => {
         await resend.emails.send({
           from: "Business Directory <onboarding@resend.dev>",
           to: ["gabimuresan2289@gmail.com"],
-          subject: `New Contact Message: ${escapeHtml(subject)}`,
+          subject: `New Business Submission: ${escapeHtml(business_name)}`,
           html: `
-            <h1>New Contact Message</h1>
-            <p>A new contact message has been received.</p>
+            <h1>New Business Submission</h1>
+            <p>A new business has been submitted and is pending approval.</p>
             
-            <h2>Message Details:</h2>
+            <h2>Business Details:</h2>
             <ul>
-              <li><strong>From:</strong> ${escapeHtml(name)}</li>
+              <li><strong>Business Name:</strong> ${escapeHtml(business_name)}</li>
+              <li><strong>Owner:</strong> ${escapeHtml(owner_name)}</li>
               <li><strong>Email:</strong> ${escapeHtml(email)}</li>
-              <li><strong>Subject:</strong> ${escapeHtml(subject)}</li>
+              <li><strong>Phone:</strong> ${escapeHtml(phone)}</li>
+              <li><strong>Category:</strong> ${escapeHtml(category)}</li>
+              <li><strong>City:</strong> ${escapeHtml(city)}</li>
             </ul>
             
-            <h3>Message:</h3>
-            <p>${escapeHtml(message)}</p>
-            
-            <p>Please log in to the admin dashboard to respond to this message.</p>
+            <p>Please log in to the admin dashboard to review and approve this submission.</p>
           `,
         });
         console.log("Admin notification email sent successfully");
@@ -147,7 +207,7 @@ Deno.serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ success: true }),
+      JSON.stringify({ success: true, data: businessData }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error) {
