@@ -174,7 +174,6 @@ const AddBusinessPage = () => {
           image_url: imageUrl,
           status: 'pending',
           user_id: user.id,
-          opening_hours: values.openingHours || null,
         })
         .select()
         .single();
