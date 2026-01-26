@@ -1,46 +1,41 @@
 
 import React from 'react';
-
-interface Testimonial {
-  id: number;
-  name: string;
-  role: string;
-  content: string;
-  avatarUrl: string;
-}
-
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    name: "Maria Ionescu",
-    role: "Restaurant Owner",
-    content: "Being listed on the Romanian Business Hub has significantly increased our visibility in West Flanders. We've seen more Belgian customers coming to try our authentic Romanian cuisine.",
-    avatarUrl: "/images/avatar-1.jpg"
-  },
-  {
-    id: 2,
-    name: "Andrei Popescu",
-    role: "Car Service Owner",
-    content: "This platform has helped me connect with the Romanian community in Belgium and grow my business. The directory listing has been invaluable for reaching new customers.",
-    avatarUrl: "/images/avatar-2.jpg"
-  },
-  {
-    id: 3,
-    name: "Elena Dimitriu",
-    role: "Bakery Owner",
-    content: "Thanks to Romanian Business Hub, locals now know where to find authentic Romanian pastries. Our customer base has diversified significantly since joining.",
-    avatarUrl: "/images/avatar-3.jpg"
-  }
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const TestimonialsSection: React.FC = () => {
+  const { t } = useLanguage();
+
+  const testimonials = [
+    {
+      id: 1,
+      name: "Maria Ionescu",
+      roleKey: "testimonials.role1",
+      contentKey: "testimonials.content1",
+      avatarUrl: "/images/avatar-1.jpg"
+    },
+    {
+      id: 2,
+      name: "Andrei Popescu",
+      roleKey: "testimonials.role2",
+      contentKey: "testimonials.content2",
+      avatarUrl: "/images/avatar-2.jpg"
+    },
+    {
+      id: 3,
+      name: "Elena Dimitriu",
+      roleKey: "testimonials.role3",
+      contentKey: "testimonials.content3",
+      avatarUrl: "/images/avatar-3.jpg"
+    }
+  ];
+
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="font-playfair text-3xl font-bold text-gray-900 mb-4">What Business Owners Say</h2>
+          <h2 className="font-playfair text-3xl font-bold text-gray-900 mb-4">{t('testimonials.title')}</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Hear from Romanian business owners who have benefited from our platform
+            {t('testimonials.subtitle')}
           </p>
         </div>
         
@@ -60,10 +55,10 @@ const TestimonialsSection: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900">{testimonial.name}</h3>
-                  <p className="text-sm text-gray-500">{testimonial.role}</p>
+                  <p className="text-sm text-gray-500">{t(testimonial.roleKey)}</p>
                 </div>
               </div>
-              <p className="text-gray-600 italic">&ldquo;{testimonial.content}&rdquo;</p>
+              <p className="text-gray-600 italic">&ldquo;{t(testimonial.contentKey)}&rdquo;</p>
               <div className="mt-4 flex text-romania-yellow">
                 {[...Array(5)].map((_, i) => (
                   <svg key={i} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
