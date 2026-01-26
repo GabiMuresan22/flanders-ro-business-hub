@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import BusinessListSkeleton from '@/components/skeletons/BusinessListSkeleton';
@@ -18,6 +19,7 @@ const MyBusinessesPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const { toast } = useToast();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const fetchBusinesses = useCallback(async (userId: string) => {
@@ -35,8 +37,8 @@ const MyBusinessesPage = () => {
     } catch (error) {
       console.error('Error fetching businesses:', error);
       toast({
-        title: "Error",
-        description: "Failed to load your businesses.",
+        title: t('common.error'),
+        description: t('myBusinesses.loadError'),
         variant: "destructive",
       });
     } finally {
@@ -73,16 +75,16 @@ const MyBusinessesPage = () => {
       if (error) throw error;
 
       toast({
-        title: "Success",
-        description: "Business deleted successfully.",
+        title: t('common.success'),
+        description: t('myBusinesses.deleteSuccess'),
       });
 
       setBusinesses(businesses.filter(b => b.id !== businessId));
     } catch (error) {
       console.error('Error deleting business:', error);
       toast({
-        title: "Error",
-        description: "Failed to delete business.",
+        title: t('common.error'),
+        description: t('myBusinesses.deleteError'),
         variant: "destructive",
       });
     }
@@ -95,9 +97,15 @@ const MyBusinessesPage = () => {
       rejected: 'destructive',
     };
 
+    const statusLabels: Record<string, string> = {
+      approved: t('myBusinesses.statusApproved'),
+      pending: t('myBusinesses.statusPending'),
+      rejected: t('myBusinesses.statusRejected'),
+    };
+
     return (
       <Badge variant={variants[status] || 'secondary'}>
-        {status.charAt(0).toUpperCase() + status.slice(1)}
+        {statusLabels[status] || status.charAt(0).toUpperCase() + status.slice(1)}
       </Badge>
     );
   };
@@ -138,10 +146,10 @@ const MyBusinessesPage = () => {
         <div className="bg-romania-blue py-12">
           <div className="container mx-auto px-4">
             <h1 className="font-playfair text-3xl md:text-4xl font-bold text-white text-center">
-              My Businesses
+              {t('myBusinesses.title')}
             </h1>
             <p className="text-white/90 text-center mt-4 max-w-xl mx-auto">
-              Manage your business listings and track their approval status
+              {t('myBusinesses.subtitle')}
             </p>
           </div>
         </div>
@@ -151,14 +159,14 @@ const MyBusinessesPage = () => {
             <div className="max-w-6xl mx-auto">
               <div className="flex justify-between items-center mb-8">
                 <h2 className="text-2xl font-playfair font-semibold text-gray-900">
-                  Your Submissions ({businesses.length})
+                  {t('myBusinesses.yourSubmissions')} ({businesses.length})
                 </h2>
                 <Button 
                   onClick={() => navigate('/add-business')}
                   className="bg-romania-blue hover:bg-blue-700"
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  Add New Business
+                  {t('myBusinesses.addNewBusiness')}
                 </Button>
               </div>
 
@@ -166,16 +174,16 @@ const MyBusinessesPage = () => {
                 <Card>
                   <CardContent className="flex flex-col items-center justify-center py-12">
                     <Building2 className="h-16 w-16 text-gray-300 mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-700 mb-2">No businesses yet</h3>
+                    <h3 className="text-xl font-semibold text-gray-700 mb-2">{t('myBusinesses.noBusinessesTitle')}</h3>
                     <p className="text-gray-500 mb-6 text-center max-w-md">
-                      You haven't submitted any businesses. Start by adding your first business to our directory.
+                      {t('myBusinesses.noBusinessesMessage')}
                     </p>
                     <Button 
                       onClick={() => navigate('/add-business')}
                       className="bg-romania-blue hover:bg-blue-700"
                     >
                       <Plus className="h-4 w-4 mr-2" />
-                      Add Your First Business
+                      {t('myBusinesses.addFirstBusiness')}
                     </Button>
                   </CardContent>
                 </Card>
@@ -192,7 +200,7 @@ const MyBusinessesPage = () => {
                             <CardDescription className="mt-2">
                               <span className="inline-flex items-center text-sm">
                                 <Clock className="h-4 w-4 mr-1" />
-                                Submitted {new Date(business.created_at).toLocaleDateString()}
+                                {t('myBusinesses.submitted')} {new Date(business.created_at).toLocaleDateString()}
                               </span>
                             </CardDescription>
                           </div>
@@ -206,28 +214,28 @@ const MyBusinessesPage = () => {
                           <div className="flex items-start gap-2">
                             <Building2 className="h-5 w-5 text-romania-blue mt-0.5" />
                             <div>
-                              <p className="text-sm text-gray-500">Category</p>
+                              <p className="text-sm text-gray-500">{t('myBusinesses.category')}</p>
                               <p className="font-medium">{business.category}</p>
                             </div>
                           </div>
                           <div className="flex items-start gap-2">
                             <MapPin className="h-5 w-5 text-romania-blue mt-0.5" />
                             <div>
-                              <p className="text-sm text-gray-500">Location</p>
+                              <p className="text-sm text-gray-500">{t('myBusinesses.location')}</p>
                               <p className="font-medium">{business.city}, {business.postal_code}</p>
                             </div>
                           </div>
                           <div className="flex items-start gap-2">
                             <Mail className="h-5 w-5 text-romania-blue mt-0.5" />
                             <div>
-                              <p className="text-sm text-gray-500">Email</p>
+                              <p className="text-sm text-gray-500">{t('myBusinesses.email')}</p>
                               <p className="font-medium">{business.email}</p>
                             </div>
                           </div>
                           <div className="flex items-start gap-2">
                             <Phone className="h-5 w-5 text-romania-blue mt-0.5" />
                             <div>
-                              <p className="text-sm text-gray-500">Phone</p>
+                              <p className="text-sm text-gray-500">{t('myBusinesses.phone')}</p>
                               <p className="font-medium">{business.phone}</p>
                             </div>
                           </div>
@@ -237,7 +245,7 @@ const MyBusinessesPage = () => {
                           <div className="flex items-start gap-2 mb-4">
                             <Globe className="h-5 w-5 text-romania-blue mt-0.5" />
                             <div>
-                              <p className="text-sm text-gray-500">Website</p>
+                              <p className="text-sm text-gray-500">{t('myBusinesses.website')}</p>
                               <a 
                                 href={business.website} 
                                 target="_blank" 
@@ -251,7 +259,7 @@ const MyBusinessesPage = () => {
                         )}
 
                         <div className="mb-4">
-                          <p className="text-sm text-gray-500 mb-1">Description</p>
+                          <p className="text-sm text-gray-500 mb-1">{t('myBusinesses.description')}</p>
                           <p className="text-gray-700 line-clamp-2">{business.description}</p>
                         </div>
 
@@ -262,29 +270,29 @@ const MyBusinessesPage = () => {
                             onClick={() => navigate(`/business/${business.id}/edit`)}
                           >
                             <Edit className="h-4 w-4 mr-2" />
-                            Edit
+                            {t('myBusinesses.edit')}
                           </Button>
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
                               <Button variant="outline" size="sm">
                                 <Trash2 className="h-4 w-4 mr-2" />
-                                Delete
+                                {t('myBusinesses.delete')}
                               </Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
-                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                <AlertDialogTitle>{t('myBusinesses.deleteConfirmTitle')}</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  This action cannot be undone. This will permanently delete your business listing.
+                                  {t('myBusinesses.deleteConfirmMessage')}
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogCancel>{t('myBusinesses.cancel')}</AlertDialogCancel>
                                 <AlertDialogAction
                                   onClick={() => handleDelete(business.id)}
                                   className="bg-red-600 hover:bg-red-700"
                                 >
-                                  Delete
+                                  {t('myBusinesses.delete')}
                                 </AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>
