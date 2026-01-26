@@ -49,6 +49,7 @@
     "invalidResetLink": "Invalid or Expired Link",
     "invalidResetLinkDescription": "This password reset link is invalid or has expired. Please request a new one.",
     "passwordUpdateFailed": "Failed to update password. Please request a new reset link.",
+    "samePasswordError": "New password must be different from your current password.",
     "backToLogin": "Back to Login",
     "noAccount": "Don't have an account? Sign up",
     "hasAccount": "Already have an account? Login",
