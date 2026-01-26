@@ -187,7 +187,7 @@ const AddBusinessPage = () => {
         console.log('Business submitted successfully:', data);
       }
 
-      // Send email notification to admin
+      // Send email notification to admin via edge function
       try {
         await supabase.functions.invoke('notify-new-business', {
           body: {
@@ -200,7 +200,7 @@ const AddBusinessPage = () => {
           },
         });
       } catch (emailError) {
-        // Log but don't fail the submission
+        // Log but don't fail the submission - notification is non-critical
         if (import.meta.env.DEV) {
           console.error('Failed to send notification email:', emailError);
         }
