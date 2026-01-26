@@ -10,11 +10,17 @@ import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
 import { MapPin, Phone, Mail, Globe } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import type { BusinessRow, ReviewRow } from '@/types/database';
+import type { PublicBusiness, ReviewRow } from '@/types/database';
+
+// Extended type for public business with contact info from updated view
+type PublicBusinessWithContact = PublicBusiness & {
+  phone?: string | null;
+  email?: string | null;
+};
 
 const BusinessDetails = () => {
   const { id } = useParams<{ id: string }>();
-  const [business, setBusiness] = useState<BusinessRow | null>(null);
+  const [business, setBusiness] = useState<PublicBusinessWithContact | null>(null);
   const [loading, setLoading] = useState(true);
   const [reviews, setReviews] = useState<ReviewRow[]>([]);
   const [averageRating, setAverageRating] = useState<number>(0);
@@ -22,12 +28,13 @@ const BusinessDetails = () => {
   const fetchBusiness = useCallback(async () => {
     if (!id) return;
     
+    // Use public_businesses view to protect sensitive owner information
+    // (owner_name, address are excluded from the view)
     const { data } = await supabase
-      .from('businesses')
+      .from('public_businesses')
       .select('*')
       .eq('id', id)
-      .eq('status', 'approved')
-      .single();
+      .maybeSingle();
 
     setBusiness(data);
     setLoading(false);
@@ -91,7 +98,6 @@ const BusinessDetails = () => {
     "description": business.description,
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": business.address,
       "addressLocality": business.city,
       "postalCode": business.postal_code,
       "addressCountry": "BE"
@@ -178,7 +184,6 @@ const BusinessDetails = () => {
                   <div className="flex items-start">
                     <MapPin className="h-5 w-5 text-romania-blue mr-3 mt-0.5" />
                     <div>
-                      <p className="text-gray-600">{business.address}</p>
                       <p className="text-gray-600">{business.city}, {business.postal_code}</p>
                     </div>
                   </div>
@@ -205,7 +210,7 @@ const BusinessDetails = () => {
                 </div>
                 <div className="mt-6">
                   <a 
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.address}, ${business.city}, Belgium`)}`} 
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.city}, ${business.postal_code}, Belgium`)}`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="block w-full bg-romania-blue text-white text-center py-2 px-4 rounded hover:bg-blue-700 transition-colors"
