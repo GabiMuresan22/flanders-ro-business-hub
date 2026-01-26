@@ -107,9 +107,11 @@ const ResetPasswordPage = () => {
       const { error } = await supabase.auth.updateUser({ password: newPassword });
 
       if (error) {
+        const isSamePassword = error.message?.includes('same password') || 
+                               (error as any).code === 'same_password';
         toast({
           title: t('common.error'),
-          description: t('auth.passwordUpdateFailed'),
+          description: isSamePassword ? t('auth.samePasswordError') : t('auth.passwordUpdateFailed'),
           variant: 'destructive',
         });
         return;
