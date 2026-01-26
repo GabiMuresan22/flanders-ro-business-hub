@@ -27,6 +27,11 @@ export const formSchema = z.object({
   postalCode: z.string().min(4, {
     message: "Please enter a valid postal code.",
   }),
+  btwNumber: z.string().min(1, {
+    message: "BTW number is required for Belgian businesses.",
+  }).regex(/^BE\s?\d{4}\.?\d{3}\.?\d{3}$/, {
+    message: "Please enter a valid Belgian BTW number (e.g., BE 0123.456.789).",
+  }),
   description: z.string().min(10, {
     message: "Description must be at least 10 characters.",
   }),
