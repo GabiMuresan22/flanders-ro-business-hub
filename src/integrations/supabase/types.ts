@@ -278,8 +278,10 @@ export type Database = {
           city: string | null
           created_at: string | null
           description: string | null
+          email: string | null
           id: string | null
           image_url: string | null
+          phone: string | null
           postal_code: string | null
           status: string | null
           updated_at: string | null
@@ -291,8 +293,10 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           description?: string | null
+          email?: string | null
           id?: string | null
           image_url?: string | null
+          phone?: string | null
           postal_code?: string | null
           status?: string | null
           updated_at?: string | null
@@ -304,8 +308,10 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           description?: string | null
+          email?: string | null
           id?: string | null
           image_url?: string | null
+          phone?: string | null
           postal_code?: string | null
           status?: string | null
           updated_at?: string | null
