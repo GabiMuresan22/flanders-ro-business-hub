@@ -183,10 +183,6 @@ const AddBusinessPage = () => {
         throw error;
       }
 
-      if (import.meta.env.DEV) {
-        console.log('Business submitted successfully:', data);
-      }
-
       // Send email notification to admin
       try {
         await supabase.functions.invoke('notify-new-business', {

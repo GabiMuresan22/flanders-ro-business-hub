@@ -14,12 +14,12 @@ const SEO = ({
   title = 'Romanian Business Hub - Find Romanian Businesses in West Flanders, Belgium',
   description = 'Discover trusted Romanian businesses in West Flanders, Belgium. Find restaurants, services, shops, and more from the Romanian community.',
   keywords = 'Romanian businesses Belgium, Romanian services West Flanders, Romanian restaurants Belgium, Romanian community Belgium',
-  ogImage = 'https://lovable.dev/opengraph-image-p98pqg.png',
+  ogImage = 'https://www.ro-businesshub.be/og-image.png',
   type = 'website',
   canonicalUrl,
 }: SEOProps) => {
   const location = useLocation();
-  const baseUrl = 'https://yoursite.lovable.app';
+  const baseUrl = 'https://www.ro-businesshub.be';
   const currentUrl = canonicalUrl || `${baseUrl}${location.pathname}`;
 
   useEffect(() => {

@@ -277,6 +277,7 @@ const AuthPage = () => {
                     <Input
                       id="email"
                       type="email"
+                      autoComplete="email"
                       placeholder={t('auth.emailPlaceholder')}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -383,6 +384,7 @@ const AuthPage = () => {
                   <Input
                     id="password"
                     type={showPassword ? 'text' : 'password'}
+                    autoComplete={isLogin ? 'current-password' : 'new-password'}
                     placeholder={t('auth.passwordPlaceholder')}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}

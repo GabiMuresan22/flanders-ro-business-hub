@@ -6,7 +6,7 @@ const CtaSection: React.FC = () => {
   return (
     <section className="py-16 bg-romania-blue relative overflow-hidden">
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[url('/images/romania-pattern.png')] bg-repeat opacity-20"></div>
+        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(255,255,255,0.06) 12px, rgba(255,255,255,0.06) 24px)' }}></div>
       </div>
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center">

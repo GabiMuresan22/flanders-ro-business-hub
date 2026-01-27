@@ -30,7 +30,7 @@ export const Analytics = () => {
         return JSON.parse(consent) as CookiePreferences;
       }
     } catch (error) {
-      console.error('Error reading cookie preferences:', error);
+      if (import.meta.env.DEV) console.error('Error reading cookie preferences:', error);
     }
     // Default: only essential cookies
     return {

@@ -18,7 +18,7 @@ const HeroSection: React.FC = () => {
   return (
     <section className="relative bg-romania-blue" aria-label="Hero section">
       <div className="absolute inset-0 overflow-hidden opacity-10" aria-hidden="true">
-        <div className="absolute inset-0 bg-[url('/images/romania-pattern.png')] bg-repeat opacity-20"></div>
+        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(255,255,255,0.06) 12px, rgba(255,255,255,0.06) 24px)' }}></div>
       </div>
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="max-w-3xl mx-auto text-center">

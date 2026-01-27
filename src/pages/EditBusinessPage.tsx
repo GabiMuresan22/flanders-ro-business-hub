@@ -99,7 +99,7 @@ const EditBusinessPage = () => {
             });
           }
         } catch (error) {
-          console.error('Error loading business:', error);
+          if (import.meta.env.DEV) console.error('Error loading business:', error);
           toast({
             title: "Error",
             description: "Failed to load business data.",
@@ -149,8 +149,8 @@ const EditBusinessPage = () => {
       
       navigate('/my-businesses');
     } catch (error) {
-      console.error('Error updating business:', error);
-      
+      if (import.meta.env.DEV) console.error('Error updating business:', error);
+
       const errorMessage = error instanceof Error ? error.message : "Unable to update your business. Please try again later.";
       toast({
         title: "Update failed",

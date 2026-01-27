@@ -22,14 +22,14 @@ export const useAntiSpam = (minSubmitTime: number = 3000): AntiSpamResult => {
   const validateSubmission = async (): Promise<{ isValid: boolean; error?: string }> => {
     // Check honeypot
     if (honeypot) {
-      console.warn('Anti-spam: Honeypot triggered');
+      if (import.meta.env.DEV) console.warn('Anti-spam: Honeypot triggered');
       return { isValid: false, error: 'Spam detected. Please try again.' };
     }
 
     // Check minimum time
     const timeSinceMount = Date.now() - mountTime.current;
     if (timeSinceMount < minSubmitTime) {
-      console.warn('Anti-spam: Form submitted too quickly');
+      if (import.meta.env.DEV) console.warn('Anti-spam: Form submitted too quickly');
       return { isValid: false, error: 'Please take your time to fill out the form.' };
     }
 

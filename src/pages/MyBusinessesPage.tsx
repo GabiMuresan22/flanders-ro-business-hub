@@ -33,7 +33,7 @@ const MyBusinessesPage = () => {
 
       setBusinesses(data || []);
     } catch (error) {
-      console.error('Error fetching businesses:', error);
+      if (import.meta.env.DEV) console.error('Error fetching businesses:', error);
       toast({
         title: "Error",
         description: "Failed to load your businesses.",
@@ -79,7 +79,7 @@ const MyBusinessesPage = () => {
 
       setBusinesses(businesses.filter(b => b.id !== businessId));
     } catch (error) {
-      console.error('Error deleting business:', error);
+      if (import.meta.env.DEV) console.error('Error deleting business:', error);
       toast({
         title: "Error",
         description: "Failed to delete business.",
