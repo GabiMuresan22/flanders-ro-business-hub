@@ -180,7 +180,6 @@ const AddBusinessPage = () => {
           status: 'pending',
           user_id: user.id,
           appointment_only: values.appointmentOnly || false,
-          opening_hours: values.openingHours ?? null,
         })
         .select()
         .single();
