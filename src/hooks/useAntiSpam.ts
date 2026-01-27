@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 interface AntiSpamResult {
   honeypotField: {
@@ -13,23 +13,21 @@ interface AntiSpamResult {
 
 export const useAntiSpam = (minSubmitTime: number = 3000): AntiSpamResult => {
   const [honeypot, setHoneypot] = useState('');
+  // Use useRef with initial value - no useEffect needed
+  // This ensures the time is captured once when the hook is first called
   const mountTime = useRef(Date.now());
 
-  useEffect(() => {
-    mountTime.current = Date.now();
-  }, []);
-
   const validateSubmission = async (): Promise<{ isValid: boolean; error?: string }> => {
-    // Check honeypot
-    if (honeypot) {
+    // Check honeypot - only if it has a value (bots fill hidden fields)
+    if (honeypot && honeypot.trim().length > 0) {
       if (import.meta.env.DEV) console.warn('Anti-spam: Honeypot triggered');
       return { isValid: false, error: 'Spam detected. Please try again.' };
     }
 
-    // Check minimum time
+    // Check minimum time - but be lenient (reduce to 2 seconds minimum)
     const timeSinceMount = Date.now() - mountTime.current;
-    if (timeSinceMount < minSubmitTime) {
-      if (import.meta.env.DEV) console.warn('Anti-spam: Form submitted too quickly');
+    if (timeSinceMount < Math.min(minSubmitTime, 2000)) {
+      if (import.meta.env.DEV) console.warn('Anti-spam: Form submitted too quickly', timeSinceMount);
       return { isValid: false, error: 'Please take your time to fill out the form.' };
     }
 
