@@ -1,6 +1,7 @@
 import React from 'react';
 import { Star } from 'lucide-react';
 import { format } from 'date-fns';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Review {
   id: string;
@@ -17,6 +18,7 @@ interface ReviewCardProps {
 }
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
+  const { t } = useLanguage();
   return (
     <div className="border rounded-lg p-4 bg-card">
       <div className="flex items-center justify-between mb-2">
@@ -34,7 +36,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
             ))}
           </div>
           <span className="font-semibold text-foreground">
-            {review.profiles?.full_name || 'Anonymous'}
+            {review.profiles?.full_name || t('businessDetails.anonymous')}
           </span>
         </div>
         <span className="text-sm text-muted-foreground">
