@@ -134,7 +134,6 @@ const EditBusinessPage = () => {
           description: values.description,
           category: values.category,
           website: values.website || null,
-          opening_hours: values.openingHours || null,
           updated_at: new Date().toISOString(),
         })
         .eq('id', id)
