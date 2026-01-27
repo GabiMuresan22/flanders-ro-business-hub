@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Globe, MapPin } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import type { BusinessCardData } from '@/types/database';
 
 interface Business {
@@ -19,6 +19,14 @@ interface BusinessCardProps {
 }
 
 const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
+  const { t } = useLanguage();
+
+  const categoryLabel = (() => {
+    const key = `businessCategories.${business.category}`;
+    const out = t(key);
+    return out === key ? business.category : out;
+  })();
+
   // Map categories to default images
   const getDefaultImage = (category: string) => {
     const categoryImageMap: { [key: string]: string } = {
@@ -48,21 +56,21 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
         <div className="flex justify-between items-start">
           <h3 className="font-playfair text-xl font-bold text-gray-800 mb-2">{business.business_name}</h3>
           <span className="bg-romania-blue text-white text-xs px-2 py-1 rounded-full">
-            {business.category}
+            {categoryLabel}
           </span>
         </div>
         <p className="text-gray-600 mb-4 line-clamp-2">{business.description}</p>
         <div className="flex items-center text-gray-500 mb-2">
           <MapPin className="h-4 w-4 mr-2" aria-hidden="true" />
           <span className="text-sm">
-            <span className="sr-only">Located in </span>
+            <span className="sr-only">{t('businessCard.locatedIn')} </span>
             {business.city}
           </span>
         </div>
         <div className="flex items-center text-gray-500 mb-2">
           <Phone className="h-4 w-4 mr-2" aria-hidden="true" />
           <a href={`tel:${business.phone}`} className="text-sm hover:text-romania-blue focus:outline-none focus:underline">
-            <span className="sr-only">Phone number: </span>
+            <span className="sr-only">{t('businessCard.phoneNumber')}: </span>
             {business.phone}
           </a>
         </div>
@@ -74,18 +82,18 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
               className="text-sm text-romania-blue hover:underline focus:outline-none focus:ring-2 focus:ring-romania-blue rounded" 
               target="_blank" 
               rel="noopener noreferrer"
-              aria-label={`Visit ${business.business_name} website`}
+              aria-label={`${t('businessCard.visitWebsite')} - ${business.business_name}`}
             >
-              Visit Website
+              {t('businessCard.visitWebsite')}
             </a>
           </div>
         )}
         <Link 
           to={`/business/${business.id}`} 
           className="block mt-4 text-center bg-romania-yellow hover:bg-romania-blue text-gray-900 hover:text-white font-medium py-2 px-4 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-romania-blue focus:ring-offset-2"
-          aria-label={`View details for ${business.business_name}`}
+          aria-label={`${t('businessCard.viewDetails')} - ${business.business_name}`}
         >
-          View Details
+          {t('businessCard.viewDetails')}
         </Link>
       </div>
     </article>

@@ -10,6 +10,7 @@ import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
 import { MapPin, Phone, Mail, Globe } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from '@/contexts/LanguageContext';
 import type { PublicBusiness, ReviewRow } from '@/types/database';
 
 // Extended type for public business with contact info from updated view
@@ -20,6 +21,7 @@ type PublicBusinessWithContact = PublicBusiness & {
 
 const BusinessDetails = () => {
   const { id } = useParams<{ id: string }>();
+  const { t } = useLanguage();
   const [business, setBusiness] = useState<PublicBusinessWithContact | null>(null);
   const [loading, setLoading] = useState(true);
   const [reviews, setReviews] = useState<ReviewRow[]>([]);
@@ -79,10 +81,10 @@ const BusinessDetails = () => {
         <Navbar />
         <main className="flex-grow container mx-auto px-4 py-12">
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Business Not Found</h2>
-            <p className="text-gray-600 mb-6">Sorry, the business you are looking for does not exist or has been removed.</p>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('businessDetails.businessNotFound')}</h2>
+            <p className="text-gray-600 mb-6">{t('businessDetails.businessNotFoundMessage')}</p>
             <Link to="/" className="bg-romania-blue text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">
-              Return to Home
+              {t('businessDetails.returnToHome')}
             </Link>
           </div>
         </main>
@@ -138,7 +140,11 @@ const BusinessDetails = () => {
           <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
             <div className="container mx-auto">
               <span className="inline-block bg-romania-yellow text-gray-900 text-sm font-medium px-3 py-1 rounded-full mb-2">
-                {business.category}
+                {(() => {
+                  const key = `businessCategories.${business.category}`;
+                  const out = t(key);
+                  return out === key ? business.category : out;
+                })()}
               </span>
               <h1 className="text-3xl md:text-4xl font-playfair font-bold text-white">{business.business_name}</h1>
             </div>
@@ -150,7 +156,7 @@ const BusinessDetails = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-2">
               <div className="bg-white rounded-lg shadow-md p-8 mb-8">
-                <h2 className="font-playfair text-2xl font-bold text-gray-800 mb-4">About</h2>
+                <h2 className="font-playfair text-2xl font-bold text-gray-800 mb-4">{t('businessDetails.about')}</h2>
                 <p className="text-gray-600 mb-6">{business.description}</p>
               </div>
 
@@ -158,7 +164,7 @@ const BusinessDetails = () => {
               {/* Reviews Section */}
               <div className="bg-white rounded-lg shadow-md p-8">
                 <h2 className="font-playfair text-2xl font-bold text-gray-800 mb-4">
-                  Reviews {averageRating > 0 && `(${averageRating} ⭐)`}
+                  {t('businessDetails.reviews')} {averageRating > 0 && `(${averageRating} ⭐)`}
                 </h2>
                 
                 <ReviewForm businessId={id!} onReviewSubmitted={fetchReviews} />
@@ -170,7 +176,7 @@ const BusinessDetails = () => {
                     ))
                   ) : (
                     <p className="text-gray-500 text-center py-4">
-                      No reviews yet. Be the first to leave a review!
+                      {t('businessDetails.noReviewsYet')}
                     </p>
                   )}
                 </div>
@@ -179,7 +185,7 @@ const BusinessDetails = () => {
             
             <div>
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="font-playfair text-xl font-semibold text-gray-800 mb-4">Contact Information</h3>
+                <h3 className="font-playfair text-xl font-semibold text-gray-800 mb-4">{t('businessDetails.contactInformation')}</h3>
                 <div className="space-y-4">
                   <div className="flex items-start">
                     <MapPin className="h-5 w-5 text-romania-blue mr-3 mt-0.5" />
@@ -203,7 +209,7 @@ const BusinessDetails = () => {
                     <div className="flex items-center">
                       <Globe className="h-5 w-5 text-romania-blue mr-3" />
                       <a href={business.website} className="text-romania-blue hover:underline" target="_blank" rel="noopener noreferrer">
-                        Visit Website
+                        {t('businessDetails.visitWebsite')}
                       </a>
                     </div>
                   )}
@@ -215,7 +221,7 @@ const BusinessDetails = () => {
                     rel="noopener noreferrer" 
                     className="block w-full bg-romania-blue text-white text-center py-2 px-4 rounded hover:bg-blue-700 transition-colors"
                   >
-                    View on Map
+                    {t('businessDetails.viewOnMap')}
                   </a>
                 </div>
               </div>

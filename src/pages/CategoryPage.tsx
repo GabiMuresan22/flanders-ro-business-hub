@@ -77,6 +77,11 @@ const CategoryPage = () => {
   }
 
   const categoryTitle = getCategoryTitle();
+  const categoryDisplay = (() => {
+    const key = `businessCategories.${categoryTitle}`;
+    const out = t(key);
+    return out === key ? categoryTitle : out;
+  })();
 
   return (
     <>
@@ -96,10 +101,10 @@ const CategoryPage = () => {
               <span className="mx-2">/</span>
               <Link to="/categories" className="hover:text-white">{t('common.categories')}</Link>
               <span className="mx-2">/</span>
-              <span className="text-white">{getCategoryTitle()}</span>
+              <span className="text-white">{categoryDisplay}</span>
             </nav>
             <h1 className="font-playfair text-3xl md:text-4xl font-bold text-white">
-              {categoryTitle} {t('categoryPage.businesses')}
+              {categoryDisplay} {t('categoryPage.businesses')}
             </h1>
           </div>
         </div>
@@ -110,7 +115,7 @@ const CategoryPage = () => {
               <p className="text-gray-600 mb-8">
                 {t('categoryPage.showingCount')
                   .replace('{count}', filteredBusinesses.length.toString())
-                  .replace('{category}', categoryTitle)}
+                  .replace('{category}', categoryDisplay)}
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredBusinesses.map((business) => (

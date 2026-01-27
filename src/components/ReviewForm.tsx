@@ -4,6 +4,7 @@ import { Textarea } from './ui/textarea';
 import { Star } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ReviewFormProps {
   businessId: string;
@@ -16,14 +17,15 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ businessId, onReviewSubmitted }
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (rating === 0) {
       toast({
-        title: 'Rating required',
-        description: 'Please select a rating before submitting',
+        title: t('reviewForm.ratingRequired'),
+        description: t('reviewForm.selectRating'),
         variant: 'destructive',
       });
       return;
@@ -36,8 +38,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ businessId, onReviewSubmitted }
       
       if (!user) {
         toast({
-          title: 'Authentication required',
-          description: 'Please log in to leave a review',
+          title: t('reviewForm.authRequired'),
+          description: t('reviewForm.loginToReview'),
           variant: 'destructive',
         });
         return;
@@ -58,8 +60,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ businessId, onReviewSubmitted }
         // Handle duplicate review
         if (error.code === '23505') {
           toast({
-            title: 'Already reviewed',
-            description: 'You have already reviewed this business',
+            title: t('reviewForm.alreadyReviewed'),
+            description: t('reviewForm.alreadyReviewedDesc'),
             variant: 'destructive',
           });
           return;
@@ -68,17 +70,17 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ businessId, onReviewSubmitted }
       }
 
       toast({
-        title: 'Review submitted!',
-        description: 'Thank you for your feedback.',
+        title: t('reviewForm.reviewSubmitted'),
+        description: t('reviewForm.thankYou'),
       });
       
       setRating(0);
       setComment('');
       onReviewSubmitted();
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to submit review. Please try again.';
+      const errorMessage = error instanceof Error ? error.message : t('reviewForm.submitFailedMessage');
       toast({
-        title: 'Submission failed',
+        title: t('reviewForm.submissionFailed'),
         description: errorMessage,
         variant: 'destructive',
       });
@@ -88,12 +90,12 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ businessId, onReviewSubmitted }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 border rounded-lg p-4 bg-card" role="form" aria-label="Leave a review">
-      <h3 className="font-semibold text-lg text-foreground">Leave a Review</h3>
+    <form onSubmit={handleSubmit} className="space-y-4 border rounded-lg p-4 bg-card" role="form" aria-label={t('reviewForm.leaveReview')}>
+      <h3 className="font-semibold text-lg text-foreground">{t('reviewForm.leaveReview')}</h3>
       
       <div>
         <label className="block text-sm font-medium mb-2 text-foreground" id="rating-label">
-          Rating *
+          {t('reviewForm.ratingLabel')}
         </label>
         <div className="flex gap-1" role="radiogroup" aria-labelledby="rating-label" aria-required="true">
           {[1, 2, 3, 4, 5].map((star) => (
@@ -121,26 +123,26 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ businessId, onReviewSubmitted }
         </div>
         {rating > 0 && (
           <p className="mt-1 text-sm text-gray-600">
-            You selected {rating} star{rating > 1 ? 's' : ''}
+            {rating === 1 ? t('reviewForm.selectedStars').replace('{count}', '1') : t('reviewForm.selectedStarsPlural').replace('{count}', String(rating))}
           </p>
         )}
       </div>
 
       <div>
         <label htmlFor="review-comment" className="block text-sm font-medium mb-2 text-foreground">
-          Comment (Optional)
+          {t('reviewForm.commentOptional')}
         </label>
         <Textarea
           id="review-comment"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          placeholder="Share your experience..."
+          placeholder={t('reviewForm.commentPlaceholder')}
           rows={4}
           maxLength={500}
           aria-describedby="comment-counter"
         />
         <p id="comment-counter" className="mt-1 text-xs text-gray-500 text-right">
-          {comment.length}/500 characters
+          {t('reviewForm.charactersCount').replace('{count}', String(comment.length))}
         </p>
       </div>
 
@@ -153,10 +155,10 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ businessId, onReviewSubmitted }
         {loading ? (
           <span className="flex items-center gap-2 justify-center">
             <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" aria-hidden="true"></span>
-            Submitting...
+            {t('reviewForm.submitting')}
           </span>
         ) : (
-          'Submit Review'
+          t('reviewForm.submitReview')
         )}
       </Button>
     </form>

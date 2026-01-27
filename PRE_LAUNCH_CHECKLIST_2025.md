@@ -207,6 +207,49 @@ npm run preview
 
 ---
 
+## 👤 NEW USERS: SIGN IN & ADD BUSINESS
+
+To allow new users to **sign up**, **sign in**, and **add a business**, verify the following (no code changes—Supabase Dashboard only).
+
+### Supabase Dashboard → Authentication
+
+1. **Enable email signup**
+   - **Authentication → Providers → Email**
+   - Ensure **“Enable Email Signup”** is **ON**.
+   - If OFF, new users cannot create an account.
+
+2. **URL configuration (required for redirects)**
+   - **Authentication → URL Configuration**
+   - **Site URL:** set to `https://www.ro-businesshub.be` (your production URL).
+   - **Redirect URLs:** add both:
+     - `https://www.ro-businesshub.be/**`
+     - `https://www.ro-businesshub.be`
+   - If you use a non-www domain too, add it as well (e.g. `https://ro-businesshub.be/**`).
+   - Without these, email confirmation and password-reset links can fail or redirect to the wrong place.
+
+3. **Email confirmation (choose one)**
+   - **Authentication → Providers → Email → “Confirm email”**
+   - **If ON (recommended for production):**  
+     New users must click the link in the signup email before they can sign in.  
+     - Ensure **Redirect URLs** (above) are correct so the link brings them back to your site.  
+     - For reliable delivery, consider **Authentication → Email Templates** and/or custom SMTP (Project Settings → Auth) so confirmation emails don’t land in spam.
+   - **If OFF:**  
+     Users can sign in immediately after signup (no confirmation email). Easier for testing; less secure for production.
+
+4. **Optional: custom SMTP**
+   - **Project Settings → Auth → SMTP**
+   - Supabase default emails can be rate-limited or go to spam. For production, use custom SMTP (e.g. Resend, SendGrid) so signup and password-reset emails deliver reliably.
+
+### Quick test
+
+- Sign up with a new email → check inbox (and spam) for confirmation if “Confirm email” is ON.
+- After confirming (or right after signup if confirmation is OFF), sign in and open **Add Business**; submit a test business.
+- If any step fails (no email, wrong redirect, or “Invalid redirect URL”), fix the **Redirect URLs** and **Site URL** in the Dashboard.
+
+**Status:** ⚠️ Verify in Supabase Dashboard
+
+---
+
 ## 🟡 MEDIUM PRIORITY - Can Fix After Launch
 
 These items improve the website but aren't blocking for launch.
@@ -292,6 +335,7 @@ These items improve the website but aren't blocking for launch.
 - [x] Add autocomplete attributes
 - [x] Restrict CORS to production
 - [ ] Verify environment variables
+- [ ] **Supabase Auth: enable email signup, set Site URL & Redirect URLs** (see “New users: sign in & add business” above)
 - [ ] Test production build
 
 ### Medium Priority (Nice to Have)

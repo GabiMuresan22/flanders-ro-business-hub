@@ -1,4 +1,3 @@
-
 import React, { useMemo, useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -8,15 +7,24 @@ import BusinessCardSkeleton from '../components/skeletons/BusinessCardSkeleton';
 import SEO from '../components/SEO';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from '@/contexts/LanguageContext';
 import type { PublicBusiness } from '@/types/database';
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
+  const { t } = useLanguage();
   const query = searchParams.get('q') || '';
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedCity, setSelectedCity] = useState<string>('all');
   const [businesses, setBusinesses] = useState<PublicBusiness[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const categoryLabel = (cat: string) => {
+    if (cat === 'all') return t('searchResults.allCategories');
+    const key = `businessCategories.${cat}`;
+    const out = t(key);
+    return out === key ? cat : out;
+  };
 
   useEffect(() => {
     const fetchBusinesses = async () => {
@@ -94,10 +102,14 @@ const SearchResults = () => {
     );
   }
 
+  const foundCountStr = t('searchResults.foundCount')
+    .replace('{count}', String(filteredBusinesses.length))
+    .replace('{businessLabel}', filteredBusinesses.length === 1 ? t('searchResults.business') : t('searchResults.businesses'));
+
   return (
     <>
       <SEO 
-        title={query ? `Search Results for "${query}" | Romanian Business Hub` : "Search Romanian Businesses | Romanian Business Hub"}
+        title={query ? t('searchResults.titleWithQuery').replace('{query}', query) : t('searchResults.titleDefault')}
         description={query ? `Find Romanian businesses matching "${query}" in West Flanders. Search results for restaurants, services, and more.` : "Search for Romanian businesses across West Flanders by name, category, or location. Find the best Romanian services in Belgium."}
         keywords={query ? `${query}, Romanian business search, find ${query} Belgium` : "search Romanian businesses, find Romanian services, business directory Belgium"}
         type="website"
@@ -108,16 +120,16 @@ const SearchResults = () => {
         <div className="bg-romania-blue py-12">
           <div className="container mx-auto px-4">
             <nav className="flex mb-4 text-white/75">
-              <Link to="/" className="hover:text-white">Home</Link>
+              <Link to="/" className="hover:text-white">{t('common.home')}</Link>
               <span className="mx-2">/</span>
-              <span className="text-white">Search Results</span>
+              <span className="text-white">{t('searchResults.title')}</span>
             </nav>
             <h1 className="font-playfair text-3xl md:text-4xl font-bold text-white">
-              Search Results
+              {t('searchResults.title')}
             </h1>
             {query && (
               <p className="text-white/90 mt-2">
-                Showing results for "{query}"
+                {t('searchResults.showingResultsFor').replace('{query}', query)}
               </p>
             )}
           </div>
@@ -126,33 +138,33 @@ const SearchResults = () => {
         <div className="container mx-auto px-4 py-12">
           {/* Filters */}
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h3 className="font-semibold text-lg mb-4 text-foreground">Filter Results</h3>
+            <h3 className="font-semibold text-lg mb-4 text-foreground">{t('searchResults.filterResults')}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2 text-foreground">Category</label>
+                <label className="block text-sm font-medium mb-2 text-foreground">{t('searchResults.category')}</label>
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All Categories" />
+                    <SelectValue placeholder={t('searchResults.allCategories')} />
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map((cat) => (
                       <SelectItem key={cat} value={cat}>
-                        {cat === 'all' ? 'All Categories' : cat}
+                        {categoryLabel(cat)}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2 text-foreground">City</label>
+                <label className="block text-sm font-medium mb-2 text-foreground">{t('searchResults.city')}</label>
                 <Select value={selectedCity} onValueChange={setSelectedCity}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All Cities" />
+                    <SelectValue placeholder={t('searchResults.allCities')} />
                   </SelectTrigger>
                   <SelectContent>
                     {cities.map((city) => (
                       <SelectItem key={city} value={city}>
-                        {city === 'all' ? 'All Cities' : city}
+                        {city === 'all' ? t('searchResults.allCities') : city}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -164,7 +176,7 @@ const SearchResults = () => {
           {filteredBusinesses.length > 0 ? (
             <div>
               <p className="text-gray-600 mb-8">
-                Found {filteredBusinesses.length} {filteredBusinesses.length === 1 ? 'business' : 'businesses'} matching your search
+                {foundCountStr}
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredBusinesses.map((business) => (
@@ -174,11 +186,11 @@ const SearchResults = () => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">No businesses found</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('searchResults.noBusinessesFound')}</h2>
               <p className="text-gray-600 mb-8">
                 {query 
-                  ? `Sorry, we couldn't find any businesses matching "${query}". Try a different search term or explore our categories.`
-                  : "Please enter a search term to find businesses."
+                  ? t('searchResults.noMatchMessage').replace('{query}', query)
+                  : t('searchResults.enterSearchTerm')
                 }
               </p>
               <div className="flex gap-4 justify-center">
@@ -186,13 +198,13 @@ const SearchResults = () => {
                   to="/" 
                   className="bg-romania-blue text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  Back to Home
+                  {t('searchResults.backToHome')}
                 </Link>
                 <Link 
                   to="/categories" 
                   className="bg-romania-yellow text-gray-900 py-3 px-6 rounded-lg hover:bg-yellow-400 transition-colors"
                 >
-                  Browse Categories
+                  {t('searchResults.browseCategories')}
                 </Link>
               </div>
             </div>
