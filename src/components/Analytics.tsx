@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 
 interface CookiePreferences {
   essential: boolean;
@@ -16,6 +17,7 @@ const FB_PIXEL_ID = import.meta.env.VITE_FB_PIXEL_ID || '';
 /**
  * GDPR-compliant Analytics component
  * Only loads analytics scripts when user has given consent
+ * Also includes Vercel Web Analytics for performance tracking
  */
 export const Analytics = () => {
   const location = useLocation();
@@ -215,8 +217,10 @@ export const Analytics = () => {
     }
   }, [location.pathname, location.search]);
 
-  // This component doesn't render anything
-  return null;
+  // Render Vercel Analytics component
+  // Note: Vercel Analytics respects user privacy and doesn't require explicit consent
+  // as it doesn't collect personal data, only anonymous page views
+  return <VercelAnalytics />;
 };
 
 // Extend Window interface for TypeScript
