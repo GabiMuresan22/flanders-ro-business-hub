@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -11,29 +11,29 @@ const StatisticsSection = () => {
     registeredUsers: 0
   });
 
-  const fetchStats = useCallback(async () => {
-    const [businessesRes, userCountRes] = await Promise.all([
-      supabase.from('public_businesses').select('category, city'),
-      supabase.rpc('get_user_count')
-    ]);
-
-    const businesses = businessesRes.data ?? [];
-    const userCount = userCountRes.data != null ? Number(userCountRes.data) : 0;
-
-    const uniqueCategories = new Set(businesses.map(b => b.category)).size;
-    const uniqueCities = new Set(businesses.map(b => b.city)).size;
-
-    setStats({
-      businesses: businesses.length,
-      categories: uniqueCategories,
-      cities: uniqueCities,
-      registeredUsers: userCount
-    });
-  }, []);
-
   useEffect(() => {
-    void fetchStats();
-  }, [fetchStats]);
+    const fetchStats = async () => {
+      const [businessesRes, userCountRes] = await Promise.all([
+        supabase.from('public_businesses').select('category, city'),
+        supabase.rpc('get_user_count')
+      ]);
+
+      const businesses = businessesRes.data ?? [];
+      const userCount = userCountRes.data != null ? Number(userCountRes.data) : 0;
+
+      const uniqueCategories = new Set(businesses.map(b => b.category)).size;
+      const uniqueCities = new Set(businesses.map(b => b.city)).size;
+
+      setStats({
+        businesses: businesses.length,
+        categories: uniqueCategories,
+        cities: uniqueCities,
+        registeredUsers: userCount
+      });
+    };
+
+    fetchStats();
+  }, []);
 
   const statistics = [
     { labelKey: 'statistics.businesses', value: stats.businesses, suffix: '+' },
