@@ -44,13 +44,7 @@ export const Analytics = () => {
   const loadGoogleAnalytics = () => {
     if (gaLoadedRef.current) return;
 
-    // Load gtag.js script
-    const script1 = document.createElement('script');
-    script1.async = true;
-    script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-    document.head.appendChild(script1);
-
-    // Initialize gtag
+    // Initialize gtag and dataLayer before script loads (queue commands)
     window.dataLayer = window.dataLayer || [];
     function gtag(...args: unknown[]) {
       window.dataLayer.push(args);
@@ -62,6 +56,12 @@ export const Analytics = () => {
       anonymize_ip: true, // GDPR compliance
       allow_google_signals: false, // Disable personalized ads by default
     });
+
+    // Load gtag.js script (queued config above will be applied when script loads)
+    const script1 = document.createElement('script');
+    script1.async = true;
+    script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    document.head.appendChild(script1);
 
     gaLoadedRef.current = true;
   };

@@ -297,6 +297,7 @@
     "websitePlaceholder": "https://yourwebsite.com",
     "openingHours": "Opening Hours (Optional)",
     "openingHoursHelp": "Enter your business hours for each day (e.g., \"09:00 - 17:00\" or \"Closed\")",
+    "openingHoursOptionalWhenAppointment": "Not required when open by appointment only.",
     "openingHoursPlaceholder": "e.g., 09:00 - 17:00",
     "businessPhoto": "Business Photo (Optional)",
     "uploadClick": "Click to upload",

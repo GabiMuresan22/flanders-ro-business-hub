@@ -27,11 +27,25 @@ export const formSchema = z.object({
   postalCode: z.string().min(4, {
     message: "Please enter a valid postal code.",
   }),
-  btwNumber: z.string().min(1, {
-    message: "BTW number is required for Belgian businesses.",
-  }).regex(/^BE\s?\d{4}\.?\d{3}\.?\d{3}$/, {
-    message: "Please enter a valid Belgian BTW number (e.g., BE 0123.456.789).",
-  }),
+  btwNumber: z
+    .string()
+    .min(1, {
+      message: "BTW number is required for Belgian businesses.",
+    })
+    .transform((s) => s.trim())
+    .refine(
+      (s) => {
+        const upper = s.toUpperCase();
+        if (!upper.startsWith("BE")) return false;
+        const afterBe = upper.slice(2).replace(/[\s.-]/g, "");
+        const digitsOnly = afterBe.replace(/\D/g, "");
+        return (digitsOnly.length === 9 || digitsOnly.length === 10) && /^\d+$/.test(digitsOnly);
+      },
+      {
+        message:
+          "Please enter a valid Belgian BTW number (e.g. BE 0123.456.789 or BE0123456789).",
+      }
+    ),
   description: z.string().min(10, {
     message: "Description must be at least 10 characters.",
   }),

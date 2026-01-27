@@ -297,6 +297,7 @@
     "websitePlaceholder": "https://site-ul-tau.com",
     "openingHours": "Program de Lucru (Opțional)",
     "openingHoursHelp": "Introdu programul afacerii pentru fiecare zi (ex., \"09:00 - 17:00\" sau \"Închis\")",
+    "openingHoursOptionalWhenAppointment": "Nu este obligatoriu pentru afacerile doar cu programare.",
     "openingHoursPlaceholder": "ex., 09:00 - 17:00",
     "businessPhoto": "Fotografie Afacere (Opțional)",
     "uploadClick": "Click pentru încărcare",

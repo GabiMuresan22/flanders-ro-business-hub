@@ -15,6 +15,16 @@ import Footer from '@/components/Footer';
 const emailSchema = z.string().email('Invalid email address');
 const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
 
+/** Validates redirect param to prevent open redirect. Only allows relative paths on same origin. */
+function getSafeRedirect(redirect: string | null, defaultPath = '/'): string {
+  if (!redirect || typeof redirect !== 'string') return defaultPath;
+  const trimmed = redirect.trim();
+  // Reject protocol-relative (//evil.com), absolute URLs, and non-paths
+  if (trimmed.startsWith('//') || /^https?:\/\//i.test(trimmed)) return defaultPath;
+  if (!trimmed.startsWith('/')) return defaultPath;
+  return trimmed;
+}
+
 type AuthView = 'login' | 'signup' | 'forgot-password';
 
 const AuthPage = () => {
@@ -62,7 +72,7 @@ const AuthPage = () => {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    const redirectPath = searchParams.get('redirect') || '/';
+    const redirectPath = getSafeRedirect(searchParams.get('redirect'), '/');
 
     const init = async () => {
       const { data: { session } } = await supabase.auth.getSession();

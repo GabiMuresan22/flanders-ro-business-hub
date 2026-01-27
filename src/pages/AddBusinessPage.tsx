@@ -180,6 +180,7 @@ const AddBusinessPage = () => {
           status: 'pending',
           user_id: user.id,
           appointment_only: values.appointmentOnly || false,
+          opening_hours: values.openingHours ?? null,
         })
         .select()
         .single();
@@ -498,10 +499,38 @@ const AddBusinessPage = () => {
                       )}
                     />
 
-                    {/* Opening Hours Section */}
+                    {/* Appointment only: when checked, opening hours are not mandatory */}
+                    <FormField
+                      control={form.control}
+                      name="appointmentOnly"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-4 border border-input">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>
+                              {t('addBusiness.appointmentOnly')}
+                            </FormLabel>
+                            <p className="text-sm text-muted-foreground">
+                              {t('addBusiness.appointmentOnlyHelp')}
+                            </p>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Opening Hours Section - optional when open by appointment only */}
                     <div className="space-y-4">
                       <h3 className="font-playfair text-lg font-semibold text-gray-800">{t('addBusiness.openingHours')}</h3>
-                      <p className="text-sm text-gray-600">{t('addBusiness.openingHoursHelp')}</p>
+                      <p className="text-sm text-gray-600">
+                        {form.watch('appointmentOnly')
+                          ? t('addBusiness.openingHoursOptionalWhenAppointment')
+                          : t('addBusiness.openingHoursHelp')}
+                      </p>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const).map((day) => (
@@ -595,29 +624,6 @@ const AddBusinessPage = () => {
                             <span id="description-counter" className="text-xs text-gray-500">
                               {field.value?.length || 0}/1000
                             </span>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="appointmentOnly"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-4 border border-input">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel>
-                              {t('addBusiness.appointmentOnly')}
-                            </FormLabel>
-                            <p className="text-sm text-muted-foreground">
-                              {t('addBusiness.appointmentOnlyHelp')}
-                            </p>
                           </div>
                         </FormItem>
                       )}

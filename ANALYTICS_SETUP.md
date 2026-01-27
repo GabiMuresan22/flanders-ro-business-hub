@@ -162,12 +162,35 @@ To add your Facebook Pixel ID:
 
 ## Troubleshooting
 
+### No data in Google Analytics
+
+**Most likely causes:**
+
+1. **Cookie consent not given**  
+   GA only runs when users accept **Analytics cookies**. If they click **"Reject Non-Essential"** or the **X** (close) on the banner, analytics is disabled and no data is sent.
+
+   - In GA you will only see visits from users who clicked **"Accept All"** or **Customize** and enabled **Analytics Cookies**.
+   - To test: clear `localStorage` → refresh → click **"Accept All"** → check GA **Realtime** report.
+
+2. **CSP blocking Google (now fixed)**  
+   The site’s Content-Security-Policy must allow:
+   - `script-src`: `https://www.googletagmanager.com`
+   - `connect-src`: `https://www.google-analytics.com`, `https://*.google-analytics.com`, `https://*.analytics.google.com`, `https://*.googletagmanager.com`  
+   These are included in `vercel.json` and `public/_headers`. Redeploy after changing them.
+
+3. **Wrong GA4 property**  
+   Measurement ID in code is `G-H8JZ4G2QE3`. In Google Analytics, confirm you’re viewing the property that uses this Measurement ID (Admin → Data Streams → your web stream).
+
+4. **Reporting delay**  
+   Realtime shows activity within seconds. Standard reports can take 24–48 hours.
+
 ### Analytics Not Loading
 
 1. **Check cookie consent:**
 
    ```javascript
    console.log(localStorage.getItem("cookieConsent"));
+   // Should show analytics: true for GA to load, e.g. {"essential":true,"analytics":true,"marketing":true}
    ```
 
 2. **Check if scripts are in DOM:**
@@ -175,7 +198,9 @@ To add your Facebook Pixel ID:
    - Open DevTools → Elements tab
    - Search for `googletagmanager` or `facebook.net`
 
-3. **Check browser console for errors**
+3. **Check browser console for errors** (e.g. CSP violations).
+
+4. **Check Network tab:** After accepting analytics, you should see requests to `googletagmanager.com/gtag/js` and to `google-analytics.com/g/collect`.
 
 ### Facebook Pixel Not Working
 
