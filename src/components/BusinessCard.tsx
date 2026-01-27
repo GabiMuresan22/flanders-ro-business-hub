@@ -1,18 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Globe, MapPin } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
 import type { BusinessCardData } from '@/types/database';
-
-interface Business {
-  id: string;
-  business_name: string;
-  category: string;
-  description: string;
-  city: string;
-  phone?: string;
-  website?: string | null;
-}
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface BusinessCardProps {
   business: BusinessCardData;
@@ -20,12 +10,29 @@ interface BusinessCardProps {
 
 const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
   const { t } = useLanguage();
-
-  const categoryLabel = (() => {
-    const key = `businessCategories.${business.category}`;
-    const out = t(key);
-    return out === key ? business.category : out;
-  })();
+  
+  // Map category keys for translation
+  const getCategoryTranslationKey = (category: string): string => {
+    const categoryKeyMap: { [key: string]: string } = {
+      'Restaurant': 'Restaurant & Food',
+      'Restaurant & Food': 'Restaurant & Food',
+      'Bakery': 'Bakery',
+      'Car Service': 'Car Services',
+      'Car Services': 'Car Services',
+      'Grocery': 'Grocery',
+      'Beauty Salon': 'Beauty & Wellness',
+      'Beauty & Wellness': 'Beauty & Wellness',
+      'Construction': 'Construction',
+      'Transport': 'Transportation',
+      'Transportation': 'Transportation',
+      'Travel Agency': 'Travel & Tourism',
+      'Travel & Tourism': 'Travel & Tourism',
+      'Professional Services': 'Professional Services',
+      'Retail': 'Retail',
+      'Other': 'Other',
+    };
+    return categoryKeyMap[category] || category;
+  };
 
   // Map categories to default images
   const getDefaultImage = (category: string) => {
@@ -56,7 +63,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
         <div className="flex justify-between items-start">
           <h3 className="font-playfair text-xl font-bold text-gray-800 mb-2">{business.business_name}</h3>
           <span className="bg-romania-blue text-white text-xs px-2 py-1 rounded-full">
-            {categoryLabel}
+            {t(`businessCategories.${getCategoryTranslationKey(business.category)}`)}
           </span>
         </div>
         <p className="text-gray-600 mb-4 line-clamp-2">{business.description}</p>
@@ -82,7 +89,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
               className="text-sm text-romania-blue hover:underline focus:outline-none focus:ring-2 focus:ring-romania-blue rounded" 
               target="_blank" 
               rel="noopener noreferrer"
-              aria-label={`${t('businessCard.visitWebsite')} - ${business.business_name}`}
+              aria-label={`${t('businessCard.visitWebsite')} ${business.business_name}`}
             >
               {t('businessCard.visitWebsite')}
             </a>
@@ -91,7 +98,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
         <Link 
           to={`/business/${business.id}`} 
           className="block mt-4 text-center bg-romania-yellow hover:bg-romania-blue text-gray-900 hover:text-white font-medium py-2 px-4 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-romania-blue focus:ring-offset-2"
-          aria-label={`${t('businessCard.viewDetails')} - ${business.business_name}`}
+          aria-label={`${t('businessCard.viewDetails')} ${business.business_name}`}
         >
           {t('businessCard.viewDetails')}
         </Link>
