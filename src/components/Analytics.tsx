@@ -44,6 +44,8 @@ export const Analytics = () => {
   const loadGoogleAnalytics = () => {
     if (gaLoadedRef.current) return;
 
+    console.log('[Analytics] Loading Google Analytics with ID:', GA_MEASUREMENT_ID);
+
     // Initialize gtag and dataLayer before script loads (queue commands)
     window.dataLayer = window.dataLayer || [];
     function gtag(...args: unknown[]) {
@@ -61,6 +63,12 @@ export const Analytics = () => {
     const script1 = document.createElement('script');
     script1.async = true;
     script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    script1.onload = () => {
+      console.log('[Analytics] Google Analytics script loaded successfully');
+    };
+    script1.onerror = () => {
+      console.error('[Analytics] Failed to load Google Analytics - possibly blocked by ad blocker');
+    };
     document.head.appendChild(script1);
 
     gaLoadedRef.current = true;
