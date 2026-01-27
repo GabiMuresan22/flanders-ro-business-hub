@@ -1,8 +1,10 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const CtaSection: React.FC = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="py-16 bg-romania-blue relative overflow-hidden">
       <div className="absolute inset-0 opacity-10">
@@ -11,24 +13,23 @@ const CtaSection: React.FC = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="font-playfair text-3xl md:text-4xl font-bold text-white mb-6">
-            Own a Romanian Business in West Flanders?
+            {t('cta.title')}
           </h2>
           <p className="text-white/90 text-xl mb-8">
-            Join our directory to increase your visibility and connect with the local community. 
-            Listing your business is quick, easy, and helps customers find you.
+            {t('cta.description')}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link 
               to="/add-business" 
               className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-3 px-8 rounded-lg transition-colors"
             >
-              Add Your Business
+              {t('cta.addBusiness')}
             </Link>
             <Link 
               to="/contact" 
               className="bg-transparent hover:bg-white/10 text-white border-2 border-white font-semibold py-3 px-8 rounded-lg transition-colors"
             >
-              Contact Us
+              {t('cta.contactUs')}
             </Link>
           </div>
         </div>

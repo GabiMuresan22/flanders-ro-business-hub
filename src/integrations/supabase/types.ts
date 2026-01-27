@@ -68,6 +68,8 @@ export type Database = {
       businesses: {
         Row: {
           address: string
+          appointment_only: boolean
+          btw_number: string
           business_name: string
           category: string
           city: string
@@ -86,6 +88,8 @@ export type Database = {
         }
         Insert: {
           address: string
+          appointment_only?: boolean
+          btw_number?: string
           business_name: string
           category: string
           city: string
@@ -104,6 +108,8 @@ export type Database = {
         }
         Update: {
           address?: string
+          appointment_only?: boolean
+          btw_number?: string
           business_name?: string
           category?: string
           city?: string
@@ -273,39 +279,51 @@ export type Database = {
     Views: {
       public_businesses: {
         Row: {
+          appointment_only: boolean | null
+          btw_number: string | null
           business_name: string | null
           category: string | null
           city: string | null
           created_at: string | null
           description: string | null
+          email: string | null
           id: string | null
           image_url: string | null
+          phone: string | null
           postal_code: string | null
           status: string | null
           updated_at: string | null
           website: string | null
         }
         Insert: {
+          appointment_only?: boolean | null
+          btw_number?: string | null
           business_name?: string | null
           category?: string | null
           city?: string | null
           created_at?: string | null
           description?: string | null
+          email?: string | null
           id?: string | null
           image_url?: string | null
+          phone?: string | null
           postal_code?: string | null
           status?: string | null
           updated_at?: string | null
           website?: string | null
         }
         Update: {
+          appointment_only?: boolean | null
+          btw_number?: string | null
           business_name?: string | null
           category?: string | null
           city?: string | null
           created_at?: string | null
           description?: string | null
+          email?: string | null
           id?: string | null
           image_url?: string | null
+          phone?: string | null
           postal_code?: string | null
           status?: string | null
           updated_at?: string | null
@@ -316,13 +334,18 @@ export type Database = {
     }
     Functions: {
       cleanup_old_rate_limits: { Args: never; Returns: undefined }
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
+      has_role:
+        | {
+            Args: { _role: Database["public"]["Enums"]["app_role"] }
+            Returns: boolean
+          }
+        | {
+            Args: {
+              _role: Database["public"]["Enums"]["app_role"]
+              _user_id: string
+            }
+            Returns: boolean
+          }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"

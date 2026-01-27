@@ -11,7 +11,7 @@ interface CookiePreferences {
 const GA_MEASUREMENT_ID = 'G-H8JZ4G2QE3';
 
 // Facebook Pixel ID - Replace with your actual Pixel ID when available
-const FB_PIXEL_ID = process.env.VITE_FB_PIXEL_ID || '';
+const FB_PIXEL_ID = import.meta.env.VITE_FB_PIXEL_ID || '';
 
 /**
  * GDPR-compliant Analytics component
@@ -89,27 +89,43 @@ export const Analytics = () => {
   const loadFacebookPixel = () => {
     if (fbLoadedRef.current || !FB_PIXEL_ID) return;
 
-    // Facebook Pixel base code
-    !(function (f: Window, b: Document, e: string, v: string, n?: string, t?: string, s?: string) {
-      if (f.fbq) return;
-      n = f.fbq = function () {
-        n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-      };
-      if (!f._fbq) f._fbq = n;
-      n.push = n;
-      n.loaded = !0;
-      n.version = '2.0';
-      n.queue = [];
-      t = b.getElementsByTagName(e)[0];
-      s = b.createElement(e);
-      s.async = !0;
-      s.src = v;
-      t.parentNode?.insertBefore(s, t);
-    })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    // Load Facebook Pixel script
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+    document.head.appendChild(script);
 
-    // Initialize Facebook Pixel
-    (window as { fbq?: (...args: unknown[]) => void }).fbq?.('init', FB_PIXEL_ID);
-    (window as { fbq?: (...args: unknown[]) => void }).fbq?.('track', 'PageView');
+    // Initialize fbq function
+    interface FbqFunction {
+      (...args: unknown[]): void;
+      callMethod?: (...args: unknown[]) => void;
+      queue: unknown[];
+      loaded: boolean;
+      version: string;
+      push: (...args: unknown[]) => void;
+    }
+
+    const fbq: FbqFunction = function (...args: unknown[]) {
+      if (fbq.callMethod) {
+        fbq.callMethod(...args);
+      } else {
+        fbq.queue.push(args);
+      }
+    } as FbqFunction;
+
+    fbq.push = fbq;
+    fbq.loaded = true;
+    fbq.version = '2.0';
+    fbq.queue = [];
+
+    window.fbq = fbq;
+    window._fbq = fbq;
+
+    // Initialize Facebook Pixel after script loads
+    script.onload = () => {
+      window.fbq?.('init', FB_PIXEL_ID);
+      window.fbq?.('track', 'PageView');
+    };
 
     fbLoadedRef.current = true;
   };

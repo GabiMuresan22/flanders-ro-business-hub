@@ -4,8 +4,10 @@ import { Input } from './ui/input';
 import { Mail, CheckCircle2, AlertCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const NewsletterSection = () => {
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [emailError, setEmailError] = useState('');
@@ -14,11 +16,11 @@ const NewsletterSection = () => {
 
   const validateEmail = (value: string) => {
     if (!value) {
-      setEmailError('Email is required');
+      setEmailError(t('newsletter.emailRequired'));
       return false;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-      setEmailError('Please enter a valid email address');
+      setEmailError(t('newsletter.invalidEmail'));
       return false;
     }
     setEmailError('');
@@ -53,8 +55,8 @@ const NewsletterSection = () => {
         // Handle duplicate email
         if (error.code === '23505') {
           toast({
-            title: 'Already subscribed',
-            description: 'This email is already subscribed to our newsletter.',
+            title: t('newsletter.alreadySubscribed'),
+            description: t('newsletter.alreadySubscribedDesc'),
             variant: 'destructive',
           });
           return;
@@ -63,20 +65,20 @@ const NewsletterSection = () => {
       }
 
       toast({
-        title: 'Successfully subscribed!',
-        description: 'Thank you for subscribing to our newsletter.',
+        title: t('newsletter.successTitle'),
+        description: t('newsletter.successDesc'),
       });
       setEmail('');
       setTouched(false);
     } catch (error: unknown) {
-      let errorMessage = 'Failed to subscribe. Please try again.';
+      let errorMessage = t('newsletter.failedDesc');
       
       if (error instanceof Error && (error.message?.includes('network') || error.message?.includes('fetch'))) {
-        errorMessage = 'Network error. Please check your connection.';
+        errorMessage = t('newsletter.networkError');
       }
       
       toast({
-        title: 'Subscription failed',
+        title: t('newsletter.failedTitle'),
         description: errorMessage,
         variant: 'destructive',
       });
@@ -91,10 +93,10 @@ const NewsletterSection = () => {
         <div className="max-w-2xl mx-auto text-center">
           <Mail className="h-12 w-12 text-romania-blue mx-auto mb-4" aria-hidden="true" />
           <h2 className="font-playfair text-3xl font-bold text-foreground mb-4">
-            Stay Updated
+            {t('newsletter.title')}
           </h2>
           <p className="text-muted-foreground mb-8">
-            Subscribe to our newsletter and get notified about new businesses, special offers, and community events
+            {t('newsletter.subtitle')}
           </p>
           
           <form onSubmit={handleSubmit} className="max-w-md mx-auto" noValidate>
@@ -107,7 +109,7 @@ const NewsletterSection = () => {
                   <Input
                     id="newsletter-email"
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder={t('newsletter.placeholder')}
                     value={email}
                     onChange={handleEmailChange}
                     onBlur={() => setTouched(true)}
@@ -130,10 +132,10 @@ const NewsletterSection = () => {
                 {loading ? (
                   <span className="flex items-center gap-2">
                     <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" aria-hidden="true"></span>
-                    Subscribing...
+                    {t('newsletter.subscribing')}
                   </span>
                 ) : (
-                  'Subscribe'
+                  t('newsletter.subscribe')
                 )}
               </Button>
             </div>

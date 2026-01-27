@@ -27,6 +27,11 @@ export const formSchema = z.object({
   postalCode: z.string().min(4, {
     message: "Please enter a valid postal code.",
   }),
+  btwNumber: z.string().min(1, {
+    message: "BTW number is required for Belgian businesses.",
+  }).regex(/^BE\s?\d{4}\.?\d{3}\.?\d{3}$/, {
+    message: "Please enter a valid Belgian BTW number (e.g., BE 0123.456.789).",
+  }),
   description: z.string().min(10, {
     message: "Description must be at least 10 characters.",
   }),
@@ -37,6 +42,7 @@ export const formSchema = z.object({
     message: "Please enter a valid website URL.",
   }).optional().or(z.literal('')),
   businessImage: z.any().optional(),
+  appointmentOnly: z.boolean().default(false),
   agreeTerms: z.boolean().refine(val => val === true, {
     message: "You must agree to the terms and conditions."
   }),

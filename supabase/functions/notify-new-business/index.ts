@@ -17,6 +17,18 @@ interface BusinessNotification {
   city: string;
 }
 
+// HTML escape function to prevent injection
+const escapeHtml = (text: string): string => {
+  const htmlEntities: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  };
+  return text.replace(/[&<>"']/g, (char) => htmlEntities[char] || char);
+};
+
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -30,19 +42,19 @@ const handler = async (req: Request): Promise<Response> => {
     const emailResponse = await resend.emails.send({
       from: "Business Directory <onboarding@resend.dev>",
       to: ["gabimuresan2289@gmail.com"],
-      subject: `New Business Submission: ${business_name}`,
+      subject: `New Business Submission: ${escapeHtml(business_name)}`,
       html: `
         <h1>New Business Submission</h1>
         <p>A new business has been submitted and is pending approval.</p>
         
         <h2>Business Details:</h2>
         <ul>
-          <li><strong>Business Name:</strong> ${business_name}</li>
-          <li><strong>Owner:</strong> ${owner_name}</li>
-          <li><strong>Email:</strong> ${email}</li>
-          <li><strong>Phone:</strong> ${phone}</li>
-          <li><strong>Category:</strong> ${category}</li>
-          <li><strong>City:</strong> ${city}</li>
+          <li><strong>Business Name:</strong> ${escapeHtml(business_name)}</li>
+          <li><strong>Owner:</strong> ${escapeHtml(owner_name)}</li>
+          <li><strong>Email:</strong> ${escapeHtml(email)}</li>
+          <li><strong>Phone:</strong> ${escapeHtml(phone)}</li>
+          <li><strong>Category:</strong> ${escapeHtml(category)}</li>
+          <li><strong>City:</strong> ${escapeHtml(city)}</li>
         </ul>
         
         <p>Please log in to the admin dashboard to review and approve this submission.</p>
