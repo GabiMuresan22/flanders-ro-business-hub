@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, User as UserIcon, X, Menu, Languages } from 'lucide-react';
+import { Search, User as UserIcon, X, Menu, Languages, Bell } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 import type { User } from '@supabase/supabase-js';
@@ -11,8 +11,18 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [pendingCount, setPendingCount] = useState(0);
   const navigate = useNavigate();
   const { language, toggleLanguage, t } = useLanguage();
+
+  const fetchPendingCount = useCallback(async () => {
+    const { count } = await supabase
+      .from('businesses')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'pending');
+    
+    setPendingCount(count ?? 0);
+  }, []);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -28,11 +38,40 @@ const Navbar = () => {
         checkAdminStatus(session.user.id);
       } else {
         setIsAdmin(false);
+        setPendingCount(0);
       }
     });
 
     return () => subscription.unsubscribe();
   }, []);
+
+  // Fetch pending count when admin status changes
+  useEffect(() => {
+    if (isAdmin) {
+      fetchPendingCount();
+      
+      // Set up realtime subscription for pending businesses
+      const channel = supabase
+        .channel('pending-businesses')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'businesses',
+            filter: 'status=eq.pending'
+          },
+          () => {
+            fetchPendingCount();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
+  }, [isAdmin, fetchPendingCount]);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -119,6 +158,20 @@ const Navbar = () => {
                   <UserIcon className="h-4 w-4" />
                   <span className="text-sm">{t('nav.account')}</span>
                 </Link>
+                {isAdmin && (
+                  <Link 
+                    to="/admin" 
+                    className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    aria-label={`${pendingCount} pending businesses`}
+                  >
+                    <Bell className="h-5 w-5 text-gray-700" />
+                    {pendingCount > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-romania-red text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
+                        {pendingCount > 9 ? '9+' : pendingCount}
+                      </span>
+                    )}
+                  </Link>
+                )}
                 {isAdmin && (
                   <Link to="/admin" className="bg-romania-red hover:bg-red-700 text-white font-semibold py-1.5 px-3 rounded-md transition-colors text-sm">
                     {t('nav.adminDashboard')}
@@ -289,10 +342,18 @@ const Navbar = () => {
                     {isAdmin && (
                       <Link 
                         to="/admin" 
-                        className="bg-romania-red hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95"
+                        className="bg-romania-red hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95 flex items-center justify-between"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        {t('nav.adminDashboard')}
+                        <span className="flex items-center gap-2">
+                          <Bell className="h-5 w-5" />
+                          {t('nav.adminDashboard')}
+                        </span>
+                        {pendingCount > 0 && (
+                          <span className="bg-white text-romania-red text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
+                            {pendingCount > 9 ? '9+' : pendingCount}
+                          </span>
+                        )}
                       </Link>
                     )}
                     <Link 
