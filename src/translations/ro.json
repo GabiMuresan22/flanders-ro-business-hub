@@ -197,17 +197,6 @@
     "locatedIn": "Locație",
     "phoneNumber": "Număr de telefon"
   },
-  "businessDetails": {
-    "about": "Despre",
-    "reviews": "Recenzii",
-    "noReviewsYet": "Nicio recenzie încă. Fii primul care lasă o recenzie!",
-    "contactInformation": "Informații de Contact",
-    "visitWebsite": "Vizitează Site-ul",
-    "viewOnMap": "Vezi pe Hartă",
-    "businessNotFound": "Afacerea nu a fost găsită",
-    "businessNotFoundMessage": "Ne pare rău, afacerea pe care o cauți nu există sau a fost eliminată.",
-    "returnToHome": "Înapoi la Pagina Principală"
-  },
   "reviewForm": {
     "leaveReview": "Lasă o Recenzie",
     "ratingRequired": "Evaluarea este obligatorie",

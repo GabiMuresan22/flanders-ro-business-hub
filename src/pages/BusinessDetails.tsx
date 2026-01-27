@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -12,7 +11,6 @@ import { MapPin, Phone, Mail, Globe } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 import type { PublicBusiness, ReviewRow } from '@/types/database';
-import { useLanguage } from '@/contexts/LanguageContext';
 
 // Extended type for public business with contact info from updated view
 type PublicBusinessWithContact = PublicBusiness & {
@@ -82,17 +80,10 @@ const BusinessDetails = () => {
         <Navbar />
         <main className="flex-grow container mx-auto px-4 py-12">
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
-<<<<<<< HEAD
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('businessDetails.businessNotFound')}</h2>
-            <p className="text-gray-600 mb-6">{t('businessDetails.businessNotFoundMessage')}</p>
-            <Link to="/" className="bg-romania-blue text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">
-              {t('businessDetails.returnToHome')}
-=======
             <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('businessDetails.notFoundTitle')}</h2>
             <p className="text-gray-600 mb-6">{t('businessDetails.notFoundMessage')}</p>
             <Link to="/" className="bg-romania-blue text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">
               {t('businessDetails.returnHome')}
->>>>>>> 5b549f4846667aa8f274f227f4b94e5236737488
             </Link>
           </div>
         </main>
@@ -168,7 +159,6 @@ const BusinessDetails = () => {
                 <p className="text-gray-600 mb-6">{business.description}</p>
               </div>
 
-
               {/* Reviews Section */}
               <div className="bg-white rounded-lg shadow-md p-8">
                 <h2 className="font-playfair text-2xl font-bold text-gray-800 mb-4">
@@ -184,11 +174,7 @@ const BusinessDetails = () => {
                     ))
                   ) : (
                     <p className="text-gray-500 text-center py-4">
-<<<<<<< HEAD
-                      {t('businessDetails.noReviewsYet')}
-=======
                       {t('businessDetails.noReviews')}
->>>>>>> 5b549f4846667aa8f274f227f4b94e5236737488
                     </p>
                   )}
                 </div>
@@ -197,11 +183,7 @@ const BusinessDetails = () => {
             
             <div>
               <div className="bg-white rounded-lg shadow-md p-6">
-<<<<<<< HEAD
-                <h3 className="font-playfair text-xl font-semibold text-gray-800 mb-4">{t('businessDetails.contactInformation')}</h3>
-=======
                 <h3 className="font-playfair text-xl font-semibold text-gray-800 mb-4">{t('businessDetails.contactInfo')}</h3>
->>>>>>> 5b549f4846667aa8f274f227f4b94e5236737488
                 <div className="space-y-4">
                   <div className="flex items-start">
                     <MapPin className="h-5 w-5 text-romania-blue mr-3 mt-0.5" />
