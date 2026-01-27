@@ -334,6 +334,7 @@ export type Database = {
     }
     Functions: {
       cleanup_old_rate_limits: { Args: never; Returns: undefined }
+      get_user_count: { Args: never; Returns: number }
       has_role:
         | {
             Args: { _role: Database["public"]["Enums"]["app_role"] }
