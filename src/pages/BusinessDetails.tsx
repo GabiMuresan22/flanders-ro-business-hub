@@ -7,7 +7,8 @@ import ReviewForm from '../components/ReviewForm';
 import BusinessDetailsSkeleton from '../components/skeletons/BusinessDetailsSkeleton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
-import { MapPin, Phone, Mail, Globe } from 'lucide-react';
+import { MapPin, Phone, Mail, Globe, Star } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 import type { PublicBusiness, ReviewRow } from '@/types/database';
@@ -25,12 +26,11 @@ const BusinessDetails = () => {
   const [loading, setLoading] = useState(true);
   const [reviews, setReviews] = useState<ReviewRow[]>([]);
   const [averageRating, setAverageRating] = useState<number>(0);
+  const [showReviewForm, setShowReviewForm] = useState(false);
 
   const fetchBusiness = useCallback(async () => {
     if (!id) return;
     
-    // Use public_businesses view to protect sensitive owner information
-    // (owner_name, address are excluded from the view)
     const { data } = await supabase
       .from('public_businesses')
       .select('*')
@@ -117,129 +117,202 @@ const BusinessDetails = () => {
     })
   } : null;
 
+  const getCategoryTranslation = () => {
+    const key = `businessCategories.${business.category}`;
+    const out = t(key);
+    return out === key ? business.category : out;
+  };
+
   return (
     <>
       {business && (
         <>
           <SEO 
             title={`${business.business_name} - ${business.category} in ${business.city} | Romanian Business Hub`}
-            description={`${business.description.substring(0, 150)}... Find ${business.business_name} in ${business.city}, West Flanders. Contact: ${business.phone}`}
+            description={`${business.description?.substring(0, 150)}... Find ${business.business_name} in ${business.city}, West Flanders. Contact: ${business.phone}`}
             keywords={`${business.business_name}, ${business.category}, Romanian business ${business.city}, ${business.category} West Flanders`}
             type="business.business"
           />
           {businessStructuredData && <StructuredData data={businessStructuredData} />}
         </>
       )}
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col bg-muted/30">
         <Navbar />
-      <main className="flex-grow">
-        {/* Hero Banner */}
-        <div className="h-64 md:h-80 bg-gray-200 relative">
-          {business.image_url ? (
-            <img 
-              src={business.image_url} 
-              alt={business.business_name || ''} 
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                // Fall back to gradient on error
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                target.parentElement?.classList.add('bg-gradient-to-br', 'from-romania-blue', 'to-romania-red');
-              }}
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-romania-blue to-romania-red opacity-80"></div>
-          )}
-          <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
-            <div className="container mx-auto text-center">
-              <span className="inline-block bg-romania-yellow text-gray-900 text-sm font-medium px-3 py-1 rounded-full mb-2">
-                {(() => {
-                  const key = `businessCategories.${business.category}`;
-                  const out = t(key);
-                  return out === key ? business.category : out;
-                })()}
+        <main className="flex-grow">
+          {/* Hero Banner */}
+          <div className="h-80 md:h-96 relative">
+            {business.image_url ? (
+              <img 
+                src={business.image_url} 
+                alt={business.business_name || ''} 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.parentElement?.classList.add('bg-gradient-to-br', 'from-romania-blue', 'to-romania-red');
+                }}
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-romania-blue to-romania-red"></div>
+            )}
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-black/40"></div>
+            {/* Hero content centered */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+              <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 uppercase tracking-wide">
+                {business.business_name}
+              </h1>
+              <span className="inline-block bg-romania-blue text-white text-sm font-medium px-6 py-2 rounded-full">
+                {getCategoryTranslation()}
               </span>
-              <h1 className="text-3xl md:text-4xl font-playfair font-bold text-white">{business.business_name}</h1>
             </div>
           </div>
-        </div>
-        
-        {/* Business Details */}
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="md:col-span-2">
-              <div className="bg-white rounded-lg shadow-md p-8 mb-8 text-center">
-                <h2 className="font-playfair text-2xl font-bold text-gray-800 mb-4">{t('businessDetails.about')}</h2>
-                <p className="text-gray-600 mb-6">{business.description}</p>
-              </div>
-
-              {/* Reviews Section */}
-              <div className="bg-white rounded-lg shadow-md p-8 text-center">
-                <h2 className="font-playfair text-2xl font-bold text-gray-800 mb-4">
-                  {t('businessDetails.reviews')} {averageRating > 0 && `(${averageRating} ⭐)`}
+          
+          {/* Three-column cards section */}
+          <div className="container mx-auto px-4 py-8 -mt-16 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              
+              {/* About Us Card */}
+              <div className="bg-card rounded-xl shadow-lg p-6 lg:p-8">
+                <h2 className="font-playfair text-xl font-bold text-foreground mb-4">
+                  {t('businessDetails.about')}
                 </h2>
-                
-                <ReviewForm businessId={id!} onReviewSubmitted={fetchReviews} />
-                
-                <div className="mt-6 space-y-4">
-                  {reviews.length > 0 ? (
-                    reviews.map((review) => (
-                      <ReviewCard key={review.id} review={review} />
-                    ))
-                  ) : (
-                    <p className="text-gray-500 text-center py-4">
-                      {t('businessDetails.noReviews')}
-                    </p>
-                  )}
+                <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                  {business.description}
                 </div>
               </div>
-            </div>
-            
-            <div>
-              <div className="bg-white rounded-lg shadow-md p-6 text-center">
-                <h3 className="font-playfair text-xl font-semibold text-gray-800 mb-4">{t('businessDetails.contactInfo')}</h3>
-                <div className="space-y-4 flex flex-col items-center">
-                  <div className="flex items-center">
-                    <MapPin className="h-5 w-5 text-romania-blue mr-3" />
-                    <p className="text-gray-600">{business.city}, {business.postal_code}</p>
+
+              {/* Reviews Card */}
+              <div className="bg-card rounded-xl shadow-lg p-6 lg:p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="font-playfair text-xl font-bold text-foreground">
+                    {t('businessDetails.reviews')}
+                  </h2>
+                  <Button 
+                    variant="default"
+                    size="sm"
+                    onClick={() => setShowReviewForm(!showReviewForm)}
+                    className="bg-romania-blue hover:bg-romania-blue/90"
+                  >
+                    {t('businessDetails.leaveReview')}
+                  </Button>
+                </div>
+                
+                {/* Rating summary */}
+                <div className="mb-4">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                    <span className="font-semibold text-foreground">{averageRating.toFixed(1)}</span>
+                    <span>({reviews.length} {reviews.length === 1 ? t('businessDetails.review') : t('businessDetails.reviewsCount')})</span>
                   </div>
-                  <div className="flex items-center">
-                    <Phone className="h-5 w-5 text-romania-blue mr-3" />
-                    <a href={`tel:${business.phone}`} className="text-gray-600 hover:text-romania-blue">
-                      {business.phone}
-                    </a>
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        className={`h-6 w-6 ${
+                          star <= Math.round(averageRating)
+                            ? 'fill-romania-yellow text-romania-yellow'
+                            : 'text-gray-300'
+                        }`}
+                      />
+                    ))}
                   </div>
-                  <div className="flex items-center">
-                    <Mail className="h-5 w-5 text-romania-blue mr-3" />
-                    <a href={`mailto:${business.email}`} className="text-gray-600 hover:text-romania-blue">
-                      {business.email}
-                    </a>
+                </div>
+
+                {/* Reviews list or empty state */}
+                {reviews.length > 0 ? (
+                  <div className="space-y-3 max-h-64 overflow-y-auto">
+                    {reviews.map((review) => (
+                      <ReviewCard key={review.id} review={review} />
+                    ))}
                   </div>
+                ) : (
+                  <div className="text-center py-4">
+                    <p className="text-muted-foreground font-medium">
+                      {t('businessDetails.noReviews')}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {t('businessDetails.beFirstReview')}
+                    </p>
+                  </div>
+                )}
+
+                {/* Review form - toggleable */}
+                {showReviewForm && (
+                  <div className="mt-4 pt-4 border-t">
+                    <ReviewForm 
+                      businessId={id!} 
+                      onReviewSubmitted={() => {
+                        fetchReviews();
+                        setShowReviewForm(false);
+                      }} 
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Contact Information Card */}
+              <div className="bg-romania-blue rounded-xl shadow-lg p-6 lg:p-8 text-white">
+                <h2 className="font-playfair text-xl font-bold mb-6">
+                  {t('businessDetails.contactInfo')}
+                </h2>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                    <span>{business.city}, {business.postal_code}</span>
+                  </div>
+                  
+                  {business.phone && (
+                    <div className="flex items-start gap-3">
+                      <Phone className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                      <a 
+                        href={`tel:${business.phone}`} 
+                        className="hover:underline"
+                      >
+                        {business.phone}
+                      </a>
+                    </div>
+                  )}
+                  
+                  {business.email && (
+                    <div className="flex items-start gap-3">
+                      <Mail className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                      <a 
+                        href={`mailto:${business.email}`} 
+                        className="hover:underline break-all"
+                      >
+                        {business.email}
+                      </a>
+                    </div>
+                  )}
+                  
                   {business.website && (
-                    <div className="flex items-center">
-                      <Globe className="h-5 w-5 text-romania-blue mr-3" />
-                      <a href={business.website} className="text-romania-blue hover:underline" target="_blank" rel="noopener noreferrer">
+                    <div className="flex items-start gap-3">
+                      <Globe className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                      <a 
+                        href={business.website} 
+                        className="hover:underline" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                      >
                         {t('businessDetails.visitWebsite')}
                       </a>
                     </div>
                   )}
                 </div>
-                <div className="mt-6">
-                  <a 
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.city}, ${business.postal_code}, Belgium`)}`} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="block w-full bg-romania-blue text-white text-center py-2 px-4 rounded hover:bg-blue-700 transition-colors"
-                  >
-                    {t('businessDetails.viewOnMap')}
-                  </a>
-                </div>
+                
+                <a 
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.city}, ${business.postal_code}, Belgium`)}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="mt-6 block w-full bg-white text-romania-blue text-center font-medium py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  {t('businessDetails.viewOnMap')}
+                </a>
               </div>
             </div>
           </div>
-        </div>
-      </main>
-      <Footer />
+        </main>
+        <Footer />
       </div>
     </>
   );
