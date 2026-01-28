@@ -68,22 +68,22 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
           }}
         />
       </div>
-      <div className="p-5">
-        <div className="flex justify-between items-start">
-          <h3 className="font-playfair text-xl font-bold text-gray-800 mb-2">{business.business_name}</h3>
-          <span className="bg-romania-blue text-white text-xs px-2 py-1 rounded-full">
+      <div className="p-5 text-center">
+        <div className="flex flex-col items-center mb-2">
+          <span className="bg-romania-blue text-white text-xs px-2 py-1 rounded-full mb-2">
             {t(`businessCategories.${getCategoryTranslationKey(business.category)}`)}
           </span>
+          <h3 className="font-playfair text-xl font-bold text-gray-800">{business.business_name}</h3>
         </div>
         <p className="text-gray-600 mb-4 line-clamp-2">{business.description}</p>
-        <div className="flex items-center text-gray-500 mb-2">
+        <div className="flex items-center justify-center text-gray-500 mb-2">
           <MapPin className="h-4 w-4 mr-2" aria-hidden="true" />
           <span className="text-sm">
             <span className="sr-only">{t('businessCard.locatedIn')} </span>
             {business.city}
           </span>
         </div>
-        <div className="flex items-center text-gray-500 mb-2">
+        <div className="flex items-center justify-center text-gray-500 mb-2">
           <Phone className="h-4 w-4 mr-2" aria-hidden="true" />
           <a href={`tel:${business.phone}`} className="text-sm hover:text-romania-blue focus:outline-none focus:underline">
             <span className="sr-only">{t('businessCard.phoneNumber')}: </span>
@@ -91,7 +91,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
           </a>
         </div>
         {business.website && (
-          <div className="flex items-center text-gray-500 mb-4">
+          <div className="flex items-center justify-center text-gray-500 mb-4">
             <Globe className="h-4 w-4 mr-2" aria-hidden="true" />
             <a 
               href={business.website} 
