@@ -318,8 +318,14 @@ const AddBusinessPage = () => {
                     onChange={(e) => antiSpam.honeypotField.onChange(e.target.value)}
                     style={antiSpam.honeypotField.style}
                     tabIndex={antiSpam.honeypotField.tabIndex}
-                    autoComplete="off"
-                    aria-hidden="true"
+                     autoComplete={antiSpam.honeypotField.autoComplete ?? "new-password"}
+                     autoCorrect={antiSpam.honeypotField.autoCorrect ?? "off"}
+                     autoCapitalize={antiSpam.honeypotField.autoCapitalize ?? "none"}
+                     spellCheck={antiSpam.honeypotField.spellCheck ?? false}
+                     inputMode={antiSpam.honeypotField.inputMode ?? "none"}
+                     data-lpignore={antiSpam.honeypotField["data-lpignore"] ?? "true"}
+                     data-1p-ignore={antiSpam.honeypotField["data-1p-ignore"] ?? "true"}
+                     aria-hidden={antiSpam.honeypotField["aria-hidden"] ?? true}
                   />
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField

@@ -7,6 +7,15 @@ interface AntiSpamResult {
     onChange: (value: string) => void;
     style: React.CSSProperties;
     tabIndex: number;
+    autoComplete?: string;
+    autoCorrect?: string;
+    autoCapitalize?: string;
+    spellCheck?: boolean;
+    inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+    'aria-hidden'?: boolean | 'true' | 'false';
+    // Password manager / autofill opt-outs
+    'data-lpignore'?: string;
+    'data-1p-ignore'?: string;
   };
   validateSubmission: () => Promise<{ isValid: boolean; error?: string }>;
 }
@@ -38,11 +47,22 @@ export const useAntiSpam = (minSubmitTime: number = 3000): AntiSpamResult => {
 
   return {
     honeypotField: {
-      name: 'website_url',
+      // Avoid common autofill keywords like "website" which mobile browsers/password managers may fill
+      name: 'contact_fax',
       value: honeypot,
       onChange: setHoneypot,
       tabIndex: -1,
+      autoComplete: 'new-password',
+      autoCorrect: 'off',
+      autoCapitalize: 'none',
+      spellCheck: false,
+      inputMode: 'none',
+      'aria-hidden': true,
+      'data-lpignore': 'true',
+      'data-1p-ignore': 'true',
       style: {
+        // Strongly hidden to prevent autofill while still catching simplistic bots
+        display: 'none',
         position: 'absolute',
         left: '-9999px',
         width: '1px',
