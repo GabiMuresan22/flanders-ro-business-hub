@@ -139,8 +139,8 @@ const BusinessDetails = () => {
       <div className="min-h-screen flex flex-col bg-muted/30">
         <Navbar />
         <main className="flex-grow">
-          {/* Hero Banner */}
-          <div className="h-80 md:h-96 relative">
+          {/* Hero Image */}
+          <div className="h-64 md:h-80 relative">
             {business.image_url ? (
               <img 
                 src={business.image_url} 
@@ -155,11 +155,12 @@ const BusinessDetails = () => {
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-romania-blue to-romania-red"></div>
             )}
-            {/* Dark overlay for text readability */}
-            <div className="absolute inset-0 bg-black/40"></div>
-            {/* Hero content centered */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-              <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 uppercase tracking-wide">
+          </div>
+          
+          {/* Business Title Section */}
+          <div className="bg-card border-b">
+            <div className="container mx-auto px-4 py-6 text-center">
+              <h1 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 uppercase tracking-wide">
                 {business.business_name}
               </h1>
               <span className="inline-block bg-romania-blue text-white text-sm font-medium px-6 py-2 rounded-full">
@@ -169,7 +170,7 @@ const BusinessDetails = () => {
           </div>
           
           {/* Three-column cards section */}
-          <div className="container mx-auto px-4 py-8 -mt-16 relative z-10">
+          <div className="container mx-auto px-4 py-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               
               {/* About Us Card */}
