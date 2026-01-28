@@ -17,7 +17,7 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4" role="list" aria-label="Social media links">
               <a 
-                href="https://facebook.com/romanianbusinesshub" 
+                href="https://www.facebook.com/profile.php?id=61587106051572" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-romania-blue hover:text-romania-red transition-colors focus:outline-none focus:ring-2 focus:ring-romania-blue focus:ring-offset-2 rounded"
