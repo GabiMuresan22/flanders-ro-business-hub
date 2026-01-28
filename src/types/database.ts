@@ -27,6 +27,7 @@ export type BusinessCardData = Partial<PublicBusiness> & {
   city?: string | null;
   phone?: string;
   website?: string | null;
+  image_url?: string | null;
 };
 
 // User type from Supabase Auth

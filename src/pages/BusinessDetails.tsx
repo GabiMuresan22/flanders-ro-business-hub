@@ -135,7 +135,21 @@ const BusinessDetails = () => {
       <main className="flex-grow">
         {/* Hero Banner */}
         <div className="h-64 md:h-80 bg-gray-200 relative">
-          <div className="w-full h-full bg-gradient-to-br from-romania-blue to-romania-red opacity-80"></div>
+          {business.image_url ? (
+            <img 
+              src={business.image_url} 
+              alt={business.business_name || ''} 
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                // Fall back to gradient on error
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                target.parentElement?.classList.add('bg-gradient-to-br', 'from-romania-blue', 'to-romania-red');
+              }}
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-romania-blue to-romania-red opacity-80"></div>
+          )}
           <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
             <div className="container mx-auto">
               <span className="inline-block bg-romania-yellow text-gray-900 text-sm font-medium px-3 py-1 rounded-full mb-2">
