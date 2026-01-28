@@ -42,6 +42,13 @@ export const Analytics = () => {
 
   // Load Google Analytics 4 (GA4)
   const loadGoogleAnalytics = () => {
+    // FIX: Check if the script is ALREADY in the DOM
+    const existingScript = document.querySelector(`script[src*="googletagmanager.com/gtag/js"]`);
+    if (existingScript) {
+      gaLoadedRef.current = true;
+      return;
+    }
+
     if (gaLoadedRef.current) return;
 
     console.log('[Analytics] Loading Google Analytics with ID:', GA_MEASUREMENT_ID);
@@ -59,7 +66,7 @@ export const Analytics = () => {
       allow_google_signals: false, // Disable personalized ads by default
     });
 
-    // Load gtag.js script (queued config above will be applied when script loads)
+    // Load gtag.js script
     const script1 = document.createElement('script');
     script1.async = true;
     script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
