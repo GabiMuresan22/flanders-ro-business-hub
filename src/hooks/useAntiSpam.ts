@@ -24,9 +24,11 @@ export const useAntiSpam = (minSubmitTime: number = 3000): AntiSpamResult => {
       return { isValid: false, error: 'Spam detected. Please try again.' };
     }
 
-    // Check minimum time - but be lenient (reduce to 2 seconds minimum)
+    // For authenticated users, the time check is minimal (500ms) since auth itself is anti-spam
+    // For anonymous flows, use a very lenient 1 second minimum to avoid false positives
     const timeSinceMount = Date.now() - mountTime.current;
-    if (timeSinceMount < Math.min(minSubmitTime, 2000)) {
+    const effectiveMinTime = Math.min(minSubmitTime, 500); // Very lenient - 500ms minimum
+    if (timeSinceMount < effectiveMinTime) {
       if (import.meta.env.DEV) console.warn('Anti-spam: Form submitted too quickly', timeSinceMount);
       return { isValid: false, error: 'Please take your time to fill out the form.' };
     }
