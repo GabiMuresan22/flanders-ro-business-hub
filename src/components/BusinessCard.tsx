@@ -49,14 +49,23 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
     return categoryImageMap[category] || '/placeholder.svg';
   };
 
+  // Use uploaded image if available, otherwise fall back to category default
+  const displayImage = business.image_url || getDefaultImage(business.category);
+  const hasCustomImage = !!business.image_url;
+
   return (
     <article className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1">
-      <div className="h-48 overflow-hidden bg-gradient-to-br from-romania-blue to-romania-red opacity-80" aria-hidden="true">
+      <div className={`h-48 overflow-hidden ${hasCustomImage ? '' : 'bg-gradient-to-br from-romania-blue to-romania-red opacity-80'}`} aria-hidden="true">
         <img 
-          src={getDefaultImage(business.category)} 
-          alt=""
-          className="w-full h-full object-cover mix-blend-overlay"
+          src={displayImage} 
+          alt={hasCustomImage ? business.business_name : ''}
+          className={`w-full h-full object-cover ${hasCustomImage ? '' : 'mix-blend-overlay'}`}
           loading="lazy"
+          onError={(e) => {
+            // Fall back to default image on error
+            const target = e.target as HTMLImageElement;
+            target.src = getDefaultImage(business.category);
+          }}
         />
       </div>
       <div className="p-5">
