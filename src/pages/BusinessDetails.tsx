@@ -7,8 +7,16 @@ import ReviewForm from '../components/ReviewForm';
 import BusinessDetailsSkeleton from '../components/skeletons/BusinessDetailsSkeleton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
-import { MapPin, Phone, Mail, Globe, Star } from 'lucide-react';
+import { MapPin, Phone, Mail, Globe, Star, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 import type { PublicBusiness, ReviewRow } from '@/types/database';
@@ -157,15 +165,44 @@ const BusinessDetails = () => {
             )}
           </div>
           
-          {/* Business Title Section */}
+          {/* Breadcrumb & Business Title Section */}
           <div className="bg-card border-b">
-            <div className="container mx-auto px-4 py-6 text-center">
-              <h1 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 uppercase tracking-wide">
-                {business.business_name}
-              </h1>
-              <span className="inline-block bg-romania-blue text-white text-sm font-medium px-6 py-2 rounded-full">
-                {getCategoryTranslation()}
-              </span>
+            <div className="container mx-auto px-4 py-6">
+              {/* Breadcrumb Navigation */}
+              <Breadcrumb className="mb-4">
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink asChild>
+                      <Link to="/" className="flex items-center gap-1">
+                        <Home className="h-4 w-4" />
+                        <span>{t('common.home')}</span>
+                      </Link>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbLink asChild>
+                      <Link to={`/category/${encodeURIComponent(business.category || '')}`}>
+                        {getCategoryTranslation()}
+                      </Link>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>{business.business_name}</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+              
+              {/* Title centered */}
+              <div className="text-center">
+                <h1 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 uppercase tracking-wide">
+                  {business.business_name}
+                </h1>
+                <span className="inline-block bg-romania-blue text-white text-sm font-medium px-6 py-2 rounded-full">
+                  {getCategoryTranslation()}
+                </span>
+              </div>
             </div>
           </div>
           
