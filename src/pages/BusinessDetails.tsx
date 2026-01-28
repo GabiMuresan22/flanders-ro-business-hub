@@ -151,7 +151,7 @@ const BusinessDetails = () => {
             <div className="w-full h-full bg-gradient-to-br from-romania-blue to-romania-red opacity-80"></div>
           )}
           <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
-            <div className="container mx-auto">
+            <div className="container mx-auto text-center">
               <span className="inline-block bg-romania-yellow text-gray-900 text-sm font-medium px-3 py-1 rounded-full mb-2">
                 {(() => {
                   const key = `businessCategories.${business.category}`;
@@ -168,13 +168,13 @@ const BusinessDetails = () => {
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-2">
-              <div className="bg-white rounded-lg shadow-md p-8 mb-8">
+              <div className="bg-white rounded-lg shadow-md p-8 mb-8 text-center">
                 <h2 className="font-playfair text-2xl font-bold text-gray-800 mb-4">{t('businessDetails.about')}</h2>
                 <p className="text-gray-600 mb-6">{business.description}</p>
               </div>
 
               {/* Reviews Section */}
-              <div className="bg-white rounded-lg shadow-md p-8">
+              <div className="bg-white rounded-lg shadow-md p-8 text-center">
                 <h2 className="font-playfair text-2xl font-bold text-gray-800 mb-4">
                   {t('businessDetails.reviews')} {averageRating > 0 && `(${averageRating} ⭐)`}
                 </h2>
@@ -196,14 +196,12 @@ const BusinessDetails = () => {
             </div>
             
             <div>
-              <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="bg-white rounded-lg shadow-md p-6 text-center">
                 <h3 className="font-playfair text-xl font-semibold text-gray-800 mb-4">{t('businessDetails.contactInfo')}</h3>
-                <div className="space-y-4">
-                  <div className="flex items-start">
-                    <MapPin className="h-5 w-5 text-romania-blue mr-3 mt-0.5" />
-                    <div>
-                      <p className="text-gray-600">{business.city}, {business.postal_code}</p>
-                    </div>
+                <div className="space-y-4 flex flex-col items-center">
+                  <div className="flex items-center">
+                    <MapPin className="h-5 w-5 text-romania-blue mr-3" />
+                    <p className="text-gray-600">{business.city}, {business.postal_code}</p>
                   </div>
                   <div className="flex items-center">
                     <Phone className="h-5 w-5 text-romania-blue mr-3" />
