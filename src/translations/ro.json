@@ -23,7 +23,15 @@
     "categories": "Categorii",
     "quickLinks": "Link-uri Rapide",
     "contact": "Contactează-ne",
-    "rights": "Romanian Business Hub - Flandra de Vest. Toate drepturile rezervate."
+    "rights": "Romanian Business Hub - Flandra de Vest. Toate drepturile rezervate.",
+    "categoryRestaurants": "Restaurante",
+    "categoryBakeries": "Patiserii",
+    "categoryGrocery": "Magazine Alimentare",
+    "categoryCarServices": "Servicii Auto",
+    "categoryBeauty": "Saloane de Frumusețe",
+    "categoryConstruction": "Construcții",
+    "categoryGiftFlowers": "Cadouri și Flori",
+    "privacyPolicy": "Politica de Confidențialitate"
   },
   "auth": {
     "login": "Autentificare",
@@ -262,12 +270,17 @@
     "Bakery": "Patiserie",
     "Grocery": "Alimentară",
     "Beauty & Wellness": "Frumusețe și Wellness",
+    "Beauty Salon": "Salon de Frumusețe",
     "Car Services": "Servicii Auto",
+    "Car Service": "Service Auto",
     "Construction": "Construcții",
     "Transportation": "Transport",
+    "Transport": "Transport",
     "Travel & Tourism": "Călătorii și Turism",
     "Retail": "Comerț cu amănuntul",
     "Professional Services": "Servicii Profesionale",
+    "Gift & Flowers": "Cadouri și Flori",
+    "Other Services": "Alte Servicii",
     "Other": "Altele"
   },
   "searchResults": {

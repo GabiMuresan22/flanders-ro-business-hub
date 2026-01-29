@@ -58,12 +58,13 @@ const Footer = () => {
           <nav aria-label="Business categories">
             <h3 className="font-playfair text-xl font-semibold mb-4 text-romania-blue">{t('footer.categories')}</h3>
             <ul className="space-y-2">
-              <li><Link to="/category/restaurant" className="text-gray-600 hover:text-romania-blue">Restaurants</Link></li>
-              <li><Link to="/category/bakery" className="text-gray-600 hover:text-romania-blue">Bakeries</Link></li>
-              <li><Link to="/category/grocery" className="text-gray-600 hover:text-romania-blue">Grocery Stores</Link></li>
-              <li><Link to="/category/car-service" className="text-gray-600 hover:text-romania-blue">Car Services</Link></li>
-              <li><Link to="/category/beauty-salon" className="text-gray-600 hover:text-romania-blue">Beauty Salons</Link></li>
-              <li><Link to="/category/construction" className="text-gray-600 hover:text-romania-blue">Construction</Link></li>
+              <li><Link to="/category/restaurant-food" className="text-gray-600 hover:text-romania-blue">{t('footer.categoryRestaurants')}</Link></li>
+              <li><Link to="/category/bakery" className="text-gray-600 hover:text-romania-blue">{t('footer.categoryBakeries')}</Link></li>
+              <li><Link to="/category/grocery" className="text-gray-600 hover:text-romania-blue">{t('footer.categoryGrocery')}</Link></li>
+              <li><Link to="/category/car-services" className="text-gray-600 hover:text-romania-blue">{t('footer.categoryCarServices')}</Link></li>
+              <li><Link to="/category/beauty-wellness" className="text-gray-600 hover:text-romania-blue">{t('footer.categoryBeauty')}</Link></li>
+              <li><Link to="/category/construction" className="text-gray-600 hover:text-romania-blue">{t('footer.categoryConstruction')}</Link></li>
+              <li><Link to="/category/gift-flowers" className="text-gray-600 hover:text-romania-blue">{t('footer.categoryGiftFlowers')}</Link></li>
             </ul>
           </nav>
           
@@ -75,7 +76,7 @@ const Footer = () => {
               <li><Link to="/contact" className="text-gray-600 hover:text-romania-blue">{t('nav.contact')}</Link></li>
               <li><Link to="/add-business" className="text-gray-600 hover:text-romania-blue">{t('nav.addBusiness')}</Link></li>
               <li><Link to="/faq" className="text-gray-600 hover:text-romania-blue">{t('nav.faq')}</Link></li>
-              <li><Link to="/privacy-policy" className="text-gray-600 hover:text-romania-blue">Privacy Policy</Link></li>
+              <li><Link to="/privacy-policy" className="text-gray-600 hover:text-romania-blue">{t('footer.privacyPolicy')}</Link></li>
             </ul>
           </nav>
           
