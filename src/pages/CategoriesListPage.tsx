@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 import CategoryCard from '../components/CategoryCard';
 import CategoryCardSkeleton from '../components/skeletons/CategoryCardSkeleton';
 import SEO from '../components/SEO';
-import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase } from 'lucide-react';
+import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase, Gift } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -43,9 +43,12 @@ const CategoriesListPage = () => {
       'Car Service': <Car size={48} />,
       'Grocery': <ShoppingBag size={48} />,
       'Transport': <Truck size={48} />,
+      'Transportation': <Truck size={48} />,
       'Beauty Salon': <Scissors size={48} />,
+      'Beauty & Wellness': <Scissors size={48} />,
       'Construction': <HardHat size={48} />,
       'Professional Services': <Briefcase size={48} />,
+      'Gift & Flowers': <Gift size={48} />,
       'Other Services': <Briefcase size={48} />,
     };
     return iconMap[category] || <Briefcase size={48} />;

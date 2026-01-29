@@ -23,7 +23,15 @@
     "categories": "Categories",
     "quickLinks": "Quick Links",
     "contact": "Contact Us",
-    "rights": "Romanian Business Hub - West Flanders. All rights reserved."
+    "rights": "Romanian Business Hub - West Flanders. All rights reserved.",
+    "categoryRestaurants": "Restaurants",
+    "categoryBakeries": "Bakeries",
+    "categoryGrocery": "Grocery Stores",
+    "categoryCarServices": "Car Services",
+    "categoryBeauty": "Beauty Salons",
+    "categoryConstruction": "Construction",
+    "categoryGiftFlowers": "Gift & Flowers",
+    "privacyPolicy": "Privacy Policy"
   },
   "auth": {
     "login": "Login",
@@ -262,12 +270,17 @@
     "Bakery": "Bakery",
     "Grocery": "Grocery",
     "Beauty & Wellness": "Beauty & Wellness",
+    "Beauty Salon": "Beauty Salon",
     "Car Services": "Car Services",
+    "Car Service": "Car Service",
     "Construction": "Construction",
     "Transportation": "Transportation",
+    "Transport": "Transport",
     "Travel & Tourism": "Travel & Tourism",
     "Retail": "Retail",
     "Professional Services": "Professional Services",
+    "Gift & Flowers": "Gift & Flowers",
+    "Other Services": "Other Services",
     "Other": "Other"
   },
   "searchResults": {
