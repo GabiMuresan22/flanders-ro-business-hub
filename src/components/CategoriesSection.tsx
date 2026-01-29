@@ -1,14 +1,13 @@
 
 import React, { useEffect, useState } from 'react';
-import { BusinessCategory } from '../data/businessData';
 import CategoryCard from './CategoryCard';
-import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase } from 'lucide-react';
+import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase, Gift, Plane, Laptop } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const CategoriesSection: React.FC = () => {
   const { t } = useLanguage();
-  const [categoryCounts, setCategoryCounts] = useState<Record<BusinessCategory, number>>({} as Record<BusinessCategory, number>);
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
     const fetchBusinesses = async () => {
@@ -17,10 +16,13 @@ const CategoriesSection: React.FC = () => {
         .select('category');
 
       if (businesses) {
-        const counts = Object.values(BusinessCategory).reduce((acc, category) => {
-          acc[category] = businesses.filter(b => b.category === category).length;
-          return acc;
-        }, {} as Record<BusinessCategory, number>);
+        // Count businesses per category dynamically
+        const counts: Record<string, number> = {};
+        businesses.forEach(b => {
+          if (b.category) {
+            counts[b.category] = (counts[b.category] || 0) + 1;
+          }
+        });
         setCategoryCounts(counts);
       }
     };
@@ -28,15 +30,28 @@ const CategoriesSection: React.FC = () => {
     fetchBusinesses();
   }, []);
 
-  const categoryIcons = {
-    [BusinessCategory.RESTAURANT]: <UtensilsCrossed size={32} />,
-    [BusinessCategory.BAKERY]: <Cake size={32} />,
-    [BusinessCategory.CAR_SERVICE]: <Car size={32} />,
-    [BusinessCategory.GROCERY]: <ShoppingBag size={32} />,
-    [BusinessCategory.TRANSPORT]: <Truck size={32} />,
-    [BusinessCategory.BEAUTY]: <Scissors size={32} />,
-    [BusinessCategory.CONSTRUCTION]: <HardHat size={32} />,
-    [BusinessCategory.OTHER]: <Briefcase size={32} />,
+  const getCategoryIcon = (category: string) => {
+    const iconMap: Record<string, JSX.Element> = {
+      'Restaurant & Food': <UtensilsCrossed size={32} />,
+      'Restaurant': <UtensilsCrossed size={32} />,
+      'Bakery': <Cake size={32} />,
+      'Car Services': <Car size={32} />,
+      'Car Service': <Car size={32} />,
+      'Grocery': <ShoppingBag size={32} />,
+      'Transport': <Truck size={32} />,
+      'Transportation': <Truck size={32} />,
+      'Beauty Salon': <Scissors size={32} />,
+      'Beauty & Wellness': <Scissors size={32} />,
+      'Construction': <HardHat size={32} />,
+      'Professional Services': <Briefcase size={32} />,
+      'Gift & Flowers': <Gift size={32} />,
+      'Travel & Tourism': <Plane size={32} />,
+      'IT & Marketing': <Laptop size={32} />,
+      'Retail': <ShoppingBag size={32} />,
+      'Other Services': <Briefcase size={32} />,
+      'Other': <Briefcase size={32} />,
+    };
+    return iconMap[category] || <Briefcase size={32} />;
   };
   
   return (
@@ -53,9 +68,9 @@ const CategoriesSection: React.FC = () => {
           {Object.entries(categoryCounts).map(([category, count]) => (
             <CategoryCard 
               key={category}
-              category={category as BusinessCategory} 
+              category={category} 
               count={count} 
-              icon={categoryIcons[category as BusinessCategory]} 
+              icon={getCategoryIcon(category)} 
             />
           ))}
         </div>
