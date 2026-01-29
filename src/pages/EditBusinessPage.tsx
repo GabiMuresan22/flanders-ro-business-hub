@@ -173,6 +173,7 @@ const EditBusinessPage = () => {
     "Retail",
     "Professional Services",
     "Gift & Flowers",
+    "IT & Marketing",
     "Other"
   ];
 
