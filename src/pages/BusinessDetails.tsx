@@ -8,6 +8,7 @@ import BusinessDetailsSkeleton from '../components/skeletons/BusinessDetailsSkel
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
 import { MapPin, Phone, Mail, Globe, Star, Home } from 'lucide-react';
+import { categoryToSlug } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
   Breadcrumb,
@@ -182,7 +183,7 @@ const BusinessDetails = () => {
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
                     <BreadcrumbLink asChild>
-                      <Link to={`/category/${encodeURIComponent(business.category || '')}`}>
+                      <Link to={`/category/${categoryToSlug(business.category || '')}`}>
                         {getCategoryTranslation()}
                       </Link>
                     </BreadcrumbLink>
