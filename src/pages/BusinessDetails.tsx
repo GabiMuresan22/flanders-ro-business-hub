@@ -53,16 +53,31 @@ const BusinessDetails = () => {
   const fetchReviews = useCallback(async () => {
     if (!id) return;
     
-    const { data } = await supabase
+    // Fetch reviews
+    const { data: reviewsData } = await supabase
       .from('reviews')
       .select('*')
       .eq('business_id', id)
       .order('created_at', { ascending: false });
 
-    if (data) {
-      setReviews(data);
-      if (data.length > 0) {
-        const avg = data.reduce((sum, review) => sum + review.rating, 0) / data.length;
+    if (reviewsData) {
+      // Fetch profile names for each reviewer
+      const userIds = [...new Set(reviewsData.map(r => r.user_id))];
+      const { data: profilesData } = await supabase
+        .from('public_profiles')
+        .select('user_id, full_name')
+        .in('user_id', userIds);
+      
+      // Map profiles to reviews
+      const profileMap = new Map(profilesData?.map(p => [p.user_id, p.full_name]) || []);
+      const reviewsWithProfiles = reviewsData.map(review => ({
+        ...review,
+        profiles: { full_name: profileMap.get(review.user_id) || null }
+      }));
+      
+      setReviews(reviewsWithProfiles);
+      if (reviewsData.length > 0) {
+        const avg = reviewsData.reduce((sum, review) => sum + review.rating, 0) / reviewsData.length;
         setAverageRating(Math.round(avg * 10) / 10);
       }
     }
