@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -157,17 +157,25 @@ const MyBusinessesPage = () => {
         <section className="py-12">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
-              <div className="flex justify-between items-center mb-8">
+              <div className="flex flex-wrap justify-between items-center gap-4 mb-8">
                 <h2 className="text-2xl font-playfair font-semibold text-gray-900">
                   {t('myBusinesses.yourSubmissions')} ({businesses.length})
                 </h2>
-                <Button 
-                  onClick={() => navigate('/add-business')}
-                  className="bg-romania-blue hover:bg-blue-700"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  {t('myBusinesses.addNewBusiness')}
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Link
+                    to="/categories"
+                    className="text-sm text-romania-blue hover:underline"
+                  >
+                    {t('searchResults.browseCategories')}
+                  </Link>
+                  <Button 
+                    onClick={() => navigate('/add-business')}
+                    className="bg-romania-blue hover:bg-blue-700"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    {t('myBusinesses.addNewBusiness')}
+                  </Button>
+                </div>
               </div>
 
               {businesses.length === 0 ? (

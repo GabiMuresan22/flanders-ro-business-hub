@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +20,7 @@ const profileSchema = z.object({
 const AccountPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [formData, setFormData] = useState({
@@ -179,13 +181,19 @@ const AccountPage = () => {
                 />
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4 items-center">
                 <Button type="submit" disabled={loading}>
                   {loading ? "Saving..." : "Save Changes"}
                 </Button>
                 <Button type="button" variant="outline" onClick={handleSignOut}>
                   Sign Out
                 </Button>
+                <Link
+                  to="/categories"
+                  className="text-sm text-romania-blue hover:underline"
+                >
+                  {t('searchResults.browseCategories')}
+                </Link>
               </div>
             </form>
           </CardContent>
