@@ -1,40 +1,49 @@
 
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BusinessCard from '../components/BusinessCard';
 import BusinessCardSkeleton from '../components/skeletons/BusinessCardSkeleton';
 import SEO from '../components/SEO';
 import { supabase } from '@/integrations/supabase/client';
-import { categoryToSlug } from '@/lib/utils';
+import { slugToCategory, categoryMatchesSlug } from '@/lib/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
 import type { PublicBusiness } from '@/types/database';
 
 const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const [filteredBusinesses, setFilteredBusinesses] = useState<PublicBusiness[]>([]);
   const [loading, setLoading] = useState(true);
   const { t } = useLanguage();
-  
-  // Convert slug back to category name (e.g., "restaurant-food" -> "Restaurant & Food")
-  const categoryFromSlug = slug?.split('-').map(word => 
-    word.charAt(0).toUpperCase() + word.slice(1)
-  ).join(' ') || '';
+
+  // Always derive display name from slug (handles car-service / car-services etc.)
+  const categoryFromSlug = slug ? slugToCategory(slug) : '';
+
+  useEffect(() => {
+    if (slug === undefined || slug === '') {
+      navigate('/categories', { replace: true });
+    }
+  }, [slug, navigate]);
+
+  if (slug === undefined || slug === '') {
+    return null;
+  }
 
   useEffect(() => {
     const fetchBusinesses = async () => {
-      if (!slug) return;
-      
+      if (!slug) {
+        setLoading(false);
+        return;
+      }
+
       const { data } = await supabase
         .from('public_businesses')
         .select('*');
 
       if (data) {
-        // Filter by matching category slug
-        const filtered = data.filter(b => 
-          categoryToSlug(b.category) === slug.toLowerCase()
-        );
+        const filtered = data.filter(b => categoryMatchesSlug(b.category, slug));
         setFilteredBusinesses(filtered);
       }
       setLoading(false);
@@ -42,7 +51,7 @@ const CategoryPage = () => {
 
     fetchBusinesses();
   }, [slug]);
-  
+
   const getCategoryTitle = () => {
     if (filteredBusinesses.length > 0) {
       return filteredBusinesses[0].category;
