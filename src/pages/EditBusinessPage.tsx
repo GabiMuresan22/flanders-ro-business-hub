@@ -277,10 +277,10 @@ const EditBusinessPage = () => {
         <div className="bg-romania-blue py-16">
           <div className="container mx-auto px-4">
             <h1 className="font-playfair text-4xl md:text-5xl font-bold text-white text-center">
-              Edit Business
+              {t('editBusiness.title')}
             </h1>
             <p className="text-white text-center mt-4 max-w-2xl mx-auto">
-              Update your business information
+              {t('editBusiness.subtitle')}
             </p>
           </div>
         </div>
@@ -291,9 +291,9 @@ const EditBusinessPage = () => {
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <Alert>
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Editing your business</AlertTitle>
+                  <AlertTitle>{t('editBusiness.title')}</AlertTitle>
                   <AlertDescription>
-                    Update your business contact information and details here.
+                    {t('editBusiness.subtitle')}
                   </AlertDescription>
                 </Alert>
 
@@ -302,9 +302,9 @@ const EditBusinessPage = () => {
                   name="businessName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Business Name *</FormLabel>
+                      <FormLabel>{t('addBusiness.businessName')} *</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Romanian Delights Bakery" {...field} />
+                        <Input placeholder={t('addBusiness.businessNamePlaceholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -316,9 +316,9 @@ const EditBusinessPage = () => {
                   name="ownerName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Owner Name *</FormLabel>
+                      <FormLabel>{t('addBusiness.ownerName')} *</FormLabel>
                       <FormControl>
-                        <Input placeholder="Your full name" {...field} />
+                        <Input placeholder={t('addBusiness.ownerNamePlaceholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -331,9 +331,9 @@ const EditBusinessPage = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email *</FormLabel>
+                        <FormLabel>{t('addBusiness.email')} *</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="your@email.com" {...field} />
+                          <Input type="email" placeholder={t('addBusiness.emailPlaceholder')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -345,9 +345,9 @@ const EditBusinessPage = () => {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Phone *</FormLabel>
+                        <FormLabel>{t('addBusiness.phone')} *</FormLabel>
                         <FormControl>
-                          <Input type="tel" placeholder="+32 XXX XX XX XX" {...field} />
+                          <Input type="tel" placeholder={t('addBusiness.phonePlaceholder')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -360,9 +360,9 @@ const EditBusinessPage = () => {
                   name="address"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Street Address *</FormLabel>
+                      <FormLabel>{t('addBusiness.address')} *</FormLabel>
                       <FormControl>
-                        <Input placeholder="Street name and number" {...field} />
+                        <Input placeholder={t('addBusiness.addressPlaceholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -375,9 +375,9 @@ const EditBusinessPage = () => {
                     name="city"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>City *</FormLabel>
+                        <FormLabel>{t('addBusiness.city')} *</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Bruges" {...field} />
+                          <Input placeholder={t('addBusiness.cityPlaceholder')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -389,9 +389,9 @@ const EditBusinessPage = () => {
                     name="postalCode"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Postal Code *</FormLabel>
+                        <FormLabel>{t('addBusiness.postalCode')} *</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., 8000" {...field} />
+                          <Input placeholder={t('addBusiness.postalCodePlaceholder')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -404,15 +404,15 @@ const EditBusinessPage = () => {
                   name="category"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Business Category *</FormLabel>
+                      <FormLabel>{t('addBusiness.category')} *</FormLabel>
                       <FormControl>
                         <select 
                           {...field}
                           className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
-                          <option value="">Select a category</option>
+                          <option value="">{t('addBusiness.categorySelect')}</option>
                           {categories.map(category => (
-                            <option key={category} value={category}>{category}</option>
+                            <option key={category} value={category}>{t(`businessCategories.${category}`) || category}</option>
                           ))}
                         </select>
                       </FormControl>
@@ -426,10 +426,10 @@ const EditBusinessPage = () => {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Description *</FormLabel>
+                      <FormLabel>{t('addBusiness.description')} *</FormLabel>
                       <FormControl>
                         <Textarea 
-                          placeholder="Describe your business, services, and what makes it special..."
+                          placeholder={t('addBusiness.descriptionPlaceholder')}
                           className="min-h-[120px]"
                           {...field}
                         />
@@ -444,11 +444,11 @@ const EditBusinessPage = () => {
                   name="website"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Website (Optional)</FormLabel>
+                      <FormLabel>{t('addBusiness.website')}</FormLabel>
                       <FormControl>
                         <Input 
                           type="url" 
-                          placeholder="https://yourwebsite.com" 
+                          placeholder={t('addBusiness.websitePlaceholder')} 
                           {...field}
                         />
                       </FormControl>
@@ -534,8 +534,8 @@ const EditBusinessPage = () => {
 
                 {/* Opening Hours Section */}
                 <div className="space-y-4">
-                  <h3 className="font-playfair text-lg font-semibold text-gray-800">Opening Hours (Optional)</h3>
-                  <p className="text-sm text-gray-600">Enter your business hours for each day (e.g., "09:00 - 17:00" or "Closed")</p>
+                  <h3 className="font-playfair text-lg font-semibold text-gray-800">{t('addBusiness.openingHours')}</h3>
+                  <p className="text-sm text-gray-600">{t('addBusiness.openingHoursHelp')}</p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const).map((day) => (
@@ -547,7 +547,7 @@ const EditBusinessPage = () => {
                           <FormItem>
                             <FormLabel className="capitalize">{day}</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g., 09:00 - 17:00" {...field} />
+                              <Input placeholder={t('addBusiness.openingHoursPlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -563,7 +563,7 @@ const EditBusinessPage = () => {
                     className="bg-romania-blue hover:bg-blue-700" 
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? 'Updating...' : 'Update Business'}
+                    {isSubmitting ? t('editBusiness.updating') : t('editBusiness.updateButton')}
                   </Button>
                   <Button 
                     type="button" 
@@ -571,7 +571,7 @@ const EditBusinessPage = () => {
                     onClick={() => navigate('/my-businesses')}
                     disabled={isSubmitting}
                   >
-                    Cancel
+                    {t('common.cancel')}
                   </Button>
                 </div>
               </form>

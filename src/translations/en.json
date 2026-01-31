@@ -468,6 +468,24 @@
     "invalidFileTypeMessage": "Please upload an image file",
     "authRequired": "Authentication required",
     "authRequiredMessage": "Please log in to submit a business.",
-    "submissionError": "Submission Error"
+    "submissionError": "Submission Error",
+    "businessImage": "Business Image",
+    "imageOptional": "Upload a photo of your business (optional)",
+    "uploadImage": "Upload Image",
+    "maxFileSize": "Max 5MB, JPG/PNG"
+  },
+  "editBusiness": {
+    "title": "Edit Business",
+    "subtitle": "Update your business information",
+    "successTitle": "Business updated!",
+    "successMessage": "Your business information has been updated successfully.",
+    "errorTitle": "Update failed",
+    "genericError": "Unable to update your business. Please try again later.",
+    "currentImage": "Current image",
+    "newImage": "New image (will replace current)",
+    "changeImage": "Change Image",
+    "removeImage": "Remove Image",
+    "updateButton": "Update Business",
+    "updating": "Updating..."
   }
 }

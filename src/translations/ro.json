@@ -468,6 +468,24 @@
     "invalidFileTypeMessage": "Te rugăm să încarci un fișier imagine",
     "authRequired": "Autentificare necesară",
     "authRequiredMessage": "Te rugăm să te autentifici pentru a trimite o afacere.",
-    "submissionError": "Eroare la Trimitere"
+    "submissionError": "Eroare la Trimitere",
+    "businessImage": "Imagine Afacere",
+    "imageOptional": "Încarcă o fotografie a afacerii tale (opțional)",
+    "uploadImage": "Încarcă Imagine",
+    "maxFileSize": "Max 5MB, JPG/PNG"
+  },
+  "editBusiness": {
+    "title": "Editează Afacerea",
+    "subtitle": "Actualizează informațiile afacerii tale",
+    "successTitle": "Afacere actualizată!",
+    "successMessage": "Informațiile afacerii tale au fost actualizate cu succes.",
+    "errorTitle": "Actualizare eșuată",
+    "genericError": "Nu s-a putut actualiza afacerea. Te rugăm să încerci din nou mai târziu.",
+    "currentImage": "Imaginea curentă",
+    "newImage": "Imagine nouă (va înlocui cea curentă)",
+    "changeImage": "Schimbă Imaginea",
+    "removeImage": "Șterge Imaginea",
+    "updateButton": "Actualizează Afacerea",
+    "updating": "Se actualizează..."
   }
 }
