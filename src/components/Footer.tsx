@@ -64,6 +64,7 @@ const Footer = () => {
               <li><Link to="/category/car-services" className="text-gray-600 hover:text-romania-blue">{t('footer.categoryCarServices')}</Link></li>
               <li><Link to="/category/beauty-wellness" className="text-gray-600 hover:text-romania-blue">{t('footer.categoryBeauty')}</Link></li>
               <li><Link to="/category/construction" className="text-gray-600 hover:text-romania-blue">{t('footer.categoryConstruction')}</Link></li>
+              <li><Link to="/category/photo-video" className="text-gray-600 hover:text-romania-blue">{t('footer.categoryPhotoVideo')}</Link></li>
               <li><Link to="/category/gift-flowers" className="text-gray-600 hover:text-romania-blue">{t('footer.categoryGiftFlowers')}</Link></li>
               <li><Link to="/category/it-marketing" className="text-gray-600 hover:text-romania-blue">{t('footer.categoryITMarketing')}</Link></li>
             </ul>
