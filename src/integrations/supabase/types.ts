@@ -275,6 +275,36 @@ export type Database = {
         }
         Relationships: []
       }
+      site_reviews: {
+        Row: {
+          id: string
+          author_name: string
+          content: string
+          rating: number
+          status: string
+          user_id: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          author_name: string
+          content: string
+          rating: number
+          status?: string
+          user_id?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          author_name?: string
+          content?: string
+          rating?: number
+          status?: string
+          user_id?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       public_businesses: {

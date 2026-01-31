@@ -9,6 +9,8 @@ export type ContactMessageRow = Tables<'contact_messages'>;
 export type ProfileRow = Tables<'profiles'>;
 export type UserRoleRow = Tables<'user_roles'>;
 
+export type SiteReviewRow = Tables<'site_reviews'>;
+
 // Extended types for components that need additional fields
 export type BusinessWithDetails = PublicBusiness & {
   phone?: string;
