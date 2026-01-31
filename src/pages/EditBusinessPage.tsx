@@ -13,15 +13,20 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Upload, X, ImageIcon } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const EditBusinessPage = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const { t } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<{ id: string } | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [currentImageUrl, setCurrentImageUrl] = useState<string | null>(null);
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -82,11 +87,13 @@ const EditBusinessPage = () => {
               address: business.address,
               city: business.city,
               postalCode: business.postal_code,
+              btwNumber: business.btw_number || "",
               description: business.description,
               category: business.category,
               website: business.website || "",
               businessImage: undefined,
               agreeTerms: true,
+              appointmentOnly: business.appointment_only || false,
               openingHours: {
                 monday: "",
                 tuesday: "",
@@ -97,6 +104,10 @@ const EditBusinessPage = () => {
                 sunday: "",
               },
             });
+            // Set current image if exists
+            if (business.image_url) {
+              setCurrentImageUrl(business.image_url);
+            }
           }
         } catch (error) {
           if (import.meta.env.DEV) console.error('Error loading business:', error);
@@ -115,12 +126,79 @@ const EditBusinessPage = () => {
     checkAuthAndLoadBusiness();
   }, [id, navigate, form, toast]);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: t('addBusiness.fileTooLarge'),
+          description: t('addBusiness.fileTooLargeMessage'),
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        toast({
+          title: t('addBusiness.invalidFileType'),
+          description: t('addBusiness.invalidFileTypeMessage'),
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setSelectedFile(null);
+    setImagePreview(null);
+  };
+
+  const removeCurrentImage = () => {
+    setCurrentImageUrl(null);
+  };
+
   async function onSubmit(values: FormSchema) {
     if (!user || !id) return;
 
     setIsSubmitting(true);
     
     try {
+      let imageUrl = currentImageUrl;
+
+      // Upload new image if selected
+      if (selectedFile) {
+        const fileExt = selectedFile.name.split('.').pop();
+        const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+        
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('business-images')
+          .upload(fileName, selectedFile, {
+            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (uploadError) {
+          throw new Error(`Image upload failed: ${uploadError.message}`);
+        }
+
+        // Get public URL
+        const { data: { publicUrl } } = supabase.storage
+          .from('business-images')
+          .getPublicUrl(fileName);
+
+        imageUrl = publicUrl;
+      }
+
       const { error } = await supabase
         .from('businesses')
         .update({
@@ -131,9 +209,12 @@ const EditBusinessPage = () => {
           address: values.address,
           city: values.city,
           postal_code: values.postalCode,
+          btw_number: values.btwNumber,
           description: values.description,
           category: values.category,
           website: values.website || null,
+          image_url: imageUrl,
+          appointment_only: values.appointmentOnly || false,
           updated_at: new Date().toISOString(),
         })
         .eq('id', id)
@@ -142,17 +223,17 @@ const EditBusinessPage = () => {
       if (error) throw error;
 
       toast({
-        title: "Business updated!",
-        description: "Your business information has been updated successfully.",
+        title: t('editBusiness.successTitle') || "Business updated!",
+        description: t('editBusiness.successMessage') || "Your business information has been updated successfully.",
       });
       
       navigate('/my-businesses');
     } catch (error) {
       if (import.meta.env.DEV) console.error('Error updating business:', error);
 
-      const errorMessage = error instanceof Error ? error.message : "Unable to update your business. Please try again later.";
+      const errorMessage = error instanceof Error ? error.message : t('editBusiness.genericError') || "Unable to update your business. Please try again later.";
       toast({
-        title: "Update failed",
+        title: t('editBusiness.errorTitle') || "Update failed",
         description: errorMessage,
         variant: "destructive",
       });
@@ -376,6 +457,81 @@ const EditBusinessPage = () => {
                   )}
                 />
 
+                {/* Business Image Section */}
+                <div className="space-y-4">
+                  <h3 className="font-playfair text-lg font-semibold text-gray-800">
+                    {t('addBusiness.businessImage') || 'Business Image'}
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    {t('addBusiness.imageOptional') || 'Upload a photo of your business (optional)'}
+                  </p>
+
+                  {/* Current Image Display */}
+                  {currentImageUrl && !imagePreview && (
+                    <div className="relative inline-block">
+                      <img
+                        src={currentImageUrl}
+                        alt="Current business"
+                        className="w-48 h-48 object-cover rounded-lg border"
+                      />
+                      <button
+                        type="button"
+                        onClick={removeCurrentImage}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        {t('editBusiness.currentImage') || 'Current image'}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* New Image Preview */}
+                  {imagePreview && (
+                    <div className="relative inline-block">
+                      <img
+                        src={imagePreview}
+                        alt="New business preview"
+                        className="w-48 h-48 object-cover rounded-lg border"
+                      />
+                      <button
+                        type="button"
+                        onClick={removeImage}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                      <p className="text-sm text-green-600 mt-2">
+                        {t('editBusiness.newImage') || 'New image (will replace current)'}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Upload Button */}
+                  {!imagePreview && (
+                    <div className="flex items-center gap-4">
+                      <label
+                        htmlFor="businessImage"
+                        className="flex items-center gap-2 px-4 py-2 border border-input rounded-md cursor-pointer hover:bg-accent transition-colors"
+                      >
+                        <Upload className="h-4 w-4" />
+                        <span>{currentImageUrl ? (t('editBusiness.changeImage') || 'Change Image') : (t('addBusiness.uploadImage') || 'Upload Image')}</span>
+                      </label>
+                      <input
+                        id="businessImage"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleFileChange}
+                      />
+                      <span className="text-sm text-muted-foreground">
+                        {t('addBusiness.maxFileSize') || 'Max 5MB, JPG/PNG'}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
                 {/* Opening Hours Section */}
                 <div className="space-y-4">
                   <h3 className="font-playfair text-lg font-semibold text-gray-800">Opening Hours (Optional)</h3>
@@ -402,7 +558,7 @@ const EditBusinessPage = () => {
                 </div>
 
                 <div className="flex gap-4 pt-4">
-                  <Button 
+                  <Button
                     type="submit" 
                     className="bg-romania-blue hover:bg-blue-700" 
                     disabled={isSubmitting}
