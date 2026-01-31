@@ -196,6 +196,10 @@
     "addBusiness": "Add Your Business",
     "contactUs": "Contact Us"
   },
+  "recentlyAdded": {
+    "title": "Recently Added Businesses",
+    "subtitle": "The latest businesses added by our community"
+  },
   "featured": {
     "title": "Featured Romanian Businesses",
     "subtitle": "Discover some of the most popular Romanian businesses across West Flanders, offering authentic products and services",

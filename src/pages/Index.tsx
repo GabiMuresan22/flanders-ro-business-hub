@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import HeroSection from '../components/HeroSection';
 import FeaturedBusinesses from '../components/FeaturedBusinesses';
+import RecentlyAddedBusinesses from '../components/RecentlyAddedBusinesses';
 import CategoriesSection from '../components/CategoriesSection';
 import WhyChooseUsSection from '../components/WhyChooseUsSection';
 import StatisticsSection from '../components/StatisticsSection';
@@ -47,6 +48,7 @@ const Index = () => {
         <Navbar />
         <main id="main-content" className="flex-grow" tabIndex={-1}>
           <HeroSection />
+          <RecentlyAddedBusinesses />
           <FeaturedBusinesses />
           <CategoriesSection />
           <WhyChooseUsSection />

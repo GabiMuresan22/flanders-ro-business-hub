@@ -196,6 +196,10 @@
     "addBusiness": "Adaugă Afacerea Ta",
     "contactUs": "Contactează-ne"
   },
+  "recentlyAdded": {
+    "title": "Afaceri Adăugate Recent",
+    "subtitle": "Cele mai noi afaceri adăugate de comunitatea noastră"
+  },
   "featured": {
     "title": "Afaceri Românești Recomandate",
     "subtitle": "Descoperă unele dintre cele mai populare afaceri românești din Flandra de Vest, care oferă produse și servicii autentice",
