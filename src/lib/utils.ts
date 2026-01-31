@@ -34,6 +34,7 @@ const SLUG_TO_CATEGORY: Record<string, string> = {
   'travel-tourism': 'Travel & Tourism',
   'retail': 'Retail',
   'professional-services': 'Professional Services',
+  'photo-video': 'Photo & Video',
   'other': 'Other',
   'other-services': 'Professional Services',
   'it-marketing': 'IT & Marketing',

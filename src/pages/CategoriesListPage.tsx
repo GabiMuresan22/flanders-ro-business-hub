@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 import CategoryCard from '../components/CategoryCard';
 import CategoryCardSkeleton from '../components/skeletons/CategoryCardSkeleton';
 import SEO from '../components/SEO';
-import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase, Gift, Plane, Laptop } from 'lucide-react';
+import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase, Gift, Plane, Laptop, Camera } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -48,6 +48,7 @@ const CategoriesListPage = () => {
       'Beauty & Wellness': <Scissors size={48} />,
       'Construction': <HardHat size={48} />,
       'Professional Services': <Briefcase size={48} />,
+      'Photo & Video': <Camera size={48} />,
       'Gift & Flowers': <Gift size={48} />,
       'Travel & Tourism': <Plane size={48} />,
       'IT & Marketing': <Laptop size={48} />,

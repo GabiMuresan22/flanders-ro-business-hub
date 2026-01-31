@@ -258,6 +258,7 @@ const AddBusinessPage = () => {
     "Travel & Tourism",
     "Retail",
     "Professional Services",
+    "Photo & Video",
     "Gift & Flowers",
     "IT & Marketing",
     "Other"

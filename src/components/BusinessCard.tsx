@@ -28,6 +28,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
       'Travel Agency': 'Travel & Tourism',
       'Travel & Tourism': 'Travel & Tourism',
       'Professional Services': 'Professional Services',
+      'Photo & Video': 'Photo & Video',
       'Retail': 'Retail',
       'Other': 'Other',
     };

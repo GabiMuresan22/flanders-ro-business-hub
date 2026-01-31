@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import CategoryCard from './CategoryCard';
-import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase, Gift, Plane, Laptop } from 'lucide-react';
+import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase, Gift, Plane, Laptop, Camera } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -44,6 +44,7 @@ const CategoriesSection: React.FC = () => {
       'Beauty & Wellness': <Scissors size={32} />,
       'Construction': <HardHat size={32} />,
       'Professional Services': <Briefcase size={32} />,
+      'Photo & Video': <Camera size={32} />,
       'Gift & Flowers': <Gift size={32} />,
       'Travel & Tourism': <Plane size={32} />,
       'IT & Marketing': <Laptop size={32} />,
