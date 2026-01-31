@@ -27,13 +27,9 @@ const CategoryPage = () => {
     }
   }, [slug, navigate]);
 
-  if (slug === undefined || slug === '') {
-    return null;
-  }
-
   useEffect(() => {
     const fetchBusinesses = async () => {
-      if (!slug) {
+      if (!slug || slug === '') {
         setLoading(false);
         return;
       }

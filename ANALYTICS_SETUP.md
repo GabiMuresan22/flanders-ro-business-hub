@@ -162,45 +162,78 @@ To add your Facebook Pixel ID:
 
 ## Troubleshooting
 
+### Why Google Analytics Might Not Load
+
+#### 1. Strict Cookie Consent (Most Likely)
+
+Your app is GDPR-compliant: **GA does not load by default**. It only loads after the user accepts analytics.
+
+- **Code:** In `src/components/Analytics.tsx`, `getCookiePreferences()` defaults to `analytics: false`.
+- **Effect:** If the user ignores the banner, closes it without accepting, or clicks **Reject**, the GA script is never injected.
+
+**How to test:**
+
+1. Open the site in a **new Incognito/Private window** (to reset previous choices).
+2. When the banner appears, click **Accept All** or **Customize** and enable **Analytics Cookies**.
+3. Only then will the script load.
+
+#### 2. Ad Blockers (Developer Pitfall)
+
+If you test on a machine with an ad blocker (uBlock Origin, AdBlock Plus, Brave, etc.), requests to `googletagmanager.com` and `google-analytics.com` are often blocked.
+
+- **Your code:** Logs this with: `console.error('[Analytics] Failed to load Google Analytics - possibly blocked by ad blocker')`.
+- **Fix:** Disable the ad blocker for your localhost or test domain, or use a clean browser profile.
+
+#### 3. Realtime vs Standard Reports
+
+- **Standard reports:** Can take **24–48 hours** to process. A new property will look empty at first.
+- **Realtime report:** Use this to verify right after setup.
+  - In Google Analytics: **Reports → Realtime**.
+  - Visit your site (after accepting cookies). You should see activity within ~30 seconds.
+
+#### 4. Verify the Script Is Loading
+
+**Cookie consent in Console:**
+
+```javascript
+localStorage.getItem('cookieConsent')
+```
+
+- `null` → No choice yet. GA won’t load.
+- `{"analytics":false,...}` → Analytics rejected. GA won’t load.
+- `{"analytics":true,...}` → Analytics accepted. GA should load.
+
+**Network tab:**
+
+1. DevTools → **Network**.
+2. Filter by **Fetch/XHR** or **JS**.
+3. Search for **collect**.
+4. If you see requests to `google-analytics.com/g/collect`, data is being sent.
+
+#### 5. Content Security Policy (CSP)
+
+If the Console shows: *Content Security Policy: The page’s settings blocked the loading of a resource...*, the CSP is blocking Google.
+
+- **Check:** `vercel.json` (and `public/_headers` if used) must allow:
+  - **script-src:** `https://www.googletagmanager.com`
+  - **connect-src:** `https://www.google-analytics.com`, `https://*.google-analytics.com`, `https://*.analytics.google.com`, `https://*.googletagmanager.com`
+- **Status:** These are already set in this project’s `vercel.json`. Redeploy after any header changes.
+
+---
+
 ### No data in Google Analytics
 
-**Most likely causes:**
+1. **Cookie consent not given** – See “Strict Cookie Consent” above. Test: clear `localStorage` → refresh → **Accept All** → check **Realtime**.
+2. **CSP blocking Google** – See “Content Security Policy” above. Headers are configured in `vercel.json`.
+3. **Wrong GA4 property** – Measurement ID in code is `G-H8JZ4G2QE3`. In GA, confirm you’re in the property that uses this ID (Admin → Data Streams → your web stream).
+4. **Reporting delay** – Use **Realtime** for immediate checks; standard reports can take 24–48 hours.
 
-1. **Cookie consent not given**  
-   GA only runs when users accept **Analytics cookies**. If they click **"Reject Non-Essential"** or the **X** (close) on the banner, analytics is disabled and no data is sent.
+### Analytics Not Loading – Quick Checks
 
-   - In GA you will only see visits from users who clicked **"Accept All"** or **Customize** and enabled **Analytics Cookies**.
-   - To test: clear `localStorage` → refresh → click **"Accept All"** → check GA **Realtime** report.
-
-2. **CSP blocking Google (now fixed)**  
-   The site’s Content-Security-Policy must allow:
-   - `script-src`: `https://www.googletagmanager.com`
-   - `connect-src`: `https://www.google-analytics.com`, `https://*.google-analytics.com`, `https://*.analytics.google.com`, `https://*.googletagmanager.com`  
-   These are included in `vercel.json` and `public/_headers`. Redeploy after changing them.
-
-3. **Wrong GA4 property**  
-   Measurement ID in code is `G-H8JZ4G2QE3`. In Google Analytics, confirm you’re viewing the property that uses this Measurement ID (Admin → Data Streams → your web stream).
-
-4. **Reporting delay**  
-   Realtime shows activity within seconds. Standard reports can take 24–48 hours.
-
-### Analytics Not Loading
-
-1. **Check cookie consent:**
-
-   ```javascript
-   console.log(localStorage.getItem("cookieConsent"));
-   // Should show analytics: true for GA to load, e.g. {"essential":true,"analytics":true,"marketing":true}
-   ```
-
-2. **Check if scripts are in DOM:**
-
-   - Open DevTools → Elements tab
-   - Search for `googletagmanager` or `facebook.net`
-
-3. **Check browser console for errors** (e.g. CSP violations).
-
-4. **Check Network tab:** After accepting analytics, you should see requests to `googletagmanager.com/gtag/js` and to `google-analytics.com/g/collect`.
+1. **Cookie consent:** `console.log(localStorage.getItem("cookieConsent"))` – need `analytics: true`.
+2. **Scripts in DOM:** DevTools → Elements → search for `googletagmanager` or `facebook.net`.
+3. **Console:** Look for CSP or other red errors.
+4. **Network:** After accepting analytics, look for `googletagmanager.com/gtag/js` and `google-analytics.com/g/collect`.
 
 ### Facebook Pixel Not Working
 

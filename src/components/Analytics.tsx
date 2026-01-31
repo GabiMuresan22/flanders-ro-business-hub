@@ -7,231 +7,232 @@ interface CookiePreferences {
   marketing: boolean;
 }
 
-// Google Analytics Measurement ID
-const GA_MEASUREMENT_ID = 'G-H8JZ4G2QE3';
+// Google Analytics Measurement ID (keep your tag; env can override)
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA4_MEASUREMENT_ID || 'G-H8JZ4G2QE3';
 
-// Facebook Pixel ID - Replace with your actual Pixel ID when available
+// Facebook Pixel ID
 const FB_PIXEL_ID = import.meta.env.VITE_FB_PIXEL_ID || '';
+
+function getMeasurementId(): string {
+  return GA_MEASUREMENT_ID;
+}
+
+// Get cookie preferences from localStorage (your site's consent, not vanilla-cookieconsent)
+function getCookiePreferences(): CookiePreferences {
+  try {
+    const consent = localStorage.getItem('cookieConsent');
+    if (consent) {
+      return JSON.parse(consent) as CookiePreferences;
+    }
+  } catch (error) {
+    if (import.meta.env.DEV) console.error('Error reading cookie preferences:', error);
+  }
+  return {
+    essential: true,
+    analytics: false,
+    marketing: false,
+  };
+}
+
+function hasAnalyticsConsent(): boolean {
+  return getCookiePreferences().analytics === true;
+}
 
 /**
  * GDPR-compliant Analytics component
- * Only loads analytics scripts when user has given consent
+ * Loads GA script only when user has given consent; tracks page views on route change
  */
 export const Analytics = () => {
   const location = useLocation();
   const gaLoadedRef = useRef(false);
   const fbLoadedRef = useRef(false);
-
-  // Get cookie preferences from localStorage
-  const getCookiePreferences = (): CookiePreferences => {
-    try {
-      const consent = localStorage.getItem('cookieConsent');
-      if (consent) {
-        return JSON.parse(consent) as CookiePreferences;
-      }
-    } catch (error) {
-      if (import.meta.env.DEV) console.error('Error reading cookie preferences:', error);
-    }
-    // Default: only essential cookies
-    return {
-      essential: true,
-      analytics: false,
-      marketing: false,
-    };
-  };
+  const measurementId = getMeasurementId();
 
   // Load Google Analytics 4 (GA4)
   const loadGoogleAnalytics = () => {
-    // FIX: Check if the script is ALREADY in the DOM
     const existingScript = document.querySelector(`script[src*="googletagmanager.com/gtag/js"]`);
     if (existingScript) {
       gaLoadedRef.current = true;
       return;
     }
-
     if (gaLoadedRef.current) return;
 
-    console.log('[Analytics] Loading Google Analytics with ID:', GA_MEASUREMENT_ID);
+    if (import.meta.env.DEV) {
+      console.log('[Analytics] Loading Google Analytics with ID:', measurementId);
+    }
 
-    // Initialize gtag and dataLayer before script loads (queue commands)
     window.dataLayer = window.dataLayer || [];
     function gtag(...args: unknown[]) {
-      window.dataLayer.push(args);
+      window.dataLayer!.push(args);
     }
-    (window as { gtag?: typeof gtag }).gtag = gtag;
+    (window as Window & { gtag: typeof gtag }).gtag = gtag;
 
     gtag('js', new Date());
-    gtag('config', GA_MEASUREMENT_ID, {
-      anonymize_ip: true, // GDPR compliance
-      allow_google_signals: false, // Disable personalized ads by default
-      page_path: window.location.pathname + window.location.search, // SPA: initial page
+    gtag('config', measurementId, {
+      anonymize_ip: true,
+      allow_google_signals: false,
+      page_path: window.location.pathname + window.location.search,
+      page_title: document.title,
     });
 
-    // Load gtag.js script
     const script1 = document.createElement('script');
     script1.async = true;
-    script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    script1.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
     script1.onload = () => {
-      console.log('[Analytics] Google Analytics script loaded successfully');
+      if (import.meta.env.DEV) console.log('[Analytics] Google Analytics script loaded successfully');
     };
     script1.onerror = () => {
       console.error('[Analytics] Failed to load Google Analytics - possibly blocked by ad blocker');
     };
     document.head.appendChild(script1);
-
     gaLoadedRef.current = true;
   };
 
-  // Remove Google Analytics
   const removeGoogleAnalytics = () => {
-    // Remove gtag script
-    const scripts = document.querySelectorAll(
-      `script[src*="googletagmanager.com/gtag/js"]`
-    );
-    scripts.forEach((script) => script.remove());
-
-    // Clear dataLayer
-    if (window.dataLayer) {
-      window.dataLayer = [];
-    }
-
-    // Remove gtag function
-    delete (window as { gtag?: unknown }).gtag;
-
+    document.querySelectorAll(`script[src*="googletagmanager.com/gtag/js"]`).forEach((s) => s.remove());
+    if (window.dataLayer) window.dataLayer = [];
+    delete (window as Window & { gtag?: unknown }).gtag;
     gaLoadedRef.current = false;
   };
 
-  // Load Facebook Pixel
+  // Facebook Pixel
   const loadFacebookPixel = () => {
     if (fbLoadedRef.current || !FB_PIXEL_ID) return;
-
-    // Load Facebook Pixel script
     const script = document.createElement('script');
     script.async = true;
     script.src = 'https://connect.facebook.net/en_US/fbevents.js';
     document.head.appendChild(script);
 
-    // Initialize fbq function
-    interface FbqFunction {
-      (...args: unknown[]): void;
+    type FbqFunction = ((...args: unknown[]) => void) & {
       callMethod?: (...args: unknown[]) => void;
       queue: unknown[];
       loaded: boolean;
       version: string;
-      push: (...args: unknown[]) => void;
-    }
-
+      push: unknown;
+    };
     const fbq: FbqFunction = function (...args: unknown[]) {
-      if (fbq.callMethod) {
-        fbq.callMethod(...args);
-      } else {
-        fbq.queue.push(args);
-      }
+      if (fbq.callMethod) fbq.callMethod(...args);
+      else fbq.queue.push(args);
     } as FbqFunction;
-
     fbq.push = fbq;
     fbq.loaded = true;
     fbq.version = '2.0';
     fbq.queue = [];
-
-    window.fbq = fbq;
-    window._fbq = fbq;
-
-    // Initialize Facebook Pixel after script loads
+    (window as unknown as { fbq: FbqFunction; _fbq: FbqFunction }).fbq = fbq;
+    (window as unknown as { fbq: FbqFunction; _fbq: FbqFunction })._fbq = fbq;
     script.onload = () => {
       window.fbq?.('init', FB_PIXEL_ID);
       window.fbq?.('track', 'PageView');
     };
-
     fbLoadedRef.current = true;
   };
 
-  // Remove Facebook Pixel
   const removeFacebookPixel = () => {
-    // Remove Facebook Pixel script
-    const scripts = document.querySelectorAll(
-      'script[src*="connect.facebook.net/en_US/fbevents.js"]'
-    );
-    scripts.forEach((script) => script.remove());
-
-    // Clear fbq function
-    delete (window as { fbq?: unknown }).fbq;
-
+    document.querySelectorAll('script[src*="connect.facebook.net/en_US/fbevents.js"]').forEach((s) => s.remove());
+    delete (window as Window & { fbq?: unknown }).fbq;
     fbLoadedRef.current = false;
   };
 
-  // Handle cookie preference changes
+  // Handle consent: load/remove scripts
   useEffect(() => {
     const checkAndUpdateAnalytics = () => {
-      const preferences = getCookiePreferences();
-
-      // Google Analytics (Analytics cookies)
-      if (preferences.analytics) {
-        loadGoogleAnalytics();
-      } else {
-        removeGoogleAnalytics();
-      }
-
-      // Facebook Pixel (Marketing cookies)
-      if (preferences.marketing && FB_PIXEL_ID) {
-        loadFacebookPixel();
-      } else {
-        removeFacebookPixel();
-      }
+      const prefs = getCookiePreferences();
+      if (prefs.analytics) loadGoogleAnalytics();
+      else removeGoogleAnalytics();
+      if (prefs.marketing && FB_PIXEL_ID) loadFacebookPixel();
+      else removeFacebookPixel();
     };
 
-    // Check on mount
     checkAndUpdateAnalytics();
-
-    // Listen for storage changes (when user updates preferences)
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'cookieConsent') {
-        checkAndUpdateAnalytics();
-      }
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'cookieConsent') checkAndUpdateAnalytics();
     };
+    const onConsentUpdated = () => checkAndUpdateAnalytics();
 
-    window.addEventListener('storage', handleStorageChange);
-
-    // Also listen for custom event (for same-tab updates)
-    const handleCustomStorageChange = () => {
-      checkAndUpdateAnalytics();
-    };
-
-    // Custom event listener for same-tab updates
-    window.addEventListener('cookieConsentUpdated', handleCustomStorageChange);
-
+    window.addEventListener('storage', onStorage);
+    window.addEventListener('cookieConsentUpdated', onConsentUpdated);
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('cookieConsentUpdated', handleCustomStorageChange);
+      window.removeEventListener('storage', onStorage);
+      window.removeEventListener('cookieConsentUpdated', onConsentUpdated);
     };
   }, []);
 
-  // Track page views on route changes
+  // Track page views on route change (same pattern as your other site)
   useEffect(() => {
-    const preferences = getCookiePreferences();
+    if (!hasAnalyticsConsent() || typeof window === 'undefined' || !window.gtag) return;
 
-    // Track page view in Google Analytics
-    if (preferences.analytics && window.gtag) {
-      window.gtag('config', GA_MEASUREMENT_ID, {
-        page_path: location.pathname + location.search,
-      });
-    }
+    window.gtag('config', measurementId, {
+      page_path: location.pathname + location.search,
+      page_title: document.title,
+    });
+  }, [location.pathname, location.search, measurementId]);
 
-    // Track page view in Facebook Pixel
-    if (preferences.marketing && FB_PIXEL_ID && window.fbq) {
+  // Facebook Pixel page view on route change
+  useEffect(() => {
+    if (getCookiePreferences().marketing && FB_PIXEL_ID && window.fbq) {
       window.fbq('track', 'PageView');
     }
   }, [location.pathname, location.search]);
 
-  // This component doesn't render anything
   return null;
 };
 
-// Extend Window interface for TypeScript
+/**
+ * Send a custom event to GA4 (only if analytics consent given)
+ */
+export const trackEvent = (
+  eventName: string,
+  eventParams?: Record<string, unknown>
+) => {
+  const measurementId = getMeasurementId();
+  if (!measurementId || typeof window === 'undefined' || !window.gtag) return;
+  if (!hasAnalyticsConsent()) return;
+
+  window.gtag('event', eventName, eventParams);
+};
+
+// Predefined events for common actions (adapt labels for your site)
+export const trackBusinessView = (businessName: string) => {
+  trackEvent('view_item', {
+    event_category: 'engagement',
+    event_label: businessName,
+  });
+};
+
+export const trackLanguageChange = (language: string) => {
+  trackEvent('language_change', {
+    event_category: 'engagement',
+    event_label: `Changed to ${language}`,
+    language,
+  });
+};
+
+export const trackContactClick = (method: 'phone' | 'email' | 'website') => {
+  trackEvent('contact_click', {
+    event_category: 'engagement',
+    event_label: `Contact via ${method}`,
+    contact_method: method,
+  });
+};
+
+export const trackSearch = (query: string) => {
+  trackEvent('search', {
+    event_category: 'engagement',
+    search_term: query,
+  });
+};
+
+export const trackAddBusinessClick = () => {
+  trackEvent('add_business_click', {
+    event_category: 'engagement',
+    event_label: 'Add Business CTA',
+  });
+};
+
 declare global {
   interface Window {
     dataLayer?: unknown[];
-    gtag?: (...args: unknown[]) => void;
+    gtag?: (command: string, ...args: unknown[]) => void;
     fbq?: (...args: unknown[]) => void;
     _fbq?: unknown;
   }

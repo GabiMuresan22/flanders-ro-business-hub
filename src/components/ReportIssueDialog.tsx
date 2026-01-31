@@ -51,7 +51,7 @@ export const ReportIssueDialog = ({ businessId, businessName }: ReportIssueDialo
     try {
       const { data: { user } } = await supabase.auth.getUser();
 
-      const { error } = await supabase.from("business_reports" as "business_reports").insert({
+      const { error } = await supabase.from('business_reports').insert({
         business_id: businessId,
         user_id: user?.id || null,
         reporter_email: email,
