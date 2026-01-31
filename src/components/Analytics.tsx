@@ -64,6 +64,7 @@ export const Analytics = () => {
     gtag('config', GA_MEASUREMENT_ID, {
       anonymize_ip: true, // GDPR compliance
       allow_google_signals: false, // Disable personalized ads by default
+      page_path: window.location.pathname + window.location.search, // SPA: initial page
     });
 
     // Load gtag.js script
