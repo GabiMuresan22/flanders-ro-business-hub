@@ -20,18 +20,18 @@ const HeroSection: React.FC = () => {
       <div className="absolute inset-0 overflow-hidden opacity-10" aria-hidden="true">
         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(255,255,255,0.06) 12px, rgba(255,255,255,0.06) 24px)' }}></div>
       </div>
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="max-w-3xl mx-auto text-center">
-          <h1 className="font-playfair font-bold text-4xl md:text-5xl lg:text-6xl text-white mb-6">
+      <div className="container mx-auto px-4 py-12 sm:py-16 md:py-20 relative z-10">
+        <div className="max-w-3xl mx-auto text-center px-2">
+          <h1 className="font-playfair font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-4 sm:mb-6">
             {t('hero.title')}
           </h1>
-          <p className="text-white/90 text-xl mb-10">
+          <p className="text-white/90 text-lg sm:text-xl mb-8 sm:mb-10 px-2">
             {t('hero.subtitle')}
           </p>
           
-          <div className="relative max-w-xl mx-auto">
+          <div className="relative max-w-xl mx-auto px-2 sm:px-0">
             <form onSubmit={handleSearch} role="search" aria-label="Search for businesses">
-              <div className="flex">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-0">
                 <div className="relative flex-grow">
                   <label htmlFor="hero-search" className="sr-only">
                     Search for businesses
@@ -43,13 +43,13 @@ const HeroSection: React.FC = () => {
                     placeholder="What are you looking for?"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 rounded-l-lg border-0 focus:ring-2 focus:ring-romania-yellow focus:outline-none"
+                    className="w-full pl-12 pr-4 py-4 rounded-lg sm:rounded-l-lg sm:rounded-r-none border-0 focus:ring-2 focus:ring-romania-yellow focus:outline-none"
                     aria-label="Search businesses by name, category, or location"
                   />
                 </div>
                 <button 
                   type="submit"
-                  className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-4 px-4 sm:px-6 md:px-8 rounded-r-lg transition-colors focus:outline-none focus:ring-2 focus:ring-romania-yellow focus:ring-offset-2 whitespace-nowrap"
+                  className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-4 px-6 rounded-lg sm:rounded-l-none sm:rounded-r-lg transition-colors focus:outline-none focus:ring-2 focus:ring-romania-yellow focus:ring-offset-2 whitespace-nowrap w-full sm:w-auto"
                   aria-label="Search"
                 >
                   {t('hero.cta')}

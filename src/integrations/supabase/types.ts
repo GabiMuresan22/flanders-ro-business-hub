@@ -254,6 +254,36 @@ export type Database = {
         }
         Relationships: []
       }
+      site_reviews: {
+        Row: {
+          author_name: string
+          content: string
+          created_at: string
+          id: string
+          rating: number
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          author_name: string
+          content: string
+          created_at?: string
+          id?: string
+          rating: number
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          author_name?: string
+          content?: string
+          created_at?: string
+          id?: string
+          rating?: number
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -272,36 +302,6 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
-        }
-        Relationships: []
-      }
-      site_reviews: {
-        Row: {
-          id: string
-          author_name: string
-          content: string
-          rating: number
-          status: string
-          user_id: string | null
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          author_name: string
-          content: string
-          rating: number
-          status?: string
-          user_id?: string | null
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          author_name?: string
-          content?: string
-          rating?: number
-          status?: string
-          user_id?: string | null
-          created_at?: string
         }
         Relationships: []
       }
