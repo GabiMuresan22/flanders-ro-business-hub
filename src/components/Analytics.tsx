@@ -9,7 +9,7 @@ interface CookiePreferences {
 
 // Google tag (gtag.js) - Official snippet: https://www.googletagmanager.com/gtag/js?id=G-H8JZ4G2QE3
 // Loaded only after analytics consent (GDPR). Same ID and config as the standard gtag snippet.
-const GA_MEASUREMENT_ID = import.meta.env.VITE_GA4_MEASUREMENT_ID || 'G-H8JZ4G2QE3';
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA4_MEASUREMENT_ID || 'G-ZD4NC4N174';
 
 // Facebook Pixel ID
 const FB_PIXEL_ID = import.meta.env.VITE_FB_PIXEL_ID || '';
