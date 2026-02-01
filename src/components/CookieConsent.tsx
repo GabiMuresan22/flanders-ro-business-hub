@@ -32,7 +32,7 @@ export const CookieConsent = () => {
   // Create a helper to save and notify
   const saveAndNotify = (preferences: CookiePreferences) => {
     localStorage.setItem("cookieConsent", JSON.stringify(preferences));
-    // Dispatch event so Analytics.tsx knows to start tracking immediately
+    // Notify any listeners that consent was updated
     window.dispatchEvent(new Event('cookieConsentUpdated'));
     setShowBanner(false);
   };
