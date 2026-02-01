@@ -380,6 +380,8 @@
     "viewOnMap": "View on Map",
     "visitWebsite": "Visit Website",
     "reviews": "Reviews",
+    "review": "review",
+    "reviewsCount": "reviews",
     "noReviews": "No reviews yet. Be the first to leave a review!",
     "leaveReview": "Leave a Review",
     "rating": "Rating",
