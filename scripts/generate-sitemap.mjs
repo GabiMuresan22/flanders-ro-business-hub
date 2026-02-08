@@ -7,6 +7,7 @@ const SITE_URL = 'https://www.ro-businesshub.be';
 const staticRoutes = [
   { path: '/', priority: '1.0', changefreq: 'daily' },
   { path: '/categories', priority: '0.9', changefreq: 'weekly' },
+  { path: '/resurse', priority: '0.85', changefreq: 'weekly' },
   { path: '/about', priority: '0.7', changefreq: 'monthly' },
   { path: '/contact', priority: '0.7', changefreq: 'monthly' },
   { path: '/faq', priority: '0.6', changefreq: 'monthly' },

@@ -3,8 +3,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import { lazy, Suspense } from "react";
+
+const RedirectToResurse = () => {
+  const { slug } = useParams<{ slug: string }>();
+  return <Navigate to={`/resurse/${slug ?? ''}`} replace />;
+};
 import ErrorBoundary from "./components/ErrorBoundary";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { CookieConsent } from "./components/CookieConsent";
@@ -73,6 +78,9 @@ const App = () => (
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/resurse" element={<ResourcesPage />} />
               <Route path="/resurse/:slug" element={<ResourceDetailPage />} />
+              {/* Redirect /resources (EN) to /resurse so shared links work */}
+              <Route path="/resources" element={<Navigate to="/resurse" replace />} />
+              <Route path="/resources/:slug" element={<RedirectToResurse />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
               </Routes>
