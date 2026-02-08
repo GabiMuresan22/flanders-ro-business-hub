@@ -26,6 +26,7 @@ export type BusinessCardData = Partial<PublicBusiness> & {
   business_name: string;
   category: string;
   description?: string | null;
+  description_en?: string | null;
   city?: string | null;
   phone?: string;
   website?: string | null;

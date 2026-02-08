@@ -57,6 +57,7 @@ const AddBusinessPage = () => {
       postalCode: "",
       btwNumber: "",
       description: "",
+      descriptionEn: "",
       category: "",
       website: "",
       businessImage: undefined,
@@ -174,6 +175,7 @@ const AddBusinessPage = () => {
           postal_code: values.postalCode,
           btw_number: values.btwNumber,
           description: values.description,
+          description_en: values.descriptionEn || null,
           category: values.category,
           website: values.website || null,
           image_url: imageUrl,
@@ -609,7 +611,7 @@ const AddBusinessPage = () => {
                       name="description"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>{t('addBusiness.description')} *</FormLabel>
+                          <FormLabel>{t('addBusiness.description')} * (RO)</FormLabel>
                           <FormControl>
                             <Textarea 
                               placeholder={t('addBusiness.descriptionPlaceholder')} 
@@ -631,6 +633,31 @@ const AddBusinessPage = () => {
                               )}
                             </FormMessage>
                             <span id="description-counter" className="text-xs text-gray-500">
+                              {field.value?.length || 0}/1000
+                            </span>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="descriptionEn"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('addBusiness.descriptionEn')} (EN)</FormLabel>
+                          <FormControl>
+                            <Textarea 
+                              placeholder={t('addBusiness.descriptionEnPlaceholder')} 
+                              className="min-h-[120px]"
+                              maxLength={1000}
+                              {...field} 
+                              aria-describedby="description-en-counter"
+                            />
+                          </FormControl>
+                          <p className="text-sm text-muted-foreground">{t('addBusiness.descriptionEnHint')}</p>
+                          <div className="flex justify-end">
+                            <span id="description-en-counter" className="text-xs text-gray-500">
                               {field.value?.length || 0}/1000
                             </span>
                           </div>
