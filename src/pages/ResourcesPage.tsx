@@ -26,7 +26,10 @@ const ResourcesPage = () => {
         .order("created_at", { ascending: false });
 
       if (!error && data) {
-        setResources(data as unknown as Resource[]);
+        const list = (data as unknown as Resource[]).filter(
+          (r) => r.category?.toLowerCase() !== "marketing"
+        );
+        setResources(list);
       }
       setLoading(false);
     };
