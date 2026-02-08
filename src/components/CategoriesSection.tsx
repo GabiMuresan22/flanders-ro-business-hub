@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import CategoryCard from './CategoryCard';
-import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase, Gift, Plane, Laptop, Camera } from 'lucide-react';
+import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase, Gift, Plane, Laptop, Camera, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -16,11 +16,13 @@ const CategoriesSection: React.FC = () => {
         .select('category');
 
       if (businesses) {
-        // Count businesses per category dynamically
+        // Count businesses per category dynamically; include Cosmetician so it always shows
+        const allCategories = ['Restaurant & Food', 'Bakery', 'Grocery', 'Beauty & Wellness', 'Car Services', 'Construction', 'Transportation', 'Travel & Tourism', 'Retail', 'Professional Services', 'Photo & Video', 'Gift & Flowers', 'IT & Marketing', 'Cosmetician', 'Other'];
         const counts: Record<string, number> = {};
+        allCategories.forEach(cat => { counts[cat] = 0; });
         businesses.forEach(b => {
           if (b.category) {
-            counts[b.category] = (counts[b.category] || 0) + 1;
+            counts[b.category] = (counts[b.category] ?? 0) + 1;
           }
         });
         setCategoryCounts(counts);
@@ -51,6 +53,7 @@ const CategoriesSection: React.FC = () => {
       'Retail': <ShoppingBag size={32} />,
       'Other Services': <Briefcase size={32} />,
       'Other': <Briefcase size={32} />,
+      'Cosmetician': <Sparkles size={32} />,
     };
     return iconMap[category] || <Briefcase size={32} />;
   };

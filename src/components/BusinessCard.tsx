@@ -31,6 +31,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
       'Photo & Video': 'Photo & Video',
       'Retail': 'Retail',
       'Other': 'Other',
+      'Cosmetician': 'Cosmetician',
     };
     return categoryKeyMap[category] || category;
   };
@@ -46,6 +47,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
       'Construction': '/images/construction.jpg',
       'Transport': '/images/transport.jpg',
       'Travel Agency': '/images/travel-agency.jpg',
+      'Cosmetician': '/images/beauty-salon.jpg',
     };
     return categoryImageMap[category] || '/placeholder.svg';
   };

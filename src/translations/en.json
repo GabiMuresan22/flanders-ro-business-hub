@@ -29,6 +29,7 @@
     "categoryGrocery": "Grocery Stores",
     "categoryCarServices": "Car Services",
     "categoryBeauty": "Beauty Salons",
+    "categoryCosmetician": "Cosmeticians",
     "categoryConstruction": "Construction",
     "categoryPhotoVideo": "Photo & Video",
     "categoryGiftFlowers": "Gift & Flowers",
@@ -289,7 +290,8 @@
     "Gift & Flowers": "Gift & Flowers",
     "IT & Marketing": "IT & Marketing",
     "Other Services": "Other Services",
-    "Other": "Other"
+    "Other": "Other",
+    "Cosmetician": "Cosmetician"
   },
   "searchResults": {
     "title": "Search Results",

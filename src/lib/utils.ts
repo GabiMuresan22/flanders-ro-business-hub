@@ -38,6 +38,7 @@ const SLUG_TO_CATEGORY: Record<string, string> = {
   'other': 'Other',
   'other-services': 'Professional Services',
   'it-marketing': 'IT & Marketing',
+  'cosmetician': 'Cosmetician',
 };
 
 /**

@@ -247,6 +247,7 @@ const EditBusinessPage = () => {
     "Bakery",
     "Grocery",
     "Beauty & Wellness", 
+    "Cosmetician",
     "Car Services", 
     "Construction",
     "Transportation",

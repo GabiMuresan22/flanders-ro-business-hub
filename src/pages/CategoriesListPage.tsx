@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 import CategoryCard from '../components/CategoryCard';
 import CategoryCardSkeleton from '../components/skeletons/CategoryCardSkeleton';
 import SEO from '../components/SEO';
-import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase, Gift, Plane, Laptop, Camera } from 'lucide-react';
+import { UtensilsCrossed, Cake, Car, ShoppingBag, Truck, Scissors, HardHat, Briefcase, Gift, Plane, Laptop, Camera, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -21,10 +21,14 @@ const CategoriesListPage = () => {
         .select('category');
 
       if (businesses) {
-        // Count businesses per category dynamically
+        // Count businesses per category dynamically; include Cosmetician so it always shows
+        const allCategories = ['Restaurant & Food', 'Bakery', 'Grocery', 'Beauty & Wellness', 'Car Services', 'Construction', 'Transportation', 'Travel & Tourism', 'Retail', 'Professional Services', 'Photo & Video', 'Gift & Flowers', 'IT & Marketing', 'Cosmetician', 'Other'];
         const counts: Record<string, number> = {};
+        allCategories.forEach(cat => { counts[cat] = 0; });
         businesses.forEach(b => {
-          counts[b.category] = (counts[b.category] || 0) + 1;
+          if (b.category) {
+            counts[b.category] = (counts[b.category] ?? 0) + 1;
+          }
         });
         setCategoryCounts(counts);
       }
@@ -53,6 +57,7 @@ const CategoriesListPage = () => {
       'Travel & Tourism': <Plane size={48} />,
       'IT & Marketing': <Laptop size={48} />,
       'Other Services': <Briefcase size={48} />,
+      'Cosmetician': <Sparkles size={48} />,
     };
     return iconMap[category] || <Briefcase size={48} />;
   };

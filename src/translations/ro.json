@@ -29,6 +29,7 @@
     "categoryGrocery": "Magazine Alimentare",
     "categoryCarServices": "Servicii Auto",
     "categoryBeauty": "Saloane de Frumusețe",
+    "categoryCosmetician": "Cosmetologi",
     "categoryConstruction": "Construcții",
     "categoryPhotoVideo": "Foto și Video",
     "categoryGiftFlowers": "Cadouri și Flori",
@@ -289,7 +290,8 @@
     "Gift & Flowers": "Cadouri și Flori",
     "IT & Marketing": "IT și Marketing",
     "Other Services": "Alte Servicii",
-    "Other": "Altele"
+    "Other": "Altele",
+    "Cosmetician": "Cosmetician"
   },
   "searchResults": {
     "title": "Rezultate Căutare",
