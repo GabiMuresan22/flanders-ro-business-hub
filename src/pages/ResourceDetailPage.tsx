@@ -119,11 +119,21 @@ const ResourceDetailPage = () => {
             </h1>
 
             {/* Content */}
-            <article className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-              {displayContent.split('\n').map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              ))}
-            </article>
+            <article
+              className="prose prose-lg max-w-none text-gray-700 leading-relaxed
+                prose-headings:font-playfair prose-headings:text-gray-900
+                prose-h2:text-2xl prose-h2:md:text-3xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-2
+                prose-h3:text-xl prose-h3:md:text-2xl prose-h3:mt-8 prose-h3:mb-3
+                prose-p:mb-4 prose-p:leading-relaxed
+                prose-ul:my-4 prose-ul:pl-6 prose-li:mb-2
+                prose-table:my-6 prose-table:w-full prose-table:border-collapse
+                prose-th:bg-romania-blue/10 prose-th:text-left prose-th:p-3 prose-th:text-sm prose-th:font-semibold prose-th:text-gray-800 prose-th:border prose-th:border-gray-200
+                prose-td:p-3 prose-td:text-sm prose-td:border prose-td:border-gray-200
+                prose-blockquote:border-l-4 prose-blockquote:border-romania-blue prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-600 prose-blockquote:my-6
+                prose-a:text-romania-blue prose-a:underline hover:prose-a:text-romania-blue/80
+                prose-strong:text-gray-800"
+              dangerouslySetInnerHTML={{ __html: displayContent }}
+            />
           </div>
         </main>
         <Footer />
