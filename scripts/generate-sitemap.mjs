@@ -12,6 +12,7 @@ const staticRoutes = [
   { path: '/faq', priority: '0.6', changefreq: 'monthly' },
   { path: '/privacy-policy', priority: '0.5', changefreq: 'yearly' },
   { path: '/auth', priority: '0.5', changefreq: 'monthly' },
+  { path: '/resurse', priority: '0.8', changefreq: 'weekly' },
   // Category pages
   { path: '/category/restaurant', priority: '0.8', changefreq: 'weekly' },
   { path: '/category/bakery', priority: '0.8', changefreq: 'weekly' },
