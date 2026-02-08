@@ -510,5 +510,18 @@
     "removeImage": "Șterge Imaginea",
     "updateButton": "Actualizează Afacerea",
     "updating": "Se actualizează..."
+  },
+  "resources": {
+    "title": "Resurse Utile",
+    "subtitle": "Ghiduri, articole și sfaturi despre antreprenoriat, marketing și legislație în Belgia.",
+    "seoTitle": "Resurse Utile - Romanian Business Hub",
+    "seoDescription": "Ghiduri, articole și sfaturi pentru antreprenorii români din Belgia. Sfaturi juridice, strategii de marketing și multe altele.",
+    "seoKeywords": "resurse afaceri românești Belgia, ghiduri antreprenoriat, sfaturi afaceri Belgia",
+    "allCategories": "Toate",
+    "readMore": "Citește mai mult",
+    "backToResources": "Înapoi la resurse",
+    "noResources": "Nu sunt resurse disponibile momentan.",
+    "notFound": "Articol Negăsit",
+    "notFoundMessage": "Ne pare rău, articolul pe care îl cauți nu există sau a fost eliminat."
   }
 }
