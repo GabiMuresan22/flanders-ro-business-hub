@@ -49,6 +49,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://www.ro-businesshub.be/resurse</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.ro-businesshub.be/category/restaurant</loc>
     <lastmod>2025-01-07</lastmod>
     <changefreq>weekly</changefreq>
