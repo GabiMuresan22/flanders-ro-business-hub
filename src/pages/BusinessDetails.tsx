@@ -232,7 +232,9 @@ const BusinessDetails = () => {
                   {t('businessDetails.about')}
                 </h2>
                 <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
-                  {language === 'en' && (business as any).description_en ? (business as any).description_en : business.description}
+                  {language === 'en'
+                    ? ((business as any).description_en || business.description || '')
+                    : (business.description || (business as any).description_en || '')}
                 </div>
               </div>
 

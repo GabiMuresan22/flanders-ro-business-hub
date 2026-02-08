@@ -78,7 +78,11 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
           </span>
           <h3 className="font-playfair text-xl font-bold text-gray-800 transition-colors duration-300 group-hover:text-romania-blue">{business.business_name}</h3>
         </div>
-        <p className="text-gray-600 mb-4 line-clamp-2">{language === 'en' && business.description_en ? business.description_en : business.description}</p>
+        <p className="text-gray-600 mb-4 line-clamp-2">
+          {language === 'en'
+            ? (business.description_en || business.description || '')
+            : (business.description || business.description_en || '')}
+        </p>
         <div className="flex items-center justify-center text-gray-500 mb-2">
           <MapPin className="h-4 w-4 mr-2" aria-hidden="true" />
           <span className="text-sm">

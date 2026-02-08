@@ -19,7 +19,7 @@ const MyBusinessesPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const { toast } = useToast();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
 
   const fetchBusinesses = useCallback(async (userId: string) => {
@@ -268,7 +268,11 @@ const MyBusinessesPage = () => {
 
                         <div className="mb-4">
                           <p className="text-sm text-gray-500 mb-1">{t('myBusinesses.description')}</p>
-                          <p className="text-gray-700 line-clamp-2">{business.description}</p>
+                          <p className="text-gray-700 line-clamp-2">
+                            {language === 'en'
+                              ? ((business as any).description_en || business.description || '')
+                              : (business.description || (business as any).description_en || '')}
+                          </p>
                         </div>
 
                         <div className="flex gap-2 pt-4 border-t">
