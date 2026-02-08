@@ -146,3 +146,41 @@ export const Analytics = () => {
 
   return null;
 };
+
+/**
+ * Send a custom event to GA4. Only sends when user has accepted analytics cookies.
+ */
+export const trackEvent = (
+  eventName: string,
+  eventParams?: Record<string, unknown>
+) => {
+  if (!hasAnalyticsConsent() || typeof window.gtag !== 'function') return;
+  window.gtag('event', eventName, eventParams);
+  if (DEBUG) console.log('[Analytics] event', eventName, eventParams);
+};
+
+/** Track contact method clicks (phone, email, website). */
+export const trackContactClick = (method: 'phone' | 'email' | 'website') => {
+  trackEvent('contact_click', {
+    event_category: 'engagement',
+    event_label: `Contact via ${method}`,
+    contact_method: method,
+  });
+};
+
+/** Track language switch. */
+export const trackLanguageChange = (language: string) => {
+  trackEvent('language_change', {
+    event_category: 'engagement',
+    event_label: `Changed to ${language}`,
+    language,
+  });
+};
+
+/** Track "Add business" CTA clicks. */
+export const trackAddBusinessClick = (source: string) => {
+  trackEvent('add_business_click', {
+    event_category: 'engagement',
+    event_label: source,
+  });
+};
