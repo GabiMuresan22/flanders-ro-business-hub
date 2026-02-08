@@ -30,6 +30,8 @@ const AccountPage = lazy(() => import("./pages/AccountPage"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
+const ResourcesPage = lazy(() => import("./pages/ResourcesPage"));
+const ResourceDetailPage = lazy(() => import("./pages/ResourceDetailPage"));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -67,6 +69,8 @@ const App = () => (
               <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/account" element={<AccountPage />} />
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/resurse" element={<ResourcesPage />} />
+              <Route path="/resurse/:slug" element={<ResourceDetailPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
               </Routes>
