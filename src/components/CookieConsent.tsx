@@ -23,16 +23,21 @@ export const CookieConsent = () => {
   });
 
   useEffect(() => {
-    const consent = localStorage.getItem("cookieConsent");
-    if (!consent) {
+    try {
+      const consent = localStorage.getItem("cookieConsent");
+      if (!consent) setShowBanner(true);
+    } catch {
       setShowBanner(true);
     }
   }, []);
 
   // Create a helper to save and notify
   const saveAndNotify = (preferences: CookiePreferences) => {
-    localStorage.setItem("cookieConsent", JSON.stringify(preferences));
-    // Notify any listeners that consent was updated
+    try {
+      localStorage.setItem("cookieConsent", JSON.stringify(preferences));
+    } catch {
+      // localStorage may be blocked (e.g. in-app browsers)
+    }
     window.dispatchEvent(new Event('cookieConsentUpdated'));
     setShowBanner(false);
   };

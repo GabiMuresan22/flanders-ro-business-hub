@@ -25,14 +25,24 @@ export const useLanguage = () => {
   return context;
 };
 
-export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>(() => {
+function getStoredLanguage(): Language {
+  try {
     const saved = localStorage.getItem('language');
-    return (saved as Language) || 'en';
-  });
+    return saved === 'ro' || saved === 'en' ? saved : 'en';
+  } catch {
+    return 'en';
+  }
+}
+
+export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [language, setLanguage] = useState<Language>(getStoredLanguage);
 
   useEffect(() => {
-    localStorage.setItem('language', language);
+    try {
+      localStorage.setItem('language', language);
+    } catch {
+      // localStorage may be blocked (e.g. Facebook in-app browser, private mode)
+    }
   }, [language]);
 
   const toggleLanguage = () => {

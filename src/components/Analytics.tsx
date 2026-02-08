@@ -114,7 +114,8 @@ export const Analytics = () => {
   const removeTracking = () => {
     document.querySelectorAll(`script[src*="googletagmanager.com/gtag/js"]`).forEach((s) => s.remove());
     if (window.dataLayer) window.dataLayer = [];
-    delete window.gtag;
+    // Use no-op instead of delete: some browsers (e.g. in-app) throw "Cannot delete property 'gtag' of #<Window>"
+    window.gtag = () => {};
     loadedRef.current = false;
     if (DEBUG) console.log('[Analytics] GA removed (consent revoked)');
   };
