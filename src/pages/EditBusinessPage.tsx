@@ -39,6 +39,7 @@ const EditBusinessPage = () => {
       city: "",
       postalCode: "",
       description: "",
+      descriptionEn: "",
       category: "",
       website: "",
       businessImage: undefined,
@@ -89,6 +90,7 @@ const EditBusinessPage = () => {
               postalCode: business.postal_code,
               btwNumber: business.btw_number || "",
               description: business.description,
+              descriptionEn: (business as any).description_en || "",
               category: business.category,
               website: business.website || "",
               businessImage: undefined,
@@ -211,6 +213,7 @@ const EditBusinessPage = () => {
           postal_code: values.postalCode,
           btw_number: values.btwNumber,
           description: values.description,
+          description_en: values.descriptionEn || null,
           category: values.category,
           website: values.website || null,
           image_url: imageUrl,
@@ -428,7 +431,7 @@ const EditBusinessPage = () => {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t('addBusiness.description')} *</FormLabel>
+                      <FormLabel>{t('addBusiness.description')} * (RO)</FormLabel>
                       <FormControl>
                         <Textarea 
                           placeholder={t('addBusiness.descriptionPlaceholder')}
@@ -436,6 +439,25 @@ const EditBusinessPage = () => {
                           {...field}
                         />
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="descriptionEn"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('addBusiness.descriptionEn')} (EN)</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder={t('addBusiness.descriptionEnPlaceholder')}
+                          className="min-h-[120px]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <p className="text-sm text-muted-foreground">{t('addBusiness.descriptionEnHint')}</p>
                       <FormMessage />
                     </FormItem>
                   )}

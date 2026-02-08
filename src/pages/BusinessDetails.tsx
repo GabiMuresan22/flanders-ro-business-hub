@@ -30,7 +30,7 @@ type PublicBusinessWithContact = PublicBusiness & {
 
 const BusinessDetails = () => {
   const { id } = useParams<{ id: string }>();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [business, setBusiness] = useState<PublicBusinessWithContact | null>(null);
   const [loading, setLoading] = useState(true);
   const [reviews, setReviews] = useState<ReviewRow[]>([]);
@@ -232,7 +232,7 @@ const BusinessDetails = () => {
                   {t('businessDetails.about')}
                 </h2>
                 <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
-                  {business.description}
+                  {language === 'en' && (business as any).description_en ? (business as any).description_en : business.description}
                 </div>
               </div>
 
