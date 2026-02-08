@@ -8,6 +8,7 @@ import { lazy, Suspense } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { CookieConsent } from "./components/CookieConsent";
+import { Analytics } from "./components/Analytics"; // checks cookieConsent; if analytics true, initializes GA and reports route changes
 import ScrollToTop from "./components/ScrollToTop";
 
 // Eager load home page for better initial load
@@ -49,6 +50,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
+            <Analytics />
             <Suspense fallback={<PageLoader />}>
               <Routes>
               <Route path="/" element={<Index />} />
