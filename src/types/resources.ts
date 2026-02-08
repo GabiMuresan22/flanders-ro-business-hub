@@ -8,4 +8,7 @@ export interface Resource {
   image_url: string | null;
   created_at: string;
   is_published: boolean;
+  title_en: string | null;
+  excerpt_en: string | null;
+  content_en: string | null;
 }
