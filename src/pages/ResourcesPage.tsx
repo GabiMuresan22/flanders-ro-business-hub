@@ -15,7 +15,7 @@ const ResourcesPage = () => {
   const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -92,51 +92,55 @@ const ResourcesPage = () => {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {filteredResources.map((resource) => (
-                    <Card
-                      key={resource.id}
-                      className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02]"
-                    >
-                      {resource.image_url && (
-                        <div className="h-48 overflow-hidden">
-                          <img
-                            src={resource.image_url}
-                            alt={resource.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                            loading="lazy"
-                          />
-                        </div>
-                      )}
-                      <CardHeader>
-                        <div className="flex items-center justify-between mb-2">
-                          <Badge variant="secondary" className="bg-romania-blue/10 text-romania-blue">
-                            {resource.category}
-                          </Badge>
-                          <span className="text-xs text-gray-400">
-                            {new Date(resource.created_at).toLocaleDateString("ro-RO")}
-                          </span>
-                        </div>
-                        <CardTitle className="text-lg font-playfair transition-colors duration-300 group-hover:text-romania-blue">
-                          {resource.title}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-gray-600 text-sm line-clamp-3">
-                          {resource.excerpt}
-                        </p>
-                      </CardContent>
-                      <CardFooter>
-                        <Link to={`/resurse/${resource.slug}`} className="w-full">
-                          <Button
-                            variant="outline"
-                            className="w-full transition-all duration-300 group-hover:bg-romania-blue group-hover:text-white group-hover:border-romania-blue"
-                          >
-                            {t('resources.readMore')}
-                          </Button>
-                        </Link>
-                      </CardFooter>
-                    </Card>
-                  ))}
+                  {filteredResources.map((resource) => {
+                    const displayTitle = language === 'en' && resource.title_en ? resource.title_en : resource.title;
+                    const displayExcerpt = language === 'en' && resource.excerpt_en ? resource.excerpt_en : resource.excerpt;
+                    return (
+                      <Card
+                        key={resource.id}
+                        className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02]"
+                      >
+                        {resource.image_url && (
+                          <div className="h-48 overflow-hidden">
+                            <img
+                              src={resource.image_url}
+                              alt={displayTitle}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                              loading="lazy"
+                            />
+                          </div>
+                        )}
+                        <CardHeader>
+                          <div className="flex items-center justify-between mb-2">
+                            <Badge variant="secondary" className="bg-romania-blue/10 text-romania-blue">
+                              {resource.category}
+                            </Badge>
+                            <span className="text-xs text-gray-400">
+                              {new Date(resource.created_at).toLocaleDateString("ro-RO")}
+                            </span>
+                          </div>
+                          <CardTitle className="text-lg font-playfair transition-colors duration-300 group-hover:text-romania-blue">
+                            {displayTitle}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <p className="text-gray-600 text-sm line-clamp-3">
+                            {displayExcerpt}
+                          </p>
+                        </CardContent>
+                        <CardFooter>
+                          <Link to={`/resurse/${resource.slug}`} className="w-full">
+                            <Button
+                              variant="outline"
+                              className="w-full transition-all duration-300 group-hover:bg-romania-blue group-hover:text-white group-hover:border-romania-blue"
+                            >
+                              {t('resources.readMore')}
+                            </Button>
+                          </Link>
+                        </CardFooter>
+                      </Card>
+                    );
+                  })}
                 </div>
               )}
             </div>

@@ -14,7 +14,7 @@ const ResourceDetailPage = () => {
   const { slug } = useParams();
   const [resource, setResource] = useState<Resource | null>(null);
   const [loading, setLoading] = useState(true);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     const fetchResource = async () => {
@@ -64,11 +64,15 @@ const ResourceDetailPage = () => {
     );
   }
 
+  const displayTitle = language === 'en' && resource.title_en ? resource.title_en : resource.title;
+  const displayExcerpt = language === 'en' && resource.excerpt_en ? resource.excerpt_en : resource.excerpt;
+  const displayContent = language === 'en' && resource.content_en ? resource.content_en : resource.content;
+
   return (
     <>
       <SEO
-        title={`${resource.title} | Romanian Business Hub`}
-        description={resource.excerpt || resource.title}
+        title={`${displayTitle} | Romanian Business Hub`}
+        description={displayExcerpt || displayTitle}
         type="article"
       />
       <div className="min-h-screen flex flex-col">
@@ -88,7 +92,7 @@ const ResourceDetailPage = () => {
             {resource.image_url && (
               <img
                 src={resource.image_url}
-                alt={resource.title}
+                alt={displayTitle}
                 className="w-full h-64 md:h-96 object-cover rounded-lg mb-8"
               />
             )}
@@ -111,12 +115,12 @@ const ResourceDetailPage = () => {
 
             {/* Title */}
             <h1 className="font-playfair text-3xl md:text-4xl font-bold text-gray-900 mb-8">
-              {resource.title}
+              {displayTitle}
             </h1>
 
             {/* Content */}
             <article className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-              {resource.content.split('\n').map((paragraph, index) => (
+              {displayContent.split('\n').map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </article>
