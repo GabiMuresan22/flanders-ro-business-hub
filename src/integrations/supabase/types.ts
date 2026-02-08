@@ -75,6 +75,7 @@ export type Database = {
           city: string
           created_at: string
           description: string
+          description_en: string | null
           email: string
           id: string
           image_url: string | null
@@ -95,6 +96,7 @@ export type Database = {
           city: string
           created_at?: string
           description: string
+          description_en?: string | null
           email: string
           id?: string
           image_url?: string | null
@@ -115,6 +117,7 @@ export type Database = {
           city?: string
           created_at?: string
           description?: string
+          description_en?: string | null
           email?: string
           id?: string
           image_url?: string | null
@@ -224,6 +227,51 @@ export type Database = {
         }
         Relationships: []
       }
+      resources: {
+        Row: {
+          category: string
+          content: string
+          content_en: string | null
+          created_at: string
+          excerpt: string | null
+          excerpt_en: string | null
+          id: string
+          image_url: string | null
+          is_published: boolean
+          slug: string
+          title: string
+          title_en: string | null
+        }
+        Insert: {
+          category: string
+          content: string
+          content_en?: string | null
+          created_at?: string
+          excerpt?: string | null
+          excerpt_en?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          slug: string
+          title: string
+          title_en?: string | null
+        }
+        Update: {
+          category?: string
+          content?: string
+          content_en?: string | null
+          created_at?: string
+          excerpt?: string | null
+          excerpt_en?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          slug?: string
+          title?: string
+          title_en?: string | null
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           business_id: string
@@ -316,6 +364,7 @@ export type Database = {
           city: string | null
           created_at: string | null
           description: string | null
+          description_en: string | null
           email: string | null
           id: string | null
           image_url: string | null
@@ -333,6 +382,7 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           description?: string | null
+          description_en?: string | null
           email?: string | null
           id?: string | null
           image_url?: string | null
@@ -350,6 +400,7 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           description?: string | null
+          description_en?: string | null
           email?: string | null
           id?: string | null
           image_url?: string | null

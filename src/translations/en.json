@@ -473,6 +473,9 @@
     "description": "Business Description",
     "descriptionPlaceholder": "Tell us about your business, services, and what makes it special...",
     "descriptionHint": "Minimum 10 characters required",
+    "descriptionEn": "Business Description in English",
+    "descriptionEnPlaceholder": "Describe your business in English for international customers...",
+    "descriptionEnHint": "Optional - helps English-speaking customers understand your services",
     "appointmentOnly": "By appointment only",
     "appointmentOnlyHelp": "Check this if your business operates only by appointment",
     "agreeTerms": "I agree to the terms and conditions and privacy policy",
@@ -510,5 +513,18 @@
     "removeImage": "Remove Image",
     "updateButton": "Update Business",
     "updating": "Updating..."
+  },
+  "resources": {
+    "title": "Useful Resources",
+    "subtitle": "Guides, articles and tips about entrepreneurship, marketing and legislation in Belgium.",
+    "seoTitle": "Useful Resources - Romanian Business Hub",
+    "seoDescription": "Guides, articles and tips for Romanian entrepreneurs in Belgium. Legal advice, marketing strategies and more.",
+    "seoKeywords": "Romanian business resources Belgium, entrepreneurship guides, business tips Belgium",
+    "allCategories": "All",
+    "readMore": "Read More",
+    "backToResources": "Back to resources",
+    "noResources": "No resources available at the moment.",
+    "notFound": "Article Not Found",
+    "notFoundMessage": "Sorry, the article you are looking for does not exist or has been removed."
   }
 }

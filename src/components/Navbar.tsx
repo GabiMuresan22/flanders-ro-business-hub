@@ -1,9 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, User as UserIcon, X, Menu, Languages, Bell } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 import type { User } from '@supabase/supabase-js';
+
+const NAV_LINKS = [
+  { to: '/', labelKey: 'nav.home' },
+  { to: '/categories', labelKey: 'nav.categories' },
+  { to: '/resurse', labelKey: 'resources.title' },
+  { to: '/about', labelKey: 'nav.about' },
+  { to: '/contact', labelKey: 'nav.contact' },
+  { to: '/faq', labelKey: 'nav.faq' },
+] as const;
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -122,21 +131,15 @@ const Navbar = () => {
           </Link>
           
           <div className="hidden lg:flex items-center space-x-6 xl:space-x-8 ml-8 xl:ml-12">
-            <Link to="/" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
-              {t('nav.home')}
-            </Link>
-            <Link to="/categories" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
-              {t('nav.categories')}
-            </Link>
-            <Link to="/about" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
-              {t('nav.about')}
-            </Link>
-            <Link to="/contact" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
-              {t('nav.contact')}
-            </Link>
-            <Link to="/faq" className="font-medium text-gray-700 hover:text-romania-blue transition-colors">
-              {t('nav.faq')}
-            </Link>
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className="font-medium text-gray-700 hover:text-romania-blue transition-colors"
+              >
+                {t(link.labelKey)}
+              </Link>
+            ))}
             {user ? (
               <div className="flex items-center gap-2 xl:gap-3 ml-2">
                 <div className="hidden xl:flex flex-col items-end">
@@ -272,41 +275,16 @@ const Navbar = () => {
               </div>
               
               <nav className="flex flex-col space-y-1">
-                <Link 
-                  to="/" 
-                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {t('nav.home')}
-                </Link>
-                <Link 
-                  to="/categories" 
-                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {t('nav.categories')}
-                </Link>
-                <Link 
-                  to="/about" 
-                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {t('nav.about')}
-                </Link>
-                <Link 
-                  to="/contact" 
-                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {t('nav.contact')}
-                </Link>
-                <Link 
-                  to="/faq" 
-                  className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {t('nav.faq')}
-                </Link>
+                {NAV_LINKS.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {t(link.labelKey)}
+                  </Link>
+                ))}
                 
                 <div className="my-4 border-t border-gray-200" />
                 

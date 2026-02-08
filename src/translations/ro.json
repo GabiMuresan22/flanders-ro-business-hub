@@ -473,6 +473,9 @@
     "description": "Descrierea Afacerii",
     "descriptionPlaceholder": "Spune-ne despre afacerea ta, servicii și ce o face specială...",
     "descriptionHint": "Minim 10 caractere necesare",
+    "descriptionEn": "Descrierea Afacerii în Engleză",
+    "descriptionEnPlaceholder": "Descrie afacerea ta în engleză pentru clienții internaționali...",
+    "descriptionEnHint": "Opțional - ajută clienții vorbitori de engleză să înțeleagă serviciile tale",
     "appointmentOnly": "Doar cu programare",
     "appointmentOnlyHelp": "Bifează dacă afacerea ta operează doar cu programare",
     "agreeTerms": "Sunt de acord cu termenii și condițiile și politica de confidențialitate",
@@ -510,5 +513,18 @@
     "removeImage": "Șterge Imaginea",
     "updateButton": "Actualizează Afacerea",
     "updating": "Se actualizează..."
+  },
+  "resources": {
+    "title": "Resurse Utile",
+    "subtitle": "Ghiduri, articole și sfaturi despre antreprenoriat, marketing și legislație în Belgia.",
+    "seoTitle": "Resurse Utile - Romanian Business Hub",
+    "seoDescription": "Ghiduri, articole și sfaturi pentru antreprenorii români din Belgia. Sfaturi juridice, strategii de marketing și multe altele.",
+    "seoKeywords": "resurse afaceri românești Belgia, ghiduri antreprenoriat, sfaturi afaceri Belgia",
+    "allCategories": "Toate",
+    "readMore": "Citește mai mult",
+    "backToResources": "Înapoi la resurse",
+    "noResources": "Nu sunt resurse disponibile momentan.",
+    "notFound": "Articol Negăsit",
+    "notFoundMessage": "Ne pare rău, articolul pe care îl cauți nu există sau a fost eliminat."
   }
 }
