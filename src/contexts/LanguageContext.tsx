@@ -1,21 +1,26 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import enTranslations from '../translations/en.json';
 import roTranslations from '../translations/ro.json';
+import nlTranslations from '../translations/nl.json';
 
-type Language = 'en' | 'ro';
+export type Language = 'en' | 'ro' | 'nl';
 
 interface LanguageContextType {
   language: Language;
+  setLanguage: (lang: Language) => void;
   toggleLanguage: () => void;
   t: (key: string) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const translations = {
+const translations: Record<Language, Record<string, unknown>> = {
   en: enTranslations,
   ro: roTranslations,
+  nl: nlTranslations,
 };
+
+const LANGUAGE_ORDER: Language[] = ['en', 'ro', 'nl'];
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
@@ -28,25 +33,32 @@ export const useLanguage = () => {
 function getStoredLanguage(): Language {
   try {
     const saved = localStorage.getItem('language');
-    return saved === 'ro' || saved === 'en' ? saved : 'en';
+    return saved === 'ro' || saved === 'en' || saved === 'nl' ? saved : 'en';
   } catch {
     return 'en';
   }
 }
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>(getStoredLanguage);
+  const [language, setLanguageState] = useState<Language>(getStoredLanguage);
 
   useEffect(() => {
     try {
       localStorage.setItem('language', language);
     } catch {
-      // localStorage may be blocked (e.g. Facebook in-app browser, private mode)
+      // localStorage may be blocked
     }
   }, [language]);
 
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+  };
+
   const toggleLanguage = () => {
-    setLanguage(prev => prev === 'en' ? 'ro' : 'en');
+    setLanguageState(prev => {
+      const idx = LANGUAGE_ORDER.indexOf(prev);
+      return LANGUAGE_ORDER[(idx + 1) % LANGUAGE_ORDER.length];
+    });
   };
 
   const t = (key: string): string => {
@@ -65,7 +77,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <LanguageContext.Provider value={{ language, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );

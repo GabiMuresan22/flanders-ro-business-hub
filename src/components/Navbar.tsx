@@ -22,7 +22,19 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [pendingCount, setPendingCount] = useState(0);
   const navigate = useNavigate();
-  const { language, toggleLanguage, t } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+
+  const LANG_LABELS: Record<string, string> = {
+    en: 'English',
+    ro: 'Română',
+    nl: 'Nederlands',
+  };
+  const LANG_SHORT: Record<string, string> = {
+    en: 'EN',
+    ro: 'RO',
+    nl: 'NL',
+  };
 
   const fetchPendingCount = useCallback(async () => {
     const { count } = await supabase
@@ -81,6 +93,14 @@ const Navbar = () => {
       };
     }
   }, [isAdmin, fetchPendingCount]);
+
+  // Close language dropdown when clicking outside
+  useEffect(() => {
+    if (!isLangMenuOpen) return;
+    const handler = () => setIsLangMenuOpen(false);
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, [isLangMenuOpen]);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -146,14 +166,29 @@ const Navbar = () => {
                   <span className="text-xs text-gray-600">Logged in as</span>
                   <span className="text-xs font-semibold text-romania-blue truncate max-w-[150px]">{user.email}</span>
                 </div>
-                <button
-                  onClick={toggleLanguage}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700"
-                  aria-label="Toggle language"
-                >
-                  <Languages className="h-4 w-4" />
-                  {language === 'en' ? 'RO' : 'EN'}
-                </button>
+                <div className="relative">
+                  <button
+                    onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700"
+                    aria-label="Select language"
+                  >
+                    <Languages className="h-4 w-4" />
+                    {LANG_SHORT[language]}
+                  </button>
+                  {isLangMenuOpen && (
+                    <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-50 min-w-[130px]">
+                      {Object.entries(LANG_LABELS).map(([code, label]) => (
+                        <button
+                          key={code}
+                          onClick={() => { setLanguage(code as 'en' | 'ro' | 'nl'); setIsLangMenuOpen(false); }}
+                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition-colors ${language === code ? 'font-bold text-romania-blue' : 'text-gray-700'}`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 <Link to="/my-businesses" className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-1.5 px-3 rounded-md transition-colors text-sm whitespace-nowrap">
                   {t('nav.myBusinesses')}
                 </Link>
@@ -186,14 +221,29 @@ const Navbar = () => {
               </div>
             ) : (
               <>
-                <button
-                  onClick={toggleLanguage}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700"
-                  aria-label="Toggle language"
-                >
-                  <Languages className="h-4 w-4" />
-                  {language === 'en' ? 'RO' : 'EN'}
-                </button>
+                <div className="relative">
+                  <button
+                    onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700"
+                    aria-label="Select language"
+                  >
+                    <Languages className="h-4 w-4" />
+                    {LANG_SHORT[language]}
+                  </button>
+                  {isLangMenuOpen && (
+                    <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-50 min-w-[130px]">
+                      {Object.entries(LANG_LABELS).map(([code, label]) => (
+                        <button
+                          key={code}
+                          onClick={() => { setLanguage(code as 'en' | 'ro' | 'nl'); setIsLangMenuOpen(false); }}
+                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition-colors ${language === code ? 'font-bold text-romania-blue' : 'text-gray-700'}`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 <Link to="/auth" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-md transition-colors text-sm">
                   {t('nav.login')}
                 </Link>
@@ -288,13 +338,17 @@ const Navbar = () => {
                 
                 <div className="my-4 border-t border-gray-200" />
                 
-                <button
-                  onClick={toggleLanguage}
-                  className="flex items-center justify-center gap-2 w-full bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all mb-4"
-                >
-                  <Languages className="h-5 w-5" />
-                  {language === 'en' ? 'Română' : 'English'}
-                </button>
+                <div className="flex gap-2 mb-4">
+                  {Object.entries(LANG_LABELS).map(([code, label]) => (
+                    <button
+                      key={code}
+                      onClick={() => { setLanguage(code as 'en' | 'ro' | 'nl'); setIsMobileMenuOpen(false); }}
+                      className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-semibold transition-all text-sm ${language === code ? 'bg-romania-blue text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-900'}`}
+                    >
+                      {LANG_SHORT[code]}
+                    </button>
+                  ))}
+                </div>
                 
                 {user ? (
                   <div className="flex flex-col gap-2 w-full">
