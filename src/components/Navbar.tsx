@@ -97,9 +97,15 @@ const Navbar = () => {
   // Close language dropdown when clicking outside
   useEffect(() => {
     if (!isLangMenuOpen) return;
-    const handler = () => setIsLangMenuOpen(false);
-    document.addEventListener('click', handler);
-    return () => document.removeEventListener('click', handler);
+    const handler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.lang-dropdown')) {
+        setIsLangMenuOpen(false);
+      }
+    };
+    // Delay adding listener to avoid catching the same click that opened it
+    const timer = setTimeout(() => document.addEventListener('click', handler), 0);
+    return () => { clearTimeout(timer); document.removeEventListener('click', handler); };
   }, [isLangMenuOpen]);
 
   // Prevent body scroll when mobile menu is open
@@ -166,7 +172,7 @@ const Navbar = () => {
                   <span className="text-xs text-gray-600">Logged in as</span>
                   <span className="text-xs font-semibold text-romania-blue truncate max-w-[150px]">{user.email}</span>
                 </div>
-                <div className="relative">
+                <div className="relative lang-dropdown">
                   <button
                     onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700"
@@ -221,7 +227,7 @@ const Navbar = () => {
               </div>
             ) : (
               <>
-                <div className="relative">
+                <div className="relative lang-dropdown">
                   <button
                     onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700"
