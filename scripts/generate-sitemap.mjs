@@ -30,17 +30,20 @@ async function generateSitemap() {
   const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
   let businessUrls = [];
+  let resourceUrls = [];
 
-  // Fetch dynamic business pages if Supabase is configured
+  // Fetch dynamic pages if Supabase is configured
   if (supabaseUrl && supabaseKey) {
     try {
       const supabase = createClient(supabaseUrl, supabaseKey);
-      const { data: businesses, error } = await supabase
+
+      // Fetch approved businesses
+      const { data: businesses, error: bizError } = await supabase
         .from('public_businesses')
         .select('id, updated_at')
         .eq('status', 'approved');
 
-      if (!error && businesses) {
+      if (!bizError && businesses) {
         businessUrls = businesses.map((business) => ({
           path: `/business/${business.id}`,
           priority: '0.7',
@@ -48,8 +51,26 @@ async function generateSitemap() {
           lastmod: business.updated_at?.split('T')[0] || new Date().toISOString().split('T')[0],
         }));
         console.log(`Found ${businesses.length} approved businesses`);
-      } else if (error) {
-        console.warn('Could not fetch businesses:', error.message);
+      } else if (bizError) {
+        console.warn('Could not fetch businesses:', bizError.message);
+      }
+
+      // Fetch published resources
+      const { data: resources, error: resError } = await supabase
+        .from('resources')
+        .select('slug, created_at')
+        .eq('is_published', true);
+
+      if (!resError && resources) {
+        resourceUrls = resources.map((resource) => ({
+          path: `/resurse/${resource.slug}`,
+          priority: '0.75',
+          changefreq: 'monthly',
+          lastmod: resource.created_at?.split('T')[0] || new Date().toISOString().split('T')[0],
+        }));
+        console.log(`Found ${resources.length} published resources`);
+      } else if (resError) {
+        console.warn('Could not fetch resources:', resError.message);
       }
     } catch (err) {
       console.warn('Supabase connection failed, generating sitemap without dynamic pages');
@@ -63,6 +84,7 @@ async function generateSitemap() {
   const allUrls = [
     ...staticRoutes.map((route) => ({ ...route, lastmod: today })),
     ...businessUrls,
+    ...resourceUrls,
   ];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
