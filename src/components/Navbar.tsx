@@ -156,7 +156,7 @@ const Navbar = () => {
             </div>
           </Link>
           
-          <div className="hidden lg:flex items-center space-x-4 xl:space-x-6 ml-6 xl:ml-10 min-w-0 flex-shrink overflow-hidden">
+          <div className="hidden lg:flex items-center space-x-4 xl:space-x-6 ml-6 xl:ml-10 min-w-0 flex-shrink">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.to}
@@ -174,20 +174,23 @@ const Navbar = () => {
                 </div>
                 <div className="relative lang-dropdown">
                   <button
-                    onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); setIsLangMenuOpen((open) => !open); }}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700"
                     aria-label="Select language"
+                    aria-expanded={isLangMenuOpen}
                   >
                     <Languages className="h-4 w-4" />
                     {LANG_SHORT[language]}
                   </button>
                   {isLangMenuOpen && (
-                    <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-50 min-w-[130px]">
+                    <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-[100] min-w-[130px]">
                       {Object.entries(LANG_LABELS).map(([code, label]) => (
                         <button
                           key={code}
+                          type="button"
                           onClick={() => { setLanguage(code as 'en' | 'ro' | 'nl'); setIsLangMenuOpen(false); }}
-                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition-colors ${language === code ? 'font-bold text-romania-blue' : 'text-gray-700'}`}
+                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition-colors first:rounded-t-md last:rounded-b-md ${language === code ? 'font-bold text-romania-blue' : 'text-gray-700'}`}
                         >
                           {label}
                         </button>
@@ -217,20 +220,23 @@ const Navbar = () => {
               <>
                 <div className="relative lang-dropdown">
                   <button
-                    onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); setIsLangMenuOpen((open) => !open); }}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700"
                     aria-label="Select language"
+                    aria-expanded={isLangMenuOpen}
                   >
                     <Languages className="h-4 w-4" />
                     {LANG_SHORT[language]}
                   </button>
                   {isLangMenuOpen && (
-                    <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-50 min-w-[130px]">
+                    <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-[100] min-w-[130px]">
                       {Object.entries(LANG_LABELS).map(([code, label]) => (
                         <button
                           key={code}
+                          type="button"
                           onClick={() => { setLanguage(code as 'en' | 'ro' | 'nl'); setIsLangMenuOpen(false); }}
-                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition-colors ${language === code ? 'font-bold text-romania-blue' : 'text-gray-700'}`}
+                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition-colors first:rounded-t-md last:rounded-b-md ${language === code ? 'font-bold text-romania-blue' : 'text-gray-700'}`}
                         >
                           {label}
                         </button>
