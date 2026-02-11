@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const SUPPORTED_LANGS = ['en', 'ro', 'nl'] as const;
@@ -7,22 +7,25 @@ const SUPPORTED_LANGS = ['en', 'ro', 'nl'] as const;
 /**
  * Syncs language from URL (?lang=) to context and vice versa.
  * Enables hreflang with distinct URLs per language.
+ * Uses location.search (stable string) instead of searchParams in deps to avoid
+ * spurious effect runs when searchParams gets a new reference on re-render.
  */
 export const LanguageUrlSync = () => {
   const { language, setLanguage } = useLanguage();
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
   const justSyncedFromUrl = useRef(false);
+  const searchString = location.search;
 
-  // URL -> Context: read ?lang= on mount and when URL changes
+  // URL -> Context: read ?lang= only when the actual URL search string changes
+  // (searchParams reference changes on every render; location.search is stable)
   useEffect(() => {
-    const langParam = searchParams.get('lang');
+    const langParam = new URLSearchParams(searchString).get('lang');
     if (langParam && SUPPORTED_LANGS.includes(langParam as typeof SUPPORTED_LANGS[number])) {
       justSyncedFromUrl.current = true;
       setLanguage(langParam as typeof SUPPORTED_LANGS[number]);
     }
-  }, [searchParams, setLanguage]);
+  }, [searchString, setLanguage]);
 
   // Context -> URL: when user changes language (not from URL sync), update URL
   useEffect(() => {
@@ -31,12 +34,12 @@ export const LanguageUrlSync = () => {
       return;
     }
 
-    const currentLang = searchParams.get('lang');
+    const params = new URLSearchParams(searchString);
+    const currentLang = params.get('lang');
     const targetLang = language === 'en' ? null : language;
 
     if (currentLang === targetLang) return;
 
-    const params = new URLSearchParams(searchParams);
     if (targetLang) {
       params.set('lang', targetLang);
     } else {
@@ -45,7 +48,7 @@ export const LanguageUrlSync = () => {
     const search = params.toString();
     const newPath = search ? `${location.pathname}?${search}` : location.pathname;
     navigate(newPath, { replace: true });
-  }, [language, location.pathname, navigate, searchParams]);
+  }, [language, location.pathname, navigate, searchString]);
 
   return null;
 };
