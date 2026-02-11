@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
+import StructuredData from '@/components/StructuredData';
 import { 
   Accordion, 
   AccordionContent, 
@@ -11,8 +12,23 @@ import {
 } from '@/components/ui/accordion';
 import { useLanguage } from '@/contexts/LanguageContext';
 
+const FAQ_ITEMS = [1, 2, 3, 4, 5, 6, 7, 8] as const;
+
 const FAQPage = () => {
   const { t } = useLanguage();
+
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": FAQ_ITEMS.map((i) => ({
+      "@type": "Question",
+      "name": t(`faq.q${i}`),
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": t(`faq.a${i}`)
+      }
+    }))
+  };
 
   return (
     <>
@@ -22,6 +38,7 @@ const FAQPage = () => {
         keywords={t('faq.seoKeywords')}
         type="website"
       />
+      <StructuredData data={faqStructuredData} />
       <Navbar />
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">

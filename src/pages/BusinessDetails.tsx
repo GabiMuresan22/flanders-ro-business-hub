@@ -116,8 +116,10 @@ const BusinessDetails = () => {
     );
   }
 
+  const BASE_URL = 'https://www.ro-businesshub.be';
+  const categorySlug = business ? categoryToSlug(business.category || '') : '';
+
   const businessStructuredData = business ? {
-    "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": business.business_name,
     "description": business.description,
@@ -147,6 +149,19 @@ const BusinessDetails = () => {
     return out === key ? business.category : out;
   };
 
+  const breadcrumbStructuredData = business ? {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": t('common.home'), "item": `${BASE_URL}/` },
+      { "@type": "ListItem", "position": 2, "name": getCategoryTranslation(), "item": `${BASE_URL}/category/${categorySlug}` },
+      { "@type": "ListItem", "position": 3, "name": business.business_name, "item": `${BASE_URL}/business/${business.id}` }
+    ]
+  } : null;
+
+  const structuredDataPayload = businessStructuredData && breadcrumbStructuredData
+    ? [businessStructuredData, breadcrumbStructuredData]
+    : businessStructuredData;
+
   return (
     <>
       {business && (
@@ -157,7 +172,7 @@ const BusinessDetails = () => {
             keywords={`${business.business_name}, ${business.category}, Romanian business ${business.city}, ${business.category} West Flanders`}
             type="business.business"
           />
-          {businessStructuredData && <StructuredData data={businessStructuredData} />}
+          {structuredDataPayload && <StructuredData data={structuredDataPayload} />}
         </>
       )}
       <div className="min-h-screen flex flex-col bg-muted/30">

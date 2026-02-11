@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -6,6 +5,7 @@ import Footer from '../components/Footer';
 import BusinessCard from '../components/BusinessCard';
 import BusinessCardSkeleton from '../components/skeletons/BusinessCardSkeleton';
 import SEO from '../components/SEO';
+import StructuredData from '../components/StructuredData';
 import { supabase } from '@/integrations/supabase/client';
 import { slugToCategory, categoryMatchesSlug } from '@/lib/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -88,6 +88,18 @@ const CategoryPage = () => {
     return out === key ? categoryTitle : out;
   })();
 
+  const BASE_URL = 'https://www.ro-businesshub.be';
+  const categorySlug = slug || '';
+  const breadcrumbStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": t('common.home'), "item": `${BASE_URL}/` },
+      { "@type": "ListItem", "position": 2, "name": t('common.categories'), "item": `${BASE_URL}/categories` },
+      { "@type": "ListItem", "position": 3, "name": categoryDisplay, "item": `${BASE_URL}/category/${categorySlug}` }
+    ]
+  };
+
   return (
     <>
       <SEO 
@@ -96,6 +108,7 @@ const CategoryPage = () => {
         keywords={t('categoryPage.seoKeywords').replace(/{category}/g, categoryTitle)}
         type="website"
       />
+      <StructuredData data={breadcrumbStructuredData} />
       <div className="min-h-screen flex flex-col">
         <Navbar />
       <main className="flex-grow">
