@@ -301,9 +301,17 @@ const BusinessDetails = () => {
                     <p className="text-muted-foreground font-medium">
                       {t('businessDetails.noReviews')}
                     </p>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-sm text-muted-foreground mt-1 mb-4">
                       {t('businessDetails.beFirstReview')}
                     </p>
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => setShowReviewForm(true)}
+                      className="bg-romania-blue hover:bg-romania-blue/90"
+                    >
+                      {t('businessDetails.addReview')}
+                    </Button>
                   </div>
                 )}
 
