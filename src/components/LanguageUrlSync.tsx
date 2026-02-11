@@ -25,7 +25,8 @@ export const LanguageUrlSync = () => {
       justSyncedFromUrl.current = true;
       setLanguage(langParam as typeof SUPPORTED_LANGS[number]);
     }
-  }, [searchString, setLanguage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchString]);
 
   // Context -> URL: when user changes language (not from URL sync), update URL
   useEffect(() => {
