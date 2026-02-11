@@ -2,7 +2,8 @@
 ## Romanian Business Hub - Quick Overview
 
 **Audit Date:** January 26, 2025  
-**Status:** Pre-Launch Review
+**Status:** Pre-Launch Review  
+**► Updated audit:** See **WEBSITE_AUDIT_2026.md** (Feb 2026) for current status and improvements.
 
 ---
 
