@@ -10,6 +10,8 @@ interface SEOProps {
   canonicalUrl?: string;
 }
 
+const BASE_URL = 'https://www.ro-businesshub.be';
+
 const SEO = ({
   title = 'Romanian Business Hub - Find Romanian Businesses in West Flanders, Belgium',
   description = 'Discover trusted Romanian businesses in West Flanders, Belgium. Find restaurants, services, shops, and more from the Romanian community.',
@@ -19,8 +21,7 @@ const SEO = ({
   canonicalUrl,
 }: SEOProps) => {
   const location = useLocation();
-  const baseUrl = 'https://www.ro-businesshub.be';
-  const currentUrl = canonicalUrl || `${baseUrl}${location.pathname}`;
+  const currentUrl = canonicalUrl || `${BASE_URL}${location.pathname}`;
 
   useEffect(() => {
     // Update title
@@ -47,7 +48,22 @@ const SEO = ({
       document.head.appendChild(canonicalLink);
     }
     canonicalLink.setAttribute('href', currentUrl);
-  }, [title, description, keywords, ogImage, type, currentUrl]);
+
+    // Hreflang: alternate language URLs for EN, RO, NL (prevents duplicate content penalties)
+    const pathname = location.pathname;
+    document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((el) => el.remove());
+    const addHreflang = (lang: string, href: string) => {
+      const link = document.createElement('link');
+      link.setAttribute('rel', 'alternate');
+      link.setAttribute('hreflang', lang);
+      link.setAttribute('href', href);
+      document.head.appendChild(link);
+    };
+    addHreflang('en', `${BASE_URL}${pathname}`);
+    addHreflang('ro', `${BASE_URL}${pathname}?lang=ro`);
+    addHreflang('nl', `${BASE_URL}${pathname}?lang=nl`);
+    addHreflang('x-default', `${BASE_URL}${pathname}`);
+  }, [title, description, keywords, ogImage, type, currentUrl, location.pathname]);
 
   return null;
 };

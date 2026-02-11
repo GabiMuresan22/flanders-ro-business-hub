@@ -15,6 +15,7 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { CookieConsent } from "./components/CookieConsent";
 import { Analytics } from "./components/Analytics"; // checks cookieConsent; if analytics true, initializes GA and reports route changes
 import ScrollToTop from "./components/ScrollToTop";
+import { LanguageUrlSync } from "./components/LanguageUrlSync";
 
 // Eager load home page for better initial load
 import Index from "./pages/Index";
@@ -57,6 +58,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
+            <LanguageUrlSync />
             <Analytics />
             <Suspense fallback={<PageLoader />}>
               <Routes>
