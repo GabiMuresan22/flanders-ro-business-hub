@@ -141,9 +141,9 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-white shadow-sm overflow-hidden">
       <div className="container mx-auto px-4 py-3 lg:py-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between min-w-0">
           <Link to="/" className="flex items-center">
             <div className="flex flex-col">
               <span className="font-playfair font-bold text-xl sm:text-2xl text-romania-blue">Romanian</span>
@@ -156,18 +156,18 @@ const Navbar = () => {
             </div>
           </Link>
           
-          <div className="hidden lg:flex items-center space-x-6 xl:space-x-8 ml-8 xl:ml-12">
+          <div className="hidden lg:flex items-center space-x-4 xl:space-x-6 ml-6 xl:ml-10 min-w-0 flex-shrink overflow-hidden">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
-                className="font-medium text-gray-700 hover:text-romania-blue transition-colors"
+                className="font-medium text-gray-700 hover:text-romania-blue transition-colors whitespace-nowrap text-sm"
               >
                 {t(link.labelKey)}
               </Link>
             ))}
             {user ? (
-              <div className="flex items-center gap-2 xl:gap-3 ml-2">
+              <div className="flex items-center gap-2 xl:gap-3 ml-2 flex-shrink-0">
                 <div className="hidden xl:flex flex-col items-end">
                   <span className="text-xs text-gray-600">Logged in as</span>
                   <span className="text-xs font-semibold text-romania-blue truncate max-w-[150px]">{user.email}</span>
@@ -203,22 +203,13 @@ const Navbar = () => {
                   <span className="text-sm">{t('nav.account')}</span>
                 </Link>
                 {isAdmin && (
-                  <Link 
-                    to="/admin" 
-                    className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
-                    aria-label={`${pendingCount} pending businesses`}
-                  >
-                    <Bell className="h-5 w-5 text-gray-700" />
+                  <Link to="/admin" className="relative bg-romania-red hover:bg-red-700 text-white font-semibold py-1.5 px-3 rounded-md transition-colors text-sm whitespace-nowrap flex items-center gap-1">
+                    {t('nav.adminDashboard')}
                     {pendingCount > 0 && (
-                      <span className="absolute -top-1 -right-1 bg-romania-red text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
+                      <span className="bg-white text-romania-red text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                         {pendingCount > 9 ? '9+' : pendingCount}
                       </span>
                     )}
-                  </Link>
-                )}
-                {isAdmin && (
-                  <Link to="/admin" className="bg-romania-red hover:bg-red-700 text-white font-semibold py-1.5 px-3 rounded-md transition-colors text-sm">
-                    {t('nav.adminDashboard')}
                   </Link>
                 )}
                 <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-1.5 px-3 rounded-md transition-colors whitespace-nowrap text-sm">
