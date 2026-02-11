@@ -11,11 +11,26 @@ import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Loader2, BookOpen } from "lucide-react";
 
+/** Get display string for resource based on language (EN/NL/RO with fallbacks). */
+function getResourceDisplay(
+  resource: Resource,
+  language: 'en' | 'ro' | 'nl',
+  field: 'title' | 'excerpt' | 'content'
+): string {
+  const base = (resource as Record<string, string | null>)[field] || '';
+  const en = (resource as Record<string, string | null>)[`${field}_en`];
+  const nl = (resource as Record<string, string | null>)[`${field}_nl`];
+  if (language === 'en') return en || base;
+  if (language === 'nl') return nl || en || base;
+  return base || en || nl || '';
+}
+
 const ResourcesPage = () => {
   const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const { t, language } = useLanguage();
+  const dateLocale = language === 'nl' ? 'nl-BE' : language === 'en' ? 'en-GB' : 'ro-RO';
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -79,7 +94,7 @@ const ResourcesPage = () => {
                     className="rounded-full"
                     size="sm"
                   >
-                    {cat === "All" ? t('resources.allCategories') : cat}
+                    {cat === "All" ? t('resources.allCategories') : (t(`resources.categories.${cat}`) !== `resources.categories.${cat}` ? t(`resources.categories.${cat}`) : cat)}
                   </Button>
                 ))}
               </div>
@@ -96,8 +111,9 @@ const ResourcesPage = () => {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {filteredResources.map((resource) => {
-                    const displayTitle = language === 'en' && resource.title_en ? resource.title_en : resource.title;
-                    const displayExcerpt = language === 'en' && resource.excerpt_en ? resource.excerpt_en : resource.excerpt;
+                    const displayTitle = getResourceDisplay(resource, language, 'title');
+                    const displayExcerpt = getResourceDisplay(resource, language, 'excerpt');
+                    const categoryLabel = t(`resources.categories.${resource.category}`) !== `resources.categories.${resource.category}` ? t(`resources.categories.${resource.category}`) : resource.category;
                     return (
                       <Card
                         key={resource.id}
@@ -116,10 +132,10 @@ const ResourcesPage = () => {
                         <CardHeader>
                           <div className="flex items-center justify-between mb-2">
                             <Badge variant="secondary" className="bg-romania-blue/10 text-romania-blue">
-                              {resource.category}
+                              {categoryLabel}
                             </Badge>
                             <span className="text-xs text-gray-400">
-                              {new Date(resource.created_at).toLocaleDateString("ro-RO")}
+                              {new Date(resource.created_at).toLocaleDateString(dateLocale)}
                             </span>
                           </div>
                           <CardTitle className="text-lg font-playfair transition-colors duration-300 group-hover:text-romania-blue">

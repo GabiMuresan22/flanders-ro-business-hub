@@ -530,6 +530,10 @@
     "backToResources": "Înapoi la resurse",
     "noResources": "Nu sunt resurse disponibile momentan.",
     "notFound": "Articol Negăsit",
-    "notFoundMessage": "Ne pare rău, articolul pe care îl cauți nu există sau a fost eliminat."
+    "notFoundMessage": "Ne pare rău, articolul pe care îl cauți nu există sau a fost eliminat.",
+    "categories": {
+      "Legal": "Juridic",
+      "Marketing": "Marketing"
+    }
   }
 }

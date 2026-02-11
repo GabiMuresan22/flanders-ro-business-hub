@@ -10,11 +10,26 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, Tag, Loader2 } from "lucide-react";
 
+/** Get display string for resource based on language (EN/NL/RO with fallbacks). */
+function getResourceDisplay(
+  resource: Resource,
+  language: 'en' | 'ro' | 'nl',
+  field: 'title' | 'excerpt' | 'content'
+): string {
+  const base = (resource as Record<string, string | null>)[field] || '';
+  const en = (resource as Record<string, string | null>)[`${field}_en`];
+  const nl = (resource as Record<string, string | null>)[`${field}_nl`];
+  if (language === 'en') return en || base;
+  if (language === 'nl') return nl || en || base;
+  return base || en || nl || '';
+}
+
 const ResourceDetailPage = () => {
   const { slug } = useParams();
   const [resource, setResource] = useState<Resource | null>(null);
   const [loading, setLoading] = useState(true);
   const { t, language } = useLanguage();
+  const dateLocale = language === 'nl' ? 'nl-BE' : language === 'en' ? 'en-GB' : 'ro-RO';
 
   useEffect(() => {
     const fetchResource = async () => {
@@ -64,9 +79,10 @@ const ResourceDetailPage = () => {
     );
   }
 
-  const displayTitle = language === 'en' && resource.title_en ? resource.title_en : resource.title;
-  const displayExcerpt = language === 'en' && resource.excerpt_en ? resource.excerpt_en : resource.excerpt;
-  const displayContent = language === 'en' && resource.content_en ? resource.content_en : resource.content;
+  const displayTitle = getResourceDisplay(resource, language, 'title');
+  const displayExcerpt = getResourceDisplay(resource, language, 'excerpt');
+  const displayContent = getResourceDisplay(resource, language, 'content');
+  const categoryLabel = t(`resources.categories.${resource.category}`) !== `resources.categories.${resource.category}` ? t(`resources.categories.${resource.category}`) : resource.category;
 
   return (
     <>
@@ -101,11 +117,11 @@ const ResourceDetailPage = () => {
             <div className="flex flex-wrap items-center gap-4 mb-6">
               <Badge variant="secondary" className="bg-romania-blue/10 text-romania-blue">
                 <Tag className="h-3 w-3 mr-1" />
-                {resource.category}
+                {categoryLabel}
               </Badge>
               <span className="text-sm text-gray-500 flex items-center gap-1">
                 <Calendar className="h-3.5 w-3.5" />
-                {new Date(resource.created_at).toLocaleDateString("ro-RO", {
+                {new Date(resource.created_at).toLocaleDateString(dateLocale, {
                   year: "numeric",
                   month: "long",
                   day: "numeric",

@@ -11,4 +11,7 @@ export interface Resource {
   title_en: string | null;
   excerpt_en: string | null;
   content_en: string | null;
+  title_nl: string | null;
+  excerpt_nl: string | null;
+  content_nl: string | null;
 }

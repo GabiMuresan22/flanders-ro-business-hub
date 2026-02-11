@@ -497,6 +497,10 @@
     "backToResources": "Terug naar bronnen",
     "noResources": "Momenteel geen bronnen beschikbaar.",
     "notFound": "Artikel Niet Gevonden",
-    "notFoundMessage": "Sorry, het artikel dat u zoekt bestaat niet of is verwijderd."
+    "notFoundMessage": "Sorry, het artikel dat u zoekt bestaat niet of is verwijderd.",
+    "categories": {
+      "Legal": "Juridisch",
+      "Marketing": "Marketing"
+    }
   }
 }
