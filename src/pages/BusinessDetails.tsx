@@ -232,7 +232,7 @@ const BusinessDetails = () => {
                   {t('businessDetails.about')}
                 </h2>
                 <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
-                  {language === 'en'
+                  {language === 'en' || language === 'nl'
                     ? ((business as any).description_en || business.description || '')
                     : (business.description || (business as any).description_en || '')}
                 </div>
@@ -314,44 +314,56 @@ const BusinessDetails = () => {
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                    <span>{business.city}, {business.postal_code}</span>
+                    <div>
+                      <span className="text-white/80 text-sm block mb-0.5">{t('businessDetails.addressLabel')}</span>
+                      <span>{business.city}, {business.postal_code}</span>
+                    </div>
                   </div>
                   
                   {business.phone && (
                     <div className="flex items-start gap-3">
                       <Phone className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                      <a 
-                        href={`tel:${business.phone}`} 
-                        className="hover:underline"
-                      >
-                        {business.phone}
-                      </a>
+                      <div>
+                        <span className="text-white/80 text-sm block mb-0.5">{t('businessDetails.phoneLabel')}</span>
+                        <a 
+                          href={`tel:${business.phone}`} 
+                          className="hover:underline"
+                        >
+                          {business.phone}
+                        </a>
+                      </div>
                     </div>
                   )}
                   
                   {business.email && (
                     <div className="flex items-start gap-3">
                       <Mail className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                      <a 
-                        href={`mailto:${business.email}`} 
-                        className="hover:underline break-all"
-                      >
-                        {business.email}
-                      </a>
+                      <div>
+                        <span className="text-white/80 text-sm block mb-0.5">{t('businessDetails.emailLabel')}</span>
+                        <a 
+                          href={`mailto:${business.email}`} 
+                          className="hover:underline break-all"
+                        >
+                          {business.email}
+                        </a>
+                      </div>
                     </div>
                   )}
                   
                   {business.website && (
                     <div className="flex items-start gap-3">
                       <Globe className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                      <a 
-                        href={business.website} 
-                        className="hover:underline" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                      >
-                        {t('businessDetails.visitWebsite')}
-                      </a>
+                      <div>
+                        <span className="text-white/80 text-sm block mb-0.5">{t('businessDetails.websiteLabel')}</span>
+                        <a 
+                          href={business.website} 
+                          className="hover:underline" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                        >
+                          {t('businessDetails.visitWebsite')}
+                        </a>
+                      </div>
                     </div>
                   )}
                 </div>
