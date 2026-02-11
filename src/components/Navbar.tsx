@@ -168,9 +168,9 @@ const Navbar = () => {
             ))}
             {user ? (
               <div className="flex items-center gap-2 xl:gap-3 ml-2 flex-shrink-0">
-                <div className="hidden xl:flex flex-col items-end">
+                <div className="hidden 2xl:flex flex-col items-end">
                   <span className="text-xs text-gray-600">Logged in as</span>
-                  <span className="text-xs font-semibold text-romania-blue truncate max-w-[150px]">{user.email}</span>
+                  <span className="text-xs font-semibold text-romania-blue truncate max-w-[120px]">{user.email}</span>
                 </div>
                 <div className="relative lang-dropdown">
                   <button
@@ -195,9 +195,6 @@ const Navbar = () => {
                     </div>
                   )}
                 </div>
-                <Link to="/my-businesses" className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-1.5 px-3 rounded-md transition-colors text-sm whitespace-nowrap">
-                  {t('nav.myBusinesses')}
-                </Link>
                 <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded-md transition-colors flex items-center gap-1">
                   <UserIcon className="h-4 w-4" />
                   <span className="text-sm">{t('nav.account')}</span>
@@ -246,16 +243,6 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-            <form onSubmit={handleSearch} className="relative hidden xl:block">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <input
-                type="text"
-                placeholder={t('nav.search')}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9 pr-4 py-1.5 text-sm rounded-full border border-gray-200 focus:outline-none focus:border-romania-blue w-48"
-              />
-            </form>
           </div>
           
           <div className="lg:hidden flex items-center space-x-3">
