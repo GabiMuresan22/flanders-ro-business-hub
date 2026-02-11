@@ -102,7 +102,7 @@ export const CookieConsent = () => {
   const t = content[language as keyof typeof content];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 animate-in slide-in-from-bottom">
+    <div className="fixed bottom-0 left-0 right-0 z-40 p-4 animate-in slide-in-from-bottom">
       <Card className="max-w-4xl mx-auto p-6 shadow-lg bg-card border-border">
         <div className="flex justify-between items-start mb-4">
           <div className="flex-1">

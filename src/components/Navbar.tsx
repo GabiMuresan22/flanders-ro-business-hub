@@ -141,7 +141,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm overflow-x-clip">
+    <header className="relative z-[60] bg-white shadow-sm overflow-x-clip">
       <div className="container mx-auto px-4 py-3 lg:py-4">
         <div className="flex items-center justify-between min-w-0">
           <Link to="/" className="flex items-center">

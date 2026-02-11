@@ -15,21 +15,15 @@ export const LanguageUrlSync = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const justSyncedFromUrl = useRef(false);
-  const hasSyncedFromUrl = useRef(false);
   const searchString = location.search;
 
-  // URL -> Context: read ?lang= when URL changes. On initial load with no ?lang=, use EN.
+  // URL -> Context: read ?lang= when URL changes. Only sync when URL has explicit lang param.
+  // Do NOT overwrite when URL has no ?lang= (user may have just changed language).
   useEffect(() => {
     const langParam = new URLSearchParams(searchString).get('lang');
     if (langParam && SUPPORTED_LANGS.includes(langParam as typeof SUPPORTED_LANGS[number])) {
       justSyncedFromUrl.current = true;
-      hasSyncedFromUrl.current = true;
       setLanguage(langParam as typeof SUPPORTED_LANGS[number]);
-    } else if (!langParam && !hasSyncedFromUrl.current) {
-      // Initial load with no ?lang=: use EN (avoid "stuck in NL" from stale localStorage)
-      justSyncedFromUrl.current = true;
-      hasSyncedFromUrl.current = true;
-      setLanguage('en');
     }
   }, [searchString, setLanguage]);
 
