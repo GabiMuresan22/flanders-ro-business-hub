@@ -17,9 +17,10 @@ function getResourceDisplay(
   language: 'en' | 'ro' | 'nl',
   field: 'title' | 'excerpt' | 'content'
 ): string {
-  const base = (resource as Record<string, string | null>)[field] || '';
-  const en = (resource as Record<string, string | null>)[`${field}_en`];
-  const nl = (resource as Record<string, string | null>)[`${field}_nl`];
+  const r = resource as unknown as Record<string, string | null>;
+  const base = r[field] || '';
+  const en = r[`${field}_en`];
+  const nl = r[`${field}_nl`];
   if (language === 'en') return en || base;
   if (language === 'nl') return nl || en || base;
   return base || en || nl || '';
