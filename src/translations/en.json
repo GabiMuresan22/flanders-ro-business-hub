@@ -16,7 +16,8 @@
   "hero": {
     "title": "Discover Romanian Businesses in West Flanders",
     "subtitle": "Connect with authentic Romanian services, restaurants, and shops in your area",
-    "cta": "Explore Businesses"
+    "cta": "Explore Businesses",
+    "searchPlaceholder": "What are you looking for?"
   },
   "footer": {
     "description": "Connecting the Romanian business community in West Flanders with local customers.",

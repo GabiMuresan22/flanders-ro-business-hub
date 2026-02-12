@@ -40,7 +40,7 @@ const HeroSection: React.FC = () => {
                   <input
                     id="hero-search"
                     type="search"
-                    placeholder="What are you looking for?"
+                    placeholder={t('hero.searchPlaceholder')}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-12 pr-4 py-4 rounded-lg sm:rounded-l-lg sm:rounded-r-none border-0 focus:ring-2 focus:ring-romania-yellow focus:outline-none"

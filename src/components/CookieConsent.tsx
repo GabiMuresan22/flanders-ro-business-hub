@@ -96,6 +96,22 @@ export const CookieConsent = () => {
       customize: "Personalizează",
       privacyPolicy: "Politica de Confidențialitate",
       learnMore: "Aflați mai multe în",
+    },
+    nl: {
+      title: "Cookie Voorkeuren",
+      description: "We gebruiken cookies om uw browse-ervaring te verbeteren, siteverkeer te analyseren en inhoud te personaliseren. U kunt kiezen welke cookies u toestaat.",
+      essential: "Essentiële Cookies",
+      essentialDesc: "Nodig voor websitefunctionaliteit (authenticatie, beveiliging)",
+      analytics: "Analytische Cookies",
+      analyticsDesc: "Helpen ons te begrijpen hoe bezoekers onze site gebruiken",
+      marketing: "Marketing Cookies",
+      marketingDesc: "Gebruikt om relevante advertenties te leveren",
+      acceptAll: "Accepteer Alles",
+      rejectNonEssential: "Weiger Niet-Essentieel",
+      savePreferences: "Voorkeuren Opslaan",
+      customize: "Aanpassen",
+      privacyPolicy: "Privacybeleid",
+      learnMore: "Lees meer in ons",
     }
   };
 

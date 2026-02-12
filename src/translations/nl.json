@@ -16,7 +16,8 @@
   "hero": {
     "title": "Ontdek Roemeense Bedrijven in West-Vlaanderen",
     "subtitle": "Maak kennis met authentieke Roemeense diensten, restaurants en winkels in uw buurt",
-    "cta": "Ontdek Bedrijven"
+    "cta": "Ontdek Bedrijven",
+    "searchPlaceholder": "Waar ben je naar op zoek?"
   },
   "footer": {
     "description": "We verbinden de Roemeense zakelijke gemeenschap in West-Vlaanderen met lokale klanten.",

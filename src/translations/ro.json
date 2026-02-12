@@ -16,7 +16,8 @@
   "hero": {
     "title": "Descoperă Afaceri Românești în Flandra de Vest",
     "subtitle": "Conectează-te cu servicii, restaurante și magazine românești autentice din zona ta",
-    "cta": "Explorează Afaceri"
+    "cta": "Explorează Afaceri",
+    "searchPlaceholder": "Ce cauți?"
   },
   "footer": {
     "description": "Conectăm comunitatea de afaceri românească din Flandra de Vest cu clienții locali.",
