@@ -232,43 +232,52 @@ export type Database = {
           category: string
           content: string
           content_en: string | null
+          content_nl: string | null
           created_at: string
           excerpt: string | null
           excerpt_en: string | null
+          excerpt_nl: string | null
           id: string
           image_url: string | null
           is_published: boolean
           slug: string
           title: string
           title_en: string | null
+          title_nl: string | null
         }
         Insert: {
           category: string
           content: string
           content_en?: string | null
+          content_nl?: string | null
           created_at?: string
           excerpt?: string | null
           excerpt_en?: string | null
+          excerpt_nl?: string | null
           id?: string
           image_url?: string | null
           is_published?: boolean
           slug: string
           title: string
           title_en?: string | null
+          title_nl?: string | null
         }
         Update: {
           category?: string
           content?: string
           content_en?: string | null
+          content_nl?: string | null
           created_at?: string
           excerpt?: string | null
           excerpt_en?: string | null
+          excerpt_nl?: string | null
           id?: string
           image_url?: string | null
           is_published?: boolean
           slug?: string
           title?: string
           title_en?: string | null
+          title_nl?: string | null
         }
         Relationships: []
       }
