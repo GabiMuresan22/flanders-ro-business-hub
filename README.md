@@ -73,24 +73,34 @@ Language switching is handled via the `?lang=` URL parameter (e.g., `?lang=nl` f
 
 ### Dutch Translation
 
-The self-employment guide resource "Cum devii independent în Belgia? Ghid complet 2026" has been fully translated to Dutch. 
+The self-employment guide resource "Cum devii independent în Belgia? Ghid complet 2026" has been fully translated to Dutch with complete structured content including all 6 sections and subsections.
 
 **If Dutch content is not displaying:**
 
-1. Check if the database migration has been applied:
+1. **Quick check** - Verify migration status:
    ```bash
    node scripts/check-migration.mjs
    ```
 
-2. Apply the migration if needed:
+2. **Detailed verification** - Check content structure:
    ```bash
-   # Using Supabase CLI
-   supabase db push
-   
-   # Or see APPLY_DUTCH_TRANSLATION.md for manual steps
+   node scripts/verify-dutch-content.mjs
    ```
 
-See `APPLY_DUTCH_TRANSLATION.md` and `DUTCH_TRANSLATION_DEPLOYMENT.md` for detailed information.
+3. **Apply migration** if needed:
+   ```bash
+   # Using Supabase CLI (recommended)
+   supabase link --project-ref qwwvnxrduakmrgdmiccs
+   supabase db push
+   
+   # Or use Supabase SQL Editor (manual)
+   # See MIGRATION_GUIDE_DUTCH_TRANSLATION.md for step-by-step instructions
+   ```
+
+**Documentation:**
+- `MIGRATION_GUIDE_DUTCH_TRANSLATION.md` - Comprehensive step-by-step guide
+- `APPLY_DUTCH_TRANSLATION.md` - Original migration documentation  
+- `scripts/README.md` - Information about verification scripts
 
 ## Testing
 
