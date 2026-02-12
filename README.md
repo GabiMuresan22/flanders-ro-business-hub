@@ -62,6 +62,36 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## Multilingual Support
+
+This project supports three languages:
+- **Romanian (RO)** - Default language
+- **English (EN)** - Primary alternative language
+- **Dutch (NL)** - For the Belgian/Dutch-speaking community
+
+Language switching is handled via the `?lang=` URL parameter (e.g., `?lang=nl` for Dutch).
+
+### Dutch Translation
+
+The self-employment guide resource "Cum devii independent în Belgia? Ghid complet 2026" has been fully translated to Dutch. 
+
+**If Dutch content is not displaying:**
+
+1. Check if the database migration has been applied:
+   ```bash
+   node scripts/check-migration.mjs
+   ```
+
+2. Apply the migration if needed:
+   ```bash
+   # Using Supabase CLI
+   supabase db push
+   
+   # Or see APPLY_DUTCH_TRANSLATION.md for manual steps
+   ```
+
+See `APPLY_DUTCH_TRANSLATION.md` and `DUTCH_TRANSLATION_DEPLOYMENT.md` for detailed information.
+
 ## Testing
 
 This project includes automated tests for the Add Business feature.
@@ -77,6 +107,9 @@ npm run test:business
 
 # Run Web Developer business test
 npm run test:webdev
+
+# Check database migration status
+node scripts/check-migration.mjs
 ```
 
 ### Test Documentation
