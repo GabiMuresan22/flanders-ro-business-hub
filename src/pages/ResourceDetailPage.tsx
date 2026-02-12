@@ -9,6 +9,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, Tag, Loader2 } from "lucide-react";
+import { textToHtml } from "@/lib/utils";
 
 /** Get display string for resource based on language (EN/NL/RO with fallbacks). */
 function getResourceDisplay(
@@ -82,6 +83,7 @@ const ResourceDetailPage = () => {
   const displayTitle = getResourceDisplay(resource, language, 'title');
   const displayExcerpt = getResourceDisplay(resource, language, 'excerpt');
   const displayContent = getResourceDisplay(resource, language, 'content');
+  const displayContentHtml = textToHtml(displayContent);
   const categoryLabel = t(`resources.categories.${resource.category}`) !== `resources.categories.${resource.category}` ? t(`resources.categories.${resource.category}`) : resource.category;
 
   return (
@@ -148,7 +150,7 @@ const ResourceDetailPage = () => {
                 prose-blockquote:border-l-4 prose-blockquote:border-romania-blue prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-600 prose-blockquote:my-6
                 prose-a:text-romania-blue prose-a:underline hover:prose-a:text-romania-blue/80
                 prose-strong:text-gray-800"
-              dangerouslySetInnerHTML={{ __html: displayContent }}
+              dangerouslySetInnerHTML={{ __html: displayContentHtml }}
             />
           </div>
         </main>
