@@ -61,3 +61,45 @@ export function categoryMatchesSlug(category: string, slug: string): boolean {
   if (!canonical) return false;
   return category === canonical || category === canonical.replace(/s$/, '').trim();
 }
+
+/**
+ * Convert plain text content with newlines to HTML for rendering
+ * Handles numbered sections (1., 2., etc.) as h2 headers
+ * Handles lettered subsections (A., B., etc.) as h3 headers
+ * Converts double newlines to paragraph breaks
+ */
+export function textToHtml(text: string): string {
+  if (!text) return '';
+  
+  // Split by double newlines to get paragraphs
+  const paragraphs = text.split('\n\n');
+  
+  const htmlParagraphs = paragraphs.map(para => {
+    const trimmed = para.trim();
+    if (!trimmed) return '';
+    
+    // Check if it's a numbered section (e.g., "1. Types of..." or "2. Choosing...")
+    if (/^\d+\.\s+/.test(trimmed)) {
+      const content = trimmed.replace(/^\d+\.\s+/, '');
+      return `<h2>${content}</h2>`;
+    }
+    
+    // Check if it's a lettered subsection (e.g., "A. Professional..." or "B. Registration...")
+    if (/^[A-Z]\.\s+/.test(trimmed)) {
+      const content = trimmed.replace(/^[A-Z]\.\s+/, '');
+      return `<h3>${content}</h3>`;
+    }
+    
+    // Check if it looks like a subheading (ends with a colon or is short and has specific keywords)
+    if (trimmed.endsWith(':') && trimmed.length < 100) {
+      return `<h3>${trimmed.replace(/:$/, '')}</h3>`;
+    }
+    
+    // Regular paragraph
+    // Replace single newlines within a paragraph with <br> tags
+    const withBreaks = trimmed.replace(/\n/g, '<br>');
+    return `<p>${withBreaks}</p>`;
+  });
+  
+  return htmlParagraphs.filter(p => p).join('\n');
+}
