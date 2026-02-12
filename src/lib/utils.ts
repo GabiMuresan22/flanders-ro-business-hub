@@ -69,7 +69,10 @@ export function categoryMatchesSlug(category: string, slug: string): boolean {
  * Converts double newlines to paragraph breaks
  */
 export function textToHtml(text: string): string {
-  if (!text) return '';
+  if (text == null) return '';
+  
+  // Maximum length for auto-detected headings to avoid converting long paragraphs
+  const MAX_HEADING_LENGTH = 100;
   
   // Split by double newlines to get paragraphs
   const paragraphs = text.split('\n\n');
@@ -90,8 +93,8 @@ export function textToHtml(text: string): string {
       return `<h3>${content}</h3>`;
     }
     
-    // Check if it looks like a subheading (ends with a colon or is short and has specific keywords)
-    if (trimmed.endsWith(':') && trimmed.length < 100) {
+    // Check if it looks like a subheading (ends with a colon and is reasonably short)
+    if (trimmed.endsWith(':') && trimmed.length < MAX_HEADING_LENGTH) {
       return `<h3>${trimmed.replace(/:$/, '')}</h3>`;
     }
     
