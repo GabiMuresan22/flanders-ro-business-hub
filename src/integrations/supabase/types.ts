@@ -76,6 +76,7 @@ export type Database = {
           created_at: string
           description: string
           description_en: string | null
+          description_nl: string | null
           email: string
           id: string
           image_url: string | null
@@ -97,6 +98,7 @@ export type Database = {
           created_at?: string
           description: string
           description_en?: string | null
+          description_nl?: string | null
           email: string
           id?: string
           image_url?: string | null
@@ -118,6 +120,7 @@ export type Database = {
           created_at?: string
           description?: string
           description_en?: string | null
+          description_nl?: string | null
           email?: string
           id?: string
           image_url?: string | null
@@ -374,6 +377,7 @@ export type Database = {
           created_at: string | null
           description: string | null
           description_en: string | null
+          description_nl: string | null
           email: string | null
           id: string | null
           image_url: string | null
@@ -392,6 +396,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           description_en?: string | null
+          description_nl?: string | null
           email?: string | null
           id?: string | null
           image_url?: string | null
@@ -410,6 +415,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           description_en?: string | null
+          description_nl?: string | null
           email?: string | null
           id?: string | null
           image_url?: string | null
