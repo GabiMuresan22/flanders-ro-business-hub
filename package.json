@@ -13,7 +13,9 @@
     "test:validation": "node test-form-validation.mjs",
     "test:business": "node test-business-submission.mjs",
     "test:webdev": "node test-web-developer-business.mjs",
-    "test": "jest"
+    "test": "jest",
+    "migration:check": "node scripts/check-migration.mjs",
+    "migration:verify": "node scripts/verify-dutch-content.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
