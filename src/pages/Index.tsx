@@ -14,25 +14,14 @@ import CtaSection from '../components/CtaSection';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
 import SkipToContent from '../components/SkipToContent';
+import { getOrganizationSchema, getWebSiteSchema } from '../utils/schemas';
 
 const Index = () => {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Romanian Business Hub",
-    "description": "Directory of Romanian businesses in West Flanders, Belgium",
-    "url": "https://yoursite.lovable.app/",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://yoursite.lovable.app/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    },
-    "about": {
-      "@type": "Organization",
-      "name": "Romanian Business Hub",
-      "description": "Connecting Romanian businesses and community in West Flanders, Belgium"
-    }
-  };
+  // Use @graph to include multiple schemas
+  const structuredData = [
+    getOrganizationSchema(),
+    getWebSiteSchema()
+  ];
 
   return (
     <>
