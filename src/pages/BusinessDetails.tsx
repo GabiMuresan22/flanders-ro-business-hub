@@ -21,6 +21,7 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 import type { PublicBusiness, ReviewRow } from '@/types/database';
+import { getLocalBusinessSchema, getBreadcrumbSchema } from '@/utils/schemas';
 
 // Extended type for public business with contact info from updated view
 type PublicBusinessWithContact = PublicBusiness & {
@@ -119,44 +120,31 @@ const BusinessDetails = () => {
   const BASE_URL = 'https://www.ro-businesshub.be';
   const categorySlug = business ? categoryToSlug(business.category || '') : '';
 
-  const businessStructuredData = business ? {
-    "@type": "LocalBusiness",
-    "name": business.business_name,
-    "description": business.description,
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": business.city,
-      "postalCode": business.postal_code,
-      "addressCountry": "BE"
-    },
-    "telephone": business.phone,
-    "email": business.email,
-    ...(business.website && { "url": business.website }),
-    ...(averageRating > 0 && {
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": averageRating,
-        "reviewCount": reviews.length,
-        "bestRating": "5",
-        "worstRating": "1"
-      }
-    })
-  } : null;
-
   const getCategoryTranslation = () => {
     const key = `businessCategories.${business.category}`;
     const out = t(key);
     return out === key ? business.category : out;
   };
 
-  const breadcrumbStructuredData = business ? {
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": t('common.home'), "item": `${BASE_URL}/` },
-      { "@type": "ListItem", "position": 2, "name": getCategoryTranslation(), "item": `${BASE_URL}/category/${categorySlug}` },
-      { "@type": "ListItem", "position": 3, "name": business.business_name, "item": `${BASE_URL}/business/${business.id}` }
-    ]
-  } : null;
+  // Use schema helpers for consistent structured data
+  const businessStructuredData = business ? getLocalBusinessSchema({
+    name: business.business_name,
+    description: business.description,
+    image_url: business.image_url,
+    address: business.address,
+    city: business.city,
+    postal_code: business.postal_code,
+    phone: business.phone,
+    website: business.website,
+    rating: averageRating > 0 ? averageRating : undefined,
+    review_count: reviews.length > 0 ? reviews.length : undefined
+  }) : null;
+
+  const breadcrumbStructuredData = business ? getBreadcrumbSchema([
+    { name: t('common.home'), url: `${BASE_URL}/` },
+    { name: getCategoryTranslation(), url: `${BASE_URL}/category/${categorySlug}` },
+    { name: business.business_name, url: `${BASE_URL}/business/${business.id}` }
+  ]) : null;
 
   const structuredDataPayload = businessStructuredData && breadcrumbStructuredData
     ? [businessStructuredData, breadcrumbStructuredData]
