@@ -131,7 +131,6 @@ const BusinessDetails = () => {
     name: business.business_name,
     description: business.description,
     image_url: business.image_url,
-    address: business.address,
     city: business.city,
     postal_code: business.postal_code,
     phone: business.phone,
