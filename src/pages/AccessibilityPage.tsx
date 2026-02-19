@@ -213,7 +213,7 @@ const AccessibilityPage = () => {
         },
         {
           title: "15. Toegankelijkheidsbronnen",
-          content: "Voor meer informatie over webtoegankel ijkheid:\n\n• W3C Web Accessibility Initiative: www.w3.org/WAI/\n• Web Content Accessibility Guidelines: www.w3.org/WAI/WCAG21/quickref/\n• Belgische toegankelijkheidswetgeving: www.ejustice.just.fgov.be\n• Toegankelijkheidstools en -bronnen: www.a11yproject.com"
+          content: "Voor meer informatie over webtoegankelijkheid:\n\n• W3C Web Accessibility Initiative: www.w3.org/WAI/\n• Web Content Accessibility Guidelines: www.w3.org/WAI/WCAG21/quickref/\n• Belgische toegankelijkheidswetgeving: www.ejustice.just.fgov.be\n• Toegankelijkheidstools en -bronnen: www.a11yproject.com"
         },
         {
           title: "16. Updates van Deze Verklaring",
