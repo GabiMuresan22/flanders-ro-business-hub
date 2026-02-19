@@ -35,7 +35,9 @@
     "categoryPhotoVideo": "Foto & Video",
     "categoryGiftFlowers": "Cadeau & Bloemen",
     "categoryITMarketing": "IT & Marketing",
-    "privacyPolicy": "Privacybeleid"
+    "privacyPolicy": "Privacybeleid",
+    "termsConditions": "Algemene Voorwaarden",
+    "accessibility": "Toegankelijkheid"
   },
   "auth": {
     "login": "Inloggen",

@@ -35,7 +35,9 @@
     "categoryPhotoVideo": "Photo & Video",
     "categoryGiftFlowers": "Gift & Flowers",
     "categoryITMarketing": "IT & Marketing",
-    "privacyPolicy": "Privacy Policy"
+    "privacyPolicy": "Privacy Policy",
+    "termsConditions": "Terms & Conditions",
+    "accessibility": "Accessibility"
   },
   "auth": {
     "login": "Login",

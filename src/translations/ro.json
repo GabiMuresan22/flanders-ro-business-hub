@@ -35,7 +35,9 @@
     "categoryPhotoVideo": "Foto și Video",
     "categoryGiftFlowers": "Cadouri și Flori",
     "categoryITMarketing": "IT și Marketing",
-    "privacyPolicy": "Politica de Confidențialitate"
+    "privacyPolicy": "Politica de Confidențialitate",
+    "termsConditions": "Termeni și Condiții",
+    "accessibility": "Accesibilitate"
   },
   "auth": {
     "login": "Autentificare",

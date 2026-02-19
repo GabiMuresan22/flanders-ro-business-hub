@@ -37,6 +37,8 @@ const AccountPage = lazy(() => import("./pages/AccountPage"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
+const TermsConditionsPage = lazy(() => import("./pages/TermsConditionsPage"));
+const AccessibilityPage = lazy(() => import("./pages/AccessibilityPage"));
 const ResourcesPage = lazy(() => import("./pages/ResourcesPage"));
 const ResourceDetailPage = lazy(() => import("./pages/ResourceDetailPage"));
 
@@ -71,6 +73,8 @@ const App = () => (
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/faq" element={<FAQPage />} />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms-conditions" element={<TermsConditionsPage />} />
+              <Route path="/accessibility" element={<AccessibilityPage />} />
               <Route path="/add-business" element={<AddBusinessPage />} />
               <Route path="/my-businesses" element={<MyBusinessesPage />} />
               <Route path="/search" element={<SearchResults />} />
