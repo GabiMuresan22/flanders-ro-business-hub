@@ -90,14 +90,32 @@ const CategoryPage = () => {
 
   const BASE_URL = 'https://www.ro-businesshub.be';
   const categorySlug = slug || '';
+  const categoryUrl = `${BASE_URL}/category/${categorySlug}`;
   const breadcrumbStructuredData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": t('common.home'), "item": `${BASE_URL}/` },
       { "@type": "ListItem", "position": 2, "name": t('common.categories'), "item": `${BASE_URL}/categories` },
-      { "@type": "ListItem", "position": 3, "name": categoryDisplay, "item": `${BASE_URL}/category/${categorySlug}` }
+      { "@type": "ListItem", "position": 3, "name": categoryDisplay, "item": categoryUrl }
     ]
+  };
+  const webPageSchema = {
+    "@type": "CollectionPage",
+    "@id": `${categoryUrl}#webpage`,
+    "url": categoryUrl,
+    "name": `${categoryDisplay} ${t('categoryPage.businesses')} | Romanian Business Hub`,
+    "description": t('categoryPage.seoDescription').replace('{category}', categoryTitle.toLowerCase())
+  };
+  const itemListSchema = {
+    "@type": "ItemList",
+    "itemListElement": filteredBusinesses.map((b, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "url": `${BASE_URL}/business/${b.id}`,
+      "name": b.business_name
+    })),
+    "numberOfItems": filteredBusinesses.length
   };
 
   return (
@@ -108,7 +126,7 @@ const CategoryPage = () => {
         keywords={t('categoryPage.seoKeywords').replace(/{category}/g, categoryTitle)}
         type="website"
       />
-      <StructuredData data={breadcrumbStructuredData} />
+      <StructuredData data={[breadcrumbStructuredData, webPageSchema, itemListSchema]} />
       <div className="min-h-screen flex flex-col">
         <Navbar />
       <main className="flex-grow">
@@ -130,6 +148,9 @@ const CategoryPage = () => {
         <div className="container mx-auto px-4 py-12">
           {filteredBusinesses.length > 0 ? (
             <div>
+              <p className="text-gray-600 mb-4 leading-relaxed">
+                {t('categoryPage.intro').replace(/{category}/g, categoryDisplay.toLowerCase())}
+              </p>
               <p className="text-gray-600 mb-8">
                 {t('categoryPage.showingCount')
                   .replace('{count}', filteredBusinesses.length.toString())
@@ -142,17 +163,42 @@ const CategoryPage = () => {
               </div>
             </div>
           ) : (
-            <div className="text-center py-12">
+            <div className="max-w-3xl mx-auto">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('categoryPage.noBusinessesTitle')}</h2>
-              <p className="text-gray-600 mb-8">
-                {t('categoryPage.noBusinessesMessage')}
+              <p className="text-gray-600 mb-4 leading-relaxed">
+                {t('categoryPage.emptyIntro').replace(/{category}/g, categoryDisplay.toLowerCase())}
               </p>
-              <Link 
-                to="/categories" 
-                className="bg-romania-blue text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                {t('categoryPage.viewAllCategories')}
-              </Link>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                {t('categoryPage.emptyGrowing').replace(/{category}/g, categoryDisplay.toLowerCase())}
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center mb-10">
+                <Link 
+                  to="/categories" 
+                  className="bg-romania-blue text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                >
+                  {t('categoryPage.viewAllCategories')}
+                </Link>
+                <Link 
+                  to="/add-business" 
+                  className="border-2 border-romania-blue text-romania-blue py-3 px-6 rounded-lg hover:bg-romania-blue/5 transition-colors font-medium"
+                >
+                  {t('nav.addBusiness')}
+                </Link>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('categoryPage.exploreRelated')}</h3>
+                <div className="flex flex-wrap gap-3">
+                  {['restaurant', 'bakery', 'grocery', 'car-service', 'beauty-wellness', 'cosmetician', 'construction', 'transportation'].filter(s => s !== categorySlug).slice(0, 6).map((s) => {
+                    const cat = slugToCategory(s);
+                    const label = t(`businessCategories.${cat}`) !== `businessCategories.${cat}` ? t(`businessCategories.${cat}`) : cat;
+                    return (
+                      <Link key={s} to={`/category/${s}`} className="px-4 py-2 bg-gray-100 hover:bg-romania-blue/10 text-gray-700 hover:text-romania-blue rounded-lg transition-colors">
+                        {label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           )}
         </div>

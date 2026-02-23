@@ -5,6 +5,7 @@ import type { Resource } from "@/types/resources";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import StructuredData from "@/components/StructuredData";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -85,11 +86,43 @@ const ResourceDetailPage = () => {
   const displayContent = getResourceDisplay(resource, language, 'content');
   const categoryLabel = t(`resources.categories.${resource.category}`) !== `resources.categories.${resource.category}` ? t(`resources.categories.${resource.category}`) : resource.category;
 
+  const BASE_URL = 'https://www.ro-businesshub.be';
+  const resourceUrl = `${BASE_URL}/resurse/${resource.slug}`;
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": displayTitle,
+    "description": displayExcerpt || displayTitle,
+    "image": resource.image_url ? [resource.image_url] : undefined,
+    "datePublished": resource.created_at,
+    "dateModified": resource.created_at,
+    "author": {
+      "@type": "Organization",
+      "name": "Romanian Business Hub",
+      "url": BASE_URL
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Romanian Business Hub",
+      "url": BASE_URL,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${BASE_URL}/favicon.svg`
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": resourceUrl
+    }
+  };
+
   return (
     <>
+      <StructuredData data={articleSchema} />
       <SEO
         title={`${displayTitle} | Romanian Business Hub`}
         description={displayExcerpt || displayTitle}
+        keywords={`${displayTitle}, Romanian business resources, West Flanders Belgium, ${categoryLabel}`}
         type="article"
       />
       <div className="min-h-screen flex flex-col">

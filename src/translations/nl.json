@@ -82,8 +82,12 @@
   "categoryPage": {
     "businesses": "Bedrijven",
     "showingCount": "{count} {category} bedrijven in West-Vlaanderen weergeven",
-    "noBusinessesTitle": "Geen bedrijven gevonden",
+    "noBusinessesTitle": "Nog geen bedrijven in deze categorie",
     "noBusinessesMessage": "Sorry, we konden geen bedrijven vinden in deze categorie. Probeer andere categorieën te verkennen.",
+    "intro": "Vind betrouwbare Roemeense {category} bedrijven in West-Vlaanderen, België. Onze directory verbindt de lokale Roemeense gemeenschap met geverifieerde dienstverleners.",
+    "emptyIntro": "Zoekt u Roemeense {category} diensten in West-Vlaanderen, België? Deze pagina vermeldt geverifieerde Roemeense bedrijven in de {category} sector. Onze directory verbindt de lokale Roemeense gemeenschap met betrouwbare dienstverleners.",
+    "emptyGrowing": "Deze categorie groeit. Roemeense ondernemers in {category} kunnen hun bedrijf gratis aanmelden. Kom binnenkort terug of verken gerelateerde categorieën hieronder.",
+    "exploreRelated": "Verken gerelateerde categorieën",
     "viewAllCategories": "Alle Categorieën Bekijken",
     "inWestFlanders": "in West-Vlaanderen",
     "seoDescription": "Vind betrouwbare Roemeense {category} bedrijven in West-Vlaanderen, België. Blader door geverifieerde vermeldingen met contactinformatie, beoordelingen en meer.",

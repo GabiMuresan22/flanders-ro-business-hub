@@ -82,8 +82,12 @@
   "categoryPage": {
     "businesses": "Afaceri",
     "showingCount": "Se afișează {count} afaceri {category} în Flandra de Vest",
-    "noBusinessesTitle": "Nu s-au găsit afaceri",
+    "noBusinessesTitle": "Încă nu există afaceri în această categorie",
     "noBusinessesMessage": "Ne pare rău, nu am putut găsi nicio afacere în această categorie. Încearcă să explorezi alte categorii.",
+    "intro": "Găsește afaceri românești {category} de încredere în Flandra de Vest, Belgia. Directorul nostru conectează comunitatea română locală cu furnizori de servicii verificați.",
+    "emptyIntro": "Cauți servicii românești {category} în Flandra de Vest, Belgia? Această pagină listează afaceri românești verificate din sectorul {category}. Directorul nostru conectează comunitatea română locală cu furnizori de servicii de încredere.",
+    "emptyGrowing": "Această categorie este în creștere. Antreprenorii români din {category} își pot lista afacerea gratuit. Revino curând sau explorează categoriile conexe mai jos.",
+    "exploreRelated": "Explorează categorii conexe",
     "viewAllCategories": "Vezi Toate Categoriile",
     "inWestFlanders": "în Flandra de Vest",
     "seoDescription": "Găsește afaceri românești {category} de încredere în Flandra de Vest, Belgia. Răsfoiește listări verificate cu informații de contact, recenzii și multe altele.",

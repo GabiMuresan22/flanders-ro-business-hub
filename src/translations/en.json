@@ -82,8 +82,12 @@
   "categoryPage": {
     "businesses": "Businesses",
     "showingCount": "Showing {count} {category} businesses in West Flanders",
-    "noBusinessesTitle": "No businesses found",
+    "noBusinessesTitle": "No businesses in this category yet",
     "noBusinessesMessage": "Sorry, we couldn't find any businesses in this category. Try exploring other categories.",
+    "intro": "Find trusted Romanian {category} businesses in West Flanders, Belgium. Our directory connects the local Romanian community with verified service providers.",
+    "emptyIntro": "Looking for Romanian {category} services in West Flanders, Belgium? This page lists verified Romanian-owned businesses in the {category} sector. Our directory connects the local Romanian community with trusted service providers.",
+    "emptyGrowing": "This category is growing. Romanian entrepreneurs in {category} can list their business for free. Check back soon or explore related categories below.",
+    "exploreRelated": "Explore related categories",
     "viewAllCategories": "View All Categories",
     "inWestFlanders": "in West Flanders",
     "seoDescription": "Find trusted Romanian {category} businesses in West Flanders, Belgium. Browse verified listings with contact information, reviews, and more.",
