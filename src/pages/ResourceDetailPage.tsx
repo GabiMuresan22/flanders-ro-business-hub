@@ -9,7 +9,7 @@ import StructuredData from "@/components/StructuredData";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Calendar, Tag, Loader2 } from "lucide-react";
+import { ArrowLeft, Calendar, Tag, Loader2, Download } from "lucide-react";
 
 /** Get display string for resource based on language (EN/NL/RO with fallbacks). */
 function getResourceDisplay(
@@ -167,6 +167,27 @@ const ResourceDetailPage = () => {
             <h1 className="font-playfair text-3xl md:text-4xl font-bold text-gray-900 mb-8">
               {displayTitle}
             </h1>
+
+            {/* Download PDF */}
+            {resource.slug === 'business-canvas-ghid-plan-afacere' && (
+              <div className="mb-8 p-4 bg-romania-blue/5 border border-romania-blue/20 rounded-lg flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-gray-900">{language === 'nl' ? 'Download het sjabloon' : language === 'en' ? 'Download the template' : 'Descarcă modelul'}</p>
+                  <p className="text-sm text-gray-600">{language === 'nl' ? 'Model Plan de Afaceri (PDF)' : language === 'en' ? 'Business Plan Template (PDF)' : 'Model Plan de Afaceri (PDF)'}</p>
+                </div>
+                <a
+                  href="https://qwwvnxrduakmrgdmiccs.supabase.co/storage/v1/object/public/business-images/resources%2Fmodel-plan-afaceri.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                >
+                  <Button variant="default" className="gap-2">
+                    <Download className="h-4 w-4" />
+                    Download PDF
+                  </Button>
+                </a>
+              </div>
+            )}
 
             {/* Content */}
             <article
