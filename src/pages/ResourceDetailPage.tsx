@@ -193,7 +193,7 @@ const ResourceDetailPage = () => {
                   <p className="text-sm text-gray-600">{language === 'nl' ? 'Model Plan de Afaceri (PDF)' : language === 'en' ? 'Business Plan Template (PDF)' : 'Model Plan de Afaceri (PDF)'}</p>
                 </div>
                 <a
-                  href="https://qwwvnxrduakmrgdmiccs.supabase.co/storage/v1/object/public/business-images/resources%2Fmodel-plan-afaceri.pdf"
+                  href="/downloads/model-plan-afaceri.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   download
