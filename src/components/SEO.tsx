@@ -8,6 +8,8 @@ interface SEOProps {
   ogImage?: string;
   type?: 'website' | 'article' | 'business.business';
   canonicalUrl?: string;
+  /** When true, adds noindex to prevent indexing (fixes Soft 404 for empty/error pages) */
+  noindex?: boolean;
 }
 
 const BASE_URL = 'https://www.ro-businesshub.be';
@@ -19,6 +21,7 @@ const SEO = ({
   ogImage = 'https://www.ro-businesshub.be/og-image.png',
   type = 'website',
   canonicalUrl,
+  noindex = false,
 }: SEOProps) => {
   const location = useLocation();
   const currentUrl = canonicalUrl || `${BASE_URL}${location.pathname}`;
@@ -39,6 +42,9 @@ const SEO = ({
     updateMetaTag('name', 'twitter:title', title);
     updateMetaTag('name', 'twitter:description', description);
     updateMetaTag('name', 'twitter:image', ogImage);
+
+    // Robots: noindex for pages we don't want indexed (fixes Soft 404)
+    updateMetaTag('name', 'robots', noindex ? 'noindex, follow' : 'index, follow');
 
     // Update canonical URL
     let canonicalLink = document.querySelector('link[rel="canonical"]');
@@ -63,7 +69,7 @@ const SEO = ({
     addHreflang('ro', `${BASE_URL}${pathname}?lang=ro`);
     addHreflang('nl', `${BASE_URL}${pathname}?lang=nl`);
     addHreflang('x-default', `${BASE_URL}${pathname}`);
-  }, [title, description, keywords, ogImage, type, currentUrl, location.pathname]);
+  }, [title, description, keywords, ogImage, type, currentUrl, location.pathname, noindex]);
 
   return null;
 };

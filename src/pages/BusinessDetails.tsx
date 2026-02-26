@@ -101,7 +101,13 @@ const BusinessDetails = () => {
 
   if (!business) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <>
+        <SEO
+          title={t('businessDetails.notFoundTitle')}
+          description={t('businessDetails.notFoundMessage')}
+          noindex
+        />
+        <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-grow container mx-auto px-4 py-12">
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
@@ -114,6 +120,7 @@ const BusinessDetails = () => {
         </main>
         <Footer />
       </div>
+      </>
     );
   }
 

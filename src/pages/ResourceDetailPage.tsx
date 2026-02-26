@@ -65,19 +65,26 @@ const ResourceDetailPage = () => {
 
   if (!resource) {
     return (
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-grow flex flex-col items-center justify-center py-20 px-4">
-          <h1 className="font-playfair text-2xl font-bold text-gray-900 mb-4">
-            {t('resources.notFound')}
-          </h1>
-          <p className="text-gray-600 mb-6">{t('resources.notFoundMessage')}</p>
-          <Link to="/resurse">
-            <Button>{t('resources.backToResources')}</Button>
-          </Link>
-        </main>
-        <Footer />
-      </div>
+      <>
+        <SEO
+          title={t('resources.notFound')}
+          description={t('resources.notFoundMessage')}
+          noindex
+        />
+        <div className="min-h-screen flex flex-col">
+          <Navbar />
+          <main className="flex-grow flex flex-col items-center justify-center py-20 px-4">
+            <h1 className="font-playfair text-2xl font-bold text-gray-900 mb-4">
+              {t('resources.notFound')}
+            </h1>
+            <p className="text-gray-600 mb-6">{t('resources.notFoundMessage')}</p>
+            <Link to="/resurse">
+              <Button>{t('resources.backToResources')}</Button>
+            </Link>
+          </main>
+          <Footer />
+        </div>
+      </>
     );
   }
 

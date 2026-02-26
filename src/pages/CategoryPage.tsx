@@ -125,6 +125,7 @@ const CategoryPage = () => {
         description={t('categoryPage.seoDescription').replace('{category}', categoryTitle.toLowerCase())}
         keywords={t('categoryPage.seoKeywords').replace(/{category}/g, categoryTitle)}
         type="website"
+        noindex={filteredBusinesses.length === 0}
       />
       <StructuredData data={[breadcrumbStructuredData, webPageSchema, itemListSchema]} />
       <div className="min-h-screen flex flex-col">
