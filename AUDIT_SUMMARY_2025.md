@@ -3,7 +3,7 @@
 
 **Audit Date:** January 26, 2025  
 **Status:** Pre-Launch Review  
-**► Updated audit:** See **WEBSITE_AUDIT_2026.md** (Feb 2026) for current status and improvements.
+**► Latest audit:** See **COMPREHENSIVE_WEBSITE_AUDIT_2026.md** (Feb 28, 2026) for full audit. See WEBSITE_AUDIT_2026.md for Feb 2026 improvements.
 
 ---
 
