@@ -7,18 +7,13 @@ const StatisticsSection = () => {
   const [stats, setStats] = useState({
     businesses: 0,
     categories: 0,
-    cities: 0,
-    registeredUsers: 0
+    cities: 0
   });
 
   const fetchStats = useCallback(async () => {
-    const [businessesRes, userCountRes] = await Promise.all([
-      supabase.from('public_businesses').select('category, city'),
-      supabase.rpc('get_user_count')
-    ]);
-
-    const businesses = businessesRes.data ?? [];
-    const userCount = userCountRes.data != null ? Number(userCountRes.data) : 0;
+    const { data: businesses = [] } = await supabase
+      .from('public_businesses')
+      .select('category, city');
 
     const uniqueCategories = new Set(businesses.map(b => b.category)).size;
     const uniqueCities = new Set(businesses.map(b => b.city)).size;
@@ -26,8 +21,7 @@ const StatisticsSection = () => {
     setStats({
       businesses: businesses.length,
       categories: uniqueCategories,
-      cities: uniqueCities,
-      registeredUsers: userCount
+      cities: uniqueCities
     });
   }, []);
 
@@ -39,7 +33,7 @@ const StatisticsSection = () => {
     { labelKey: 'statistics.businesses', value: stats.businesses, suffix: '+' },
     { labelKey: 'statistics.categories', value: stats.categories, suffix: '+' },
     { labelKey: 'statistics.cities', value: stats.cities, suffix: '+' },
-    { labelKey: 'statistics.happyCustomers', value: stats.registeredUsers, suffix: '+' }
+    { labelKey: 'statistics.happyCustomers', value: stats.businesses, suffix: '+' }
   ];
 
   return (
