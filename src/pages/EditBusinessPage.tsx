@@ -112,6 +112,21 @@ const EditBusinessPage = () => {
             if (business.image_url) {
               setCurrentImageUrl(business.image_url);
             }
+
+            // Load social media links
+            const { data: links } = await supabase
+              .from('social_links')
+              .select('platform, url')
+              .eq('business_id', id);
+            if (links && links.length > 0) {
+              const sm = { ...EMPTY_SOCIAL_MEDIA };
+              links.forEach((l: { platform: string; url: string }) => {
+                if (l.platform in sm) {
+                  (sm as any)[l.platform] = l.url;
+                }
+              });
+              setSocialMedia(sm);
+            }
           }
         } catch (error) {
           if (import.meta.env.DEV) console.error('Error loading business:', error);
