@@ -100,6 +100,50 @@ const AdminDashboard = () => {
     }
   }, [toast]);
 
+  const fetchSubscriberCount = useCallback(async () => {
+    try {
+      const { count, error } = await supabase
+        .from('newsletter_subscribers')
+        .select('*', { count: 'exact', head: true });
+      if (!error && count !== null) setSubscriberCount(count);
+    } catch (error) {
+      if (import.meta.env.DEV) console.error('Error fetching subscriber count:', error);
+    }
+  }, []);
+
+  const sendNewsletter = async () => {
+    if (!newsletterSubject.trim() || !newsletterContent.trim()) {
+      toast({ title: "Error", description: "Please fill in subject and content.", variant: "destructive" });
+      return;
+    }
+    if (!confirm(`Send this newsletter to ${subscriberCount} subscribers?`)) return;
+
+    setSendingNewsletter(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error('Not authenticated');
+
+      const { data, error } = await supabase.functions.invoke('send-newsletter', {
+        body: { subject: newsletterSubject, content: newsletterContent, fromEmail: newsletterFromEmail },
+      });
+
+      if (error) throw error;
+
+      if (data?.success) {
+        toast({ title: "Newsletter Sent!", description: `Successfully sent to ${data.sent} of ${data.total} subscribers.` });
+        setNewsletterSubject('');
+        setNewsletterContent('');
+      } else {
+        toast({ title: "Warning", description: data?.error || `Sent: ${data?.sent || 0}, Failed: ${data?.failed || 0}`, variant: data?.sent > 0 ? "default" : "destructive" });
+      }
+    } catch (error) {
+      if (import.meta.env.DEV) console.error('Error sending newsletter:', error);
+      toast({ title: "Error", description: "Failed to send newsletter.", variant: "destructive" });
+    } finally {
+      setSendingNewsletter(false);
+    }
+  };
+
   const checkAdminStatus = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
