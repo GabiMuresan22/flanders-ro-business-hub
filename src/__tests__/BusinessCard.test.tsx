@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import BusinessCard from '../components/BusinessCard';
 import { MemoryRouter } from 'react-router-dom';
 import { BusinessCategory } from '../data/types';
+import { LanguageProvider } from '../contexts/LanguageContext';
 
 describe('BusinessCard', () => {
   it('renders business name and category', () => {
