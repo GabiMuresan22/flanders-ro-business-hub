@@ -53,9 +53,11 @@ const PLATFORM_CONFIG: Record<string, { label: string; icon: JSX.Element }> = {
 
 interface SocialMediaLinksProps {
   businessId: string;
+  /** When true, renders inline inside a parent card (e.g. contact card) instead of standalone */
+  inline?: boolean;
 }
 
-const SocialMediaLinks: React.FC<SocialMediaLinksProps> = ({ businessId }) => {
+const SocialMediaLinks: React.FC<SocialMediaLinksProps> = ({ businessId, inline = false }) => {
   const [links, setLinks] = useState<SocialLink[]>([]);
   const { t } = useLanguage();
 
@@ -72,6 +74,37 @@ const SocialMediaLinks: React.FC<SocialMediaLinksProps> = ({ businessId }) => {
 
   if (links.length === 0) return null;
 
+  // Inline mode: render inside the contact card (white text on blue bg)
+  if (inline) {
+    return (
+      <div className="mt-6 pt-5 border-t border-white/20">
+        <h3 className="text-xs uppercase tracking-wider text-white/70 mb-3">
+          {t('businessDetails.socialMedia')}
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          {links.map((link) => {
+            const config = PLATFORM_CONFIG[link.platform];
+            if (!config) return null;
+            return (
+              <a
+                key={link.id}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/15 hover:bg-white/30 text-white transition-all duration-200 hover:scale-110"
+                aria-label={config.label}
+                title={config.label}
+              >
+                {config.icon}
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  // Standalone mode (original)
   return (
     <div className="container mx-auto px-4 pb-4">
       <div className="bg-card rounded-xl shadow-lg p-6">
@@ -89,7 +122,7 @@ const SocialMediaLinks: React.FC<SocialMediaLinksProps> = ({ businessId }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-muted hover:bg-romania-blue hover:text-white text-foreground transition-all duration-300 hover:scale-105 hover:shadow-md"
-                aria-label={`${config.label}`}
+                aria-label={config.label}
               >
                 {config.icon}
                 <span className="text-sm font-medium">{config.label}</span>
