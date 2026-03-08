@@ -223,7 +223,7 @@ const AccountPage = () => {
             <Link to="/add-business">
               <Button size="sm" className="gap-1.5">
                 <Plus className="h-4 w-4" />
-                {t('myBusinesses.addNew')}
+                {t('myBusinesses.addNewBusiness')}
               </Button>
             </Link>
           </CardHeader>
