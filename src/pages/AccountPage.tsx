@@ -232,7 +232,7 @@ const AccountPage = () => {
               <div className="text-center py-8">
                 <Building2 className="h-12 w-12 mx-auto text-muted-foreground/40 mb-3" />
                 <p className="text-muted-foreground font-medium">{t('myBusinesses.noBusinessesTitle')}</p>
-                <p className="text-sm text-muted-foreground mt-1 mb-4">{t('myBusinesses.noBusinessHint') || 'Register your first business to get started'}</p>
+                <p className="text-sm text-muted-foreground mt-1 mb-4">{t('myBusinesses.noBusinessesMessage')}</p>
                 <Link to="/add-business">
                   <Button variant="outline" className="gap-2">
                     <Plus className="h-4 w-4" />
