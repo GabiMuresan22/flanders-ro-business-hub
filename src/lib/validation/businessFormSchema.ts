@@ -50,6 +50,7 @@ export const formSchema = z.object({
     message: "Description must be at least 10 characters.",
   }),
   descriptionEn: z.string().optional().or(z.literal('')),
+  descriptionNl: z.string().optional().or(z.literal('')),
   category: z.string().min(1, {
     message: "Please select a business category.",
   }),
