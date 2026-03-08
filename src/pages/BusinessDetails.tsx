@@ -235,13 +235,28 @@ const BusinessDetails = () => {
               </Breadcrumb>
               
               {/* Title centered */}
-              <div className="text-center">
+              <div className="text-center relative">
                 <h1 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 uppercase tracking-wide">
                   {business.business_name}
                 </h1>
                 <span className="inline-block bg-romania-blue text-white text-sm font-medium px-6 py-2 rounded-full">
                   {getCategoryTranslation()}
                 </span>
+                {isOwner && (
+                  <Link
+                    to={`/edit-business/${id}`}
+                    className="absolute right-0 top-1/2 -translate-y-1/2"
+                  >
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-2 hover:scale-105 transition-transform duration-200"
+                    >
+                      <Edit className="h-4 w-4" />
+                      {t('myBusinesses.edit')}
+                    </Button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
