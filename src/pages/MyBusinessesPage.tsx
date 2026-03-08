@@ -269,9 +269,11 @@ const MyBusinessesPage = () => {
                         <div className="mb-4">
                           <p className="text-sm text-gray-500 mb-1">{t('myBusinesses.description')}</p>
                           <p className="text-gray-700 line-clamp-2">
-                            {language === 'en'
-                              ? ((business as any).description_en || business.description || '')
-                              : (business.description || (business as any).description_en || '')}
+                            {language === 'nl'
+                              ? ((business as any).description_nl || (business as any).description_en || business.description || '')
+                              : language === 'en'
+                                ? ((business as any).description_en || business.description || '')
+                                : (business.description || (business as any).description_en || '')}
                           </p>
                         </div>
 
