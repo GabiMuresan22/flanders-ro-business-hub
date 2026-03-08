@@ -618,6 +618,9 @@ const AddBusinessPage = () => {
                       </div>
                     </div>
 
+                    {/* Social Media Links */}
+                    <SocialMediaInputs values={socialMedia} onChange={setSocialMedia} />
+
                     <FormField
                       control={form.control}
                       name="description"
