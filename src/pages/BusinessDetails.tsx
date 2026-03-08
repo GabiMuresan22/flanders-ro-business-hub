@@ -233,15 +233,15 @@ const BusinessDetails = () => {
           </div>
           
           {/* Three-column cards section */}
-          <div className="container mx-auto px-4 py-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="container mx-auto px-4 py-10 md:py-12">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               
               {/* About Us Card */}
-              <div className="bg-card rounded-xl shadow-lg p-6 lg:p-8">
-                <h2 className="font-playfair text-xl font-bold text-foreground mb-4">
+              <div className="bg-card rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-7 lg:p-9 animate-fade-in">
+                <h2 className="font-playfair text-2xl font-bold text-foreground mb-5 border-b border-border pb-3">
                   {t('businessDetails.about')}
                 </h2>
-                <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                <div className="text-muted-foreground leading-relaxed whitespace-pre-line text-[0.95rem]">
                   {language === 'nl'
                     ? ((business as any).description_nl || (business as any).description_en || business.description || '')
                     : language === 'en'
@@ -251,35 +251,35 @@ const BusinessDetails = () => {
               </div>
 
               {/* Reviews Card */}
-              <div className="bg-card rounded-xl shadow-lg p-6 lg:p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-playfair text-xl font-bold text-foreground">
+              <div className="bg-card rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-7 lg:p-9 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                <div className="flex items-center justify-between mb-5 border-b border-border pb-3">
+                  <h2 className="font-playfair text-2xl font-bold text-foreground">
                     {t('businessDetails.reviews')}
                   </h2>
                   <Button 
                     variant="default"
                     size="sm"
                     onClick={() => setShowReviewForm(!showReviewForm)}
-                    className="bg-romania-blue hover:bg-romania-blue/90"
+                    className="bg-romania-blue hover:bg-romania-blue/90 transition-all duration-200 hover:scale-105 active:scale-95"
                   >
                     {t('businessDetails.leaveReview')}
                   </Button>
                 </div>
                 
                 {/* Rating summary */}
-                <div className="mb-4">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                    <span className="font-semibold text-foreground">{averageRating.toFixed(1)}</span>
-                    <span>({reviews.length} {reviews.length === 1 ? t('businessDetails.review') : t('businessDetails.reviewsCount')})</span>
+                <div className="mb-5">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                    <span className="font-bold text-foreground text-2xl">{averageRating.toFixed(1)}</span>
+                    <span className="text-muted-foreground">({reviews.length} {reviews.length === 1 ? t('businessDetails.review') : t('businessDetails.reviewsCount')})</span>
                   </div>
-                  <div className="flex gap-1">
+                  <div className="flex gap-1.5">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star
                         key={star}
-                        className={`h-6 w-6 ${
+                        className={`h-7 w-7 transition-colors duration-200 ${
                           star <= Math.round(averageRating)
                             ? 'fill-romania-yellow text-romania-yellow'
-                            : 'text-gray-300'
+                            : 'text-muted-foreground/30'
                         }`}
                       />
                     ))}
@@ -288,33 +288,33 @@ const BusinessDetails = () => {
 
                 {/* Reviews list or empty state */}
                 {reviews.length > 0 ? (
-                  <div className="space-y-3 max-h-64 overflow-y-auto">
+                  <div className="space-y-4 max-h-72 overflow-y-auto pr-1">
                     {reviews.map((review) => (
                       <ReviewCard key={review.id} review={review} />
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-4">
-                    <p className="text-muted-foreground font-medium">
+                  <div className="text-center py-6">
+                    <p className="text-muted-foreground font-medium text-base">
                       {t('businessDetails.noReviews')}
                     </p>
-                    <p className="text-sm text-muted-foreground mt-1 mb-4">
+                    <p className="text-sm text-muted-foreground mt-2 mb-5">
                       {t('businessDetails.beFirstReview')}
                     </p>
                     <Button
                       variant="default"
-                      size="sm"
+                      size="default"
                       onClick={() => setShowReviewForm(true)}
-                      className="bg-romania-blue hover:bg-romania-blue/90"
+                      className="bg-romania-blue hover:bg-romania-blue/90 transition-all duration-200 hover:scale-105 active:scale-95"
                     >
                       {t('businessDetails.addReview')}
                     </Button>
                   </div>
                 )}
 
-                {/* Review form - toggleable */}
+                {/* Review form - toggleable with animation */}
                 {showReviewForm && (
-                  <div className="mt-4 pt-4 border-t">
+                  <div className="mt-5 pt-5 border-t border-border animate-fade-in">
                     <ReviewForm 
                       businessId={id!} 
                       onReviewSubmitted={() => {
@@ -327,81 +327,69 @@ const BusinessDetails = () => {
               </div>
 
               {/* Contact Information Card */}
-              <div className="bg-romania-blue rounded-xl shadow-lg p-6 lg:p-8 text-white">
-                <h2 className="font-playfair text-xl font-bold mb-6">
+              <div className="bg-romania-blue rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-7 lg:p-9 text-white animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                <h2 className="font-playfair text-2xl font-bold mb-6 border-b border-white/20 pb-3">
                   {t('businessDetails.contactInfo')}
                 </h2>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                <div className="space-y-5">
+                  <a 
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.city}, ${business.postal_code}, Belgium`)}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-3 group"
+                  >
+                    <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform duration-200" />
                     <div>
-                      <span className="text-white/80 text-sm block mb-0.5">{t('businessDetails.addressLabel')}</span>
-                      <span>{business.city}, {business.postal_code}</span>
+                      <span className="text-white/70 text-xs uppercase tracking-wider block mb-1">{t('businessDetails.addressLabel')}</span>
+                      <span className="font-medium group-hover:underline">{business.city}, {business.postal_code}</span>
                     </div>
-                  </div>
+                  </a>
                   
                   {business.phone && (
-                    <div className="flex items-start gap-3">
-                      <Phone className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                    <a href={`tel:${business.phone}`} className="flex items-start gap-3 group">
+                      <Phone className="h-5 w-5 mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform duration-200" />
                       <div>
-                        <span className="text-white/80 text-sm block mb-0.5">{t('businessDetails.phoneLabel')}</span>
-                        <a 
-                          href={`tel:${business.phone}`} 
-                          className="hover:underline"
-                        >
-                          {business.phone}
-                        </a>
+                        <span className="text-white/70 text-xs uppercase tracking-wider block mb-1">{t('businessDetails.phoneLabel')}</span>
+                        <span className="font-medium group-hover:underline">{business.phone}</span>
                       </div>
-                    </div>
+                    </a>
                   )}
                   
                   {business.email && (
-                    <div className="flex items-start gap-3">
-                      <Mail className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                    <a href={`mailto:${business.email}`} className="flex items-start gap-3 group">
+                      <Mail className="h-5 w-5 mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform duration-200" />
                       <div>
-                        <span className="text-white/80 text-sm block mb-0.5">{t('businessDetails.emailLabel')}</span>
-                        <a 
-                          href={`mailto:${business.email}`} 
-                          className="hover:underline break-all"
-                        >
-                          {business.email}
-                        </a>
+                        <span className="text-white/70 text-xs uppercase tracking-wider block mb-1">{t('businessDetails.emailLabel')}</span>
+                        <span className="font-medium group-hover:underline break-all">{business.email}</span>
                       </div>
-                    </div>
+                    </a>
                   )}
                   
                   {business.website && (
-                    <div className="flex items-start gap-3">
-                      <Globe className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                    <a href={business.website} target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 group">
+                      <Globe className="h-5 w-5 mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform duration-200" />
                       <div>
-                        <span className="text-white/80 text-sm block mb-0.5">{t('businessDetails.websiteLabel')}</span>
-                        <a 
-                          href={business.website} 
-                          className="hover:underline" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                        >
-                          {t('businessDetails.visitWebsite')}
-                        </a>
+                        <span className="text-white/70 text-xs uppercase tracking-wider block mb-1">{t('businessDetails.websiteLabel')}</span>
+                        <span className="font-medium group-hover:underline">{t('businessDetails.visitWebsite')}</span>
                       </div>
-                    </div>
+                    </a>
                   )}
                 </div>
+
+                {/* Social Media Links - integrated in contact card */}
+                {id && <SocialMediaLinksInline businessId={id} inline />}
                 
                 <a 
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.city}, ${business.postal_code}, Belgium`)}`} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="mt-6 block w-full bg-white text-romania-blue text-center font-medium py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="mt-7 block w-full bg-white text-romania-blue text-center font-semibold py-3 px-4 rounded-lg hover:bg-white/90 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
                 >
                   {t('businessDetails.viewOnMap')}
                 </a>
               </div>
             </div>
           </div>
-
-          {/* Social Media Links Section */}
-          {id && <SocialMediaLinks businessId={id} />}
         </main>
         <Footer />
       </div>
