@@ -38,6 +38,7 @@ const BusinessDetails = () => {
   const [reviews, setReviews] = useState<ReviewRow[]>([]);
   const [averageRating, setAverageRating] = useState<number>(0);
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
 
   const fetchBusiness = useCallback(async () => {
     if (!id) return;
