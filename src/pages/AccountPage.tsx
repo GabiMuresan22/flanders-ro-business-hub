@@ -26,6 +26,7 @@ const AccountPage = () => {
   const { t } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [businesses, setBusinesses] = useState<BusinessRow[]>([]);
   const [formData, setFormData] = useState({
     full_name: "",
     phone: "",
