@@ -262,7 +262,8 @@
     "characters": "tekens",
     "submitting": "Verzenden...",
     "submitReview": "Beoordeling Verzenden",
-    "anonymous": "Anoniem"
+    "anonymous": "Anoniem",
+    "socialMedia": "Sociale Media"
   },
   "reviewForm": {
     "leaveReview": "Laat een Beoordeling Achter",

@@ -262,7 +262,8 @@
     "characters": "characters",
     "submitting": "Submitting...",
     "submitReview": "Submit Review",
-    "anonymous": "Anonymous"
+    "anonymous": "Anonymous",
+    "socialMedia": "Social Media"
   },
   "reviewForm": {
     "leaveReview": "Leave a Review",
