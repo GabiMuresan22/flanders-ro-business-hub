@@ -242,6 +242,13 @@ const EditBusinessPage = () => {
 
       if (error) throw error;
 
+      // Update social media links
+      try {
+        await updateSocialLinks(supabase, id, socialMedia);
+      } catch {
+        // Non-critical
+      }
+
       toast({
         title: t('editBusiness.successTitle') || "Business updated!",
         description: t('editBusiness.successMessage') || "Your business information has been updated successfully.",
