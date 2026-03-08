@@ -7,7 +7,7 @@ import ReviewForm from '../components/ReviewForm';
 import BusinessDetailsSkeleton from '../components/skeletons/BusinessDetailsSkeleton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
-import { MapPin, Phone, Mail, Globe, Star, Home } from 'lucide-react';
+import { MapPin, Phone, Mail, Globe, Star, Home, Edit } from 'lucide-react';
 import SocialMediaLinksInline from '../components/SocialMediaLinks';
 import { categoryToSlug } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -38,6 +38,7 @@ const BusinessDetails = () => {
   const [reviews, setReviews] = useState<ReviewRow[]>([]);
   const [averageRating, setAverageRating] = useState<number>(0);
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
 
   const fetchBusiness = useCallback(async () => {
     if (!id) return;
@@ -88,7 +89,20 @@ const BusinessDetails = () => {
   useEffect(() => {
     fetchBusiness();
     fetchReviews();
-  }, [fetchBusiness, fetchReviews]);
+    // Check ownership
+    const checkOwnership = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session || !id) return;
+      const { data } = await supabase
+        .from('businesses')
+        .select('id')
+        .eq('id', id)
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+      setIsOwner(!!data);
+    };
+    checkOwnership();
+  }, [fetchBusiness, fetchReviews, id]);
 
   if (loading) {
     return (
@@ -221,13 +235,28 @@ const BusinessDetails = () => {
               </Breadcrumb>
               
               {/* Title centered */}
-              <div className="text-center">
+              <div className="text-center relative">
                 <h1 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 uppercase tracking-wide">
                   {business.business_name}
                 </h1>
                 <span className="inline-block bg-romania-blue text-white text-sm font-medium px-6 py-2 rounded-full">
                   {getCategoryTranslation()}
                 </span>
+                {isOwner && (
+                  <Link
+                    to={`/edit-business/${id}`}
+                    className="absolute right-0 top-1/2 -translate-y-1/2"
+                  >
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-2 hover:scale-105 transition-transform duration-200"
+                    >
+                      <Edit className="h-4 w-4" />
+                      {t('myBusinesses.edit')}
+                    </Button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
