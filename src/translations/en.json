@@ -479,7 +479,9 @@
     "businessImage": "Business Image",
     "imageOptional": "Upload a photo of your business (optional)",
     "uploadImage": "Upload Image",
-    "maxFileSize": "Max 5MB, JPG/PNG"
+    "maxFileSize": "Max 5MB, JPG/PNG",
+    "socialMedia": "Social Media Links (Optional)",
+    "socialMediaHint": "Add your social media profiles so customers can follow you"
   },
   "editBusiness": {
     "title": "Edit Business",
