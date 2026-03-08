@@ -59,6 +59,14 @@ const AccountPage = () => {
           email: session.user.email || "",
         });
       }
+
+      // Fetch user's businesses
+      const { data: bizData } = await supabase
+        .from("businesses")
+        .select("*")
+        .eq("user_id", session.user.id)
+        .order("created_at", { ascending: false });
+      if (bizData) setBusinesses(bizData);
     };
 
     checkUser();
