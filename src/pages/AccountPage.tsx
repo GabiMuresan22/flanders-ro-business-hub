@@ -271,8 +271,9 @@ const AccountPage = () => {
                         </Link>
                       )}
                       <Link to={`/edit-business/${biz.id}`}>
-                        <Button variant="ghost" size="icon" className="h-8 w-8" title="Edit">
+                        <Button variant="outline" size="sm" className="gap-1.5">
                           <Edit className="h-4 w-4" />
+                          Edit
                         </Button>
                       </Link>
                     </div>
