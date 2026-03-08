@@ -226,7 +226,7 @@ const AdminDashboard = () => {
         supabase.removeChannel(messagesChannel);
       };
     }
-  }, [isAdmin, fetchBusinesses, fetchMessages]);
+  }, [isAdmin, fetchBusinesses, fetchMessages, fetchSubscriberCount]);
 
   const updateBusinessStatus = async (id: string, status: 'approved' | 'rejected') => {
     setProcessingId(id);
