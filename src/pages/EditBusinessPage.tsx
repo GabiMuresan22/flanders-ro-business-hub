@@ -231,6 +231,7 @@ const EditBusinessPage = () => {
           btw_number: values.btwNumber,
           description: values.description,
           description_en: values.descriptionEn || null,
+          description_nl: values.descriptionNl || null,
           category: values.category,
           website: values.website || null,
           image_url: imageUrl,
