@@ -231,7 +231,7 @@ const AccountPage = () => {
             {businesses.length === 0 ? (
               <div className="text-center py-8">
                 <Building2 className="h-12 w-12 mx-auto text-muted-foreground/40 mb-3" />
-                <p className="text-muted-foreground font-medium">{t('myBusinesses.noBusiness')}</p>
+                <p className="text-muted-foreground font-medium">{t('myBusinesses.noBusinessesTitle')}</p>
                 <p className="text-sm text-muted-foreground mt-1 mb-4">{t('myBusinesses.noBusinessHint') || 'Register your first business to get started'}</p>
                 <Link to="/add-business">
                   <Button variant="outline" className="gap-2">
