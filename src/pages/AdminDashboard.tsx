@@ -642,7 +642,7 @@ const AdminDashboard = () => {
             </div>
 
             <Tabs defaultValue="pending" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className="grid w-full grid-cols-5">
                 <TabsTrigger value="pending">
                   Pending ({pendingBusinesses.length})
                 </TabsTrigger>
@@ -654,6 +654,9 @@ const AdminDashboard = () => {
                 </TabsTrigger>
                 <TabsTrigger value="messages">
                   Messages ({unreadMessages.length})
+                </TabsTrigger>
+                <TabsTrigger value="newsletter">
+                  Newsletter ({subscriberCount})
                 </TabsTrigger>
               </TabsList>
 
