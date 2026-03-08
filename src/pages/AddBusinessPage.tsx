@@ -29,6 +29,7 @@ const AddBusinessPage = () => {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [socialMedia, setSocialMedia] = useState<SocialMediaValues>(EMPTY_SOCIAL_MEDIA);
 
   useEffect(() => {
     const checkAuth = async () => {
