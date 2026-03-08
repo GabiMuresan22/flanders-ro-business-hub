@@ -13,7 +13,6 @@ Deno.serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const { business_id } = await req.json();
@@ -49,16 +48,26 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Translate to English if missing
-    if (!business.description_en) {
-      const enTranslation = await translateText(lovableApiKey, sourceText, 'English');
-      if (enTranslation) updates.description_en = enTranslation;
+    // Build translation prompts for missing languages
+    const translations: { lang: string; field: string }[] = [];
+    if (!business.description_en) translations.push({ lang: 'English', field: 'description_en' });
+    if (!business.description_nl) translations.push({ lang: 'Dutch', field: 'description_nl' });
+
+    if (translations.length === 0) {
+      return new Response(
+        JSON.stringify({ success: true, message: 'All translations already exist' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
-    // Translate to Dutch if missing
-    if (!business.description_nl) {
-      const nlTranslation = await translateText(lovableApiKey, sourceText, 'Dutch');
-      if (nlTranslation) updates.description_nl = nlTranslation;
+    // Use Lovable AI proxy for translation
+    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
+    
+    for (const t of translations) {
+      const translated = await translateWithLovableAI(lovableApiKey!, sourceText, t.lang);
+      if (translated) {
+        updates[t.field] = translated;
+      }
     }
 
     // Update the business with translations
@@ -90,10 +99,10 @@ Deno.serve(async (req) => {
   }
 });
 
-async function translateText(apiKey: string, text: string, targetLanguage: string): Promise<string | null> {
+async function translateWithLovableAI(apiKey: string, text: string, targetLanguage: string): Promise<string | null> {
   try {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const response = await fetch(`${supabaseUrl}/functions/v1/ai`, {
+    // Use the Lovable AI gateway (OpenAI-compatible endpoint)
+    const response = await fetch('https://lovable.dev/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -104,7 +113,7 @@ async function translateText(apiKey: string, text: string, targetLanguage: strin
         messages: [
           {
             role: 'system',
-            content: `You are a professional translator. Translate the following business description to ${targetLanguage}. Keep the same tone, formatting, and line breaks. Return ONLY the translated text, nothing else.`
+            content: `You are a professional translator. Translate the following business description to ${targetLanguage}. Keep the same tone, formatting, and line breaks. Return ONLY the translated text, nothing else. Do not add any explanations or notes.`
           },
           {
             role: 'user',
@@ -112,16 +121,19 @@ async function translateText(apiKey: string, text: string, targetLanguage: strin
           }
         ],
         temperature: 0.3,
+        max_tokens: 2000,
       }),
     });
 
     if (!response.ok) {
-      console.error(`Translation API error: ${response.status} - ${await response.text()}`);
+      const errText = await response.text();
+      console.error(`Lovable AI error (${targetLanguage}): ${response.status} - ${errText}`);
       return null;
     }
 
     const data = await response.json();
-    return data.choices?.[0]?.message?.content?.trim() || null;
+    const content = data.choices?.[0]?.message?.content?.trim();
+    return content || null;
   } catch (error) {
     console.error(`Translation failed for ${targetLanguage}:`, error);
     return null;
