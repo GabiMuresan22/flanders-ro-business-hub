@@ -262,7 +262,8 @@
     "characters": "caractere",
     "submitting": "Se trimite...",
     "submitReview": "Trimite Recenzia",
-    "anonymous": "Anonim"
+    "anonymous": "Anonim",
+    "socialMedia": "Rețele Sociale"
   },
   "reviewForm": {
     "leaveReview": "Lasă o Recenzie",
@@ -478,7 +479,9 @@
     "businessImage": "Imagine Afacere",
     "imageOptional": "Încarcă o fotografie a afacerii tale (opțional)",
     "uploadImage": "Încarcă Imagine",
-    "maxFileSize": "Max 5MB, JPG/PNG"
+    "maxFileSize": "Max 5MB, JPG/PNG",
+    "socialMedia": "Rețele Sociale (Opțional)",
+    "socialMediaHint": "Adaugă profilurile tale de social media pentru ca clienții să te poată urmări"
   },
   "editBusiness": {
     "title": "Editează Afacerea",

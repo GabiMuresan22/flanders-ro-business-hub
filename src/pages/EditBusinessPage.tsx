@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, Upload, X, ImageIcon } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import SocialMediaInputs, { EMPTY_SOCIAL_MEDIA, updateSocialLinks, type SocialMediaValues } from '@/components/SocialMediaInputs';
 
 const EditBusinessPage = () => {
   const { toast } = useToast();
@@ -27,6 +28,7 @@ const EditBusinessPage = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [currentImageUrl, setCurrentImageUrl] = useState<string | null>(null);
+  const [socialMedia, setSocialMedia] = useState<SocialMediaValues>(EMPTY_SOCIAL_MEDIA);
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -109,6 +111,21 @@ const EditBusinessPage = () => {
             // Set current image if exists
             if (business.image_url) {
               setCurrentImageUrl(business.image_url);
+            }
+
+            // Load social media links
+            const { data: links } = await supabase
+              .from('social_links')
+              .select('platform, url')
+              .eq('business_id', id);
+            if (links && links.length > 0) {
+              const sm = { ...EMPTY_SOCIAL_MEDIA };
+              links.forEach((l: { platform: string; url: string }) => {
+                if (l.platform in sm) {
+                  (sm as any)[l.platform] = l.url;
+                }
+              });
+              setSocialMedia(sm);
             }
           }
         } catch (error) {
@@ -224,6 +241,13 @@ const EditBusinessPage = () => {
         .eq('user_id', user.id);
 
       if (error) throw error;
+
+      // Update social media links
+      try {
+        await updateSocialLinks(supabase, id, socialMedia);
+      } catch {
+        // Non-critical
+      }
 
       toast({
         title: t('editBusiness.successTitle') || "Business updated!",
@@ -555,6 +579,9 @@ const EditBusinessPage = () => {
                     </div>
                   )}
                 </div>
+
+                {/* Social Media Links */}
+                <SocialMediaInputs values={socialMedia} onChange={setSocialMedia} />
 
                 {/* Opening Hours Section */}
                 <div className="space-y-4">

@@ -262,7 +262,8 @@
     "characters": "tekens",
     "submitting": "Verzenden...",
     "submitReview": "Beoordeling Verzenden",
-    "anonymous": "Anoniem"
+    "anonymous": "Anoniem",
+    "socialMedia": "Sociale Media"
   },
   "reviewForm": {
     "leaveReview": "Laat een Beoordeling Achter",
@@ -478,7 +479,9 @@
     "businessImage": "Bedrijfsafbeelding",
     "imageOptional": "Upload een foto van uw bedrijf (optioneel)",
     "uploadImage": "Afbeelding Uploaden",
-    "maxFileSize": "Max 5MB, JPG/PNG"
+    "maxFileSize": "Max 5MB, JPG/PNG",
+    "socialMedia": "Sociale Media Links (Optioneel)",
+    "socialMediaHint": "Voeg uw sociale mediaprofielen toe zodat klanten u kunnen volgen"
   },
   "editBusiness": {
     "title": "Bedrijf Bewerken",

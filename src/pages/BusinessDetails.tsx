@@ -8,6 +8,7 @@ import BusinessDetailsSkeleton from '../components/skeletons/BusinessDetailsSkel
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
 import { MapPin, Phone, Mail, Globe, Star, Home } from 'lucide-react';
+import SocialMediaLinks from '../components/SocialMediaLinks';
 import { categoryToSlug } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -398,6 +399,9 @@ const BusinessDetails = () => {
               </div>
             </div>
           </div>
+
+          {/* Social Media Links Section */}
+          {id && <SocialMediaLinks businessId={id} />}
         </main>
         <Footer />
       </div>

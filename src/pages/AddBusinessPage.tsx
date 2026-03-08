@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, Upload, X } from 'lucide-react';
 import { useAntiSpam } from '@/hooks/useAntiSpam';
+import SocialMediaInputs, { EMPTY_SOCIAL_MEDIA, saveSocialLinks, type SocialMediaValues } from '@/components/SocialMediaInputs';
 import { useLanguage } from '@/contexts/LanguageContext';
 import type { User } from '@supabase/supabase-js';
 
@@ -28,6 +29,7 @@ const AddBusinessPage = () => {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [socialMedia, setSocialMedia] = useState<SocialMediaValues>(EMPTY_SOCIAL_MEDIA);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -190,6 +192,15 @@ const AddBusinessPage = () => {
         throw error;
       }
 
+      // Save social media links
+      if (data?.id) {
+        try {
+          await saveSocialLinks(supabase, data.id, socialMedia);
+        } catch {
+          // Non-critical
+        }
+      }
+
       // Send email notification to admin
       try {
         await supabase.functions.invoke('notify-new-business', {
@@ -218,6 +229,7 @@ const AddBusinessPage = () => {
       form.reset();
       setSelectedFile(null);
       setImagePreview(null);
+      setSocialMedia(EMPTY_SOCIAL_MEDIA);
     } catch (error: unknown) {
       if (import.meta.env.DEV) {
         console.error('Error submitting business:', error);
@@ -605,6 +617,9 @@ const AddBusinessPage = () => {
                         )}
                       </div>
                     </div>
+
+                    {/* Social Media Links */}
+                    <SocialMediaInputs values={socialMedia} onChange={setSocialMedia} />
 
                     <FormField
                       control={form.control}
