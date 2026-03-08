@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -7,10 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { z } from "zod";
+import { Building2, Edit, Plus, Eye } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
+import type { BusinessRow } from "@/types/database";
 
 const profileSchema = z.object({
   full_name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
@@ -23,6 +26,7 @@ const AccountPage = () => {
   const { t } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [businesses, setBusinesses] = useState<BusinessRow[]>([]);
   const [formData, setFormData] = useState({
     full_name: "",
     phone: "",
@@ -55,6 +59,14 @@ const AccountPage = () => {
           email: session.user.email || "",
         });
       }
+
+      // Fetch user's businesses
+      const { data: bizData } = await supabase
+        .from("businesses")
+        .select("*")
+        .eq("user_id", session.user.id)
+        .order("created_at", { ascending: false });
+      if (bizData) setBusinesses(bizData);
     };
 
     checkUser();
@@ -196,6 +208,78 @@ const AccountPage = () => {
                 </Link>
               </div>
             </form>
+          </CardContent>
+        </Card>
+        {/* My Businesses Section */}
+        <Card className="max-w-2xl mx-auto mt-8 animate-fade-in">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2">
+                <Building2 className="h-5 w-5" />
+                {t('myBusinesses.title')}
+              </CardTitle>
+              <CardDescription>{t('myBusinesses.subtitle') || 'Manage your registered businesses'}</CardDescription>
+            </div>
+            <Link to="/add-business">
+              <Button size="sm" className="gap-1.5">
+                <Plus className="h-4 w-4" />
+                {t('myBusinesses.addNew')}
+              </Button>
+            </Link>
+          </CardHeader>
+          <CardContent>
+            {businesses.length === 0 ? (
+              <div className="text-center py-8">
+                <Building2 className="h-12 w-12 mx-auto text-muted-foreground/40 mb-3" />
+                <p className="text-muted-foreground font-medium">{t('myBusinesses.noBusiness')}</p>
+                <p className="text-sm text-muted-foreground mt-1 mb-4">{t('myBusinesses.noBusinessHint') || 'Register your first business to get started'}</p>
+                <Link to="/add-business">
+                  <Button variant="outline" className="gap-2">
+                    <Plus className="h-4 w-4" />
+                    {t('myBusinesses.addNew')}
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {businesses.map((biz) => (
+                  <div
+                    key={biz.id}
+                    className="flex items-center justify-between p-4 rounded-lg border bg-card hover:shadow-md transition-shadow duration-200"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-semibold text-foreground truncate">{biz.business_name}</h3>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Badge variant="secondary" className="text-xs">
+                          {t(`businessCategories.${biz.category}`) || biz.category}
+                        </Badge>
+                        <span className="text-xs text-muted-foreground">{biz.city}</span>
+                        <Badge
+                          variant={biz.status === 'approved' ? 'default' : 'secondary'}
+                          className={`text-xs ${biz.status === 'approved' ? 'bg-green-600' : biz.status === 'pending' ? 'bg-yellow-500' : ''}`}
+                        >
+                          {biz.status}
+                        </Badge>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 ml-4">
+                      {biz.status === 'approved' && (
+                        <Link to={`/business/${biz.id}`}>
+                          <Button variant="ghost" size="icon" className="h-8 w-8" title="View">
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </Link>
+                      )}
+                      <Link to={`/edit-business/${biz.id}`}>
+                        <Button variant="ghost" size="icon" className="h-8 w-8" title="Edit">
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </main>
