@@ -1,0 +1,1 @@
+UPDATE public.resources SET image_url = 'https://qwwvnxrduakmrgdmiccs.supabase.co/storage/v1/object/public/business-images/resources%2Fgoogle-business-guide-cover.jpg' WHERE slug = 'ghid-google-business-belgia-2026';
