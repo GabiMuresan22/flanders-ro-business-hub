@@ -89,7 +89,20 @@ const BusinessDetails = () => {
   useEffect(() => {
     fetchBusiness();
     fetchReviews();
-  }, [fetchBusiness, fetchReviews]);
+    // Check ownership
+    const checkOwnership = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session || !id) return;
+      const { data } = await supabase
+        .from('businesses')
+        .select('id')
+        .eq('id', id)
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+      setIsOwner(!!data);
+    };
+    checkOwnership();
+  }, [fetchBusiness, fetchReviews, id]);
 
   if (loading) {
     return (
