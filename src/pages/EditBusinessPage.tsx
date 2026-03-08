@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, Upload, X, ImageIcon } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import SocialMediaInputs, { EMPTY_SOCIAL_MEDIA, updateSocialLinks, type SocialMediaValues } from '@/components/SocialMediaInputs';
 
 const EditBusinessPage = () => {
   const { toast } = useToast();
