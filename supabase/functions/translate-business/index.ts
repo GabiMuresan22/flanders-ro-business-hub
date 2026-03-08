@@ -169,7 +169,7 @@ async function callGeminiFallback(prompt: string, apiKey: string): Promise<Recor
   }
 }
 
-function parseTranslationResponse(data: any): Record<string, string> | null> {
+function parseTranslationResponse(data: any): Record<string, string> | null {
   try {
     // Handle various response formats
     if (typeof data === 'string') return parseJsonFromText(data);
