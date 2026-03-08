@@ -9,7 +9,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CheckCircle, XCircle, Clock, ExternalLink, Mail, Phone, MapPin, MessageSquare, Trash2 } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { CheckCircle, XCircle, Clock, ExternalLink, Mail, Phone, MapPin, MessageSquare, Trash2, Send, Users, Loader2 } from 'lucide-react';
 
 interface Business {
   id: string;
@@ -46,6 +48,13 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [processingId, setProcessingId] = useState<string | null>(null);
+  
+  // Newsletter state
+  const [newsletterSubject, setNewsletterSubject] = useState('');
+  const [newsletterContent, setNewsletterContent] = useState('');
+  const [newsletterFromEmail, setNewsletterFromEmail] = useState('newsletter@ro-businesshub.be');
+  const [subscriberCount, setSubscriberCount] = useState(0);
+  const [sendingNewsletter, setSendingNewsletter] = useState(false);
 
   const fetchBusinesses = useCallback(async () => {
     try {
@@ -91,6 +100,50 @@ const AdminDashboard = () => {
     }
   }, [toast]);
 
+  const fetchSubscriberCount = useCallback(async () => {
+    try {
+      const { count, error } = await supabase
+        .from('newsletter_subscribers')
+        .select('*', { count: 'exact', head: true });
+      if (!error && count !== null) setSubscriberCount(count);
+    } catch (error) {
+      if (import.meta.env.DEV) console.error('Error fetching subscriber count:', error);
+    }
+  }, []);
+
+  const sendNewsletter = async () => {
+    if (!newsletterSubject.trim() || !newsletterContent.trim()) {
+      toast({ title: "Error", description: "Please fill in subject and content.", variant: "destructive" });
+      return;
+    }
+    if (!confirm(`Send this newsletter to ${subscriberCount} subscribers?`)) return;
+
+    setSendingNewsletter(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error('Not authenticated');
+
+      const { data, error } = await supabase.functions.invoke('send-newsletter', {
+        body: { subject: newsletterSubject, content: newsletterContent, fromEmail: newsletterFromEmail },
+      });
+
+      if (error) throw error;
+
+      if (data?.success) {
+        toast({ title: "Newsletter Sent!", description: `Successfully sent to ${data.sent} of ${data.total} subscribers.` });
+        setNewsletterSubject('');
+        setNewsletterContent('');
+      } else {
+        toast({ title: "Warning", description: data?.error || `Sent: ${data?.sent || 0}, Failed: ${data?.failed || 0}`, variant: data?.sent > 0 ? "default" : "destructive" });
+      }
+    } catch (error) {
+      if (import.meta.env.DEV) console.error('Error sending newsletter:', error);
+      toast({ title: "Error", description: "Failed to send newsletter.", variant: "destructive" });
+    } finally {
+      setSendingNewsletter(false);
+    }
+  };
+
   const checkAdminStatus = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -134,6 +187,7 @@ const AdminDashboard = () => {
     if (isAdmin) {
       fetchBusinesses();
       fetchMessages();
+      fetchSubscriberCount();
       
       // Subscribe to realtime updates for businesses
       const businessChannel = supabase
@@ -172,7 +226,7 @@ const AdminDashboard = () => {
         supabase.removeChannel(messagesChannel);
       };
     }
-  }, [isAdmin, fetchBusinesses, fetchMessages]);
+  }, [isAdmin, fetchBusinesses, fetchMessages, fetchSubscriberCount]);
 
   const updateBusinessStatus = async (id: string, status: 'approved' | 'rejected') => {
     setProcessingId(id);
@@ -588,7 +642,7 @@ const AdminDashboard = () => {
             </div>
 
             <Tabs defaultValue="pending" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className="grid w-full grid-cols-5">
                 <TabsTrigger value="pending">
                   Pending ({pendingBusinesses.length})
                 </TabsTrigger>
@@ -600,6 +654,9 @@ const AdminDashboard = () => {
                 </TabsTrigger>
                 <TabsTrigger value="messages">
                   Messages ({unreadMessages.length})
+                </TabsTrigger>
+                <TabsTrigger value="newsletter">
+                  Newsletter ({subscriberCount})
                 </TabsTrigger>
               </TabsList>
 
@@ -707,6 +764,65 @@ const AdminDashboard = () => {
                     )}
                   </TabsContent>
                 </Tabs>
+              </TabsContent>
+
+              <TabsContent value="newsletter" className="space-y-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Send className="h-5 w-5" />
+                      Compose Newsletter
+                    </CardTitle>
+                    <CardDescription className="flex items-center gap-2">
+                      <Users className="h-4 w-4" />
+                      {subscriberCount} subscriber{subscriberCount !== 1 ? 's' : ''}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">From Email</label>
+                      <Input
+                        value={newsletterFromEmail}
+                        onChange={(e) => setNewsletterFromEmail(e.target.value)}
+                        placeholder="newsletter@yourdomain.com"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Subject</label>
+                      <Input
+                        value={newsletterSubject}
+                        onChange={(e) => setNewsletterSubject(e.target.value)}
+                        placeholder="Your newsletter subject..."
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Content (HTML supported)</label>
+                      <Textarea
+                        value={newsletterContent}
+                        onChange={(e) => setNewsletterContent(e.target.value)}
+                        placeholder="Write your newsletter content here... You can use HTML tags for formatting."
+                        className="min-h-[200px]"
+                      />
+                    </div>
+                    <Button
+                      onClick={sendNewsletter}
+                      disabled={sendingNewsletter || subscriberCount === 0}
+                      className="w-full"
+                    >
+                      {sendingNewsletter ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="h-4 w-4 mr-2" />
+                          Send to {subscriberCount} Subscriber{subscriberCount !== 1 ? 's' : ''}
+                        </>
+                      )}
+                    </Button>
+                  </CardContent>
+                </Card>
               </TabsContent>
             </Tabs>
           </div>
