@@ -229,6 +229,7 @@ const AddBusinessPage = () => {
       form.reset();
       setSelectedFile(null);
       setImagePreview(null);
+      setSocialMedia(EMPTY_SOCIAL_MEDIA);
     } catch (error: unknown) {
       if (import.meta.env.DEV) {
         console.error('Error submitting business:', error);
