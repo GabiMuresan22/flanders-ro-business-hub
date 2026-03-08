@@ -199,6 +199,15 @@ const AddBusinessPage = () => {
         } catch {
           // Non-critical
         }
+
+        // Auto-translate descriptions (non-blocking)
+        try {
+          await supabase.functions.invoke('translate-business', {
+            body: { business_id: data.id },
+          });
+        } catch {
+          // Non-critical - translations can be added later
+        }
       }
 
       // Send email notification to admin
