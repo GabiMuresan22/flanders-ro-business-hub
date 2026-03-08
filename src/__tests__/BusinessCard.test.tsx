@@ -19,7 +19,9 @@ describe('BusinessCard', () => {
     };
     render(
       <MemoryRouter>
-        <BusinessCard business={business} />
+        <LanguageProvider>
+          <BusinessCard business={business} />
+        </LanguageProvider>
       </MemoryRouter>
     );
     expect(screen.getByText('Test Bakery')).toBeInTheDocument();
