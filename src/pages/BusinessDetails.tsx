@@ -399,6 +399,9 @@ const BusinessDetails = () => {
               </div>
             </div>
           </div>
+
+          {/* Social Media Links Section */}
+          {id && <SocialMediaLinks businessId={id} />}
         </main>
         <Footer />
       </div>
