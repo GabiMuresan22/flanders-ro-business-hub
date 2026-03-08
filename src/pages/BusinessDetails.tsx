@@ -7,7 +7,7 @@ import ReviewForm from '../components/ReviewForm';
 import BusinessDetailsSkeleton from '../components/skeletons/BusinessDetailsSkeleton';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
-import { MapPin, Phone, Mail, Globe, Star, Home } from 'lucide-react';
+import { MapPin, Phone, Mail, Globe, Star, Home, Edit } from 'lucide-react';
 import SocialMediaLinksInline from '../components/SocialMediaLinks';
 import { categoryToSlug } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
