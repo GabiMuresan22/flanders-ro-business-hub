@@ -103,11 +103,14 @@ Deno.serve(async (req) => {
       });
     }
 
-    const senderEmail = fromEmail || 'newsletter@ro-businesshub.be';
-    const safeSubject = escapeHtml(subject);
+    const unsubscribeBaseUrl = `${supabaseUrl}/functions/v1/unsubscribe-newsletter`;
 
-    // Build branded HTML email
-    const htmlContent = `
+    // Build branded HTML email per subscriber (with personalized unsubscribe link)
+    const buildHtml = (subscriberEmail: string) => {
+      const token = btoa(subscriberEmail);
+      const unsubscribeUrl = `${unsubscribeBaseUrl}?token=${encodeURIComponent(token)}`;
+
+      return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -140,10 +143,13 @@ Deno.serve(async (req) => {
           <tr>
             <td style="background-color:#002B7F;padding:24px 40px;text-align:center;border-radius:0 0 8px 8px;">
               <p style="margin:0;color:#ffffff;font-size:12px;">
-                © ${new Date().getFullYear()} RO BusinessHub. All rights reserved.
+                &copy; ${new Date().getFullYear()} RO BusinessHub. All rights reserved.
               </p>
               <p style="margin:8px 0 0;color:#ffffff80;font-size:11px;">
                 You received this email because you subscribed to our newsletter.
+              </p>
+              <p style="margin:12px 0 0;">
+                <a href="${unsubscribeUrl}" style="color:#FCD116;font-size:12px;text-decoration:underline;">Unsubscribe</a>
               </p>
             </td>
           </tr>
@@ -153,6 +159,7 @@ Deno.serve(async (req) => {
   </table>
 </body>
 </html>`;
+    };
 
     // Send emails in batches of 50
     const batchSize = 50;
@@ -162,7 +169,6 @@ Deno.serve(async (req) => {
 
     for (let i = 0; i < subscribers.length; i += batchSize) {
       const batch = subscribers.slice(i, i + batchSize);
-      const batchEmails = batch.map(s => s.email);
 
       try {
         const res = await fetch('https://api.resend.com/emails/batch', {
@@ -172,11 +178,14 @@ Deno.serve(async (req) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(
-            batchEmails.map(email => ({
+            batch.map(s => ({
               from: senderEmail,
-              to: email,
+              to: s.email,
               subject: subject,
-              html: htmlContent,
+              html: buildHtml(s.email),
+              headers: {
+                'List-Unsubscribe': `<${unsubscribeBaseUrl}?token=${encodeURIComponent(btoa(s.email))}>`,
+              },
             }))
           ),
         });
@@ -184,10 +193,10 @@ Deno.serve(async (req) => {
         const resBody = await res.text();
 
         if (res.ok) {
-          sentCount += batchEmails.length;
+          sentCount += batch.length;
         } else {
           console.error(`Batch send failed [${res.status}]:`, resBody);
-          failedCount += batchEmails.length;
+          failedCount += batch.length;
           errors.push(`Batch ${Math.floor(i / batchSize) + 1}: ${resBody}`);
         }
       } catch (batchError) {
