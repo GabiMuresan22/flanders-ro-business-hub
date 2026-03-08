@@ -265,8 +265,9 @@ const AccountPage = () => {
                     <div className="flex items-center gap-2 ml-4">
                       {biz.status === 'approved' && (
                         <Link to={`/business/${biz.id}`}>
-                          <Button variant="ghost" size="icon" className="h-8 w-8" title="View">
+                          <Button variant="outline" size="sm" className="gap-1.5">
                             <Eye className="h-4 w-4" />
+                            View
                           </Button>
                         </Link>
                       )}
