@@ -192,6 +192,15 @@ const AddBusinessPage = () => {
         throw error;
       }
 
+      // Save social media links
+      if (data?.id) {
+        try {
+          await saveSocialLinks(supabase, data.id, socialMedia);
+        } catch {
+          // Non-critical
+        }
+      }
+
       // Send email notification to admin
       try {
         await supabase.functions.invoke('notify-new-business', {
