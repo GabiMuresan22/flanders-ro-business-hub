@@ -48,6 +48,13 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [processingId, setProcessingId] = useState<string | null>(null);
+  
+  // Newsletter state
+  const [newsletterSubject, setNewsletterSubject] = useState('');
+  const [newsletterContent, setNewsletterContent] = useState('');
+  const [newsletterFromEmail, setNewsletterFromEmail] = useState('newsletter@ro-businesshub.be');
+  const [subscriberCount, setSubscriberCount] = useState(0);
+  const [sendingNewsletter, setSendingNewsletter] = useState(false);
 
   const fetchBusinesses = useCallback(async () => {
     try {
