@@ -580,6 +580,9 @@ const EditBusinessPage = () => {
                   )}
                 </div>
 
+                {/* Social Media Links */}
+                <SocialMediaInputs values={socialMedia} onChange={setSocialMedia} />
+
                 {/* Opening Hours Section */}
                 <div className="space-y-4">
                   <h3 className="font-playfair text-lg font-semibold text-gray-800">{t('addBusiness.openingHours')}</h3>
