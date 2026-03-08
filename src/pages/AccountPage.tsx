@@ -276,11 +276,9 @@ const AccountPage = () => {
                           Edit
                         </Button>
                       </Link>
-                    </div>
-                        </Button>
-                      </Link>
-                    </div>
                   </div>
+                ))}
+              </div>
                 ))}
               </div>
             )}
