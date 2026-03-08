@@ -187,6 +187,7 @@ const AdminDashboard = () => {
     if (isAdmin) {
       fetchBusinesses();
       fetchMessages();
+      fetchSubscriberCount();
       
       // Subscribe to realtime updates for businesses
       const businessChannel = supabase
