@@ -92,7 +92,8 @@ Deno.serve(async (req) => {
 
 async function translateText(apiKey: string, text: string, targetLanguage: string): Promise<string | null> {
   try {
-    const response = await fetch('https://api.lovable.dev/v1/chat/completions', {
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const response = await fetch(`${supabaseUrl}/functions/v1/ai`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -115,7 +116,7 @@ async function translateText(apiKey: string, text: string, targetLanguage: strin
     });
 
     if (!response.ok) {
-      console.error(`Translation API error: ${response.status}`);
+      console.error(`Translation API error: ${response.status} - ${await response.text()}`);
       return null;
     }
 
