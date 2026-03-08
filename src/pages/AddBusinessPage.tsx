@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, Upload, X } from 'lucide-react';
 import { useAntiSpam } from '@/hooks/useAntiSpam';
+import SocialMediaInputs, { EMPTY_SOCIAL_MEDIA, saveSocialLinks, type SocialMediaValues } from '@/components/SocialMediaInputs';
 import { useLanguage } from '@/contexts/LanguageContext';
 import type { User } from '@supabase/supabase-js';
 
