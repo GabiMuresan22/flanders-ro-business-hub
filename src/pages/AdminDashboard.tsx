@@ -765,6 +765,65 @@ const AdminDashboard = () => {
                   </TabsContent>
                 </Tabs>
               </TabsContent>
+
+              <TabsContent value="newsletter" className="space-y-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Send className="h-5 w-5" />
+                      Compose Newsletter
+                    </CardTitle>
+                    <CardDescription className="flex items-center gap-2">
+                      <Users className="h-4 w-4" />
+                      {subscriberCount} subscriber{subscriberCount !== 1 ? 's' : ''}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">From Email</label>
+                      <Input
+                        value={newsletterFromEmail}
+                        onChange={(e) => setNewsletterFromEmail(e.target.value)}
+                        placeholder="newsletter@yourdomain.com"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Subject</label>
+                      <Input
+                        value={newsletterSubject}
+                        onChange={(e) => setNewsletterSubject(e.target.value)}
+                        placeholder="Your newsletter subject..."
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Content (HTML supported)</label>
+                      <Textarea
+                        value={newsletterContent}
+                        onChange={(e) => setNewsletterContent(e.target.value)}
+                        placeholder="Write your newsletter content here... You can use HTML tags for formatting."
+                        className="min-h-[200px]"
+                      />
+                    </div>
+                    <Button
+                      onClick={sendNewsletter}
+                      disabled={sendingNewsletter || subscriberCount === 0}
+                      className="w-full"
+                    >
+                      {sendingNewsletter ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="h-4 w-4 mr-2" />
+                          Send to {subscriberCount} Subscriber{subscriberCount !== 1 ? 's' : ''}
+                        </>
+                      )}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </TabsContent>
             </Tabs>
           </div>
         </section>
