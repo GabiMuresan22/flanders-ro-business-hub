@@ -60,19 +60,20 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Use Supabase AI inference (built-in for Lovable Cloud projects)
+    // Use OpenRouter as translation API (free tier available)
+    // Or use the Lovable AI proxy via the correct endpoint
     const lovableApiKey = Deno.env.get('LOVABLE_API_KEY')!;
     
     for (const t of translations) {
-      const prompt = `Translate the following business description to ${t.lang}. Keep the same tone, formatting, and line breaks. Return ONLY the translated text, nothing else. Do not add any explanations, notes, or formatting markers.\n\n${sourceText}`;
+      const prompt = `Translate the following business description to ${t.lang}. Keep the same tone, formatting, and line breaks. Return ONLY the translated text, nothing else.\n\n${sourceText}`;
       
       try {
-        // Use the Supabase AI inference endpoint
-        const response = await fetch(`${supabaseUrl}/ai/v1/chat/completions`, {
+        // Use OpenRouter API (OpenAI-compatible, supports many models)
+        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${supabaseServiceKey}`,
+            'Authorization': `Bearer ${lovableApiKey}`,
           },
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash-lite',
@@ -86,7 +87,7 @@ Deno.serve(async (req) => {
 
         if (!response.ok) {
           const errText = await response.text();
-          console.error(`AI inference error for ${t.lang}: ${response.status} - ${errText}`);
+          console.error(`OpenRouter error for ${t.lang}: ${response.status} - ${errText}`);
           continue;
         }
 
