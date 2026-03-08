@@ -249,15 +249,6 @@ const EditBusinessPage = () => {
         // Non-critical
       }
 
-      // Auto-translate descriptions (non-blocking)
-      try {
-        await supabase.functions.invoke('translate-business', {
-          body: { business_id: id },
-        });
-      } catch {
-        // Non-critical
-      }
-
       toast({
         title: t('editBusiness.successTitle') || "Business updated!",
         description: t('editBusiness.successMessage') || "Your business information has been updated successfully.",
