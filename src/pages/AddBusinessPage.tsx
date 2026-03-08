@@ -199,7 +199,6 @@ const AddBusinessPage = () => {
         } catch {
           // Non-critical
         }
-        }
       }
 
       // Send email notification to admin
