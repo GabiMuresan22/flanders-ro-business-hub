@@ -271,7 +271,7 @@ const AccountPage = () => {
                           </Button>
                         </Link>
                       )}
-                      <Link to={`/edit-business/${biz.id}`}>
+                      <Link to={`/business/${biz.id}/edit`}>
                         <Button variant="outline" size="sm" className="gap-1.5">
                           <Edit className="h-4 w-4" />
                           Edit
