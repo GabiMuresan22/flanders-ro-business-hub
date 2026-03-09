@@ -245,11 +245,11 @@ const AccountPage = () => {
                 {businesses.map((biz) => (
                   <div
                     key={biz.id}
-                    className="flex items-center justify-between p-4 rounded-lg border bg-card hover:shadow-md transition-shadow duration-200"
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-lg border bg-card hover:shadow-md transition-shadow duration-200"
                   >
                     <div className="min-w-0 flex-1">
                       <h3 className="font-semibold text-foreground truncate">{biz.business_name}</h3>
-                      <div className="flex items-center gap-2 mt-1">
+                      <div className="flex flex-wrap items-center gap-2 mt-1">
                         <Badge variant="secondary" className="text-xs">
                           {t(`businessCategories.${biz.category}`) || biz.category}
                         </Badge>
@@ -262,7 +262,7 @@ const AccountPage = () => {
                         </Badge>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 ml-4">
+                    <div className="flex items-center gap-2 shrink-0">
                       {biz.status === 'approved' && (
                         <Link to={`/business/${biz.id}`}>
                           <Button variant="outline" size="sm" className="gap-1.5">
