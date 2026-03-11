@@ -9,7 +9,7 @@ import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
 import { MapPin, Phone, Mail, Globe, Star, Home, Edit } from 'lucide-react';
 import SocialMediaLinksInline from '../components/SocialMediaLinks';
-import { categoryToSlug } from '@/lib/utils';
+import { categoryToSlug, normalizeExternalUrl } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
   Breadcrumb,
@@ -395,7 +395,7 @@ const BusinessDetails = () => {
                   )}
                   
                   {business.website && (
-                    <a href={business.website} target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 group">
+                    <a href={normalizeExternalUrl(business.website)} target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 group">
                       <Globe className="h-5 w-5 mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform duration-200" />
                       <div>
                         <span className="text-white/70 text-xs uppercase tracking-wider block mb-1">{t('businessDetails.websiteLabel')}</span>

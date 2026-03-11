@@ -6,6 +6,37 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
+ * Normalize external website/social URL for reliable opening in new tab.
+ * Ensures https, and converts Facebook/Instagram share or mobile URLs to canonical form
+ * to avoid ERR_BLOCKED_BY_RESPONSE when opening from our site.
+ */
+export function normalizeExternalUrl(url: string | null | undefined): string {
+  if (!url || typeof url !== 'string') return ''
+  const trimmed = url.trim()
+  if (!trimmed) return ''
+  let href = trimmed
+  if (!/^https?:\/\//i.test(href)) href = `https://${href}`
+
+  try {
+    const parsed = new URL(href)
+    const host = parsed.hostname.toLowerCase()
+    // Facebook: use www so it's a clean top-level nav (share links often get blocked)
+    if (host === 'facebook.com' || host === 'www.facebook.com' || host === 'm.facebook.com' || host === 'fb.com') {
+      const path = parsed.pathname === '/' ? '' : parsed.pathname
+      const search = parsed.search || ''
+      return `https://www.facebook.com${path}${search}`
+    }
+    if (host === 'instagram.com' || host === 'www.instagram.com') {
+      const path = parsed.pathname === '/' ? '' : parsed.pathname
+      return `https://www.instagram.com${path}`
+    }
+    return href
+  } catch {
+    return href
+  }
+}
+
+/**
  * Convert a category name to a URL-friendly slug
  * @param category - The category name to convert
  * @returns The slugified category name

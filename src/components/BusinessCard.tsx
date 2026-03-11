@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Phone, Globe, MapPin } from 'lucide-react';
 import type { BusinessCardData } from '@/types/database';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { normalizeExternalUrl } from '@/lib/utils';
 
 interface BusinessCardProps {
   business: BusinessCardData;
@@ -102,11 +103,11 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
         {business.website && (
           <div className="flex items-center justify-center text-gray-500 mb-4">
             <Globe className="h-4 w-4 mr-2" aria-hidden="true" />
-            <a 
-              href={business.website} 
-              className="text-sm text-romania-blue hover:underline focus:outline-none focus:ring-2 focus:ring-romania-blue rounded" 
-              target="_blank" 
+            <a
+              href={normalizeExternalUrl(business.website)}
+              target="_blank"
               rel="noopener noreferrer"
+              className="text-sm text-romania-blue hover:underline focus:outline-none focus:ring-2 focus:ring-romania-blue rounded"
               aria-label={`${t('businessCard.visitWebsite')} ${business.business_name}`}
             >
               {t('businessCard.visitWebsite')}
