@@ -41,6 +41,7 @@ const TermsConditionsPage = lazy(() => import("./pages/TermsConditionsPage"));
 const AccessibilityPage = lazy(() => import("./pages/AccessibilityPage"));
 const ResourcesPage = lazy(() => import("./pages/ResourcesPage"));
 const ResourceDetailPage = lazy(() => import("./pages/ResourceDetailPage"));
+const CashFlowCalculatorPage = lazy(() => import("./pages/CashFlowCalculatorPage"));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -87,6 +88,7 @@ const App = () => (
               {/* Redirect /resources (EN) to /resurse so shared links work */}
               <Route path="/resources" element={<Navigate to="/resurse" replace />} />
               <Route path="/resources/:slug" element={<RedirectToResurse />} />
+              <Route path="/calculator-cash-flow" element={<CashFlowCalculatorPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
               </Routes>
