@@ -43,6 +43,7 @@ const ResourcesPage = lazy(() => import("./pages/ResourcesPage"));
 const ResourceDetailPage = lazy(() => import("./pages/ResourceDetailPage"));
 const CashFlowCalculatorPage = lazy(() => import("./pages/CashFlowCalculatorPage"));
 const ToolsLandingPage = lazy(() => import("./pages/ToolsLandingPage"));
+const ComingSoonToolPage = lazy(() => import("./pages/ComingSoonToolPage"));
 
 // Loading fallback component
 const PageLoader = () => (
