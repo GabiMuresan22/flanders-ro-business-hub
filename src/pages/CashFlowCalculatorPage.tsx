@@ -14,11 +14,15 @@ import CashFlowFAQ from '@/components/cashflow/CashFlowFAQ';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { getCashFlowT } from '@/translations/cashflow';
 
 export default function CashFlowCalculatorPage() {
   const calc = useCashFlowCalculator();
   const calculatorRef = useRef<HTMLDivElement>(null);
   const educationRef = useRef<HTMLDivElement>(null);
+  const { language } = useLanguage();
+  const t = getCashFlowT(language);
 
   const scrollToCalc = () => calculatorRef.current?.scrollIntoView({ behavior: 'smooth' });
   const scrollToEducation = () => educationRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -26,8 +30,8 @@ export default function CashFlowCalculatorPage() {
   return (
     <>
       <SEO
-        title="Calculator Cash Flow | RO Business Hub"
-        description="Calculează rapid cash flow-ul firmei tale din Belgia. Instrument gratuit pentru antreprenori români: încasări, cheltuieli, sold final și scenarii de stres."
+        title={t.seoTitle}
+        description={t.seoDescription}
         keywords="calculator cash flow, flux numerar, antreprenori români Belgia, cash flow firmă"
       />
       <Navbar />
@@ -36,29 +40,29 @@ export default function CashFlowCalculatorPage() {
           result={calc.activeResult}
           onStartCalc={scrollToCalc}
           onHowItWorks={scrollToEducation}
+          t={t}
         />
 
         <div ref={educationRef}>
-          <CashFlowEducation />
+          <CashFlowEducation t={t} />
         </div>
 
-        {/* Main calculator section */}
         <section ref={calculatorRef} className="py-16" id="calculator">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-2xl font-bold text-foreground sm:text-3xl">
-                🧮 Calculator Cash Flow
+                {t.calculatorTitle}
               </h2>
               <Button variant="outline" size="sm" onClick={calc.reset} className="gap-2">
-                <RotateCcw className="h-4 w-4" /> Resetează
+                <RotateCcw className="h-4 w-4" /> {t.reset}
               </Button>
             </div>
             <div className="grid gap-8 lg:grid-cols-5">
               <div className="lg:col-span-3">
-                <CashFlowForm inputs={calc.inputs} updateInput={calc.updateInput} />
+                <CashFlowForm inputs={calc.inputs} updateInput={calc.updateInput} t={t} />
               </div>
               <div className="lg:col-span-2">
-                <CashFlowResults result={calc.activeResult} sticky />
+                <CashFlowResults result={calc.activeResult} sticky t={t} />
               </div>
             </div>
           </div>
@@ -69,18 +73,20 @@ export default function CashFlowCalculatorPage() {
           updateStress={calc.updateStress}
           normalResult={calc.normalResult}
           stressResult={calc.stressResult}
+          t={t}
         />
 
         <CashFlowCharts
           normalResult={calc.normalResult}
           stressResult={calc.stressResult}
+          t={t}
         />
 
-        <CashFlowRecommendations result={calc.activeResult} />
+        <CashFlowRecommendations result={calc.activeResult} t={t} />
 
-        <CashFlowLeadCapture />
+        <CashFlowLeadCapture t={t} />
 
-        <CashFlowFAQ />
+        <CashFlowFAQ t={t} />
       </main>
       <Footer />
     </>

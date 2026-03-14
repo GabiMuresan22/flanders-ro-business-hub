@@ -3,17 +3,19 @@ import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown, Calculator, Wallet } from 'lucide-react';
 import { formatEUR, type CashFlowResult } from '@/hooks/useCashFlowCalculator';
 import { cn } from '@/lib/utils';
+import type { CashFlowTranslations } from '@/translations/cashflow';
 
 interface Props {
   result: CashFlowResult;
   sticky?: boolean;
+  t: CashFlowTranslations;
 }
 
-export default function CashFlowResults({ result, sticky }: Props) {
+export default function CashFlowResults({ result, sticky, t }: Props) {
   const statusConfig = {
-    positive: { badge: 'Pozitiv', variant: 'default' as const, className: 'bg-emerald-600 hover:bg-emerald-700' },
-    neutral: { badge: 'Neutru', variant: 'secondary' as const, className: 'bg-yellow-500 hover:bg-yellow-600 text-foreground' },
-    negative: { badge: 'Negativ', variant: 'destructive' as const, className: '' },
+    positive: { badge: t.resultsBadgePositive, variant: 'default' as const, className: 'bg-emerald-600 hover:bg-emerald-700' },
+    neutral: { badge: t.resultsBadgeNeutral, variant: 'secondary' as const, className: 'bg-yellow-500 hover:bg-yellow-600 text-foreground' },
+    negative: { badge: t.resultsBadgeNegative, variant: 'destructive' as const, className: '' },
   };
 
   const s = statusConfig[result.status];
@@ -28,15 +30,15 @@ export default function CashFlowResults({ result, sticky }: Props) {
     )}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-bold">📊 Rezultate</CardTitle>
+          <CardTitle className="text-lg font-bold">{t.resultsTitle}</CardTitle>
           <Badge className={s.className}>{s.badge}</Badge>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        <ResultRow icon={<TrendingUp className="h-4 w-4 text-emerald-600" />} label="Total încasări" value={formatEUR(result.totalInflows)} />
-        <ResultRow icon={<TrendingDown className="h-4 w-4 text-red-500" />} label="Total cheltuieli" value={formatEUR(result.totalOutflows)} />
+        <ResultRow icon={<TrendingUp className="h-4 w-4 text-emerald-600" />} label={t.totalInflows} value={formatEUR(result.totalInflows)} />
+        <ResultRow icon={<TrendingDown className="h-4 w-4 text-red-500" />} label={t.totalOutflows} value={formatEUR(result.totalOutflows)} />
         <div className="border-t pt-3">
-          <ResultRow icon={<Calculator className="h-4 w-4 text-blue-600" />} label="Cash flow operațional" value={formatEUR(result.operationalCashFlow)} bold />
+          <ResultRow icon={<Calculator className="h-4 w-4 text-blue-600" />} label={t.resultsOperational} value={formatEUR(result.operationalCashFlow)} bold />
         </div>
         <div className={cn(
           'rounded-lg p-4 text-center',
@@ -46,7 +48,7 @@ export default function CashFlowResults({ result, sticky }: Props) {
         )}>
           <div className="flex items-center justify-center gap-2">
             <Wallet className="h-5 w-5" />
-            <span className="text-sm font-medium text-muted-foreground">Sold final estimat</span>
+            <span className="text-sm font-medium text-muted-foreground">{t.resultsFinalBalance}</span>
           </div>
           <p className={cn(
             'text-3xl font-extrabold mt-1',
@@ -58,7 +60,7 @@ export default function CashFlowResults({ result, sticky }: Props) {
           </p>
         </div>
         <p className="text-xs text-center text-muted-foreground">
-          <strong>Formulă:</strong> Cash Flow = Încasări − Cheltuieli
+          <strong>{t.resultsFormulaLabel}</strong> {t.resultsFormula}
         </p>
       </CardContent>
     </Card>
