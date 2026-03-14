@@ -42,6 +42,7 @@ const AccessibilityPage = lazy(() => import("./pages/AccessibilityPage"));
 const ResourcesPage = lazy(() => import("./pages/ResourcesPage"));
 const ResourceDetailPage = lazy(() => import("./pages/ResourceDetailPage"));
 const CashFlowCalculatorPage = lazy(() => import("./pages/CashFlowCalculatorPage"));
+const ToolsLandingPage = lazy(() => import("./pages/ToolsLandingPage"));
 
 // Loading fallback component
 const PageLoader = () => (
