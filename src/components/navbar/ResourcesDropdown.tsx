@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, FileText, BookOpen, Wrench, HelpCircle, Calculator, TrendingUp, Receipt, PiggyBank } from 'lucide-react';
+import { ChevronDown, ChevronRight, FileText, BookOpen, Wrench, HelpCircle, Calculator, TrendingUp, Receipt, PiggyBank } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const TOOLS_ITEMS = [
@@ -26,14 +26,13 @@ const ResourcesDropdown = () => {
     timeoutRef.current = setTimeout(() => {
       setIsOpen(false);
       setIsToolsOpen(false);
-    }, 200);
+    }, 250);
   };
 
   useEffect(() => {
     return () => clearTimeout(timeoutRef.current);
   }, []);
 
-  // Close on outside click
   useEffect(() => {
     if (!isOpen) return;
     const handler = (e: MouseEvent) => {
@@ -46,6 +45,8 @@ const ResourcesDropdown = () => {
     return () => document.removeEventListener('mousedown', handler);
   }, [isOpen]);
 
+  const closeAll = () => { setIsOpen(false); setIsToolsOpen(false); };
+
   return (
     <div
       ref={dropdownRef}
@@ -56,7 +57,7 @@ const ResourcesDropdown = () => {
       <button
         type="button"
         onClick={() => setIsOpen((o) => !o)}
-        className="flex items-center gap-1 font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm py-2"
+        className="flex items-center gap-1 font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm py-2 px-3 rounded-md hover:bg-muted"
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
@@ -65,70 +66,50 @@ const ResourcesDropdown = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 top-full mt-1 bg-popover border border-border rounded-xl shadow-xl z-[100] min-w-[240px] animate-fade-in overflow-hidden">
+        <div className="absolute left-0 top-full mt-1 bg-popover border border-border rounded-xl shadow-xl z-[100] min-w-[280px] animate-fade-in">
           <div className="py-2">
-            <Link
-              to="/resurse"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
-            >
+            <Link to="/resurse" onClick={closeAll} className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors rounded-lg mx-1">
               <FileText className="h-4 w-4 text-romania-blue" />
               {t('nav.articles')}
             </Link>
-            <Link
-              to="/resurse?type=ghiduri"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
-            >
+            <Link to="/resurse?type=ghiduri" onClick={closeAll} className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors rounded-lg mx-1">
               <BookOpen className="h-4 w-4 text-romania-blue" />
               {t('nav.guides')}
             </Link>
 
-            {/* Tools with nested submenu */}
-            <div
-              className="relative"
-              onMouseEnter={() => setIsToolsOpen(true)}
-              onMouseLeave={() => setIsToolsOpen(false)}
+            {/* Tools - inline expand */}
+            <button
+              type="button"
+              onClick={() => setIsToolsOpen((o) => !o)}
+              className="flex items-center justify-between w-full px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors rounded-lg mx-1"
+              style={{ width: 'calc(100% - 0.5rem)' }}
             >
-              <button
-                type="button"
-                onClick={() => setIsToolsOpen((o) => !o)}
-                className="flex items-center justify-between gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors w-full"
-              >
-                <span className="flex items-center gap-3">
-                  <Wrench className="h-4 w-4 text-romania-blue" />
-                  {t('nav.tools')}
-                </span>
-                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isToolsOpen ? '-rotate-90' : '-rotate-90'} hidden lg:block`} />
-                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isToolsOpen ? 'rotate-180' : ''} lg:hidden`} />
-              </button>
+              <span className="flex items-center gap-3">
+                <Wrench className="h-4 w-4 text-romania-blue" />
+                {t('nav.tools')}
+              </span>
+              <ChevronRight className={`h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 ${isToolsOpen ? 'rotate-90' : ''}`} />
+            </button>
 
-              {isToolsOpen && (
-                <div className="lg:absolute lg:left-full lg:top-0 lg:ml-1 lg:bg-popover lg:border lg:border-border lg:rounded-xl lg:shadow-xl lg:min-w-[220px] lg:animate-fade-in bg-muted/50 lg:bg-popover">
-                  <div className="py-2">
-                    {TOOLS_ITEMS.map((item) => (
-                      <Link
-                        key={item.to}
-                        to={item.to}
-                        onClick={() => { setIsOpen(false); setIsToolsOpen(false); }}
-                        className="flex items-center gap-3 px-4 lg:px-4 pl-12 lg:pl-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
-                      >
-                        <item.icon className="h-4 w-4 text-romania-yellow" />
-                        {t(item.labelKey)}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+            {isToolsOpen && (
+              <div className="ml-4 mr-1 mb-1 border-l-2 border-romania-blue/20 animate-fade-in">
+                {TOOLS_ITEMS.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    onClick={closeAll}
+                    className="flex items-center gap-3 pl-4 pr-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors rounded-lg"
+                  >
+                    <item.icon className="h-4 w-4 text-romania-yellow" />
+                    {t(item.labelKey)}
+                  </Link>
+                ))}
+              </div>
+            )}
 
             <div className="mx-3 my-1 border-t border-border" />
 
-            <Link
-              to="/faq"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
-            >
+            <Link to="/faq" onClick={closeAll} className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors rounded-lg mx-1">
               <HelpCircle className="h-4 w-4 text-romania-blue" />
               {t('nav.faq')}
             </Link>
