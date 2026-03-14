@@ -1,21 +1,23 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { formatEUR, type CashFlowResult } from '@/hooks/useCashFlowCalculator';
+import type { CashFlowTranslations } from '@/translations/cashflow';
 
 interface Props {
   normalResult: CashFlowResult;
   stressResult: CashFlowResult;
+  t: CashFlowTranslations;
 }
 
-export default function CashFlowCharts({ normalResult, stressResult }: Props) {
+export default function CashFlowCharts({ normalResult, stressResult, t }: Props) {
   const barData = [
-    { name: 'Normal', Încasări: Math.round(normalResult.totalInflows), Cheltuieli: Math.round(normalResult.totalOutflows) },
-    { name: 'Scenariu stres', Încasări: Math.round(stressResult.totalInflows), Cheltuieli: Math.round(stressResult.totalOutflows) },
+    { name: t.chartsNormal, [t.chartsInflows]: Math.round(normalResult.totalInflows), [t.chartsOutflows]: Math.round(normalResult.totalOutflows) },
+    { name: t.chartsStress, [t.chartsInflows]: Math.round(stressResult.totalInflows), [t.chartsOutflows]: Math.round(stressResult.totalOutflows) },
   ];
 
   const lineData = [
-    { name: 'Normal', Sold: Math.round(normalResult.finalBalance) },
-    { name: 'Scenariu stres', Sold: Math.round(stressResult.finalBalance) },
+    { name: t.chartsNormal, [t.chartsBalance]: Math.round(normalResult.finalBalance) },
+    { name: t.chartsStress, [t.chartsBalance]: Math.round(stressResult.finalBalance) },
   ];
 
   const fmtTooltip = (v: number) => formatEUR(v);
@@ -23,13 +25,11 @@ export default function CashFlowCharts({ normalResult, stressResult }: Props) {
   return (
     <section className="py-16">
       <div className="container mx-auto px-4 space-y-8">
-        <h2 className="text-2xl font-bold text-foreground text-center sm:text-3xl">
-          📈 Vizualizare grafică
-        </h2>
+        <h2 className="text-2xl font-bold text-foreground text-center sm:text-3xl">{t.chartsTitle}</h2>
         <div className="grid gap-6 lg:grid-cols-2">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">Încasări vs Cheltuieli</CardTitle>
+              <CardTitle className="text-base">{t.chartsInflowsVsOutflows}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="h-72">
@@ -40,8 +40,8 @@ export default function CashFlowCharts({ normalResult, stressResult }: Props) {
                     <YAxis tickFormatter={v => `€${(v / 1000).toFixed(0)}k`} className="text-xs" />
                     <Tooltip formatter={fmtTooltip} />
                     <Legend />
-                    <Bar dataKey="Încasări" fill="#059669" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="Cheltuieli" fill="#dc2626" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey={t.chartsInflows} fill="#059669" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey={t.chartsOutflows} fill="#dc2626" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -50,7 +50,7 @@ export default function CashFlowCharts({ normalResult, stressResult }: Props) {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">Sold final estimat</CardTitle>
+              <CardTitle className="text-base">{t.chartsFinalBalance}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="h-72">
@@ -60,7 +60,7 @@ export default function CashFlowCharts({ normalResult, stressResult }: Props) {
                     <XAxis dataKey="name" className="text-xs" />
                     <YAxis tickFormatter={v => `€${(v / 1000).toFixed(0)}k`} className="text-xs" />
                     <Tooltip formatter={fmtTooltip} />
-                    <Line type="monotone" dataKey="Sold" stroke="#2563eb" strokeWidth={3} dot={{ r: 5 }} />
+                    <Line type="monotone" dataKey={t.chartsBalance} stroke="#2563eb" strokeWidth={3} dot={{ r: 5 }} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
