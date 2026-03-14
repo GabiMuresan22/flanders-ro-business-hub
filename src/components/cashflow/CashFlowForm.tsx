@@ -108,7 +108,9 @@ export default function CashFlowForm({ inputs, updateInput }: Props) {
           <NumField label="Rate / credite (€)" helper="Rambursări împrumuturi" value={inputs.loanPayments} onChange={v => updateInput('loanPayments', v)} />
           <NumField label="Taxe și impozite (€)" helper="Impozit pe venit, taxe locale" value={inputs.taxes} onChange={v => updateInput('taxes', v)} />
           <NumField label="TVA de plată (€)" helper="TVA datorat statului" value={inputs.vatPayable} onChange={v => updateInput('vatPayable', v)} />
-          <NumField label="Alte cheltuieli (€)" helper="Orice altă ieșire de bani" value={inputs.otherExpenses} onChange={v => updateInput('otherExpenses', v)} className="sm:col-span-2" />
+          <div className="sm:col-span-2">
+            <NumField label="Alte cheltuieli (€)" helper="Orice altă ieșire de bani" value={inputs.otherExpenses} onChange={v => updateInput('otherExpenses', v)} />
+          </div>
         </CardContent>
       </Card>
     </div>
