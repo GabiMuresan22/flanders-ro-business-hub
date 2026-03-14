@@ -1,18 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, User as UserIcon, X, Menu, Languages, Bell } from 'lucide-react';
+import { Search, User as UserIcon, X, Menu, Bell } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 import type { User } from '@supabase/supabase-js';
-
-const NAV_LINKS = [
-  { to: '/', labelKey: 'nav.home' },
-  { to: '/categories', labelKey: 'nav.categories' },
-  { to: '/resurse', labelKey: 'resources.title' },
-  { to: '/about', labelKey: 'nav.about' },
-  { to: '/contact', labelKey: 'nav.contact' },
-  { to: '/faq', labelKey: 'nav.faq' },
-] as const;
+import NavbarLogo from './navbar/NavbarLogo';
+import NavbarLanguageSwitcher from './navbar/NavbarLanguageSwitcher';
+import ResourcesDropdown from './navbar/ResourcesDropdown';
+import MobileResourcesAccordion from './navbar/MobileResourcesAccordion';
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -21,36 +16,22 @@ const Navbar = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [pendingCount, setPendingCount] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
-  const { language, setLanguage, t } = useLanguage();
-  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
-
-  const LANG_LABELS: Record<string, string> = {
-    en: 'English',
-    ro: 'Română',
-    nl: 'Nederlands',
-  };
-  const LANG_SHORT: Record<string, string> = {
-    en: 'EN',
-    ro: 'RO',
-    nl: 'NL',
-  };
+  const { t } = useLanguage();
 
   const fetchPendingCount = useCallback(async () => {
     const { count } = await supabase
       .from('businesses')
       .select('*', { count: 'exact', head: true })
       .eq('status', 'pending');
-    
     setPendingCount(count ?? 0);
   }, []);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
-      if (session?.user) {
-        checkAdminStatus(session.user.id);
-      }
+      if (session?.user) checkAdminStatus(session.user.id);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -66,58 +47,29 @@ const Navbar = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Fetch pending count when admin status changes
+  // Sticky header scroll detection
+  useEffect(() => {
+    const handler = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', handler, { passive: true });
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
+
+  // Fetch pending count when admin
   useEffect(() => {
     if (isAdmin) {
       fetchPendingCount();
-      
-      // Set up realtime subscription for pending businesses
       const channel = supabase
         .channel('pending-businesses')
-        .on(
-          'postgres_changes',
-          {
-            event: '*',
-            schema: 'public',
-            table: 'businesses',
-            filter: 'status=eq.pending'
-          },
-          () => {
-            fetchPendingCount();
-          }
-        )
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'businesses', filter: 'status=eq.pending' }, () => fetchPendingCount())
         .subscribe();
-
-      return () => {
-        supabase.removeChannel(channel);
-      };
+      return () => { supabase.removeChannel(channel); };
     }
   }, [isAdmin, fetchPendingCount]);
 
-  // Close language dropdown when clicking outside
-  useEffect(() => {
-    if (!isLangMenuOpen) return;
-    const handler = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (!target.closest('.lang-dropdown')) {
-        setIsLangMenuOpen(false);
-      }
-    };
-    // Delay adding listener to avoid catching the same click that opened it
-    const timer = setTimeout(() => document.addEventListener('click', handler), 0);
-    return () => { clearTimeout(timer); document.removeEventListener('click', handler); };
-  }, [isLangMenuOpen]);
-
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'unset';
+    return () => { document.body.style.overflow = 'unset'; };
   }, [isMobileMenuOpen]);
 
   const checkAdminStatus = async (userId: string) => {
@@ -127,7 +79,6 @@ const Navbar = () => {
       .eq('user_id', userId)
       .eq('role', 'admin')
       .single();
-    
     setIsAdmin(!!data);
   };
 
@@ -141,69 +92,45 @@ const Navbar = () => {
   };
 
   return (
-    <header className="relative z-[60] bg-white shadow-sm overflow-x-clip">
+    <header className={`sticky top-0 z-[60] bg-background/95 backdrop-blur-md border-b transition-shadow duration-300 overflow-x-clip ${isScrolled ? 'shadow-md border-border' : 'border-transparent'}`}>
       <div className="container mx-auto px-4 py-3 lg:py-4">
         <div className="flex items-center justify-between min-w-0">
-          <Link to="/" className="flex items-center">
-            <div className="flex flex-col">
-              <span className="font-playfair font-bold text-xl sm:text-2xl text-romania-blue">Romanian</span>
-              <div className="flex w-full">
-                <span className="h-0.5 sm:h-1 flex-1 bg-romania-blue"></span>
-                <span className="h-0.5 sm:h-1 flex-1 bg-romania-yellow"></span>
-                <span className="h-0.5 sm:h-1 flex-1 bg-romania-red"></span>
+          <NavbarLogo />
+
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 ml-6 xl:ml-10 min-w-0 flex-shrink">
+            <Link to="/" className="font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm px-3 py-2 rounded-md hover:bg-muted">
+              {t('nav.home')}
+            </Link>
+            <Link to="/categories" className="font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm px-3 py-2 rounded-md hover:bg-muted">
+              {t('nav.business')}
+            </Link>
+            <ResourcesDropdown />
+            <Link to="/about" className="font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm px-3 py-2 rounded-md hover:bg-muted">
+              {t('nav.about')}
+            </Link>
+            <Link to="/contact" className="font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm px-3 py-2 rounded-md hover:bg-muted">
+              {t('nav.contact')}
+            </Link>
+          </nav>
+
+          {/* Desktop Right Actions */}
+          <div className="hidden lg:flex items-center gap-2 xl:gap-3 ml-auto pl-4 flex-shrink-0">
+            {user && (
+              <div className="hidden 2xl:flex flex-col items-end">
+                <span className="text-xs text-muted-foreground">Logged in as</span>
+                <span className="text-xs font-semibold text-romania-blue truncate max-w-[120px]">{user.email}</span>
               </div>
-              <span className="font-playfair text-sm sm:text-lg text-gray-700">Business Hub</span>
-            </div>
-          </Link>
-          
-          <div className="hidden lg:flex items-center space-x-4 xl:space-x-6 ml-6 xl:ml-10 min-w-0 flex-shrink">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className="font-medium text-gray-700 hover:text-romania-blue transition-colors whitespace-nowrap text-sm"
-              >
-                {t(link.labelKey)}
-              </Link>
-            ))}
+            )}
+            <NavbarLanguageSwitcher />
             {user ? (
-              <div className="flex items-center gap-2 xl:gap-3 ml-2 flex-shrink-0">
-                <div className="hidden 2xl:flex flex-col items-end">
-                  <span className="text-xs text-gray-600">Logged in as</span>
-                  <span className="text-xs font-semibold text-romania-blue truncate max-w-[120px]">{user.email}</span>
-                </div>
-                <div className="relative lang-dropdown">
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); setIsLangMenuOpen((open) => !open); }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700"
-                    aria-label="Select language"
-                    aria-expanded={isLangMenuOpen}
-                  >
-                    <Languages className="h-4 w-4" />
-                    {LANG_SHORT[language]}
-                  </button>
-                  {isLangMenuOpen && (
-                    <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-[100] min-w-[130px]">
-                      {Object.entries(LANG_LABELS).map(([code, label]) => (
-                        <button
-                          key={code}
-                          type="button"
-                          onClick={() => { setLanguage(code as 'en' | 'ro' | 'nl'); setIsLangMenuOpen(false); }}
-                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition-colors first:rounded-t-md last:rounded-b-md ${language === code ? 'font-bold text-romania-blue' : 'text-gray-700'}`}
-                        >
-                          {label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded-md transition-colors flex items-center gap-1">
+              <>
+                <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-1 text-sm">
                   <UserIcon className="h-4 w-4" />
-                  <span className="text-sm">{t('nav.account')}</span>
+                  {t('nav.account')}
                 </Link>
                 {isAdmin && (
-                  <Link to="/admin" className="relative bg-romania-red hover:bg-red-700 text-white font-semibold py-1.5 px-3 rounded-md transition-colors text-sm whitespace-nowrap flex items-center gap-1">
+                  <Link to="/admin" className="relative bg-romania-red hover:bg-red-700 text-white font-semibold py-1.5 px-3 rounded-lg transition-colors text-sm whitespace-nowrap flex items-center gap-1">
                     {t('nav.adminDashboard')}
                     {pendingCount > 0 && (
                       <span className="bg-white text-romania-red text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
@@ -212,87 +139,56 @@ const Navbar = () => {
                     )}
                   </Link>
                 )}
-                <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-1.5 px-3 rounded-md transition-colors whitespace-nowrap text-sm">
-                  {t('nav.addBusiness')}
-                </Link>
-              </div>
-            ) : (
-              <>
-                <div className="relative lang-dropdown">
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); setIsLangMenuOpen((open) => !open); }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700"
-                    aria-label="Select language"
-                    aria-expanded={isLangMenuOpen}
-                  >
-                    <Languages className="h-4 w-4" />
-                    {LANG_SHORT[language]}
-                  </button>
-                  {isLangMenuOpen && (
-                    <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-[100] min-w-[130px]">
-                      {Object.entries(LANG_LABELS).map(([code, label]) => (
-                        <button
-                          key={code}
-                          type="button"
-                          onClick={() => { setLanguage(code as 'en' | 'ro' | 'nl'); setIsLangMenuOpen(false); }}
-                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition-colors first:rounded-t-md last:rounded-b-md ${language === code ? 'font-bold text-romania-blue' : 'text-gray-700'}`}
-                        >
-                          {label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <Link to="/auth" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-md transition-colors text-sm">
-                  {t('nav.login')}
-                </Link>
               </>
+            ) : (
+              <Link to="/auth" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-lg transition-colors text-sm">
+                {t('nav.login')}
+              </Link>
             )}
+            <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-foreground font-semibold py-1.5 px-4 rounded-lg transition-colors whitespace-nowrap text-sm shadow-sm">
+              {t('nav.addBusiness')}
+            </Link>
           </div>
-          
+
+          {/* Mobile Controls */}
           <div className="lg:hidden flex items-center space-x-3">
-            <button 
-              className="text-gray-700 cursor-pointer p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            <button
+              className="text-muted-foreground cursor-pointer p-2 hover:bg-muted rounded-lg transition-colors"
               onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
               aria-label="Toggle search"
             >
               <Search className="h-6 w-6" />
             </button>
-            <button 
-              className="text-gray-700 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            <button
+              className="text-muted-foreground p-2 hover:bg-muted rounded-lg transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
-              {isMobileMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
-        
+
         {/* Mobile search input */}
         {isMobileSearchOpen && (
           <div className="lg:hidden mt-3 animate-fade-in">
             <form onSubmit={handleSearch} className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5" />
               <input
                 type="text"
                 placeholder={t('nav.search')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-romania-blue transition-colors"
+                className="w-full pl-10 pr-4 py-3 rounded-lg border-2 border-border focus:outline-none focus:border-romania-blue transition-colors bg-background"
                 autoFocus
               />
             </form>
           </div>
         )}
-        
+
         {/* Mobile menu overlay */}
         {isMobileMenuOpen && (
-          <div 
+          <div
             className="fixed inset-0 bg-black/50 z-40 lg:hidden animate-fade-in"
             onClick={() => setIsMobileMenuOpen(false)}
             aria-hidden="true"
@@ -301,72 +197,55 @@ const Navbar = () => {
 
         {/* Mobile navigation menu */}
         {isMobileMenuOpen && (
-          <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl z-50 lg:hidden animate-slide-in-right overflow-y-auto">
+          <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-background shadow-2xl z-50 lg:hidden animate-slide-in-right overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-900">Menu</h2>
+                <h2 className="text-xl font-bold text-foreground">Menu</h2>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-2 hover:bg-muted rounded-lg transition-colors"
                   aria-label="Close menu"
                 >
-                  <X className="h-6 w-6 text-gray-700" />
+                  <X className="h-6 w-6 text-muted-foreground" />
                 </button>
               </div>
-              
+
               <nav className="flex flex-col space-y-1">
-                {NAV_LINKS.map((link) => (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    className="font-medium text-gray-700 hover:text-romania-blue hover:bg-romania-blue/5 transition-all py-3 px-4 rounded-lg text-left w-full"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {t(link.labelKey)}
-                  </Link>
-                ))}
-                
-                <div className="my-4 border-t border-gray-200" />
-                
-                <div className="flex gap-2 mb-4">
-                  {Object.entries(LANG_LABELS).map(([code, label]) => (
-                    <button
-                      key={code}
-                      onClick={() => { setLanguage(code as 'en' | 'ro' | 'nl'); setIsMobileMenuOpen(false); }}
-                      className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-semibold transition-all text-sm ${language === code ? 'bg-romania-blue text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-900'}`}
-                    >
-                      {LANG_SHORT[code]}
-                    </button>
-                  ))}
-                </div>
-                
+                <Link to="/" className="font-medium text-muted-foreground hover:text-romania-blue hover:bg-muted/50 transition-all py-3 px-4 rounded-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                  {t('nav.home')}
+                </Link>
+                <Link to="/categories" className="font-medium text-muted-foreground hover:text-romania-blue hover:bg-muted/50 transition-all py-3 px-4 rounded-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                  {t('nav.business')}
+                </Link>
+                <MobileResourcesAccordion onClose={() => setIsMobileMenuOpen(false)} />
+                <Link to="/about" className="font-medium text-muted-foreground hover:text-romania-blue hover:bg-muted/50 transition-all py-3 px-4 rounded-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                  {t('nav.about')}
+                </Link>
+                <Link to="/contact" className="font-medium text-muted-foreground hover:text-romania-blue hover:bg-muted/50 transition-all py-3 px-4 rounded-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                  {t('nav.contact')}
+                </Link>
+
+                <div className="my-4 border-t border-border" />
+
+                <NavbarLanguageSwitcher variant="mobile" onSelect={() => setIsMobileMenuOpen(false)} />
+
+                <div className="mt-4" />
+
                 {user ? (
                   <div className="flex flex-col gap-2 w-full">
                     <div className="bg-romania-blue/10 p-4 rounded-lg mb-2">
-                      <p className="text-xs text-gray-600 mb-1">Logged in as</p>
+                      <p className="text-xs text-muted-foreground mb-1">Logged in as</p>
                       <p className="text-sm font-semibold text-romania-blue truncate">{user.email}</p>
                     </div>
-                    <Link 
-                      to="/my-businesses" 
-                      className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
+                    <Link to="/my-businesses" className="bg-muted hover:bg-muted/80 text-foreground font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95" onClick={() => setIsMobileMenuOpen(false)}>
                       {t('nav.myBusinesses')}
                     </Link>
-                    <Link 
-                      to="/account" 
-                      className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-left flex items-center gap-2 w-full active:scale-95"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
+                    <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-left flex items-center gap-2 w-full active:scale-95" onClick={() => setIsMobileMenuOpen(false)}>
                       <UserIcon className="h-5 w-5" />
                       {t('nav.account')}
                     </Link>
                     {isAdmin && (
-                      <Link 
-                        to="/admin" 
-                        className="bg-romania-red hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95 flex items-center justify-between"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
+                      <Link to="/admin" className="bg-romania-red hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95 flex items-center justify-between" onClick={() => setIsMobileMenuOpen(false)}>
                         <span className="flex items-center gap-2">
                           <Bell className="h-5 w-5" />
                           {t('nav.adminDashboard')}
@@ -378,22 +257,19 @@ const Navbar = () => {
                         )}
                       </Link>
                     )}
-                    <Link 
-                      to="/add-business" 
-                      className="bg-romania-yellow hover:bg-yellow-400 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
+                    <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-foreground font-semibold py-3 px-6 rounded-lg transition-all text-left w-full active:scale-95" onClick={() => setIsMobileMenuOpen(false)}>
                       {t('nav.addBusiness')}
                     </Link>
                   </div>
                 ) : (
-                  <Link 
-                    to="/auth" 
-                    className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-center w-full active:scale-95"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {t('nav.login')}
-                  </Link>
+                  <>
+                    <Link to="/auth" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all text-center w-full active:scale-95" onClick={() => setIsMobileMenuOpen(false)}>
+                      {t('nav.login')}
+                    </Link>
+                    <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-foreground font-semibold py-3 px-6 rounded-lg transition-all text-center w-full active:scale-95 mt-2" onClick={() => setIsMobileMenuOpen(false)}>
+                      {t('nav.addBusiness')}
+                    </Link>
+                  </>
                 )}
               </nav>
             </div>
