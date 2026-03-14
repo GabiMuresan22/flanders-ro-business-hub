@@ -141,10 +141,77 @@ const PrivacyPolicyPage = () => {
           content: "Pentru întrebări despre această politică de confidențialitate sau probleme de protecție a datelor:\n\nEmail: contact@romanianbusinesshub.com\nAdresă: Romanian Business Hub, Flandra de Vest, Belgia"
         }
       ]
+    },
+    nl: {
+      title: "Privacybeleid",
+      lastUpdated: "Laatst bijgewerkt: januari 2025",
+      intro: "Romanian Business Hub ('wij', 'ons' of 'onze') respecteert uw privacy en zet zich in voor de bescherming van uw persoonsgegevens. Dit privacybeleid legt uit hoe wij uw informatie verzamelen, gebruiken en beschermen in overeenstemming met de Algemene Verordening Gegevensbescherming (AVG/GDPR).",
+      sections: [
+        {
+          title: "1. Verwerkingsverantwoordelijke",
+          content: "Romanian Business Hub is de verwerkingsverantwoordelijke voor uw persoonsgegevens. Voor vragen over gegevensbescherming kunt u contact met ons opnemen via: contact@romanianbusinesshub.com"
+        },
+        {
+          title: "2. Persoonsgegevens die wij verzamelen",
+          content: "Wij verzamelen de volgende soorten persoonsgegevens:\n\n• Contactgegevens: Naam, e-mailadres, telefoonnummer\n• Bedrijfsinformatie: Bedrijfsnaam, adres, omschrijving, categorie\n• Accountgegevens: E-mail, wachtwoord (versleuteld), authenticatiegegevens\n• Gebruiksgegevens: IP-adres, browsertype, bezochte pagina's, bestede tijd\n• Communicatiegegevens: Berichten via contactformulieren, beoordelingen, meldingen"
+        },
+        {
+          title: "3. Rechtsgrondslag voor verwerking",
+          content: "Wij verwerken uw persoonsgegevens op basis van:\n\n• Toestemming: Wanneer u zich aanmeldt voor nieuwsbrieven of formulieren indient\n• Uitvoering van een overeenkomst: Om de door u gevraagde diensten te leveren\n• Legitieme belangen: Om onze diensten te verbeteren en fraude te voorkomen\n• Wettelijke verplichtingen: Om te voldoen aan toepasselijke wetgeving"
+        },
+        {
+          title: "4. Hoe wij uw gegevens gebruiken",
+          content: "Uw persoonsgegevens worden gebruikt om:\n\n• Onze bedrijvengidsdiensten te bieden en onderhouden\n• Bedrijfsvermeldingen te verwerken en weer te geven\n• Nieuwsbrieven te verzenden (met uw toestemming)\n• Te reageren op contactverzoeken en meldingen\n• De gebruikerservaring en websitefunctionaliteit te verbeteren\n• Beveiliging te waarborgen en fraude te voorkomen\n• Aan wettelijke verplichtingen te voldoen"
+        },
+        {
+          title: "5. Gegevensdeling",
+          content: "Wij kunnen uw gegevens delen met:\n\n• Supabase: Onze database- en authenticatieprovider (AVG-conform)\n• E-mailserviceproviders: Voor het verzenden van nieuwsbrieven en meldingen\n• Analysetools: Voor websiteprestatie-analyse (zo mogelijk geanonimiseerd)\n\nWij verkopen uw persoonsgegevens niet aan derden."
+        },
+        {
+          title: "6. Bewaartermijnen",
+          content: "Wij bewaren uw persoonsgegevens zo lang als noodzakelijk:\n\n• Accountgegevens: Tot verwijdering wordt aangevraagd\n• Bedrijfsvermeldingen: Tot verwijdering wordt aangevraagd\n• Contactberichten: 2 jaar na indiening\n• Nieuwsbriefabonnementen: Tot uitschrijving\n• Analysegegevens: Tot 14 maanden"
+        },
+        {
+          title: "7. Uw rechten onder de AVG",
+          content: "U heeft het recht op:\n\n• Inzage: Een kopie van uw persoonsgegevens opvragen\n• Rectificatie: Onjuiste of onvolledige gegevens corrigeren\n• Wissing: Verwijdering van uw gegevens vragen ('recht om vergeten te worden')\n• Beperking: Beperk hoe wij uw gegevens gebruiken\n• Overdraagbaarheid: Uw gegevens in een gestructureerd formaat ontvangen\n• Bezwaar: Bezwaar maken tegen verwerking op basis van legitieme belangen\n• Intrekking van toestemming: Op elk moment voor op toestemming gebaseerde verwerking\n\nOm deze rechten uit te oefenen, neemt u contact met ons op via contact@romanianbusinesshub.com"
+        },
+        {
+          title: "8. Gegevensbeveiliging",
+          content: "Wij nemen passende technische en organisatorische maatregelen om uw gegevens te beschermen:\n\n• Versleuteling: Gegevens verzonden via HTTPS\n• Veilige opslag: Databasebeveiliging conform industriestandaarden\n• Toegangscontroles: Beperkte toegang voor bevoegd personeel\n• Regelmatige beveiligingsaudits: Doorlopende monitoring en updates"
+        },
+        {
+          title: "9. Cookies en tracking",
+          content: "Wij gebruiken cookies voor:\n\n• Essentiële cookies: Vereist voor websitefunctionaliteit (bijv. authenticatie)\n• Analytische cookies: Om te begrijpen hoe bezoekers onze site gebruiken (met toestemming)\n• Voorkeurscookies: Om uw taal- en instellingsvoorkeuren te onthouden\n\nU kunt cookievoorkeuren beheren via onze cookietoestemmingsbanner."
+        },
+        {
+          title: "10. Internationale gegevensoverdrachten",
+          content: "Uw gegevens kunnen worden overgedragen buiten de Europese Economische Ruimte (EER). Wij zorgen voor passende waarborgen, waaronder:\n\n• Standaard Contractuele Bepalingen (SCB)\n• Adequaatheidsbesluiten van de Europese Commissie\n• AVG-conforme dienstverleners"
+        },
+        {
+          title: "11. Privacy van kinderen",
+          content: "Onze diensten zijn niet bedoeld voor personen onder de 16 jaar. Wij verzamelen niet bewust persoonsgegevens van kinderen."
+        },
+        {
+          title: "12. Melding van datalekken",
+          content: "In geval van een datalek dat risico's inhoudt voor uw rechten en vrijheden, zullen wij:\n\n• De Belgische Gegevensbeschermingsautoriteit (GBA) binnen 72 uur informeren\n• Betrokken personen onverwijld informeren\n• Details over het lek en corrigerende maatregelen verstrekken"
+        },
+        {
+          title: "13. Wijzigingen in dit beleid",
+          content: "Wij kunnen dit privacybeleid van tijd tot tijd bijwerken. Wijzigingen worden op deze pagina geplaatst met een bijgewerkte revisiedatum. Voortgezet gebruik van onze diensten houdt acceptatie van eventuele wijzigingen in."
+        },
+        {
+          title: "14. Toezichthoudende autoriteit",
+          content: "Als u van mening bent dat wij uw gegevens niet juist hebben behandeld, heeft u het recht een klacht in te dienen bij:\n\nBelgische Gegevensbeschermingsautoriteit (GBA)\nDrukkersstraat 35, 1000 Brussel, België\nWebsite: www.gegevensbeschermingsautoriteit.be\nE-mail: contact@apd-gba.be"
+        },
+        {
+          title: "15. Contact",
+          content: "Voor vragen over dit privacybeleid of gegevensbeschermingskwesties:\n\nE-mail: contact@romanianbusinesshub.com\nAdres: Romanian Business Hub, West-Vlaanderen, België"
+        }
+      ]
     }
   };
 
-  const currentContent = content[language as keyof typeof content];
+  const currentContent = content[language as keyof typeof content] ?? content.en;
 
   return (
     <>

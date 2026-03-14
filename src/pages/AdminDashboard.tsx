@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import BusinessListSkeleton from '@/components/skeletons/BusinessListSkeleton';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -605,6 +606,11 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO
+        title="Admin Dashboard - Romanian Business Hub"
+        description="Admin dashboard for managing business listings."
+        noindex={true}
+      />
       <Navbar />
       <main className="flex-grow">
         <div className="bg-romania-blue py-12">

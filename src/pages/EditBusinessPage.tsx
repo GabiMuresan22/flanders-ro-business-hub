@@ -7,6 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { formSchema, type FormSchema } from '@/lib/validation/businessFormSchema';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import SEO from '@/components/SEO';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -302,6 +303,11 @@ const EditBusinessPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO
+        title="Edit Business - Romanian Business Hub"
+        description="Edit your business listing on Romanian Business Hub."
+        noindex={true}
+      />
       <Navbar />
       <main className="flex-grow bg-white">
         <div className="bg-romania-blue py-16">

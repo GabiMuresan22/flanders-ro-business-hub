@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { z } from "zod";
 import { Building2, Edit, Plus, Eye } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
@@ -150,6 +151,11 @@ const AccountPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO
+        title="My Account - Romanian Business Hub"
+        description="Manage your account and business listings."
+        noindex={true}
+      />
       <Navbar />
       <main className="flex-1 container mx-auto px-4 py-8">
         <Card className="max-w-2xl mx-auto">

@@ -5,6 +5,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import BusinessListSkeleton from '@/components/skeletons/BusinessListSkeleton';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -141,6 +142,11 @@ const MyBusinessesPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO
+        title="My Businesses - Romanian Business Hub"
+        description="Manage your business listings on Romanian Business Hub."
+        noindex={true}
+      />
       <Navbar />
       <main className="flex-grow">
         <div className="bg-romania-blue py-12">
