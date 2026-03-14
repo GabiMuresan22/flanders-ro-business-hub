@@ -459,10 +459,10 @@ const cashflowTranslations = {
   },
 } as const;
 
-export type CashFlowTranslations = typeof cashflowTranslations.ro;
+export type CashFlowTranslations = (typeof cashflowTranslations)['ro'];
 
-export function getCashFlowT(language: string): CashFlowTranslations {
-  return cashflowTranslations[language as keyof typeof cashflowTranslations] || cashflowTranslations.ro;
+export function getCashFlowT(language: string) {
+  return (cashflowTranslations[language as keyof typeof cashflowTranslations] || cashflowTranslations.ro) as CashFlowTranslations;
 }
 
 export default cashflowTranslations;
