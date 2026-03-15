@@ -101,13 +101,21 @@ const cashflowTranslations = {
 
     // Charts
     chartsTitle: '📈 Vizualizare grafică',
-    chartsInflowsVsOutflows: 'Încasări vs Cheltuieli',
-    chartsFinalBalance: 'Sold final estimat',
+    chartsInflowsVsOutflows: 'Încasări vs Cheltuieli – Proiecție 6 luni',
+    chartsFinalBalance: 'Evoluția soldului – Proiecție 6 luni',
     chartsInflows: 'Încasări',
     chartsOutflows: 'Cheltuieli',
-    chartsBalance: 'Sold',
+    chartsBalance: 'Sold normal',
+    chartsBalanceStress: 'Sold stres',
     chartsNormal: 'Normal',
     chartsStress: 'Scenariu stres',
+    chartsNoData: 'Completează câmpurile de mai sus pentru a vedea graficele.',
+    chartsMonth1: 'Luna 1',
+    chartsMonth2: 'Luna 2',
+    chartsMonth3: 'Luna 3',
+    chartsMonth4: 'Luna 4',
+    chartsMonth5: 'Luna 5',
+    chartsMonth6: 'Luna 6',
 
     // Recommendations
     recsTitle: '💡 Recomandări inteligente',
