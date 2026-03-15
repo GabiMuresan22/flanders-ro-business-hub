@@ -91,29 +91,27 @@ export default function CashFlowCharts({ normalResult, stressResult, t }: Props)
               <CardTitle className="text-base">{t.chartsFinalBalance}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-72">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={lineData} margin={{ top: 10, right: 10, bottom: 0, left: 0 }}>
-                    <defs>
-                      <linearGradient id="normalGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
-                      </linearGradient>
-                      <linearGradient id="stressGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                    <XAxis dataKey="name" className="text-xs" />
-                    <YAxis tickFormatter={(v: number) => `€${(v / 1000).toFixed(0)}k`} className="text-xs" />
-                    <Tooltip formatter={fmtTooltip} />
-                    <Legend />
-                    <Area type="monotone" name={t.chartsBalance} dataKey="normalBalance" stroke="#2563eb" strokeWidth={2} fill="url(#normalGrad)" dot={{ r: 4 }} />
-                    <Area type="monotone" name={t.chartsBalanceStress} dataKey="stressBalance" stroke="#f59e0b" strokeWidth={2} fill="url(#stressGrad)" dot={{ r: 4 }} />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
+              <ResponsiveContainer width="100%" height={288}>
+                <AreaChart data={lineData} margin={{ top: 10, right: 10, bottom: 0, left: 0 }}>
+                  <defs>
+                    <linearGradient id="normalGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
+                    </linearGradient>
+                    <linearGradient id="stressGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                  <XAxis dataKey="name" className="text-xs" />
+                  <YAxis tickFormatter={(v: number) => `€${(v / 1000).toFixed(0)}k`} className="text-xs" />
+                  <Tooltip formatter={fmtTooltip} />
+                  <Legend />
+                  <Area type="monotone" name={t.chartsBalance} dataKey="normalBalance" stroke="#2563eb" strokeWidth={2} fill="url(#normalGrad)" dot={{ r: 4 }} />
+                  <Area type="monotone" name={t.chartsBalanceStress} dataKey="stressBalance" stroke="#f59e0b" strokeWidth={2} fill="url(#stressGrad)" dot={{ r: 4 }} />
+                </AreaChart>
+              </ResponsiveContainer>
             </CardContent>
           </Card>
         </div>
