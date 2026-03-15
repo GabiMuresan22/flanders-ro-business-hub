@@ -13,43 +13,41 @@ interface Props {
 export default function CashFlowCharts({ normalResult, stressResult, t }: Props) {
   const hasData = normalResult.totalInflows > 0 || normalResult.totalOutflows > 0;
 
-  const monthLabels = [t.chartsMonth1, t.chartsMonth2, t.chartsMonth3, t.chartsMonth4, t.chartsMonth5, t.chartsMonth6];
+  const monthLabels = useMemo(() => [
+    t.chartsMonth1, t.chartsMonth2, t.chartsMonth3, t.chartsMonth4, t.chartsMonth5, t.chartsMonth6
+  ], [t]);
 
   const barData = useMemo(() => {
     if (!hasData) return [];
-    // Simulate 6 months with slight variance to make it dynamic
     return monthLabels.map((label, i) => {
-      const growthFactor = 1 + (i * 0.03); // 3% monthly growth
+      const growthFactor = 1 + (i * 0.03);
       const seasonality = 1 + Math.sin((i / 6) * Math.PI) * 0.05;
       return {
         name: label,
-        [t.chartsInflows]: Math.round(normalResult.totalInflows * growthFactor * seasonality),
-        [t.chartsOutflows]: Math.round(normalResult.totalOutflows * (1 + i * 0.015)),
+        inflows: Math.round(normalResult.totalInflows * growthFactor * seasonality),
+        outflows: Math.round(normalResult.totalOutflows * (1 + i * 0.015)),
       };
     });
-  }, [normalResult, hasData, t]);
+  }, [normalResult, hasData, monthLabels]);
 
   const lineData = useMemo(() => {
     if (!hasData) return [];
-    let normalBalance = normalResult.finalBalance - normalResult.operationalCashFlow;
-    let stressBalance = stressResult.finalBalance - stressResult.operationalCashFlow;
+    let normalBal = normalResult.finalBalance - normalResult.operationalCashFlow;
+    let stressBal = stressResult.finalBalance - stressResult.operationalCashFlow;
 
     return monthLabels.map((label, i) => {
       const growthFactor = 1 + (i * 0.03);
       const seasonality = 1 + Math.sin((i / 6) * Math.PI) * 0.05;
-      const monthlyNormalCF = (normalResult.totalInflows * growthFactor * seasonality) - (normalResult.totalOutflows * (1 + i * 0.015));
-      const monthlyStressCF = (stressResult.totalInflows * growthFactor * seasonality) - (stressResult.totalOutflows * (1 + i * 0.015));
-
-      normalBalance += monthlyNormalCF;
-      stressBalance += monthlyStressCF;
+      normalBal += (normalResult.totalInflows * growthFactor * seasonality) - (normalResult.totalOutflows * (1 + i * 0.015));
+      stressBal += (stressResult.totalInflows * growthFactor * seasonality) - (stressResult.totalOutflows * (1 + i * 0.015));
 
       return {
         name: label,
-        [t.chartsBalance]: Math.round(normalBalance),
-        [t.chartsBalanceStress]: Math.round(stressBalance),
+        normalBalance: Math.round(normalBal),
+        stressBalance: Math.round(stressBal),
       };
     });
-  }, [normalResult, stressResult, hasData, t]);
+  }, [normalResult, stressResult, hasData, monthLabels]);
 
   const fmtTooltip = (v: number) => formatEUR(v);
 
@@ -79,11 +77,11 @@ export default function CashFlowCharts({ normalResult, stressResult, t }: Props)
                   <BarChart data={barData} margin={{ top: 10, right: 10, bottom: 0, left: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                     <XAxis dataKey="name" className="text-xs" />
-                    <YAxis tickFormatter={v => `€${(v / 1000).toFixed(0)}k`} className="text-xs" />
+                    <YAxis tickFormatter={(v: number) => `€${(v / 1000).toFixed(0)}k`} className="text-xs" />
                     <Tooltip formatter={fmtTooltip} />
                     <Legend />
-                    <Bar dataKey={t.chartsInflows} fill="#059669" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey={t.chartsOutflows} fill="#dc2626" radius={[4, 4, 0, 0]} />
+                    <Bar name={t.chartsInflows} dataKey="inflows" fill="#059669" radius={[4, 4, 0, 0]} />
+                    <Bar name={t.chartsOutflows} dataKey="outflows" fill="#dc2626" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -110,11 +108,11 @@ export default function CashFlowCharts({ normalResult, stressResult, t }: Props)
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                     <XAxis dataKey="name" className="text-xs" />
-                    <YAxis tickFormatter={v => `€${(v / 1000).toFixed(0)}k`} className="text-xs" />
+                    <YAxis tickFormatter={(v: number) => `€${(v / 1000).toFixed(0)}k`} className="text-xs" />
                     <Tooltip formatter={fmtTooltip} />
                     <Legend />
-                    <Area type="monotone" dataKey={t.chartsBalance} stroke="#2563eb" strokeWidth={2} fill="url(#normalGrad)" dot={{ r: 4 }} />
-                    <Area type="monotone" dataKey={t.chartsBalanceStress} stroke="#f59e0b" strokeWidth={2} fill="url(#stressGrad)" dot={{ r: 4 }} />
+                    <Area type="monotone" name={t.chartsBalance} dataKey="normalBalance" stroke="#2563eb" strokeWidth={2} fill="url(#normalGrad)" dot={{ r: 4 }} />
+                    <Area type="monotone" name={t.chartsBalanceStress} dataKey="stressBalance" stroke="#f59e0b" strokeWidth={2} fill="url(#stressGrad)" dot={{ r: 4 }} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
