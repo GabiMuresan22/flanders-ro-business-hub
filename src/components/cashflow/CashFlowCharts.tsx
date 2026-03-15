@@ -108,11 +108,11 @@ export default function CashFlowCharts({ normalResult, stressResult, t }: Props)
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                     <XAxis dataKey="name" className="text-xs" />
-                    <YAxis tickFormatter={v => `€${(v / 1000).toFixed(0)}k`} className="text-xs" />
+                    <YAxis tickFormatter={(v: number) => `€${(v / 1000).toFixed(0)}k`} className="text-xs" />
                     <Tooltip formatter={fmtTooltip} />
                     <Legend />
-                    <Area type="monotone" dataKey={t.chartsBalance} stroke="#2563eb" strokeWidth={2} fill="url(#normalGrad)" dot={{ r: 4 }} />
-                    <Area type="monotone" dataKey={t.chartsBalanceStress} stroke="#f59e0b" strokeWidth={2} fill="url(#stressGrad)" dot={{ r: 4 }} />
+                    <Area type="monotone" name={t.chartsBalance} dataKey="normalBalance" stroke="#2563eb" strokeWidth={2} fill="url(#normalGrad)" dot={{ r: 4 }} />
+                    <Area type="monotone" name={t.chartsBalanceStress} dataKey="stressBalance" stroke="#f59e0b" strokeWidth={2} fill="url(#stressGrad)" dot={{ r: 4 }} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
