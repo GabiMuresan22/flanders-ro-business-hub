@@ -1,0 +1,1 @@
+UPDATE resources SET image_url = '/images/cash-flow-guide-cover.jpg' WHERE slug = 'cash-flow-antreprenori-belgia-ghid-practic';
