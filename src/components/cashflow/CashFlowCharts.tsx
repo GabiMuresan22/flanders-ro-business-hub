@@ -1,6 +1,10 @@
-import { useMemo, useRef, useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import {
+  BarChart, Bar, AreaChart, Area,
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  ResponsiveContainer,
+} from 'recharts';
 import { formatEUR, type CashFlowResult } from '@/hooks/useCashFlowCalculator';
 import type { CashFlowTranslations } from '@/translations/cashflow';
 
@@ -10,28 +14,8 @@ interface Props {
   t: CashFlowTranslations;
 }
 
-function useContainerWidth(ref: React.RefObject<HTMLDivElement | null>) {
-  const [width, setWidth] = useState(400);
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        setWidth(entry.contentRect.width);
-      }
-    });
-    observer.observe(ref.current);
-    setWidth(ref.current.clientWidth);
-    return () => observer.disconnect();
-  }, [ref]);
-  return width;
-}
-
 export default function CashFlowCharts({ normalResult, stressResult, t }: Props) {
   const hasData = normalResult.totalInflows > 0 || normalResult.totalOutflows > 0;
-  const barRef = useRef<HTMLDivElement>(null);
-  const areaRef = useRef<HTMLDivElement>(null);
-  const barWidth = useContainerWidth(barRef);
-  const areaWidth = useContainerWidth(areaRef);
 
   const monthLabels = useMemo(() => [
     t.chartsMonth1, t.chartsMonth2, t.chartsMonth3, t.chartsMonth4, t.chartsMonth5, t.chartsMonth6
@@ -92,16 +76,18 @@ export default function CashFlowCharts({ normalResult, stressResult, t }: Props)
               <CardTitle className="text-base">{t.chartsInflowsVsOutflows}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div ref={barRef} className="w-full overflow-hidden">
-                <BarChart width={barWidth} height={288} data={barData} margin={{ top: 10, right: 10, bottom: 0, left: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="name" fontSize={12} />
-                  <YAxis tickFormatter={(v: number) => `€${(v / 1000).toFixed(0)}k`} fontSize={12} />
-                  <Tooltip formatter={fmtTooltip} />
-                  <Legend />
-                  <Bar name={t.chartsInflows} dataKey="inflows" fill="#059669" radius={[4, 4, 0, 0]} />
-                  <Bar name={t.chartsOutflows} dataKey="outflows" fill="#dc2626" radius={[4, 4, 0, 0]} />
-                </BarChart>
+              <div style={{ width: '100%', height: 300 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={barData} margin={{ top: 10, right: 10, bottom: 0, left: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="name" fontSize={12} />
+                    <YAxis tickFormatter={(v: number) => `€${(v / 1000).toFixed(0)}k`} fontSize={12} />
+                    <Tooltip formatter={fmtTooltip} />
+                    <Legend />
+                    <Bar name={t.chartsInflows} dataKey="inflows" fill="#059669" radius={[4, 4, 0, 0]} />
+                    <Bar name={t.chartsOutflows} dataKey="outflows" fill="#dc2626" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
@@ -111,26 +97,28 @@ export default function CashFlowCharts({ normalResult, stressResult, t }: Props)
               <CardTitle className="text-base">{t.chartsFinalBalance}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div ref={areaRef} className="w-full overflow-hidden">
-                <AreaChart width={areaWidth} height={288} data={lineData} margin={{ top: 10, right: 10, bottom: 0, left: 0 }}>
-                  <defs>
-                    <linearGradient id="normalGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
-                    </linearGradient>
-                    <linearGradient id="stressGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="name" fontSize={12} />
-                  <YAxis tickFormatter={(v: number) => `€${(v / 1000).toFixed(0)}k`} fontSize={12} />
-                  <Tooltip formatter={fmtTooltip} />
-                  <Legend />
-                  <Area type="monotone" name={t.chartsBalance} dataKey="normalBalance" stroke="#2563eb" strokeWidth={2} fill="url(#normalGrad)" dot={{ r: 4 }} />
-                  <Area type="monotone" name={t.chartsBalanceStress} dataKey="stressBalance" stroke="#f59e0b" strokeWidth={2} fill="url(#stressGrad)" dot={{ r: 4 }} />
-                </AreaChart>
+              <div style={{ width: '100%', height: 300 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={lineData} margin={{ top: 10, right: 10, bottom: 0, left: 0 }}>
+                    <defs>
+                      <linearGradient id="normalGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
+                      </linearGradient>
+                      <linearGradient id="stressGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="name" fontSize={12} />
+                    <YAxis tickFormatter={(v: number) => `€${(v / 1000).toFixed(0)}k`} fontSize={12} />
+                    <Tooltip formatter={fmtTooltip} />
+                    <Legend />
+                    <Area type="monotone" name={t.chartsBalance} dataKey="normalBalance" stroke="#2563eb" strokeWidth={2} fill="url(#normalGrad)" dot={{ r: 4 }} />
+                    <Area type="monotone" name={t.chartsBalanceStress} dataKey="stressBalance" stroke="#f59e0b" strokeWidth={2} fill="url(#stressGrad)" dot={{ r: 4 }} />
+                  </AreaChart>
+                </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
