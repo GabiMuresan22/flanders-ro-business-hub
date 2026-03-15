@@ -13,43 +13,41 @@ interface Props {
 export default function CashFlowCharts({ normalResult, stressResult, t }: Props) {
   const hasData = normalResult.totalInflows > 0 || normalResult.totalOutflows > 0;
 
-  const monthLabels = [t.chartsMonth1, t.chartsMonth2, t.chartsMonth3, t.chartsMonth4, t.chartsMonth5, t.chartsMonth6];
+  const monthLabels = useMemo(() => [
+    t.chartsMonth1, t.chartsMonth2, t.chartsMonth3, t.chartsMonth4, t.chartsMonth5, t.chartsMonth6
+  ], [t]);
 
   const barData = useMemo(() => {
     if (!hasData) return [];
-    // Simulate 6 months with slight variance to make it dynamic
     return monthLabels.map((label, i) => {
-      const growthFactor = 1 + (i * 0.03); // 3% monthly growth
+      const growthFactor = 1 + (i * 0.03);
       const seasonality = 1 + Math.sin((i / 6) * Math.PI) * 0.05;
       return {
         name: label,
-        [t.chartsInflows]: Math.round(normalResult.totalInflows * growthFactor * seasonality),
-        [t.chartsOutflows]: Math.round(normalResult.totalOutflows * (1 + i * 0.015)),
+        inflows: Math.round(normalResult.totalInflows * growthFactor * seasonality),
+        outflows: Math.round(normalResult.totalOutflows * (1 + i * 0.015)),
       };
     });
-  }, [normalResult, hasData, t]);
+  }, [normalResult, hasData, monthLabels]);
 
   const lineData = useMemo(() => {
     if (!hasData) return [];
-    let normalBalance = normalResult.finalBalance - normalResult.operationalCashFlow;
-    let stressBalance = stressResult.finalBalance - stressResult.operationalCashFlow;
+    let normalBal = normalResult.finalBalance - normalResult.operationalCashFlow;
+    let stressBal = stressResult.finalBalance - stressResult.operationalCashFlow;
 
     return monthLabels.map((label, i) => {
       const growthFactor = 1 + (i * 0.03);
       const seasonality = 1 + Math.sin((i / 6) * Math.PI) * 0.05;
-      const monthlyNormalCF = (normalResult.totalInflows * growthFactor * seasonality) - (normalResult.totalOutflows * (1 + i * 0.015));
-      const monthlyStressCF = (stressResult.totalInflows * growthFactor * seasonality) - (stressResult.totalOutflows * (1 + i * 0.015));
-
-      normalBalance += monthlyNormalCF;
-      stressBalance += monthlyStressCF;
+      normalBal += (normalResult.totalInflows * growthFactor * seasonality) - (normalResult.totalOutflows * (1 + i * 0.015));
+      stressBal += (stressResult.totalInflows * growthFactor * seasonality) - (stressResult.totalOutflows * (1 + i * 0.015));
 
       return {
         name: label,
-        [t.chartsBalance]: Math.round(normalBalance),
-        [t.chartsBalanceStress]: Math.round(stressBalance),
+        normalBalance: Math.round(normalBal),
+        stressBalance: Math.round(stressBal),
       };
     });
-  }, [normalResult, stressResult, hasData, t]);
+  }, [normalResult, stressResult, hasData, monthLabels]);
 
   const fmtTooltip = (v: number) => formatEUR(v);
 
