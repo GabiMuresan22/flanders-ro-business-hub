@@ -1,0 +1,1 @@
+UPDATE resources SET is_published = true WHERE id = '1915262c-3fdd-46a9-b883-c36a0e32eee5';
