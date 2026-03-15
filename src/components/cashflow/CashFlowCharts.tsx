@@ -77,11 +77,11 @@ export default function CashFlowCharts({ normalResult, stressResult, t }: Props)
                   <BarChart data={barData} margin={{ top: 10, right: 10, bottom: 0, left: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                     <XAxis dataKey="name" className="text-xs" />
-                    <YAxis tickFormatter={v => `€${(v / 1000).toFixed(0)}k`} className="text-xs" />
+                    <YAxis tickFormatter={(v: number) => `€${(v / 1000).toFixed(0)}k`} className="text-xs" />
                     <Tooltip formatter={fmtTooltip} />
                     <Legend />
-                    <Bar dataKey={t.chartsInflows} fill="#059669" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey={t.chartsOutflows} fill="#dc2626" radius={[4, 4, 0, 0]} />
+                    <Bar name={t.chartsInflows} dataKey="inflows" fill="#059669" radius={[4, 4, 0, 0]} />
+                    <Bar name={t.chartsOutflows} dataKey="outflows" fill="#dc2626" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
