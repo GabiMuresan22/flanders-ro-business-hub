@@ -11,6 +11,7 @@ import { z } from 'zod';
 import { AlertCircle, CheckCircle2, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 
 const emailSchema = z.string().email('Invalid email address');
 const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
@@ -351,6 +352,11 @@ const AuthPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO
+        title="Sign In - Romanian Business Hub"
+        description="Sign in or create an account to manage your business listing."
+        noindex={true}
+      />
       <Navbar />
       <main className="flex-grow flex items-center justify-center bg-gray-50 px-4 py-12">
         <div className="w-full max-w-md">

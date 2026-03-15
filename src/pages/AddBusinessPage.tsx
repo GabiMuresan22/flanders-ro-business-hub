@@ -7,6 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { formSchema, type FormSchema } from '@/lib/validation/businessFormSchema';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import SEO from '@/components/SEO';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -294,6 +295,11 @@ const AddBusinessPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEO
+        title="Add Your Business - Romanian Business Hub"
+        description="Submit your Romanian business to the West Flanders directory."
+        noindex={true}
+      />
       <Navbar />
       <main className="flex-grow">
         <div className="bg-romania-blue py-12">
