@@ -187,18 +187,22 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* Mobile menu overlay */}
-        {isMobileMenuOpen && (
+      </div>
+    </header>
+  );
+
+  const mobileMenuPortal = isMobileMenuOpen
+    ? createPortal(
+        <>
+          {/* Mobile menu overlay */}
           <div
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden animate-fade-in"
+            className="fixed inset-0 bg-black/50 z-[70] lg:hidden animate-fade-in"
             onClick={() => setIsMobileMenuOpen(false)}
             aria-hidden="true"
           />
-        )}
 
-        {/* Mobile navigation menu */}
-        {isMobileMenuOpen && (
-          <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-background shadow-2xl z-50 lg:hidden animate-slide-in-right overflow-y-auto">
+          {/* Mobile navigation menu */}
+          <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-background shadow-2xl z-[80] lg:hidden animate-slide-in-right overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold text-foreground">Menu</h2>
@@ -275,9 +279,17 @@ const Navbar = () => {
               </nav>
             </div>
           </div>
-        )}
-      </div>
-    </header>
+        </>,
+        document.body
+      )
+    : null;
+
+  return (
+    <>
+      {headerContent}
+      {mobileMenuPortal}
+    </>
+  );
   );
 };
 
