@@ -290,7 +290,6 @@ const Navbar = () => {
       {mobileMenuPortal}
     </>
   );
-  );
 };
 
 export default Navbar;
