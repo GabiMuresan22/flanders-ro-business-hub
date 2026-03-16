@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, User as UserIcon, X, Menu, Bell } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -91,113 +92,18 @@ const Navbar = () => {
     }
   };
 
-  return (
-    <header className={`sticky top-0 z-[60] bg-background/95 backdrop-blur-md border-b transition-shadow duration-300 overflow-x-clip ${isScrolled ? 'shadow-md border-border' : 'border-transparent'}`}>
-      <div className="container mx-auto px-4 py-3 lg:py-4">
-        <div className="flex items-center justify-between min-w-0">
-          <NavbarLogo />
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 ml-6 xl:ml-10 min-w-0 flex-shrink">
-            <Link to="/" className="font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm px-3 py-2 rounded-md hover:bg-muted">
-              {t('nav.home')}
-            </Link>
-            <Link to="/categories" className="font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm px-3 py-2 rounded-md hover:bg-muted">
-              {t('nav.business')}
-            </Link>
-            <ResourcesDropdown />
-            <Link to="/about" className="font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm px-3 py-2 rounded-md hover:bg-muted">
-              {t('nav.about')}
-            </Link>
-            <Link to="/contact" className="font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm px-3 py-2 rounded-md hover:bg-muted">
-              {t('nav.contact')}
-            </Link>
-          </nav>
-
-          {/* Desktop Right Actions */}
-          <div className="hidden lg:flex items-center gap-2 xl:gap-3 ml-auto pl-4 flex-shrink-0">
-            {user && (
-              <div className="hidden 2xl:flex flex-col items-end">
-                <span className="text-xs text-muted-foreground">Logged in as</span>
-                <span className="text-xs font-semibold text-romania-blue truncate max-w-[120px]">{user.email}</span>
-              </div>
-            )}
-            <NavbarLanguageSwitcher />
-            {user ? (
-              <>
-                <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-1 text-sm">
-                  <UserIcon className="h-4 w-4" />
-                  {t('nav.account')}
-                </Link>
-                {isAdmin && (
-                  <Link to="/admin" className="relative bg-romania-red hover:bg-red-700 text-white font-semibold py-1.5 px-3 rounded-lg transition-colors text-sm whitespace-nowrap flex items-center gap-1">
-                    {t('nav.adminDashboard')}
-                    {pendingCount > 0 && (
-                      <span className="bg-white text-romania-red text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                        {pendingCount > 9 ? '9+' : pendingCount}
-                      </span>
-                    )}
-                  </Link>
-                )}
-              </>
-            ) : (
-              <Link to="/auth" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-lg transition-colors text-sm">
-                {t('nav.login')}
-              </Link>
-            )}
-            <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-foreground font-semibold py-1.5 px-4 rounded-lg transition-colors whitespace-nowrap text-sm shadow-sm">
-              {t('nav.addBusiness')}
-            </Link>
-          </div>
-
-          {/* Mobile Controls */}
-          <div className="lg:hidden flex items-center space-x-3">
-            <button
-              className="text-muted-foreground cursor-pointer p-2 hover:bg-muted rounded-lg transition-colors"
-              onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
-              aria-label="Toggle search"
-            >
-              <Search className="h-6 w-6" />
-            </button>
-            <button
-              className="text-muted-foreground p-2 hover:bg-muted rounded-lg transition-colors"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-            >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile search input */}
-        {isMobileSearchOpen && (
-          <div className="lg:hidden mt-3 animate-fade-in">
-            <form onSubmit={handleSearch} className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5" />
-              <input
-                type="text"
-                placeholder={t('nav.search')}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-lg border-2 border-border focus:outline-none focus:border-romania-blue transition-colors bg-background"
-                autoFocus
-              />
-            </form>
-          </div>
-        )}
-
-        {/* Mobile menu overlay */}
-        {isMobileMenuOpen && (
+  const mobileMenuPortal = isMobileMenuOpen
+    ? createPortal(
+        <>
+          {/* Mobile menu overlay */}
           <div
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden animate-fade-in"
+            className="fixed inset-0 bg-black/50 z-[70] lg:hidden animate-fade-in"
             onClick={() => setIsMobileMenuOpen(false)}
             aria-hidden="true"
           />
-        )}
 
-        {/* Mobile navigation menu */}
-        {isMobileMenuOpen && (
-          <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-background shadow-2xl z-50 lg:hidden animate-slide-in-right overflow-y-auto">
+          {/* Mobile navigation menu */}
+          <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-background shadow-2xl z-[80] lg:hidden animate-slide-in-right overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold text-foreground">Menu</h2>
@@ -274,9 +180,110 @@ const Navbar = () => {
               </nav>
             </div>
           </div>
-        )}
-      </div>
-    </header>
+        </>,
+        document.body
+      )
+    : null;
+
+  return (
+    <>
+      <header className={`sticky top-0 z-[60] bg-background/95 backdrop-blur-md border-b transition-shadow duration-300 overflow-x-clip ${isScrolled ? 'shadow-md border-border' : 'border-transparent'}`}>
+        <div className="container mx-auto px-4 py-3 lg:py-4">
+          <div className="flex items-center justify-between min-w-0">
+            <NavbarLogo />
+
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-1 xl:gap-2 ml-6 xl:ml-10 min-w-0 flex-shrink">
+              <Link to="/" className="font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm px-3 py-2 rounded-md hover:bg-muted">
+                {t('nav.home')}
+              </Link>
+              <Link to="/categories" className="font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm px-3 py-2 rounded-md hover:bg-muted">
+                {t('nav.business')}
+              </Link>
+              <ResourcesDropdown />
+              <Link to="/about" className="font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm px-3 py-2 rounded-md hover:bg-muted">
+                {t('nav.about')}
+              </Link>
+              <Link to="/contact" className="font-medium text-muted-foreground hover:text-romania-blue transition-colors whitespace-nowrap text-sm px-3 py-2 rounded-md hover:bg-muted">
+                {t('nav.contact')}
+              </Link>
+            </nav>
+
+            {/* Desktop Right Actions */}
+            <div className="hidden lg:flex items-center gap-2 xl:gap-3 ml-auto pl-4 flex-shrink-0">
+              {user && (
+                <div className="hidden 2xl:flex flex-col items-end">
+                  <span className="text-xs text-muted-foreground">Logged in as</span>
+                  <span className="text-xs font-semibold text-romania-blue truncate max-w-[120px]">{user.email}</span>
+                </div>
+              )}
+              <NavbarLanguageSwitcher />
+              {user ? (
+                <>
+                  <Link to="/account" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-1 text-sm">
+                    <UserIcon className="h-4 w-4" />
+                    {t('nav.account')}
+                  </Link>
+                  {isAdmin && (
+                    <Link to="/admin" className="relative bg-romania-red hover:bg-red-700 text-white font-semibold py-1.5 px-3 rounded-lg transition-colors text-sm whitespace-nowrap flex items-center gap-1">
+                      {t('nav.adminDashboard')}
+                      {pendingCount > 0 && (
+                        <span className="bg-white text-romania-red text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                          {pendingCount > 9 ? '9+' : pendingCount}
+                        </span>
+                      )}
+                    </Link>
+                  )}
+                </>
+              ) : (
+                <Link to="/auth" className="bg-romania-blue hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-lg transition-colors text-sm">
+                  {t('nav.login')}
+                </Link>
+              )}
+              <Link to="/add-business" className="bg-romania-yellow hover:bg-yellow-400 text-foreground font-semibold py-1.5 px-4 rounded-lg transition-colors whitespace-nowrap text-sm shadow-sm">
+                {t('nav.addBusiness')}
+              </Link>
+            </div>
+
+            {/* Mobile Controls */}
+            <div className="lg:hidden flex items-center space-x-3">
+              <button
+                className="text-muted-foreground cursor-pointer p-2 hover:bg-muted rounded-lg transition-colors"
+                onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+                aria-label="Toggle search"
+              >
+                <Search className="h-6 w-6" />
+              </button>
+              <button
+                className="text-muted-foreground p-2 hover:bg-muted rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+              >
+                {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile search input */}
+          {isMobileSearchOpen && (
+            <div className="lg:hidden mt-3 animate-fade-in">
+              <form onSubmit={handleSearch} className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5" />
+                <input
+                  type="text"
+                  placeholder={t('nav.search')}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 rounded-lg border-2 border-border focus:outline-none focus:border-romania-blue transition-colors bg-background"
+                  autoFocus
+                />
+              </form>
+            </div>
+          )}
+        </div>
+      </header>
+      {mobileMenuPortal}
+    </>
   );
 };
 
