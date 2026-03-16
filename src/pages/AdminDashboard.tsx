@@ -642,23 +642,25 @@ const AdminDashboard = () => {
             </div>
 
             <Tabs defaultValue="pending" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-5">
-                <TabsTrigger value="pending">
-                  Pending ({pendingBusinesses.length})
-                </TabsTrigger>
-                <TabsTrigger value="approved">
-                  Approved ({approvedBusinesses.length})
-                </TabsTrigger>
-                <TabsTrigger value="rejected">
-                  Rejected ({rejectedBusinesses.length})
-                </TabsTrigger>
-                <TabsTrigger value="messages">
-                  Messages ({unreadMessages.length})
-                </TabsTrigger>
-                <TabsTrigger value="newsletter">
-                  Newsletter ({subscriberCount})
-                </TabsTrigger>
-              </TabsList>
+              <div className="overflow-x-auto -mx-4 px-4">
+                <TabsList className="inline-flex w-auto min-w-full sm:grid sm:w-full sm:grid-cols-5">
+                  <TabsTrigger value="pending" className="whitespace-nowrap text-xs sm:text-sm">
+                    Pending ({pendingBusinesses.length})
+                  </TabsTrigger>
+                  <TabsTrigger value="approved" className="whitespace-nowrap text-xs sm:text-sm">
+                    Approved ({approvedBusinesses.length})
+                  </TabsTrigger>
+                  <TabsTrigger value="rejected" className="whitespace-nowrap text-xs sm:text-sm">
+                    Rejected ({rejectedBusinesses.length})
+                  </TabsTrigger>
+                  <TabsTrigger value="messages" className="whitespace-nowrap text-xs sm:text-sm">
+                    Messages ({unreadMessages.length})
+                  </TabsTrigger>
+                  <TabsTrigger value="newsletter" className="whitespace-nowrap text-xs sm:text-sm">
+                    Newsletter ({subscriberCount})
+                  </TabsTrigger>
+                </TabsList>
+              </div>
 
               <TabsContent value="pending" className="space-y-4">
                 {pendingBusinesses.length === 0 ? (
