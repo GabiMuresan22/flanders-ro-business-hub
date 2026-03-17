@@ -151,6 +151,7 @@ const ResourceDetailPage = () => {
   return (
     <>
       <StructuredData data={articleSchema} />
+      {faqSchema && <StructuredData data={faqSchema} />}
       <SEO
         title={`${displayTitle} | Romanian Business Hub`}
         description={displayExcerpt || displayTitle}
