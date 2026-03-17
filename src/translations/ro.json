@@ -520,7 +520,9 @@
     "notFoundMessage": "Ne pare rău, articolul pe care îl cauți nu există sau a fost eliminat.",
     "categories": {
       "Legal": "Juridic",
-      "Marketing": "Marketing"
+      "Marketing": "Marketing",
+      "Business": "Business",
+      "Taxe": "Taxe"
     }
   }
 }
