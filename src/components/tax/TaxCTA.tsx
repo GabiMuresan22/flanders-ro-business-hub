@@ -13,8 +13,8 @@ export default function TaxCTA({ t }: Props) {
       <div className="container mx-auto px-4 max-w-2xl text-center space-y-4">
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link to="/resurse/taxe-independent-belgia-2026">
-            <Button variant="default" size="lg" className="gap-2 w-full sm:w-auto">
-              <BookOpen className="h-5 w-5" />
+            <Button variant="default" size="lg" className="gap-2 w-full sm:w-auto h-auto whitespace-normal text-center py-3">
+              <BookOpen className="h-5 w-5 shrink-0" />
               {t.ctaGuide}
             </Button>
           </Link>
