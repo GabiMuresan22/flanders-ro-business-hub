@@ -29,24 +29,22 @@ const ResetPasswordPage = () => {
   const { t } = useLanguage();
 
   useEffect(() => {
-    const init = async () => {
-      const searchParams = new URLSearchParams(window.location.search);
-      const code = searchParams.get('code');
-
-      // If the reset link uses PKCE, exchange ?code=... for a session
-      if (code) {
-        const { error } = await supabase.auth.exchangeCodeForSession(code);
-        if (error) {
-          toast({
-            title: t('common.error'),
-            description: t('auth.passwordUpdateFailed'),
-            variant: 'destructive',
-          });
-          setCheckingSession(false);
-          return;
-        }
+    // Register the auth state change listener before calling init() so that
+    // hash-based recovery tokens (which fire PASSWORD_RECOVERY via setTimeout)
+    // are always caught.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        setIsValidSession(true);
+        setCheckingSession(false);
       }
+    });
 
+    const init = async () => {
+      // getSession() internally awaits Supabase's initializePromise, which already
+      // handles PKCE code exchange automatically (detectSessionInUrl: true by default).
+      // Do NOT call exchangeCodeForSession() manually here – it would attempt to
+      // reuse the same one-time PKCE code after the client has already exchanged it,
+      // causing an AuthPKCECodeVerifierMissingError and showing a spurious error.
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         setIsValidSession(true);
@@ -61,13 +59,6 @@ const ResetPasswordPage = () => {
     };
 
     init();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
-      if (event === 'PASSWORD_RECOVERY') {
-        setIsValidSession(true);
-        setCheckingSession(false);
-      }
-    });
 
     return () => subscription.unsubscribe();
   }, [t, toast]);
