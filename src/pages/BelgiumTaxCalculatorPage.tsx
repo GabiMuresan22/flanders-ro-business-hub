@@ -51,7 +51,8 @@ export default function BelgiumTaxCalculatorPage() {
                 {t.pageTitle}
               </h2>
               <Button variant="outline" size="sm" onClick={calc.reset} className="gap-2">
-                <RotateCcw className="h-4 w-4" /> {t.reset}
+                <RotateCcw className="h-4 w-4" />
+                <span className="hidden sm:inline">{t.reset}</span>
               </Button>
             </div>
             <div className="grid gap-8 lg:grid-cols-5">
