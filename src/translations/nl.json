@@ -520,7 +520,9 @@
     "notFoundMessage": "Sorry, het artikel dat u zoekt bestaat niet of is verwijderd.",
     "categories": {
       "Legal": "Juridisch",
-      "Marketing": "Marketing"
+      "Marketing": "Marketing",
+      "Business": "Zakelijk",
+      "Taxe": "Belastingen"
     }
   }
 }
