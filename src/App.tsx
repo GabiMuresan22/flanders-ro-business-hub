@@ -44,6 +44,7 @@ const ResourceDetailPage = lazy(() => import("./pages/ResourceDetailPage"));
 const CashFlowCalculatorPage = lazy(() => import("./pages/CashFlowCalculatorPage"));
 const ToolsLandingPage = lazy(() => import("./pages/ToolsLandingPage"));
 const ComingSoonToolPage = lazy(() => import("./pages/ComingSoonToolPage"));
+const BelgiumTaxCalculatorPage = lazy(() => import("./pages/BelgiumTaxCalculatorPage"));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -93,10 +94,10 @@ const App = () => (
               <Route path="/resources/:slug" element={<RedirectToResurse />} />
               <Route path="/calculator-cash-flow" element={<CashFlowCalculatorPage />} />
               <Route path="/calculator-roi" element={<ComingSoonToolPage />} />
-              <Route path="/calculator-taxe-belgia" element={<ComingSoonToolPage />} />
+              <Route path="/calculator-taxe-belgia" element={<BelgiumTaxCalculatorPage />} />
               <Route path="/calculator-profit" element={<ComingSoonToolPage />} />
               <Route path="/resurse/instrumente/calculator-roi" element={<ComingSoonToolPage />} />
-              <Route path="/resurse/instrumente/calculator-taxe-belgia" element={<ComingSoonToolPage />} />
+              <Route path="/resurse/instrumente/calculator-taxe-belgia" element={<BelgiumTaxCalculatorPage />} />
               <Route path="/resurse/instrumente/calculator-profit" element={<ComingSoonToolPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
