@@ -94,7 +94,7 @@ const App = () => (
               <Route path="/resources/:slug" element={<RedirectToResurse />} />
               <Route path="/calculator-cash-flow" element={<CashFlowCalculatorPage />} />
               <Route path="/calculator-roi" element={<ComingSoonToolPage />} />
-              <Route path="/calculator-taxe-belgia" element={<ComingSoonToolPage />} />
+              <Route path="/calculator-taxe-belgia" element={<BelgiumTaxCalculatorPage />} />
               <Route path="/calculator-profit" element={<ComingSoonToolPage />} />
               <Route path="/resurse/instrumente/calculator-roi" element={<ComingSoonToolPage />} />
               <Route path="/resurse/instrumente/calculator-taxe-belgia" element={<ComingSoonToolPage />} />
