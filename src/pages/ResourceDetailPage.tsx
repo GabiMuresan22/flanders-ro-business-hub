@@ -123,9 +123,35 @@ const ResourceDetailPage = () => {
     }
   };
 
+  // FAQ schema for articles with FAQ sections
+  const faqItems: { q: string; a: string }[] = [];
+  if (resource.slug === 'taxe-independent-belgia-2026') {
+    faqItems.push(
+      { q: 'Cât plătești taxe ca independent în Belgia?', a: 'Totalul taxelor (contribuții sociale + impozit pe venit) variază de obicei între 30% și 55% din profit, în funcție de cât câștigi și ce cheltuieli deductibile ai.' },
+      { q: 'Taxele sunt mai mari decât în România?', a: 'Da, în general taxele în Belgia sunt semnificativ mai mari decât în România, mai ales impozitul pe venit progresiv. România aplică un impozit fix de 10%, pe când în Belgia poate ajunge și la 50%.' },
+      { q: 'Pot reduce taxele legal?', a: 'Da. Prin deduceri corecte ale cheltuielilor profesionale, planificare fiscală și colaborare cu un contabil, poți reduce semnificativ suma impozitelor.' },
+      { q: 'Am nevoie de contabil?', a: 'Nu este obligatoriu legal, dar este foarte recomandat. Un contabil bun te poate ajuta să economisești mai mult decât costul serviciului și te ferește de greșeli fiscale costisitoare.' },
+      { q: 'Se calculează taxele pe venit sau pe profit?', a: 'Taxele se calculează pe profitul net, adică venitul minus cheltuielile deductibile. Nu plătești impozit pe toată suma facturată.' },
+    );
+  }
+
+  const faqSchema = faqItems.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(faq => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a,
+      }
+    }))
+  } : null;
+
   return (
     <>
       <StructuredData data={articleSchema} />
+      {faqSchema && <StructuredData data={faqSchema} />}
       <SEO
         title={`${displayTitle} | Romanian Business Hub`}
         description={displayExcerpt || displayTitle}
