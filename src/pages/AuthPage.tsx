@@ -159,7 +159,7 @@ const AuthPage = () => {
       } else {
         toast({
           title: t('common.success'),
-          description: t('auth.loginFailed').replace('Failed', 'successful'),
+          description: t('auth.loginSuccess'),
         });
       }
     } catch (error) {
