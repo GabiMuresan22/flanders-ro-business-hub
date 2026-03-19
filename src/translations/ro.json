@@ -80,10 +80,12 @@
     "privacyPolicy": "Politica de Confidențialitate",
     "gdprConsentSuffix": "și consimt la procesarea datelor mele personale",
     "loginFailed": "Autentificare Eșuată",
+    "loginSuccess": "Te-ai autentificat cu succes!",
     "invalidCredentials": "Email sau parolă invalidă. Te rugăm să încerci din nou.",
     "accountExists": "Cont Existent",
     "emailAlreadyRegistered": "Acest email este deja înregistrat. Te rugăm să te autentifici.",
-    "accountCreated": "Cont creat cu succes! Acum te poți autentifica.",
+    "accountCreated": "Cont creat cu succes! Verifică-ți emailul pentru a confirma contul înainte de a te autentifica.",
+    "emailNotConfirmed": "Contul tău nu a fost încă confirmat. Verifică-ți emailul și apasă pe linkul de confirmare.",
     "resetLinkSent": "Link de resetare trimis! Verifică-ți emailul.",
     "resetLinkFailed": "Trimiterea linkului a eșuat. Te rugăm să încerci din nou.",
     "unexpectedError": "A apărut o eroare neașteptată"
