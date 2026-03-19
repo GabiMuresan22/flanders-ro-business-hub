@@ -1,5 +1,4 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-// @ts-expect-error - @testing-library/dom peer dep missing in build
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter, Routes, Route, useSearchParams } from "react-router-dom";
 import React from "react";

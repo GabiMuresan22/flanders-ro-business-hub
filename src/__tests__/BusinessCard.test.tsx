@@ -1,6 +1,5 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-// @ts-expect-error - @testing-library/dom peer dep missing in build
 import { render, screen } from '@testing-library/react';
 import BusinessCard from '../components/BusinessCard';
 import { MemoryRouter } from 'react-router-dom';
