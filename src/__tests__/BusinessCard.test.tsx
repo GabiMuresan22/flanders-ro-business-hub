@@ -1,6 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
+const screen = (await import('@testing-library/react')).screen;
 import BusinessCard from '../components/BusinessCard';
 import { MemoryRouter } from 'react-router-dom';
 import { BusinessCategory } from '../data/types';

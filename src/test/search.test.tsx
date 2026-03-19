@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render } from "@testing-library/react";
+const { screen, fireEvent } = await import("@testing-library/react");
 import { MemoryRouter, Routes, Route, useSearchParams } from "react-router-dom";
 import React from "react";
 
