@@ -83,7 +83,8 @@
     "invalidCredentials": "Ongeldig e-mailadres of wachtwoord. Probeer het opnieuw.",
     "accountExists": "Account Bestaat Al",
     "emailAlreadyRegistered": "Dit e-mailadres is al geregistreerd. Log in.",
-    "accountCreated": "Account succesvol aangemaakt! U kunt nu inloggen.",
+    "accountCreated": "Account succesvol aangemaakt! Controleer uw e-mail om uw account te bevestigen voordat u inlogt.",
+    "emailNotConfirmed": "Uw account is nog niet bevestigd. Controleer uw e-mail en klik op de bevestigingslink.",
     "resetLinkSent": "Resetlink verstuurd! Controleer uw e-mail.",
     "resetLinkFailed": "Resetlink versturen mislukt. Probeer het opnieuw.",
     "unexpectedError": "Er is een onverwachte fout opgetreden"

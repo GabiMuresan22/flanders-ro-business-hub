@@ -137,7 +137,13 @@ const AuthPage = () => {
       });
 
       if (error) {
-        if (error.message.includes('Invalid login credentials')) {
+        if (error.message.includes('Email not confirmed')) {
+          toast({
+            title: t('auth.loginFailed'),
+            description: t('auth.emailNotConfirmed'),
+            variant: 'destructive',
+          });
+        } else if (error.message.includes('Invalid login credentials')) {
           toast({
             title: t('auth.loginFailed'),
             description: t('auth.invalidCredentials'),
