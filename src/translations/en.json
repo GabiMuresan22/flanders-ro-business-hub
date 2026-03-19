@@ -80,6 +80,7 @@
     "privacyPolicy": "Privacy Policy",
     "gdprConsentSuffix": "and consent to the processing of my personal data",
     "loginFailed": "Login Failed",
+    "loginSuccess": "You have logged in successfully!",
     "invalidCredentials": "Invalid email or password. Please try again.",
     "accountExists": "Account Exists",
     "emailAlreadyRegistered": "This email is already registered. Please login instead.",

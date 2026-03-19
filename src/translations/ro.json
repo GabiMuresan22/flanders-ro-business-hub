@@ -80,6 +80,7 @@
     "privacyPolicy": "Politica de Confidențialitate",
     "gdprConsentSuffix": "și consimt la procesarea datelor mele personale",
     "loginFailed": "Autentificare Eșuată",
+    "loginSuccess": "Te-ai autentificat cu succes!",
     "invalidCredentials": "Email sau parolă invalidă. Te rugăm să încerci din nou.",
     "accountExists": "Cont Existent",
     "emailAlreadyRegistered": "Acest email este deja înregistrat. Te rugăm să te autentifici.",

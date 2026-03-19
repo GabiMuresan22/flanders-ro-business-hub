@@ -80,6 +80,7 @@
     "privacyPolicy": "Privacybeleid",
     "gdprConsentSuffix": "en geef toestemming voor de verwerking van mijn persoonsgegevens",
     "loginFailed": "Inloggen Mislukt",
+    "loginSuccess": "U bent succesvol ingelogd!",
     "invalidCredentials": "Ongeldig e-mailadres of wachtwoord. Probeer het opnieuw.",
     "accountExists": "Account Bestaat Al",
     "emailAlreadyRegistered": "Dit e-mailadres is al geregistreerd. Log in.",
