@@ -133,6 +133,14 @@ const ResourceDetailPage = () => {
       { q: 'Am nevoie de contabil?', a: 'Nu este obligatoriu legal, dar este foarte recomandat. Un contabil bun te poate ajuta să economisești mai mult decât costul serviciului și te ferește de greșeli fiscale costisitoare.' },
       { q: 'Se calculează taxele pe venit sau pe profit?', a: 'Taxele se calculează pe profitul net, adică venitul minus cheltuielile deductibile. Nu plătești impozit pe toată suma facturată.' },
     );
+  } else if (resource.slug === 'marketing-afacere-belgia-ghid-pas-cu-pas') {
+    faqItems.push(
+      { q: 'Am nevoie de o agentie de marketing pentru afacerea mea in Belgia?', a: 'Nu. Poti incepe singur cu pasi simpli: Google Business Profile, recenzii, poze si postari constante pe social media. O agentie poate ajuta mai tarziu, dar nu este necesara la inceput.' },
+      { q: 'Cat costa sa iti faci singur marketingul?', a: 'Costul poate fi zero. Google Business Profile este gratuit, postarea pe Facebook este gratuita, iar cererea de recenzii nu costa nimic. Singura investitie reala este timpul tau.' },
+      { q: 'Cat de repede voi vedea rezultate?', a: 'Daca aplici planul de 30 de zile din acest ghid in mod constant, vei observa primele rezultate (mai multe apeluri, mesaje, vizite) dupa 2-4 saptamani.' },
+      { q: 'Ce este cel mai important lucru pe care trebuie sa il fac?', a: 'Sa iti creezi si sa iti optimizezi profilul Google Business. Acesta este cel mai important canal pentru clienti locali in Belgia.' },
+      { q: 'Trebuie sa postez in fiecare zi pe social media?', a: 'Nu. Un plan de 2-3 postari pe saptamana este suficient. Important este sa fii constant, nu sa postezi mult.' },
+    );
   }
 
   const faqSchema = faqItems.length > 0 ? {
