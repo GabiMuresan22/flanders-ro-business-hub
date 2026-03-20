@@ -88,7 +88,11 @@
     "emailNotConfirmed": "Your account has not been confirmed yet. Check your email and click the confirmation link.",
     "resetLinkSent": "Password reset link sent! Check your email.",
     "resetLinkFailed": "Failed to send reset link. Please try again.",
-    "unexpectedError": "An unexpected error occurred"
+    "unexpectedError": "An unexpected error occurred",
+    "invalidEmailError": "Invalid email address",
+    "passwordMinLengthError": "Password must be at least 6 characters",
+    "rateLimitError": "For security purposes, please wait a few seconds before trying again.",
+    "weakPasswordError": "Password is too weak. Please use a more complex combination."
   },
   "categoryPage": {
     "businesses": "Businesses",

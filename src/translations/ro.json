@@ -88,7 +88,11 @@
     "emailNotConfirmed": "Contul tău nu a fost încă confirmat. Verifică-ți emailul și apasă pe linkul de confirmare.",
     "resetLinkSent": "Link de resetare trimis! Verifică-ți emailul.",
     "resetLinkFailed": "Trimiterea linkului a eșuat. Te rugăm să încerci din nou.",
-    "unexpectedError": "A apărut o eroare neașteptată"
+    "unexpectedError": "A apărut o eroare neașteptată",
+    "invalidEmailError": "Adresă de email invalidă",
+    "passwordMinLengthError": "Parola trebuie să aibă minim 6 caractere",
+    "rateLimitError": "Din motive de securitate, te rugăm să aștepți câteva secunde înainte de a încerca din nou.",
+    "weakPasswordError": "Parola este prea slabă. Folosește o combinație mai complexă."
   },
   "categoryPage": {
     "businesses": "Afaceri",
