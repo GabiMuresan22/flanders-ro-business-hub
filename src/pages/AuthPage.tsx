@@ -12,7 +12,7 @@ import { AlertCircle, CheckCircle2, Eye, EyeOff, ArrowLeft } from 'lucide-react'
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-// Validation schemas are created inside component to use translations
+// Validation schemas moved inside component for i18n
 
 /** Validates redirect param to prevent open redirect. Only allows relative paths on same origin. */
 function getSafeRedirect(redirect: string | null, defaultPath = '/'): string {
