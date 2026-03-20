@@ -198,19 +198,25 @@ const AuthPage = () => {
       });
 
       if (error) {
-        if (error.message.includes('security purposes') || error.status === 429) {
+        const normalizedMessage = error.message.toLowerCase();
+        const isSignupRateLimited =
+          error.status === 429 ||
+          normalizedMessage.includes('security purposes') ||
+          normalizedMessage.includes('email rate limit exceeded');
+
+        if (isSignupRateLimited) {
           toast({
             title: t('common.error'),
-            description: t('auth.rateLimitError'),
+            description: t('auth.signupRateLimitError'),
             variant: 'destructive',
           });
-        } else if (error.message.includes('already registered')) {
+        } else if (normalizedMessage.includes('already registered')) {
           toast({
             title: t('auth.accountExists'),
             description: t('auth.emailAlreadyRegistered'),
             variant: 'destructive',
           });
-        } else if (error.message.includes('weak_password') || error.message.includes('too weak')) {
+        } else if (normalizedMessage.includes('weak_password') || normalizedMessage.includes('too weak')) {
           toast({
             title: t('common.error'),
             description: t('auth.weakPasswordError'),
