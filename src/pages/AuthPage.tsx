@@ -198,10 +198,22 @@ const AuthPage = () => {
       });
 
       if (error) {
-        if (error.message.includes('already registered')) {
+        if (error.message.includes('security purposes') || error.status === 429) {
+          toast({
+            title: t('common.error'),
+            description: t('auth.rateLimitError'),
+            variant: 'destructive',
+          });
+        } else if (error.message.includes('already registered')) {
           toast({
             title: t('auth.accountExists'),
             description: t('auth.emailAlreadyRegistered'),
+            variant: 'destructive',
+          });
+        } else if (error.message.includes('weak_password') || error.message.includes('too weak')) {
+          toast({
+            title: t('common.error'),
+            description: t('auth.weakPasswordError'),
             variant: 'destructive',
           });
         } else {
