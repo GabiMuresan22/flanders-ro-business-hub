@@ -139,7 +139,13 @@ const AuthPage = () => {
       });
 
       if (error) {
-        if (error.message.includes('Email not confirmed')) {
+        if (error.message.includes('security purposes') || error.status === 429) {
+          toast({
+            title: t('common.error'),
+            description: t('auth.rateLimitError'),
+            variant: 'destructive',
+          });
+        } else if (error.message.includes('Email not confirmed')) {
           toast({
             title: t('auth.loginFailed'),
             description: t('auth.emailNotConfirmed'),
