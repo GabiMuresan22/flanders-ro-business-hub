@@ -84,7 +84,7 @@
     "invalidCredentials": "Invalid email or password. Please try again.",
     "accountExists": "Account Exists",
     "emailAlreadyRegistered": "This email is already registered. Please login instead.",
-    "accountCreated": "Account created successfully! Check your email to confirm your account before logging in.",
+    "accountCreated": "Account created successfully! Check your inbox and spam folder for the confirmation email before logging in.",
     "emailNotConfirmed": "Your account has not been confirmed yet. Check your email and click the confirmation link.",
     "resetLinkSent": "Password reset link sent! Check your email.",
     "resetLinkFailed": "Failed to send reset link. Please try again.",
@@ -92,6 +92,7 @@
     "invalidEmailError": "Invalid email address",
     "passwordMinLengthError": "Password must be at least 6 characters",
     "rateLimitError": "For security purposes, please wait a few seconds before trying again.",
+    "signupRateLimitError": "The confirmation email couldn't be sent right now because too many verification emails were requested recently. If you already received one, use that link. Otherwise check Spam and try again in a few minutes.",
     "weakPasswordError": "Password is too weak. Please use a more complex combination."
   },
   "categoryPage": {

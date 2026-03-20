@@ -84,7 +84,7 @@
     "invalidCredentials": "Ongeldig e-mailadres of wachtwoord. Probeer het opnieuw.",
     "accountExists": "Account Bestaat Al",
     "emailAlreadyRegistered": "Dit e-mailadres is al geregistreerd. Log in.",
-    "accountCreated": "Account succesvol aangemaakt! Controleer uw e-mail om uw account te bevestigen voordat u inlogt.",
+    "accountCreated": "Account succesvol aangemaakt! Controleer uw inbox en spammap voor de bevestigingsmail voordat u inlogt.",
     "emailNotConfirmed": "Uw account is nog niet bevestigd. Controleer uw e-mail en klik op de bevestigingslink.",
     "resetLinkSent": "Resetlink verstuurd! Controleer uw e-mail.",
     "resetLinkFailed": "Resetlink versturen mislukt. Probeer het opnieuw.",
@@ -92,6 +92,7 @@
     "invalidEmailError": "Ongeldig e-mailadres",
     "passwordMinLengthError": "Wachtwoord moet minimaal 6 tekens bevatten",
     "rateLimitError": "Om veiligheidsredenen, wacht enkele seconden voordat u het opnieuw probeert.",
+    "signupRateLimitError": "De bevestigingsmail kon nu niet worden verzonden omdat er recent te veel verificatiemails zijn aangevraagd. Als u er al een heeft ontvangen, gebruik dan die link. Controleer anders ook uw spammap en probeer het over een paar minuten opnieuw.",
     "weakPasswordError": "Wachtwoord is te zwak. Gebruik een complexere combinatie."
   },
   "categoryPage": {

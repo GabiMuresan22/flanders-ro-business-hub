@@ -84,7 +84,7 @@
     "invalidCredentials": "Email sau parolă invalidă. Te rugăm să încerci din nou.",
     "accountExists": "Cont Existent",
     "emailAlreadyRegistered": "Acest email este deja înregistrat. Te rugăm să te autentifici.",
-    "accountCreated": "Cont creat cu succes! Verifică-ți emailul pentru a confirma contul înainte de a te autentifica.",
+    "accountCreated": "Cont creat cu succes! Verifică inboxul și folderul Spam pentru emailul de confirmare înainte să te autentifici.",
     "emailNotConfirmed": "Contul tău nu a fost încă confirmat. Verifică-ți emailul și apasă pe linkul de confirmare.",
     "resetLinkSent": "Link de resetare trimis! Verifică-ți emailul.",
     "resetLinkFailed": "Trimiterea linkului a eșuat. Te rugăm să încerci din nou.",
@@ -92,6 +92,7 @@
     "invalidEmailError": "Adresă de email invalidă",
     "passwordMinLengthError": "Parola trebuie să aibă minim 6 caractere",
     "rateLimitError": "Din motive de securitate, te rugăm să aștepți câteva secunde înainte de a încerca din nou.",
+    "signupRateLimitError": "Emailul de confirmare nu a putut fi trimis momentan deoarece au fost cerute prea multe emailuri de verificare recent. Dacă ai primit deja un email, folosește acel link. Altfel, verifică și folderul Spam și încearcă din nou peste câteva minute.",
     "weakPasswordError": "Parola este prea slabă. Folosește o combinație mai complexă."
   },
   "categoryPage": {
