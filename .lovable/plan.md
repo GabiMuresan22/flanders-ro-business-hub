@@ -1,180 +1,46 @@
 
-## Plan: Add Category Translations and New "Gift and Flowers" Category
 
-### Overview
-This plan addresses three main areas:
-1. Add comprehensive category translations for all existing categories
-2. Translate the footer category names and links
-3. Add a new "Gift and Flowers" category throughout the application
+# Plan: Add New Marketing DIY Article to Resources
 
----
+## Overview
+Insert a new resource article "Cum sa-ti faci singur marketingul pentru afacerea ta in Belgia" into the `resources` database table with full RO/EN/NL translations, following the exact same HTML structure, CTA styling, and SEO patterns as the existing articles.
 
-### 1. Update Translation Files
+## Steps
 
-#### English (`src/translations/en.json`)
+### 1. Insert the new article into the `resources` table
+Use the database insert tool to add a single row with:
+- **slug**: `marketing-afacere-belgia-ghid-pas-cu-pas`
+- **category**: `Marketing`
+- **is_published**: `true`
+- **image_url**: Will use a relevant stock/Unsplash image uploaded to the `business-images` bucket, or reference a local image in `public/images/`
+- **title** (RO): "Cum sa-ti faci singur marketingul pentru afacerea ta in Belgia (fara agentie) – Ghid pas cu pas"
+- **title_en**: "How to Do Your Own Marketing for Your Business in Belgium (Without an Agency) – Step by Step Guide"
+- **title_nl**: "Hoe je zelf de marketing doet voor je bedrijf in Belgie (zonder bureau) – Stap-voor-stap gids"
+- **excerpt** / **excerpt_en** / **excerpt_nl**: Short 1-2 sentence summaries in each language
+- **content** (RO): Full article HTML with semantic H2/H3 headings, lists, tables, no emojis, CTA buttons using inline CSS (blue gradient `#002B7F` background, golden yellow `#EAB308` buttons with `onmouseover/out` handlers)
+- **content_en**: Full English translation, same HTML structure
+- **content_nl**: Full Dutch translation, same HTML structure
 
-Add/update the `businessCategories` section:
-```json
-"businessCategories": {
-  "Restaurant & Food": "Restaurant & Food",
-  "Bakery": "Bakery",
-  "Grocery": "Grocery",
-  "Beauty & Wellness": "Beauty & Wellness",
-  "Beauty Salon": "Beauty Salon",
-  "Car Services": "Car Services",
-  "Car Service": "Car Service",
-  "Construction": "Construction",
-  "Transportation": "Transportation",
-  "Transport": "Transport",
-  "Travel & Tourism": "Travel & Tourism",
-  "Retail": "Retail",
-  "Professional Services": "Professional Services",
-  "Gift & Flowers": "Gift & Flowers",
-  "Other Services": "Other Services",
-  "Other": "Other"
-}
-```
+### 2. Article HTML structure (all 3 languages)
+Following the established pattern:
+- Intro paragraphs (no H2 — good for SEO)
+- H2 sections for each major topic
+- H3 sub-sections where appropriate
+- Bulleted lists for actionable items
+- Two CTA blocks (mid-article + final) with inline-styled gradient boxes and yellow buttons linking to `/add-business`
+- "Resurse utile" section at the bottom linking to other articles
+- No emojis anywhere in the HTML
 
-Add footer category translations:
-```json
-"footer": {
-  // ... existing keys ...
-  "categoryRestaurants": "Restaurants",
-  "categoryBakeries": "Bakeries",
-  "categoryGrocery": "Grocery Stores",
-  "categoryCarServices": "Car Services",
-  "categoryBeauty": "Beauty Salons",
-  "categoryConstruction": "Construction",
-  "categoryGiftFlowers": "Gift & Flowers",
-  "privacyPolicy": "Privacy Policy"
-}
-```
+### 3. Update sitemap
+Add the new article URL to `public/sitemap.xml`.
 
-#### Romanian (`src/translations/ro.json`)
+### 4. Add FAQ structured data (optional)
+If the article contains FAQ-like content, add FAQ schema handling in `ResourceDetailPage.tsx` for this slug.
 
-Add/update the `businessCategories` section:
-```json
-"businessCategories": {
-  "Restaurant & Food": "Restaurant și Mâncare",
-  "Bakery": "Patiserie",
-  "Grocery": "Alimentară",
-  "Beauty & Wellness": "Frumusețe și Wellness",
-  "Beauty Salon": "Salon de Frumusețe",
-  "Car Services": "Servicii Auto",
-  "Car Service": "Service Auto",
-  "Construction": "Construcții",
-  "Transportation": "Transport",
-  "Transport": "Transport",
-  "Travel & Tourism": "Călătorii și Turism",
-  "Retail": "Comerț cu amănuntul",
-  "Professional Services": "Servicii Profesionale",
-  "Gift & Flowers": "Cadouri și Flori",
-  "Other Services": "Alte Servicii",
-  "Other": "Altele"
-}
-```
+## Technical Details
+- The article content uses inline CSS for CTA styling (required because Tailwind Typography's `prose` class overrides utility classes in injected HTML)
+- CTA button colors: background `#EAB308` (golden yellow), text `#000000`, hover `#d4a006`
+- CTA container: gradient from `#002B7F` to `#001a4d`, white text
+- Links to other resources use `color: #002B7F; text-decoration: underline`
+- No code changes needed in React components — the article renders through existing `ResourceDetailPage`
 
-Add footer category translations:
-```json
-"footer": {
-  // ... existing keys ...
-  "categoryRestaurants": "Restaurante",
-  "categoryBakeries": "Patiserii",
-  "categoryGrocery": "Magazine Alimentare",
-  "categoryCarServices": "Servicii Auto",
-  "categoryBeauty": "Saloane de Frumusețe",
-  "categoryConstruction": "Construcții",
-  "categoryGiftFlowers": "Cadouri și Flori",
-  "privacyPolicy": "Politica de Confidențialitate"
-}
-```
-
----
-
-### 2. Update Footer Component
-
-Modify `src/components/Footer.tsx` to use translations for category names:
-
-```tsx
-<nav aria-label="Business categories">
-  <h3 className="...">{t('footer.categories')}</h3>
-  <ul className="space-y-2">
-    <li><Link to="/category/restaurant-food">{t('footer.categoryRestaurants')}</Link></li>
-    <li><Link to="/category/bakery">{t('footer.categoryBakeries')}</Link></li>
-    <li><Link to="/category/grocery">{t('footer.categoryGrocery')}</Link></li>
-    <li><Link to="/category/car-services">{t('footer.categoryCarServices')}</Link></li>
-    <li><Link to="/category/beauty-wellness">{t('footer.categoryBeauty')}</Link></li>
-    <li><Link to="/category/construction">{t('footer.categoryConstruction')}</Link></li>
-    <li><Link to="/category/gift-flowers">{t('footer.categoryGiftFlowers')}</Link></li>
-  </ul>
-</nav>
-```
-
-Also translate the Privacy Policy link:
-```tsx
-<li><Link to="/privacy-policy">{t('footer.privacyPolicy')}</Link></li>
-```
-
----
-
-### 3. Add "Gift & Flowers" Category to Forms
-
-Update the categories array in both:
-- `src/pages/AddBusinessPage.tsx` (line 250-262)
-- `src/pages/EditBusinessPage.tsx` (line 164-176)
-
-```tsx
-const categories = [
-  "Restaurant & Food", 
-  "Bakery",
-  "Grocery",
-  "Beauty & Wellness", 
-  "Car Services", 
-  "Construction",
-  "Transportation",
-  "Travel & Tourism",
-  "Retail",
-  "Professional Services",
-  "Gift & Flowers",  // NEW
-  "Other"
-];
-```
-
----
-
-### 4. Add Icon for "Gift & Flowers" Category
-
-Update `src/pages/CategoriesListPage.tsx` to include the new category icon:
-
-```tsx
-import { Gift } from 'lucide-react';  // Add import
-
-const getCategoryIcon = (category: string) => {
-  const iconMap: Record<string, JSX.Element> = {
-    // ... existing icons ...
-    'Gift & Flowers': <Gift size={48} />,
-  };
-  return iconMap[category] || <Briefcase size={48} />;
-};
-```
-
----
-
-### Files to Modify
-
-| File | Changes |
-|------|---------|
-| `src/translations/en.json` | Add missing category translations, footer category translations |
-| `src/translations/ro.json` | Add Romanian translations for all categories and footer |
-| `src/components/Footer.tsx` | Use translation keys for category links and Privacy Policy |
-| `src/pages/AddBusinessPage.tsx` | Add "Gift & Flowers" to categories array |
-| `src/pages/EditBusinessPage.tsx` | Add "Gift & Flowers" to categories array |
-| `src/pages/CategoriesListPage.tsx` | Add Gift icon for new category |
-
----
-
-### Technical Notes
-
-- The `CategoryCard` component already supports translation via the `t('businessCategories.${category}')` pattern
-- The `categoryToSlug` function in `utils.ts` will automatically convert "Gift & Flowers" to "gift-flowers"
-- No database changes required - categories are stored as text strings
