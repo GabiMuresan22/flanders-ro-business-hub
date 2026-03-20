@@ -41,6 +41,9 @@ const AuthPage = () => {
   const { toast } = useToast();
   const { t } = useLanguage();
 
+  const emailSchema = z.string().email(t('auth.invalidEmailError'));
+  const passwordSchema = z.string().min(6, t('auth.passwordMinLengthError'));
+
   // Real-time email validation
   useEffect(() => {
     if (emailTouched) {
