@@ -234,8 +234,8 @@ const AuthPage = () => {
           title: t('common.success'),
           description: t('auth.accountCreated'),
         });
+        resetForm();
         setView('login');
-        setPassword('');
       }
     } catch (error) {
       toast({
