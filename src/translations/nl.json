@@ -88,7 +88,11 @@
     "emailNotConfirmed": "Uw account is nog niet bevestigd. Controleer uw e-mail en klik op de bevestigingslink.",
     "resetLinkSent": "Resetlink verstuurd! Controleer uw e-mail.",
     "resetLinkFailed": "Resetlink versturen mislukt. Probeer het opnieuw.",
-    "unexpectedError": "Er is een onverwachte fout opgetreden"
+    "unexpectedError": "Er is een onverwachte fout opgetreden",
+    "invalidEmailError": "Ongeldig e-mailadres",
+    "passwordMinLengthError": "Wachtwoord moet minimaal 6 tekens bevatten",
+    "rateLimitError": "Om veiligheidsredenen, wacht enkele seconden voordat u het opnieuw probeert.",
+    "weakPasswordError": "Wachtwoord is te zwak. Gebruik een complexere combinatie."
   },
   "categoryPage": {
     "businesses": "Bedrijven",

@@ -12,8 +12,7 @@ import { AlertCircle, CheckCircle2, Eye, EyeOff, ArrowLeft } from 'lucide-react'
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-const emailSchema = z.string().email('Invalid email address');
-const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
+// Validation schemas moved inside component for i18n
 
 /** Validates redirect param to prevent open redirect. Only allows relative paths on same origin. */
 function getSafeRedirect(redirect: string | null, defaultPath = '/'): string {
@@ -41,6 +40,9 @@ const AuthPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { t } = useLanguage();
+
+  const emailSchema = z.string().email(t('auth.invalidEmailError'));
+  const passwordSchema = z.string().min(6, t('auth.passwordMinLengthError'));
 
   // Real-time email validation
   useEffect(() => {
@@ -137,7 +139,13 @@ const AuthPage = () => {
       });
 
       if (error) {
-        if (error.message.includes('Email not confirmed')) {
+        if (error.message.includes('security purposes') || error.status === 429) {
+          toast({
+            title: t('common.error'),
+            description: t('auth.rateLimitError'),
+            variant: 'destructive',
+          });
+        } else if (error.message.includes('Email not confirmed')) {
           toast({
             title: t('auth.loginFailed'),
             description: t('auth.emailNotConfirmed'),
@@ -190,10 +198,22 @@ const AuthPage = () => {
       });
 
       if (error) {
-        if (error.message.includes('already registered')) {
+        if (error.message.includes('security purposes') || error.status === 429) {
+          toast({
+            title: t('common.error'),
+            description: t('auth.rateLimitError'),
+            variant: 'destructive',
+          });
+        } else if (error.message.includes('already registered')) {
           toast({
             title: t('auth.accountExists'),
             description: t('auth.emailAlreadyRegistered'),
+            variant: 'destructive',
+          });
+        } else if (error.message.includes('weak_password') || error.message.includes('too weak')) {
+          toast({
+            title: t('common.error'),
+            description: t('auth.weakPasswordError'),
             variant: 'destructive',
           });
         } else {
