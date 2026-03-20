@@ -12,8 +12,7 @@ import { AlertCircle, CheckCircle2, Eye, EyeOff, ArrowLeft } from 'lucide-react'
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-const emailSchema = z.string().email('Invalid email address');
-const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
+// Validation schemas are created inside component to use translations
 
 /** Validates redirect param to prevent open redirect. Only allows relative paths on same origin. */
 function getSafeRedirect(redirect: string | null, defaultPath = '/'): string {
