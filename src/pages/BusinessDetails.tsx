@@ -263,10 +263,10 @@ const BusinessDetails = () => {
           
           {/* Three-column cards section */}
           <div className="container mx-auto px-4 py-10 md:py-12">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:items-stretch">
               
               {/* About Us Card */}
-              <div className="bg-card rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-7 lg:p-9 animate-fade-in">
+              <div className="bg-card rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-7 lg:p-9 animate-fade-in flex flex-col h-full min-h-0">
                 <h2 className="font-playfair text-2xl font-bold text-foreground mb-5 border-b border-border pb-3">
                   {t('businessDetails.about')}
                 </h2>
@@ -280,23 +280,28 @@ const BusinessDetails = () => {
               </div>
 
               {/* Reviews Card */}
-              <div className="bg-card rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-7 lg:p-9 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                <div className="flex items-center justify-between mb-5 border-b border-border pb-3">
-                  <h2 className="font-playfair text-2xl font-bold text-foreground">
+              <div
+                className="bg-card rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-7 lg:p-9 animate-fade-in flex flex-col h-full min-h-0"
+                style={{ animationDelay: '0.1s' }}
+              >
+                {/* Title + CTA: gap + wrap so NL/EN/RO keep consistent spacing (long labels don't collide) */}
+                <div className="mb-5 border-b border-border pb-3 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-x-4 sm:gap-y-3">
+                  <h2 className="font-playfair text-2xl font-bold text-foreground min-w-0 sm:flex-1 sm:pr-2">
                     {t('businessDetails.reviews')}
                   </h2>
-                  <Button 
+                  <Button
                     variant="default"
                     size="sm"
                     onClick={() => setShowReviewForm(!showReviewForm)}
-                    className="bg-romania-blue hover:bg-romania-blue/90 transition-all duration-200 hover:scale-105 active:scale-95"
+                    className="bg-romania-blue hover:bg-romania-blue/90 transition-all duration-200 hover:scale-105 active:scale-95 shrink-0 w-full sm:w-auto sm:max-w-full text-center h-auto min-h-9 py-2 px-3 whitespace-normal leading-snug"
                   >
                     {t('businessDetails.leaveReview')}
                   </Button>
                 </div>
-                
+
+                <div className="flex flex-col flex-1 min-h-0">
                 {/* Rating summary */}
-                <div className="mb-5">
+                <div className="mb-5 shrink-0">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                     <span className="font-bold text-foreground text-2xl">{averageRating.toFixed(1)}</span>
                     <span className="text-muted-foreground">({reviews.length} {reviews.length === 1 ? t('businessDetails.review') : t('businessDetails.reviewsCount')})</span>
@@ -317,24 +322,26 @@ const BusinessDetails = () => {
 
                 {/* Reviews list or empty state */}
                 {reviews.length > 0 ? (
-                  <div className="space-y-4 max-h-72 overflow-y-auto pr-1">
+                  <div className="space-y-4 max-h-72 overflow-y-auto pr-1 flex-1 min-h-0">
                     {reviews.map((review) => (
                       <ReviewCard key={review.id} review={review} />
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-6">
-                    <p className="text-muted-foreground font-medium text-base">
-                      {t('businessDetails.noReviews')}
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-2 mb-5">
-                      {t('businessDetails.beFirstReview')}
-                    </p>
+                  <div className="flex flex-col flex-1 min-h-[12rem] justify-end gap-6">
+                    <div className="text-center">
+                      <p className="text-muted-foreground font-medium text-base">
+                        {t('businessDetails.noReviews')}
+                      </p>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        {t('businessDetails.beFirstReview')}
+                      </p>
+                    </div>
                     <Button
                       variant="default"
                       size="default"
                       onClick={() => setShowReviewForm(true)}
-                      className="bg-romania-blue hover:bg-romania-blue/90 transition-all duration-200 hover:scale-105 active:scale-95"
+                      className="w-full bg-romania-blue hover:bg-romania-blue/90 transition-all duration-200 hover:scale-105 active:scale-95 h-auto min-h-10 py-3 px-4 whitespace-normal leading-snug shrink-0"
                     >
                       {t('businessDetails.addReview')}
                     </Button>
@@ -343,7 +350,7 @@ const BusinessDetails = () => {
 
                 {/* Review form - toggleable with animation */}
                 {showReviewForm && (
-                  <div className="mt-5 pt-5 border-t border-border animate-fade-in">
+                  <div className="mt-5 pt-5 border-t border-border animate-fade-in shrink-0">
                     <ReviewForm 
                       businessId={id!} 
                       onReviewSubmitted={() => {
@@ -353,10 +360,11 @@ const BusinessDetails = () => {
                     />
                   </div>
                 )}
+                </div>
               </div>
 
               {/* Contact Information Card */}
-              <div className="bg-romania-blue rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-7 lg:p-9 text-white animate-fade-in" style={{ animationDelay: '0.2s' }}>
+              <div className="bg-romania-blue rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-7 lg:p-9 text-white animate-fade-in flex flex-col h-full min-h-0" style={{ animationDelay: '0.2s' }}>
                 <h2 className="font-playfair text-2xl font-bold mb-6 border-b border-white/20 pb-3">
                   {t('businessDetails.contactInfo')}
                 </h2>
@@ -412,7 +420,7 @@ const BusinessDetails = () => {
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.city}, ${business.postal_code}, Belgium`)}`} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="mt-7 block w-full bg-white text-romania-blue text-center font-semibold py-3 px-4 rounded-lg hover:bg-white/90 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                  className="mt-auto pt-7 block w-full bg-white text-romania-blue text-center font-semibold py-3 px-4 rounded-lg hover:bg-white/90 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shrink-0"
                 >
                   {t('businessDetails.viewOnMap')}
                 </a>
