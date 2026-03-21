@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Building2, Edit, Trash2, Plus, Mail, Phone, MapPin, Globe, Clock } from 'lucide-react';
 import type { BusinessRow } from '@/types/database';
+import { getLocalizedBusinessDescription } from '@/lib/businessDescription';
 import type { User } from '@supabase/supabase-js';
 
 const MyBusinessesPage = () => {
@@ -269,11 +270,7 @@ const MyBusinessesPage = () => {
                         <div className="mb-4">
                           <p className="text-sm text-gray-500 mb-1">{t('myBusinesses.description')}</p>
                           <p className="text-gray-700 line-clamp-2">
-                            {language === 'nl'
-                              ? ((business as any).description_nl || (business as any).description_en || business.description || '')
-                              : language === 'en'
-                                ? ((business as any).description_en || business.description || '')
-                                : (business.description || (business as any).description_en || '')}
+                            {getLocalizedBusinessDescription(business, language).text}
                           </p>
                         </div>
 

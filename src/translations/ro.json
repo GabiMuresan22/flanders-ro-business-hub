@@ -237,6 +237,10 @@
   },
   "businessDetails": {
     "about": "Despre Noi",
+    "descriptionFallbackNlShowsEn": "Nu există încă descriere în olandeză. Mai jos este textul în engleză.",
+    "descriptionFallbackNlShowsRo": "Nu există încă descriere în olandeză sau engleză. Mai jos este textul original în română.",
+    "descriptionFallbackEnShowsRo": "Nu există încă descriere în engleză. Mai jos este textul original în română.",
+    "descriptionFallbackRoShowsEn": "Nu există încă descriere în română. Mai jos este textul în engleză.",
     "reviews": "Recenzii",
     "review": "recenzie",
     "reviewsCount": "recenzii",

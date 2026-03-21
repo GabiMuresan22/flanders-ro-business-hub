@@ -23,6 +23,10 @@ import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 import type { PublicBusiness, ReviewRow } from '@/types/database';
 import { getLocalBusinessSchema, getBreadcrumbSchema } from '@/utils/schemas';
+import {
+  getLocalizedBusinessDescription,
+  getDescriptionFallbackTranslationKey,
+} from '@/lib/businessDescription';
 
 // Extended type for public business with contact info from updated view
 type PublicBusinessWithContact = PublicBusiness & {
@@ -171,6 +175,11 @@ const BusinessDetails = () => {
     ? [businessStructuredData, breadcrumbStructuredData]
     : businessStructuredData;
 
+  const aboutDescription = business
+    ? getLocalizedBusinessDescription(business, language)
+    : { text: '', fallback: 'none' as const };
+  const aboutFallbackKey = getDescriptionFallbackTranslationKey(aboutDescription.fallback);
+
   return (
     <>
       {business && (
@@ -270,12 +279,16 @@ const BusinessDetails = () => {
                 <h2 className="font-playfair text-2xl font-bold text-foreground mb-5 border-b border-border pb-3">
                   {t('businessDetails.about')}
                 </h2>
+                {aboutFallbackKey && (
+                  <p
+                    className="text-sm text-muted-foreground border border-border/80 bg-muted/50 rounded-lg px-3 py-2.5 mb-3"
+                    role="note"
+                  >
+                    {t(`businessDetails.${aboutFallbackKey}`)}
+                  </p>
+                )}
                 <div className="text-muted-foreground leading-relaxed whitespace-pre-line text-[0.95rem]">
-                  {language === 'nl'
-                    ? ((business as any).description_nl || (business as any).description_en || business.description || '')
-                    : language === 'en'
-                      ? ((business as any).description_en || business.description || '')
-                      : (business.description || (business as any).description_en || '')}
+                  {aboutDescription.text}
                 </div>
               </div>
 
@@ -284,16 +297,16 @@ const BusinessDetails = () => {
                 className="bg-card rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-7 lg:p-9 animate-fade-in flex flex-col h-full min-h-0"
                 style={{ animationDelay: '0.1s' }}
               >
-                {/* Title + CTA: gap + wrap so NL/EN/RO keep consistent spacing (long labels don't collide) */}
-                <div className="mb-5 border-b border-border pb-3 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-x-4 sm:gap-y-3">
-                  <h2 className="font-playfair text-2xl font-bold text-foreground min-w-0 sm:flex-1 sm:pr-2">
+                {/* Title + CTA: always stacked so long NL labels never sit flush against the heading */}
+                <div className="mb-5 border-b border-border pb-3 flex flex-col gap-3">
+                  <h2 className="font-playfair text-2xl font-bold text-foreground w-full">
                     {t('businessDetails.reviews')}
                   </h2>
                   <Button
                     variant="default"
                     size="sm"
                     onClick={() => setShowReviewForm(!showReviewForm)}
-                    className="bg-romania-blue hover:bg-romania-blue/90 transition-all duration-200 hover:scale-105 active:scale-95 shrink-0 w-full sm:w-auto sm:max-w-full text-center h-auto min-h-9 py-2 px-3 whitespace-normal leading-snug"
+                    className="bg-romania-blue hover:bg-romania-blue/90 transition-all duration-200 hover:scale-105 active:scale-95 self-start w-full sm:w-auto text-center h-auto min-h-9 py-2 px-4 whitespace-normal leading-snug shrink-0"
                   >
                     {t('businessDetails.leaveReview')}
                   </Button>

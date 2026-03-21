@@ -4,6 +4,7 @@ import { Phone, Globe, MapPin } from 'lucide-react';
 import type { BusinessCardData } from '@/types/database';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { normalizeExternalUrl } from '@/lib/utils';
+import { getLocalizedBusinessDescription } from '@/lib/businessDescription';
 
 interface BusinessCardProps {
   business: BusinessCardData;
@@ -11,6 +12,7 @@ interface BusinessCardProps {
 
 const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
   const { t, language } = useLanguage();
+  const cardDescription = getLocalizedBusinessDescription(business, language).text;
   
   // Map category keys for translation
   const getCategoryTranslationKey = (category: string): string => {
@@ -80,11 +82,7 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
           <h3 className="font-playfair text-xl font-bold text-gray-800 transition-colors duration-300 group-hover:text-romania-blue">{business.business_name}</h3>
         </div>
         <p className="text-gray-600 mb-4 line-clamp-2">
-          {language === 'nl'
-            ? ((business as unknown as Record<string, string | null>).description_nl || business.description_en || business.description || '')
-            : language === 'en'
-              ? (business.description_en || business.description || '')
-              : (business.description || business.description_en || '')}
+          {cardDescription}
         </p>
         <div className="flex items-center justify-center text-gray-500 mb-2">
           <MapPin className="h-4 w-4 mr-2" aria-hidden="true" />

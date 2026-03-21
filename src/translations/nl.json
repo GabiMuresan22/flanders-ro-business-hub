@@ -237,6 +237,10 @@
   },
   "businessDetails": {
     "about": "Over Ons",
+    "descriptionFallbackNlShowsEn": "Nog geen Nederlandse beschrijving. Hieronder staat de Engelse tekst.",
+    "descriptionFallbackNlShowsRo": "Nog geen Nederlandse of Engelse beschrijving. Hieronder staat de oorspronkelijke Roemeense tekst.",
+    "descriptionFallbackEnShowsRo": "Nog geen Engelse beschrijving. Hieronder staat de oorspronkelijke Roemeense tekst.",
+    "descriptionFallbackRoShowsEn": "Nog geen Roemeense beschrijving. Hieronder staat de Engelse tekst.",
     "reviews": "Beoordelingen",
     "review": "beoordeling",
     "reviewsCount": "beoordelingen",
@@ -259,7 +263,7 @@
     "businessNotFoundMessage": "Sorry, het bedrijf dat u zoekt bestaat niet of is verwijderd.",
     "returnHome": "Terug naar Home",
     "returnToHome": "Terug naar Home",
-    "leaveReview": "Laat een Beoordeling Achter",
+    "leaveReview": "Schrijf een beoordeling",
     "ratingRequired": "Beoordeling vereist",
     "ratingRequiredMessage": "Selecteer een beoordeling voordat u verzendt",
     "authRequired": "Authenticatie vereist",
@@ -282,7 +286,7 @@
     "socialMedia": "Sociale Media"
   },
   "reviewForm": {
-    "leaveReview": "Laat een Beoordeling Achter",
+    "leaveReview": "Schrijf een beoordeling",
     "ratingRequired": "Beoordeling vereist",
     "selectRating": "Selecteer een beoordeling voordat u verzendt",
     "authRequired": "Authenticatie vereist",

@@ -237,6 +237,10 @@
   },
   "businessDetails": {
     "about": "About Us",
+    "descriptionFallbackNlShowsEn": "No Dutch description yet. Showing English below.",
+    "descriptionFallbackNlShowsRo": "No Dutch or English description yet. Showing the original Romanian text below.",
+    "descriptionFallbackEnShowsRo": "No English description yet. Showing the original Romanian text below.",
+    "descriptionFallbackRoShowsEn": "No Romanian description yet. Showing English below.",
     "reviews": "Reviews",
     "review": "review",
     "reviewsCount": "reviews",
