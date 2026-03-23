@@ -141,6 +141,13 @@ const ResourceDetailPage = () => {
       { q: 'Ce este cel mai important lucru pe care trebuie sa il fac?', a: 'Sa iti creezi si sa iti optimizezi profilul Google Business. Acesta este cel mai important canal pentru clienti locali in Belgia.' },
       { q: 'Trebuie sa postez in fiecare zi pe social media?', a: 'Nu. Un plan de 2-3 postari pe saptamana este suficient. Important este sa fii constant, nu sa postezi mult.' },
     );
+  } else if (resource.slug === 'checklist-primele-30-zile-independent-belgia') {
+    faqItems.push(
+      { q: 'Ce trebuie sa fac in primele 30 de zile ca independent in Belgia?', a: 'Trebuie sa acoperi 3 zone: administrativ (cont bancar, TVA, contabil), financiar (facturare, organizare documente) si marketing (Google Business, pagina web, continut constant).' },
+      { q: 'Am nevoie de contabil de la inceput?', a: 'Da, este foarte recomandat. Un contabil bun te ajuta sa platesti corect taxele, iti ofera claritate si iti protejeaza afacerea de la inceput.' },
+      { q: 'Cum atrag clienti fara buget de marketing?', a: 'Concentreaza-te pe Google Business Profile (gratuit), cere recenzii de la clienti multumiti, posteaza constant pe social media si fii activ in comunitati locale.' },
+      { q: 'Cat de repede pot vedea rezultate?', a: 'Daca urmezi planul de 30 de zile din acest ghid cu consistenta, vei observa primele rezultate (apeluri, mesaje, clienti noi) dupa 2-4 saptamani.' },
+    );
   }
 
   const faqSchema = faqItems.length > 0 ? {

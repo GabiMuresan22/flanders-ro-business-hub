@@ -136,7 +136,7 @@ describe("Reset Password Flow", () => {
       expect(screen.queryByText("Invalid or Expired Link")).toBeInTheDocument();
     });
 
-    (window as unknown as { location: Location }).location = originalLocation;
+    Object.defineProperty(window, 'location', { value: originalLocation, writable: true, configurable: true });
   });
 
   it("shows set new password form when session is valid", async () => {
