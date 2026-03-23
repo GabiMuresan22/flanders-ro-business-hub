@@ -112,8 +112,11 @@ describe("Reset Password Flow", () => {
 
   it("shows invalid link UI when exchangeCodeForSession fails", async () => {
     const originalLocation = window.location;
-    delete (window as unknown as { location: unknown }).location;
-    window.location = { ...originalLocation, search: "?code=badcode" } as Location;
+    Object.defineProperty(window, 'location', {
+      value: { ...originalLocation, search: "?code=badcode" },
+      writable: true,
+      configurable: true,
+    });
 
     mockExchangeCodeForSession.mockResolvedValue({ error: { message: "Invalid code" } });
     mockGetSession.mockResolvedValue({ data: { session: null }, error: null });
@@ -133,7 +136,7 @@ describe("Reset Password Flow", () => {
       expect(screen.queryByText("Invalid or Expired Link")).toBeInTheDocument();
     });
 
-    (window as unknown as { location: Location }).location = originalLocation;
+    Object.defineProperty(window, 'location', { value: originalLocation, writable: true, configurable: true });
   });
 
   it("shows set new password form when session is valid", async () => {
