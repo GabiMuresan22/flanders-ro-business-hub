@@ -1,143 +1,301 @@
-# Welcome to your Lovable project
+# Flanders Romanian Business Hub
 
-## Project info
+A multilingual web directory connecting the Romanian community in West Flanders, Belgium with trusted local Romanian-owned businesses and essential resources for entrepreneurs.
 
-**URL**: https://lovable.dev/projects/41908f42-ec12-47e5-8789-f495fa2ac907
+🌐 **Live site:** [www.ro-businesshub.be](https://www.ro-businesshub.be)
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 📋 Table of Contents
 
-**Use Lovable**
+- [About the App](#about-the-app)
+- [Key Benefits](#key-benefits)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Available Scripts](#available-scripts)
+- [Tech Stack](#tech-stack)
+- [Multilingual Support](#multilingual-support)
+- [Testing](#testing)
+- [Deployment](#deployment)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/41908f42-ec12-47e5-8789-f495fa2ac907) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## About the App
 
-**Use your preferred IDE**
+### Our Mission
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+The **Romanian Business Hub** is dedicated to promoting and supporting Romanian-owned businesses in West Flanders. Our platform connects these businesses with the local community, helping them increase their visibility and customer base while preserving and sharing Romanian culture and expertise.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### What We're Building
 
-Follow these steps:
+Our vision is to create a comprehensive, easy-to-use directory of Romanian businesses across West Flanders. We want to make it simple for customers to find the authentic Romanian products and services they're looking for. The platform features detailed business profiles, contact information, and operating hours to connect you with the right businesses for your needs.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+**Our goals are to:**
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- Showcase Romanian businesses to the wider community.
+- Help customers discover authentic Romanian products and services.
+- Support Romanian entrepreneurs in building successful businesses.
+- Foster strong connections within the Romanian-Belgian community.
+- Promote cultural exchange through business and community relationships.
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Our Story
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+The idea for the Romanian Business Hub came from seeing the same questions asked over and over in community Facebook groups: *"Can anyone recommend a good Romanian mechanic?"* or *"Where can I find the best authentic ingredients for the holidays?"*
+
+There was a clear need. While the community is full of talented entrepreneurs and skilled professionals, finding them was a challenge. Recommendations were scattered across countless posts and easily lost. The Romanian Business Hub was built to fix that — creating a single, central platform where every Romanian-owned business in West Flanders can be seen and every customer can easily find them. It takes that powerful community spirit from social media and gives it a permanent, professional home.
+
+---
+
+## Key Benefits
+
+### For Business Owners
+- 📢 **Free business listing** — add your business and reach customers in the local Romanian community
+- 🔍 **Increased visibility** — your business appears in a dedicated directory searched by community members
+- 🤝 **Be found first** — get in touch to be one of the first businesses featured on the platform
+- 📊 **Built-in financial tools** — use the Belgium Tax Calculator and Cash Flow Calculator to manage your finances
+- 📚 **Entrepreneur resources** — access guides such as "How to become self-employed in Belgium" in Romanian, English, and Dutch
+
+### For Customers & Community Members
+- 🗂️ **Browse by category** — quickly find the type of business or service you need
+- 🌍 **Multilingual interface** — use the platform in Romanian, English, or Dutch
+- ⭐ **Curated, trusted listings** — businesses are reviewed before appearing on the platform
+- 📞 **Direct contact** — get business details, addresses, and contact information at a glance
+- 📰 **Stay informed** — sign up for the newsletter to be first to know about new businesses and platform updates
+
+### For the Community
+- 🤝 **Bridges Romanian entrepreneurs with local customers** in Flanders
+- 🇷🇴🇧🇪 **Celebrates Romanian culture** while helping integrate into Belgian society
+- 📖 **Educational content** — step-by-step guides and an FAQ covering self-employment, taxes, and more
+
+---
+
+## Prerequisites
+
+Before installing the project, make sure you have the following installed on your machine:
+
+- **Node.js** (v18 or higher) — [Install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- **npm** (comes with Node.js) or **bun** as an alternative package manager
+- **Git** — [Install Git](https://git-scm.com/downloads)
+- A **Supabase** account (free tier is sufficient) — [supabase.com](https://supabase.com)
+
+---
+
+## Installation
+
+Follow these steps to run the project locally:
+
+### Step 1 — Clone the repository
+
+```bash
+git clone https://github.com/GabiMuresan22/flanders-ro-business-hub.git
+```
+
+### Step 2 — Navigate into the project directory
+
+```bash
+cd flanders-ro-business-hub
+```
+
+### Step 3 — Install dependencies
+
+```bash
+npm install
+```
+
+> Alternatively, if you use **bun**:
+> ```bash
+> bun install
+> ```
+
+### Step 4 — Set up environment variables
+
+Copy the example environment file and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+Open `.env` and add your configuration (see [Environment Variables](#environment-variables) below).
+
+### Step 5 — Start the development server
+
+```bash
 npm run dev
 ```
 
+The app will be available at **http://localhost:8080** with hot-reloading enabled.
+
 > **⚠️ Git Issues?** If you encounter problems pushing your changes (like "fetch first" errors), check out our [Git Troubleshooting Guide](GIT_TROUBLESHOOTING.md) for solutions.
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Environment Variables
 
-**Use GitHub Codespaces**
+Create a `.env` file in the project root (copy from `.env.example`) and configure the following:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `VITE_GA_ID` | Google Analytics 4 Measurement ID (optional — only used when users accept analytics cookies) | `G-XXXXXXXXXX` |
 
-## What technologies are used for this project?
+> **Note:** Supabase connection details are pre-configured in the project via the built-in Supabase integration and are not stored in `.env`. A Supabase account is only needed if you plan to set up your own database instance for a fork or custom deployment — for contributing to this project you can run the frontend locally without any Supabase credentials.
+
+---
+
+## Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start the development server |
+| `npm run build` | Build the app for production (also generates the sitemap) |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint across the codebase |
+| `npm test` | Run the full test suite with Vitest |
+| `npm run test:validation` | Run form validation tests |
+| `npm run test:business` | Run database submission tests (requires Supabase access) |
+| `npm run test:webdev` | Run Web Developer business tests |
+| `npm run migration:check` | Check Dutch translation migration status |
+| `npm run migration:verify` | Verify Dutch content structure in the database |
+
+---
+
+## Tech Stack
 
 This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+| Technology | Purpose |
+|------------|---------|
+| [Vite](https://vitejs.dev/) | Lightning-fast build tool and dev server |
+| [React 19](https://react.dev/) | UI component library |
+| [TypeScript](https://www.typescriptlang.org/) | Type-safe JavaScript |
+| [Tailwind CSS](https://tailwindcss.com/) | Utility-first CSS framework |
+| [shadcn/ui](https://ui.shadcn.com/) | Accessible, composable UI components |
+| [Supabase](https://supabase.com/) | Backend-as-a-service (database, auth, storage) |
+| [React Query](https://tanstack.com/query) | Server state management and data fetching |
+| [React Router v7](https://reactrouter.com/) | Client-side routing |
+| [React Hook Form](https://react-hook-form.com/) | Performant form state management |
+| [Zod](https://zod.dev/) | Schema validation |
+| [Recharts](https://recharts.org/) | Charts for financial tools |
+| [Vitest](https://vitest.dev/) | Unit and integration testing |
+
+---
 
 ## Multilingual Support
 
-This project supports three languages:
-- **Romanian (RO)** - Default language
-- **English (EN)** - Primary alternative language
-- **Dutch (NL)** - For the Belgian/Dutch-speaking community
+The platform supports three languages:
 
-Language switching is handled via the `?lang=` URL parameter (e.g., `?lang=nl` for Dutch).
+| Language | Code | URL Parameter |
+|----------|------|---------------|
+| Romanian | RO | (default) |
+| English | EN | `?lang=en` |
+| Dutch | NL | `?lang=nl` |
 
-### Dutch Translation
+Language switching is handled via the `?lang=` URL parameter. For example:
 
-The self-employment guide resource "Cum devii independent în Belgia? Ghid complet 2026" has been fully translated to Dutch with complete structured content including all 6 sections and subsections.
+```
+https://www.ro-businesshub.be/resurse/cum-devii-independent-belgia-ghid-complet-2026?lang=nl
+```
 
-**If Dutch content is not displaying:**
+### Applying the Dutch Translation Migration
 
-1. **Quick check** - Verify migration status:
+If Dutch content is not displaying correctly after a fresh setup:
+
+1. **Check migration status:**
    ```bash
-   node scripts/check-migration.mjs
+   npm run migration:check
    ```
 
-2. **Detailed verification** - Check content structure:
+2. **Verify content structure:**
    ```bash
-   node scripts/verify-dutch-content.mjs
+   npm run migration:verify
    ```
 
-3. **Apply migration** if needed:
+3. **Apply the migration** (if needed):
    ```bash
    # Using Supabase CLI (recommended)
    supabase link --project-ref qwwvnxrduakmrgdmiccs
    supabase db push
-   
-   # Or use Supabase SQL Editor (manual)
-   # See MIGRATION_GUIDE_DUTCH_TRANSLATION.md for step-by-step instructions
    ```
 
-**Documentation:**
-- `MIGRATION_GUIDE_DUTCH_TRANSLATION.md` - Comprehensive step-by-step guide
-- `APPLY_DUTCH_TRANSLATION.md` - Original migration documentation  
-- `scripts/README.md` - Information about verification scripts
+   Or apply it manually via the [Supabase SQL Editor](https://supabase.com/dashboard) using the file:
+   `supabase/migrations/20260212055600_add_dutch_translation_self_employed_guide.sql`
+
+**Reference documentation:**
+- [`MIGRATION_GUIDE_DUTCH_TRANSLATION.md`](MIGRATION_GUIDE_DUTCH_TRANSLATION.md) — comprehensive step-by-step guide covering all migration scenarios and troubleshooting
+- [`APPLY_DUTCH_TRANSLATION.md`](APPLY_DUTCH_TRANSLATION.md) — original technical documentation for the Dutch translation migration (use as a quick reference)
+
+---
 
 ## Testing
-
-This project includes automated tests for the Add Business feature.
 
 ### Running Tests
 
 ```bash
+# Run the full test suite
+npm test
+
 # Run form validation tests
 npm run test:validation
 
-# Run database submission test (requires network access to Supabase)
+# Run database submission tests (requires Supabase network access)
 npm run test:business
 
 # Run Web Developer business test
 npm run test:webdev
-
-# Check database migration status
-node scripts/check-migration.mjs
 ```
 
 ### Test Documentation
 
-- `TEST_SUMMARY.md` - Quick overview of test results
-- `TEST_RESULTS.md` - Detailed test execution results
-- `TESTING.md` - Testing guide and instructions
-- `TESTING_ADD_BUSINESS.md` - Manual testing procedures
-- `WEB_DEVELOPER_TEST_RESULTS.md` - Web Developer business test results
+| File | Description |
+|------|-------------|
+| [`TESTING.md`](TESTING.md) | Testing guide and instructions |
+| [`TEST_SUMMARY.md`](TEST_SUMMARY.md) | Quick overview of test results |
+| [`TEST_RESULTS.md`](TEST_RESULTS.md) | Detailed test execution results |
+| [`TESTING_ADD_BUSINESS.md`](TESTING_ADD_BUSINESS.md) | Manual testing procedures for Add Business |
+| [`WEB_DEVELOPER_TEST_RESULTS.md`](WEB_DEVELOPER_TEST_RESULTS.md) | Web Developer business test results |
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/41908f42-ec12-47e5-8789-f495fa2ac907) and click on Share -> Publish.
+## Deployment
 
-## Can I connect a custom domain to my Lovable project?
+### Deploy with Lovable
 
-Yes, you can!
+Open [Lovable](https://lovable.dev/projects/41908f42-ec12-47e5-8789-f495fa2ac907) and click **Share → Publish**.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Deploy with Vercel
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+The project includes a `vercel.json` configuration for one-click deployment:
+
+1. Push your code to GitHub.
+2. Import the repository in [Vercel](https://vercel.com).
+3. Add any required environment variables.
+4. Click **Deploy**.
+
+### Custom Domain
+
+To connect a custom domain:
+
+- **Lovable:** Navigate to *Project → Settings → Domains* and click **Connect Domain**. See [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide).
+- **Vercel:** Navigate to *Project Settings → Domains* and add your domain.
+
+---
+
+## Editing the Code
+
+**Option A — Use Lovable (no local setup required)**
+
+Visit the [Lovable Project](https://lovable.dev/projects/41908f42-ec12-47e5-8789-f495fa2ac907) and start prompting. Changes are committed automatically.
+
+**Option B — Use your preferred IDE**
+
+Follow the [Installation](#installation) steps above, then open the project in VS Code, WebStorm, or any editor of your choice.
+
+**Option C — Edit directly in GitHub**
+
+Navigate to the file, click the pencil ✏️ icon, make your changes, and commit.
+
+**Option D — GitHub Codespaces**
+
+1. Go to the repository on GitHub.
+2. Click **Code → Codespaces → New codespace**.
+3. Edit files and commit directly from the browser.
