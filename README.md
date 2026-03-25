@@ -23,21 +23,36 @@ A multilingual web directory connecting the Romanian community in West Flanders,
 
 ## About the App
 
-**Flanders Romanian Business Hub** is a community-driven platform designed to:
+### Our Mission
 
-- Help Romanian businesses in West Flanders gain visibility and attract customers
-- Provide residents with an easy way to find trusted Romanian services nearby
-- Offer practical tools and resources for Romanian entrepreneurs operating in Belgium
+The **Romanian Business Hub** is dedicated to promoting and supporting Romanian-owned businesses in West Flanders. Our platform connects these businesses with the local community, helping them increase their visibility and customer base while preserving and sharing Romanian culture and expertise.
 
-The platform covers a wide range of categories including restaurants, bakeries, construction services, beauty salons, and much more — all sourced from the vibrant Romanian community in the Flanders region.
+### What We're Building
+
+Our vision is to create a comprehensive, easy-to-use directory of Romanian businesses across West Flanders. We want to make it simple for customers to find the authentic Romanian products and services they're looking for. The platform features detailed business profiles, contact information, and operating hours to connect you with the right businesses for your needs.
+
+**Our goals are to:**
+
+- Showcase Romanian businesses to the wider community.
+- Help customers discover authentic Romanian products and services.
+- Support Romanian entrepreneurs in building successful businesses.
+- Foster strong connections within the Romanian-Belgian community.
+- Promote cultural exchange through business and community relationships.
+
+### Our Story
+
+The idea for the Romanian Business Hub came from seeing the same questions asked over and over in community Facebook groups: *"Can anyone recommend a good Romanian mechanic?"* or *"Where can I find the best authentic ingredients for the holidays?"*
+
+There was a clear need. While the community is full of talented entrepreneurs and skilled professionals, finding them was a challenge. Recommendations were scattered across countless posts and easily lost. The Romanian Business Hub was built to fix that — creating a single, central platform where every Romanian-owned business in West Flanders can be seen and every customer can easily find them. It takes that powerful community spirit from social media and gives it a permanent, professional home.
 
 ---
 
 ## Key Benefits
 
 ### For Business Owners
-- 📢 **Free business listing** — add your business and reach thousands of potential customers in the local Romanian community
-- 🔍 **Increased visibility** — your business appears in a dedicated directory searched by community members every day
+- 📢 **Free business listing** — add your business and reach customers in the local Romanian community
+- 🔍 **Increased visibility** — your business appears in a dedicated directory searched by community members
+- 🤝 **Be found first** — get in touch to be one of the first businesses featured on the platform
 - 📊 **Built-in financial tools** — use the Belgium Tax Calculator and Cash Flow Calculator to manage your finances
 - 📚 **Entrepreneur resources** — access guides such as "How to become self-employed in Belgium" in Romanian, English, and Dutch
 
@@ -46,6 +61,7 @@ The platform covers a wide range of categories including restaurants, bakeries, 
 - 🌍 **Multilingual interface** — use the platform in Romanian, English, or Dutch
 - ⭐ **Curated, trusted listings** — businesses are reviewed before appearing on the platform
 - 📞 **Direct contact** — get business details, addresses, and contact information at a glance
+- 📰 **Stay informed** — sign up for the newsletter to be first to know about new businesses and platform updates
 
 ### For the Community
 - 🤝 **Bridges Romanian entrepreneurs with local customers** in Flanders
