@@ -148,6 +148,14 @@ const ResourceDetailPage = () => {
       { q: 'Cum atrag clienti fara buget de marketing?', a: 'Concentreaza-te pe Google Business Profile (gratuit), cere recenzii de la clienti multumiti, posteaza constant pe social media si fii activ in comunitati locale.' },
       { q: 'Cat de repede pot vedea rezultate?', a: 'Daca urmezi planul de 30 de zile din acest ghid cu consistenta, vei observa primele rezultate (apeluri, mesaje, clienti noi) dupa 2-4 saptamani.' },
     );
+  } else if (resource.slug === 'plan-marketing-12-luni-belgia-ghid-complet') {
+    faqItems.push(
+      { q: 'De ce am nevoie de un plan de marketing pe 12 luni?', a: 'Un plan pe 12 luni iti ofera claritate, control si rezultate predictibile. Fara el, marketingul tau va fi haotic si inconsistent.' },
+      { q: 'Pot face marketing fara o echipa dedicata?', a: 'Da. Acest ghid este conceput pentru antreprenori care lucreaza singuri. Structura in 4 faze te ajuta sa organizezi totul pas cu pas.' },
+      { q: 'Care este cea mai mare greseala in marketing?', a: 'Lipsa unei strategii clare. Majoritatea antreprenorilor fac activitati de marketing fara obiective, fara masurare si fara consistenta.' },
+      { q: 'Cat de repede voi vedea rezultate?', a: 'Primele rezultate apar de obicei dupa faza de fundatie (lunile 1-3). Rezultate consistente si predictibile apar dupa 6-9 luni de executie organizata.' },
+      { q: 'Ce canale de marketing ar trebui sa aleg?', a: 'Pentru majoritatea afacerilor din Belgia, focusul pe 2-3 canale (website, Facebook/Instagram, email marketing) aduce rezultate mai bune decat prezenta slaba peste tot.' },
+    );
   }
 
   const faqSchema = faqItems.length > 0 ? {
