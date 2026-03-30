@@ -156,6 +156,14 @@ const ResourceDetailPage = () => {
       { q: 'Cat de repede voi vedea rezultate?', a: 'Primele rezultate apar de obicei dupa faza de fundatie (lunile 1-3). Rezultate consistente si predictibile apar dupa 6-9 luni de executie organizata.' },
       { q: 'Ce canale de marketing ar trebui sa aleg?', a: 'Pentru majoritatea afacerilor din Belgia, focusul pe 2-3 canale (website, Facebook/Instagram, email marketing) aduce rezultate mai bune decat prezenta slaba peste tot.' },
     );
+  } else if (resource.slug === 'tva-btw-belgia-ghid-complet-2026') {
+    faqItems.push(
+      { q: 'Cand trebuie sa ma inregistrez pentru TVA in Belgia?', a: 'Daca venitul tau anual depaseste 25.000 EUR, trebuie sa te inregistrezi ca platitor de TVA. Sub acest prag poti beneficia de regimul de scutire (kleine onderneming).' },
+      { q: 'Cat este TVA standard in Belgia?', a: 'Cota standard de TVA in Belgia este 21%. Exista si cote reduse de 12% (restaurante) si 6% (alimente, constructii in anumite conditii).' },
+      { q: 'Ce se intampla daca depasesc pragul de 25.000 EUR si nu ma inregistrez?', a: 'Risti penalitati, taxe retroactive si amenzi. Este important sa monitorizezi constant veniturile si sa te inregistrezi la timp.' },
+      { q: 'Cum se calculeaza TVA de plata?', a: 'TVA de plata = TVA colectata (de la clienti) minus TVA deductibila (de la cheltuieli). Platesti doar diferenta catre stat.' },
+      { q: 'Pot optimiza TVA-ul legal?', a: 'Da. Prin deducerea tuturor cheltuielilor eligibile, alegerea corecta a regimului TVA si colaborarea cu un contabil bun poti optimiza semnificativ.' },
+    );
   }
 
   const faqSchema = faqItems.length > 0 ? {
