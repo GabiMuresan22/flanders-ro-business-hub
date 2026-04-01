@@ -164,6 +164,14 @@ const ResourceDetailPage = () => {
       { q: 'Cum se calculeaza TVA de plata?', a: 'TVA de plata = TVA colectata (de la clienti) minus TVA deductibila (de la cheltuieli). Platesti doar diferenta catre stat.' },
       { q: 'Pot optimiza TVA-ul legal?', a: 'Da. Prin deducerea tuturor cheltuielilor eligibile, alegerea corecta a regimului TVA si colaborarea cu un contabil bun poti optimiza semnificativ.' },
     );
+  } else if (resource.slug === 'peppol-belgia-2026-facturare-electronica-obligatorie') {
+    faqItems.push(
+      { q: 'Ce este PEPPOL?', a: 'PEPPOL (Pan-European Public Procurement Online) este un sistem standardizat pentru trimiterea facturilor electronice direct intre sisteme contabile, fara PDF sau email.' },
+      { q: 'Cand devine obligatoriu PEPPOL in Belgia?', a: 'De la 1 aprilie 2026, facturarea electronica prin PEPPOL devine obligatorie pentru toate tranzactiile B2B in Belgia.' },
+      { q: 'Cine este obligat sa foloseasca PEPPOL?', a: 'Toti independentii, SRL-urile, SA-urile si orice firma inregistrata in Belgia care emite facturi B2B, indiferent de marimea afacerii.' },
+      { q: 'Mai pot trimite facturi PDF pe email dupa 2026?', a: 'Nu. Dupa 1 aprilie 2026, facturile PDF trimise pe email nu vor mai fi considerate conforme pentru tranzactiile B2B.' },
+      { q: 'Ce risc daca nu implementez PEPPOL?', a: 'Risti ca facturile sa fie considerate invalide, probleme la deduceri TVA, intarzieri la plati si posibile sanctiuni fiscale.' },
+    );
   }
 
   const faqSchema = faqItems.length > 0 ? {
