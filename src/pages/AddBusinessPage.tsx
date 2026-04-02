@@ -16,6 +16,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, Upload, X } from 'lucide-react';
 import { useAntiSpam } from '@/hooks/useAntiSpam';
 import SocialMediaInputs, { EMPTY_SOCIAL_MEDIA, saveSocialLinks, type SocialMediaValues } from '@/components/SocialMediaInputs';
+import { BusinessDescriptionTranslateButtons } from '@/components/BusinessDescriptionTranslateButtons';
 import { useLanguage } from '@/contexts/LanguageContext';
 import type { User } from '@supabase/supabase-js';
 
@@ -60,6 +61,7 @@ const AddBusinessPage = () => {
       btwNumber: "",
       description: "",
       descriptionEn: "",
+      descriptionNl: "",
       category: "",
       website: "",
       businessImage: undefined,
@@ -656,6 +658,8 @@ const AddBusinessPage = () => {
                       )}
                     />
 
+                    <BusinessDescriptionTranslateButtons form={form} />
+
                     <FormField
                       control={form.control}
                       name="descriptionEn"
@@ -674,6 +678,31 @@ const AddBusinessPage = () => {
                           <p className="text-sm text-muted-foreground">{t('addBusiness.descriptionEnHint')}</p>
                           <div className="flex justify-end">
                             <span id="description-en-counter" className="text-xs text-gray-500">
+                              {field.value?.length || 0}/1000
+                            </span>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="descriptionNl"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('addBusiness.descriptionNl')} (NL)</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder={t('addBusiness.descriptionNlPlaceholder')}
+                              className="min-h-[120px]"
+                              maxLength={1000}
+                              {...field}
+                              aria-describedby="description-nl-counter"
+                            />
+                          </FormControl>
+                          <p className="text-sm text-muted-foreground">{t('addBusiness.descriptionNlHint')}</p>
+                          <div className="flex justify-end">
+                            <span id="description-nl-counter" className="text-xs text-gray-500">
                               {field.value?.length || 0}/1000
                             </span>
                           </div>

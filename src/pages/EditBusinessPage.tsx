@@ -16,6 +16,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, Upload, X, ImageIcon } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import SocialMediaInputs, { EMPTY_SOCIAL_MEDIA, updateSocialLinks, type SocialMediaValues } from '@/components/SocialMediaInputs';
+import { BusinessDescriptionTranslateButtons } from '@/components/BusinessDescriptionTranslateButtons';
 
 const EditBusinessPage = () => {
   const { toast } = useToast();
@@ -42,6 +43,7 @@ const EditBusinessPage = () => {
       postalCode: "",
       description: "",
       descriptionEn: "",
+      descriptionNl: "",
       category: "",
       website: "",
       businessImage: undefined,
@@ -469,6 +471,8 @@ const EditBusinessPage = () => {
                   )}
                 />
 
+                <BusinessDescriptionTranslateButtons form={form} />
+
                 <FormField
                   control={form.control}
                   name="descriptionEn"
@@ -483,6 +487,25 @@ const EditBusinessPage = () => {
                         />
                       </FormControl>
                       <p className="text-sm text-muted-foreground">{t('addBusiness.descriptionEnHint')}</p>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="descriptionNl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('addBusiness.descriptionNl')} (NL)</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder={t('addBusiness.descriptionNlPlaceholder')}
+                          className="min-h-[120px]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <p className="text-sm text-muted-foreground">{t('addBusiness.descriptionNlHint')}</p>
                       <FormMessage />
                     </FormItem>
                   )}

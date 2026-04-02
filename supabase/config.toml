@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.submit-newsletter]
 verify_jwt = false
+
+[functions.translate-description]
+verify_jwt = true
