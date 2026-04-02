@@ -181,7 +181,10 @@ const BusinessDetails = () => {
   const aboutDescription = getLocalizedBusinessDescription(business, language);
   const aboutFallbackKey = getDescriptionFallbackTranslationKey(aboutDescription.fallback);
 
-  const mapsQuery = encodeURIComponent(`${business.city}, ${business.postal_code}, Belgium`);
+  const fullAddress = [business.address, business.city, business.postal_code, 'Belgium']
+    .filter(Boolean)
+    .join(', ');
+  const mapsQuery = encodeURIComponent(fullAddress);
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
   const mapsEmbedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 
@@ -435,9 +438,7 @@ const BusinessDetails = () => {
                   <div className="mt-3 flex items-start justify-between gap-4">
                     <div className="flex items-start gap-2 text-sm text-muted-foreground">
                       <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-romania-blue" />
-                      <span>
-                        {[business.city, business.postal_code].filter(Boolean).join(', ')}, Belgium
-                      </span>
+                      <span>{fullAddress}</span>
                     </div>
                     <a
                       href={mapsUrl}
@@ -498,7 +499,7 @@ const BusinessDetails = () => {
                           {t('businessDetails.addressLabel')}
                         </span>
                         <span className="font-medium text-sm leading-snug group-hover:underline">
-                          {[business.city, business.postal_code].filter(Boolean).join(', ')}
+                          {fullAddress}
                         </span>
                       </div>
                     </a>

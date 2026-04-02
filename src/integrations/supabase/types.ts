@@ -408,6 +408,7 @@ export type Database = {
     Views: {
       public_businesses: {
         Row: {
+          address: string | null
           appointment_only: boolean | null
           btw_number: string | null
           business_name: string | null
@@ -427,6 +428,7 @@ export type Database = {
           website: string | null
         }
         Insert: {
+          address?: string | null
           appointment_only?: boolean | null
           btw_number?: string | null
           business_name?: string | null
@@ -446,6 +448,7 @@ export type Database = {
           website?: string | null
         }
         Update: {
+          address?: string | null
           appointment_only?: boolean | null
           btw_number?: string | null
           business_name?: string | null

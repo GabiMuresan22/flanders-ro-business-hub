@@ -439,6 +439,7 @@ const AddBusinessPage = () => {
                           <FormControl>
                             <Input placeholder={t('addBusiness.addressPlaceholder')} {...field} />
                           </FormControl>
+                          <p className="text-sm text-muted-foreground">{t('addBusiness.addressHint')}</p>
                           <FormMessage />
                         </FormItem>
                       )}
