@@ -283,7 +283,12 @@
     "submitting": "Submitting...",
     "submitReview": "Submit Review",
     "anonymous": "Anonymous",
-    "socialMedia": "Social Media"
+    "socialMedia": "Social Media",
+    "callNow": "Call Now",
+    "similarBusinesses": "Similar Businesses",
+    "mapLocation": "Location",
+    "appointmentOnly": "By appointment only",
+    "openInMaps": "Open in Google Maps"
   },
   "reviewForm": {
     "leaveReview": "Leave a Review",

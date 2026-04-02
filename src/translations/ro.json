@@ -283,7 +283,12 @@
     "submitting": "Se trimite...",
     "submitReview": "Trimite Recenzia",
     "anonymous": "Anonim",
-    "socialMedia": "Rețele Sociale"
+    "socialMedia": "Rețele Sociale",
+    "callNow": "Sună Acum",
+    "similarBusinesses": "Afaceri Similare",
+    "mapLocation": "Locație",
+    "appointmentOnly": "Doar pe bază de programare",
+    "openInMaps": "Deschide în Google Maps"
   },
   "reviewForm": {
     "leaveReview": "Lasă o Recenzie",

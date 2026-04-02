@@ -283,7 +283,12 @@
     "submitting": "Verzenden...",
     "submitReview": "Beoordeling Verzenden",
     "anonymous": "Anoniem",
-    "socialMedia": "Sociale Media"
+    "socialMedia": "Sociale Media",
+    "callNow": "Bel Nu",
+    "similarBusinesses": "Vergelijkbare Bedrijven",
+    "mapLocation": "Locatie",
+    "appointmentOnly": "Alleen op afspraak",
+    "openInMaps": "Open in Google Maps"
   },
   "reviewForm": {
     "leaveReview": "Schrijf een beoordeling",
