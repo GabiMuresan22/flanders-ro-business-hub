@@ -276,21 +276,21 @@ const BusinessDetails = () => {
                 <div className="flex flex-wrap gap-3">
                   {business.phone && (
                     <a href={`tel:${business.phone}`}>
-                      <Button className="bg-white text-foreground hover:bg-white/90 gap-2 font-semibold shadow-lg">
+                      <Button className="bg-white text-gray-900 hover:bg-gray-100 gap-2 font-semibold shadow-lg">
                         <Phone className="h-4 w-4" />
                         {t('businessDetails.callNow')}
                       </Button>
                     </a>
                   )}
                   <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
-                    <Button variant="outline" className="border-white/70 text-white hover:bg-white/15 gap-2 font-semibold">
+                    <Button className="bg-transparent border border-white/70 text-white hover:bg-white hover:text-gray-900 gap-2 font-semibold">
                       <MapPin className="h-4 w-4" />
                       {t('businessDetails.viewOnMap')}
                     </Button>
                   </a>
                   {business.website && (
                     <a href={normalizeExternalUrl(business.website)} target="_blank" rel="noopener noreferrer">
-                      <Button variant="outline" className="border-white/70 text-white hover:bg-white/15 gap-2 font-semibold">
+                      <Button className="bg-transparent border border-white/70 text-white hover:bg-white hover:text-gray-900 gap-2 font-semibold">
                         <Globe className="h-4 w-4" />
                         {t('businessDetails.visitWebsite')}
                       </Button>
@@ -432,15 +432,23 @@ const BusinessDetails = () => {
                       referrerPolicy="no-referrer-when-downgrade"
                     />
                   </div>
-                  <a
-                    href={mapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-3 inline-flex items-center gap-2 text-sm text-romania-blue hover:underline"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    {t('businessDetails.openInMaps')}
-                  </a>
+                  <div className="mt-3 flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-romania-blue" />
+                      <span>
+                        {[business.city, business.postal_code].filter(Boolean).join(', ')}, Belgium
+                      </span>
+                    </div>
+                    <a
+                      href={mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-sm text-romania-blue hover:underline shrink-0"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      {t('businessDetails.openInMaps')}
+                    </a>
+                  </div>
                 </section>
 
                 {/* Similar Businesses */}
