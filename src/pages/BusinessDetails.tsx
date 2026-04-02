@@ -186,7 +186,6 @@ const BusinessDetails = () => {
     .join(', ');
   const mapsQuery = encodeURIComponent(fullAddress);
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
-  const mapsEmbedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 
   return (
     <>
@@ -426,30 +425,44 @@ const BusinessDetails = () => {
                   <h2 className="font-playfair text-2xl font-bold text-foreground mb-4 border-b border-border pb-3">
                     {t('businessDetails.mapLocation')}
                   </h2>
-                  <div className="rounded-xl overflow-hidden border border-border h-64 md:h-80">
-                    <iframe
-                      title={`Map – ${business.business_name}`}
-                      src={mapsEmbedUrl}
-                      className="w-full h-full"
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                    />
-                  </div>
-                  <div className="mt-3 flex items-start justify-between gap-4">
-                    <div className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-romania-blue" />
-                      <span>{fullAddress}</span>
+                  <a
+                    href={mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block rounded-xl overflow-hidden border border-border h-52 md:h-64 relative bg-gradient-to-br from-blue-50 to-emerald-50 hover:from-blue-100 hover:to-emerald-100 transition-colors"
+                  >
+                    {/* Grid pattern */}
+                    <svg className="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <pattern id="map-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1d4ed8" strokeWidth="0.5"/>
+                        </pattern>
+                      </defs>
+                      <rect width="100%" height="100%" fill="url(#map-grid)" />
+                    </svg>
+
+                    {/* Road-like decorative lines */}
+                    <svg className="absolute inset-0 w-full h-full opacity-15" xmlns="http://www.w3.org/2000/svg">
+                      <line x1="0" y1="45%" x2="100%" y2="55%" stroke="#1d4ed8" strokeWidth="8"/>
+                      <line x1="30%" y1="0" x2="45%" y2="100%" stroke="#1d4ed8" strokeWidth="6"/>
+                      <line x1="65%" y1="0" x2="70%" y2="100%" stroke="#16a34a" strokeWidth="4"/>
+                    </svg>
+
+                    {/* Center content */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                      <div className="bg-romania-blue rounded-full p-4 shadow-lg group-hover:scale-110 transition-transform">
+                        <MapPin className="h-7 w-7 text-white" />
+                      </div>
+                      <div className="text-center bg-white/80 backdrop-blur-sm rounded-xl px-4 py-2 shadow-sm">
+                        <p className="font-semibold text-foreground text-sm">{business.business_name}</p>
+                        <p className="text-muted-foreground text-xs mt-0.5">{fullAddress}</p>
+                      </div>
+                      <span className="text-xs font-medium text-romania-blue flex items-center gap-1 group-hover:underline">
+                        <ExternalLink className="h-3 w-3" />
+                        {t('businessDetails.openInMaps')}
+                      </span>
                     </div>
-                    <a
-                      href={mapsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-sm text-romania-blue hover:underline shrink-0"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" />
-                      {t('businessDetails.openInMaps')}
-                    </a>
-                  </div>
+                  </a>
                 </section>
 
                 {/* Similar Businesses */}
