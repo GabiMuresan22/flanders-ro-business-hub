@@ -58,6 +58,10 @@ const TermsConditionsPage = () => {
           content: "To the maximum extent permitted by law:\n\n• We are not liable for indirect, incidental, or consequential damages\n• Our total liability is limited to the amount you paid to use the Service (if any)\n• We are not liable for losses resulting from:\n  - Unauthorized access to your account\n  - Service interruptions or errors\n  - Third-party actions\n  - User-generated content\n  - Business transactions between users and businesses"
         },
         {
+          title: "11A. Liability Disclaimer",
+          content: "Romanian Business Hub provides a directory service 'as is.' While we aim to increase visibility for listed businesses, we do not guarantee a specific increase in turnover, client numbers, or financial results. We are an intermediary platform and are not responsible for the quality, legality, or safety of the services provided by the businesses listed in our directory."
+        },
+        {
           title: "12. Indemnification",
           content: "You agree to indemnify and hold harmless Romanian Business Hub, its owners, employees, and affiliates from:\n\n• Claims arising from your use of the Service\n• Violations of these Terms\n• Violations of third-party rights\n• Content you submit to the Service\n• Your business activities listed on the Service"
         },
@@ -137,6 +141,10 @@ const TermsConditionsPage = () => {
           content: "În măsura maximă permisă de lege:\n\n• Nu suntem răspunzători pentru daune indirecte, accidentale sau consecutive\n• Răspunderea noastră totală este limitată la suma pe care ați plătit-o pentru a utiliza Serviciul (dacă există)\n• Nu suntem răspunzători pentru pierderi rezultate din:\n  - Acces neautorizat la contul dvs.\n  - Întreruperi sau erori ale serviciului\n  - Acțiuni ale terților\n  - Conținut generat de utilizatori\n  - Tranzacții comerciale între utilizatori și afaceri"
         },
         {
+          title: "11A. Declarație privind Răspunderea",
+          content: "Romanian Business Hub oferă un serviciu de director 'ca atare'. Deși ne propunem să creștem vizibilitatea afacerilor listate, nu garantăm o creștere specifică a cifrei de afaceri, a numărului de clienți sau a rezultatelor financiare. Suntem o platformă intermediară și nu suntem responsabili pentru calitatea, legalitatea sau siguranța serviciilor furnizate de afacerile listate în directorul nostru."
+        },
+        {
           title: "12. Indemnizație",
           content: "Sunteți de acord să despăgubiți și să protejați Romanian Business Hub, proprietarii, angajații și afiliatii săi de:\n\n• Reclamații rezultate din utilizarea Serviciului\n• Încălcări ale acestor Termeni\n• Încălcări ale drepturilor terților\n• Conținut pe care îl trimiteți către Serviciu\n• Activitățile dvs. de afaceri listate pe Serviciu"
         },
@@ -214,6 +222,10 @@ const TermsConditionsPage = () => {
         {
           title: "11. Beperking van Aansprakelijkheid",
           content: "Voor zover maximaal toegestaan door de wet:\n\n• Wij zijn niet aansprakelijk voor indirecte, incidentele of gevolgschade\n• Onze totale aansprakelijkheid is beperkt tot het bedrag dat u hebt betaald voor het gebruik van de Service (indien van toepassing)\n• Wij zijn niet aansprakelijk voor verliezen die voortvloeien uit:\n  - Ongeautoriseerde toegang tot uw account\n  - Service-onderbrekingen of fouten\n  - Acties van derden\n  - Door gebruikers gegenereerde inhoud\n  - Zakelijke transacties tussen gebruikers en bedrijven"
+        },
+        {
+          title: "11A. Aansprakelijkheidsverklaring",
+          content: "Romanian Business Hub biedt een gidsdienst 'zoals die is'. Hoewel wij ernaar streven de zichtbaarheid van vermelde bedrijven te vergroten, garanderen wij geen specifieke stijging van omzet, aantal klanten of financiële resultaten. Wij zijn een intermediair platform en zijn niet verantwoordelijk voor de kwaliteit, wettelijkheid of veiligheid van de diensten die worden geleverd door de bedrijven in onze gids."
         },
         {
           title: "12. Vrijwaring",

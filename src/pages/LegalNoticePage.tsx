@@ -7,13 +7,11 @@ import { Mail, Phone, MapPin, Building2, ShieldCheck } from 'lucide-react';
 const content = {
   en: {
     title: 'Legal Notice',
-    subtitle: 'Impressum — mandatory information pursuant to Art. XII.4 of the Belgian Code of Economic Law',
     sections: [
       {
         heading: 'Editor & Operator',
         items: [
           { label: 'Name', value: 'Gabriel Muresan' },
-          { label: 'Operating under', value: 'Romanian Business Hub' },
         ],
       },
       {
@@ -40,21 +38,17 @@ const content = {
         heading: 'Supervisory Authority',
         items: [
           { label: 'Authority', value: 'FPS Economy, SMEs, Self-Employed and Energy' },
-          { label: 'Website', value: 'economie.fgov.be', href: 'https://economie.fgov.be' },
         ],
       },
     ],
-    disclaimer: 'The information on this website is provided for general informational purposes only. Romanian Business Hub strives to keep the information up to date and accurate, but makes no warranties about the completeness, accuracy, or reliability of any information on this site.',
   },
   nl: {
     title: 'Wettelijke Vermeldingen',
-    subtitle: 'Impressum — verplichte informatie conform Art. XII.4 van het Belgisch Wetboek van Economisch Recht',
     sections: [
       {
         heading: 'Redacteur & Exploitant',
         items: [
           { label: 'Naam', value: 'Gabriel Muresan' },
-          { label: 'Handelend onder', value: 'Romanian Business Hub' },
         ],
       },
       {
@@ -81,21 +75,17 @@ const content = {
         heading: 'Toezichthoudende Autoriteit',
         items: [
           { label: 'Autoriteit', value: 'FOD Economie, KMO, Middenstand en Energie' },
-          { label: 'Website', value: 'economie.fgov.be', href: 'https://economie.fgov.be' },
         ],
       },
     ],
-    disclaimer: 'De informatie op deze website is uitsluitend bedoeld voor algemene informatiedoeleinden. Romanian Business Hub streeft ernaar de informatie actueel en correct te houden, maar geeft geen garanties over de volledigheid, nauwkeurigheid of betrouwbaarheid van de informatie op deze site.',
   },
   ro: {
     title: 'Mențiuni Legale',
-    subtitle: 'Impressum — informații obligatorii conform Art. XII.4 din Codul belgian al Dreptului Economic',
     sections: [
       {
         heading: 'Editor & Operator',
         items: [
           { label: 'Nume', value: 'Gabriel Muresan' },
-          { label: 'Activând sub denumirea', value: 'Romanian Business Hub' },
         ],
       },
       {
@@ -121,12 +111,10 @@ const content = {
       {
         heading: 'Autoritate de Supraveghere',
         items: [
-          { label: 'Autoritate', value: 'SPF Economie, PME, Indépendants et Énergie' },
-          { label: 'Website', value: 'economie.fgov.be', href: 'https://economie.fgov.be' },
+          { label: 'Autoritate', value: 'FPS Economy, SMEs, Self-Employed and Energy' },
         ],
       },
     ],
-    disclaimer: 'Informațiile de pe acest site sunt furnizate exclusiv în scopuri informative generale. Romanian Business Hub depune eforturi pentru a menține informațiile actualizate și corecte, dar nu oferă garanții privind caracterul complet, exactitatea sau fiabilitatea oricăror informații de pe acest site.',
   },
 };
 
@@ -141,7 +129,7 @@ const LegalNoticePage = () => {
     <>
       <SEO
         title={`${c.title} | Romanian Business Hub`}
-        description={c.subtitle}
+        description="Editor & Operator, registered office, enterprise and VAT details, contact information, and supervisory authority."
         noindex
       />
       <div className="min-h-screen flex flex-col bg-muted/30">
@@ -153,9 +141,6 @@ const LegalNoticePage = () => {
             <h1 className="font-playfair text-4xl font-bold text-foreground mb-3">
               {c.title}
             </h1>
-            <p className="text-sm text-muted-foreground leading-relaxed border-l-4 border-romania-blue pl-4">
-              {c.subtitle}
-            </p>
           </div>
 
           {/* Sections */}
@@ -198,11 +183,6 @@ const LegalNoticePage = () => {
                 </div>
               );
             })}
-          </div>
-
-          {/* Disclaimer */}
-          <div className="mt-8 bg-muted rounded-2xl p-6 text-sm text-muted-foreground leading-relaxed">
-            {c.disclaimer}
           </div>
 
         </main>
