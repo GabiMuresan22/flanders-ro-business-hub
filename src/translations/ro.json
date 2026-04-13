@@ -44,9 +44,14 @@
     "categoryPhotoVideo": "Foto și Video",
     "categoryGiftFlowers": "Cadouri și Flori",
     "categoryITMarketing": "IT și Marketing",
-    "privacyPolicy": "Politica de Confidențialitate",
+    "privacyPolicy": "Politică de Confidențialitate și Cookie-uri",
     "termsConditions": "Termeni și Condiții",
-    "accessibility": "Accesibilitate"
+    "accessibility": "Accesibilitate",
+    "legalIdentity": "Identitate Legală",
+    "legalNotice": "Mențiuni Legale (Impressum)",
+    "mission": "Misiunea Noastră",
+    "missionText": "Conectăm comunitatea de afaceri românească din Flandra de Vest. Promovăm creșterea autentică și schimbul cultural.",
+    "followUs": "Urmărește-ne"
   },
   "auth": {
     "login": "Autentificare",

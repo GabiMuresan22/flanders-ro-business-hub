@@ -44,9 +44,14 @@
     "categoryPhotoVideo": "Photo & Video",
     "categoryGiftFlowers": "Gift & Flowers",
     "categoryITMarketing": "IT & Marketing",
-    "privacyPolicy": "Privacy Policy",
+    "privacyPolicy": "Privacy & Cookie Policy",
     "termsConditions": "Terms & Conditions",
-    "accessibility": "Accessibility"
+    "accessibility": "Accessibility",
+    "legalIdentity": "Legal Identity",
+    "legalNotice": "Legal Notice (Impressum)",
+    "mission": "Our Mission",
+    "missionText": "Connecting the Romanian business community in West Flanders. Promoting authentic growth and cultural exchange.",
+    "followUs": "Follow us"
   },
   "auth": {
     "login": "Login",

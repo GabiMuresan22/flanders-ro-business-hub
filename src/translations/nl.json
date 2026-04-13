@@ -44,9 +44,14 @@
     "categoryPhotoVideo": "Foto & Video",
     "categoryGiftFlowers": "Cadeau & Bloemen",
     "categoryITMarketing": "IT & Marketing",
-    "privacyPolicy": "Privacybeleid",
+    "privacyPolicy": "Privacy- en Cookiebeleid",
     "termsConditions": "Algemene Voorwaarden",
-    "accessibility": "Toegankelijkheid"
+    "accessibility": "Toegankelijkheid",
+    "legalIdentity": "Juridische Identiteit",
+    "legalNotice": "Wettelijke Vermeldingen (Impressum)",
+    "mission": "Onze Missie",
+    "missionText": "De Roemeense zakelijke gemeenschap in West-Vlaanderen verbinden. Authentieke groei en culturele uitwisseling bevorderen.",
+    "followUs": "Volg ons"
   },
   "auth": {
     "login": "Inloggen",
