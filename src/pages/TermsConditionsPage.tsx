@@ -39,7 +39,7 @@ const TermsConditionsPage = () => {
         },
         {
           title: "7. Reviews and Comments",
-          content: "Users may submit reviews and comments. By doing so, you agree that:\n\n• Reviews must be based on personal experience\n• Reviews must be honest and not misleading\n• You will not post fake or fraudulent reviews\n• You will not be compensated for positive reviews\n• We reserve the right to remove inappropriate reviews\n• We are not responsible for user-generated content"
+          content: "Users may submit reviews and comments. By doing so, you agree that:\n\n• Reviews must be based on personal experience\n• Reviews must be honest and not misleading\n• You will not post fake or fraudulent reviews\n• You will not be compensated for positive reviews\n• We reserve the right to remove inappropriate reviews\n• We are not responsible for user-generated content\n\nReport Content: If you believe any content on this platform (listings or reviews) is illegal, fraudulent, or infringes on your rights, please notify us immediately at info@ro-businesshub.be. We will investigate and take appropriate action within 72 hours."
         },
         {
           title: "8. Prohibited Activities",
@@ -122,7 +122,7 @@ const TermsConditionsPage = () => {
         },
         {
           title: "7. Recenzii și Comentarii",
-          content: "Utilizatorii pot trimite recenzii și comentarii. Procedând astfel, sunteți de acord că:\n\n• Recenziile trebuie să fie bazate pe experiență personală\n• Recenziile trebuie să fie oneste și nu înșelătoare\n• Nu veți posta recenzii false sau frauduloase\n• Nu veți fi compensat pentru recenzii pozitive\n• Ne rezervăm dreptul de a elimina recenzii necorespunzătoare\n• Nu suntem responsabili pentru conținutul generat de utilizatori"
+          content: "Utilizatorii pot trimite recenzii și comentarii. Procedând astfel, sunteți de acord că:\n\n• Recenziile trebuie să fie bazate pe experiență personală\n• Recenziile trebuie să fie oneste și nu înșelătoare\n• Nu veți posta recenzii false sau frauduloase\n• Nu veți fi compensat pentru recenzii pozitive\n• Ne rezervăm dreptul de a elimina recenzii necorespunzătoare\n• Nu suntem responsabili pentru conținutul generat de utilizatori\n\nRaportare Conținut: Dacă considerați că orice conținut de pe această platformă (listări sau recenzii) este ilegal, fraudulos sau vă încalcă drepturile, vă rugăm să ne anunțați imediat la info@ro-businesshub.be. Vom investiga și vom lua măsurile corespunzătoare în termen de 72 de ore."
         },
         {
           title: "8. Activități Interzise",
@@ -205,7 +205,7 @@ const TermsConditionsPage = () => {
         },
         {
           title: "7. Beoordelingen en Opmerkingen",
-          content: "Gebruikers kunnen beoordelingen en opmerkingen indienen. Door dit te doen, gaat u ermee akkoord dat:\n\n• Beoordelingen moeten gebaseerd zijn op persoonlijke ervaring\n• Beoordelingen moeten eerlijk en niet misleidend zijn\n• U geen valse of frauduleuze beoordelingen zult plaatsen\n• U niet zult worden gecompenseerd voor positieve beoordelingen\n• Wij het recht behouden om ongepaste beoordelingen te verwijderen\n• Wij niet verantwoordelijk zijn voor door gebruikers gegenereerde inhoud"
+          content: "Gebruikers kunnen beoordelingen en opmerkingen indienen. Door dit te doen, gaat u ermee akkoord dat:\n\n• Beoordelingen moeten gebaseerd zijn op persoonlijke ervaring\n• Beoordelingen moeten eerlijk en niet misleidend zijn\n• U geen valse of frauduleuze beoordelingen zult plaatsen\n• U niet zult worden gecompenseerd voor positieve beoordelingen\n• Wij het recht behouden om ongepaste beoordelingen te verwijderen\n• Wij niet verantwoordelijk zijn voor door gebruikers gegenereerde inhoud\n\nContent Melden: Als u van mening bent dat enige inhoud op dit platform (vermeldingen of beoordelingen) illegaal of frauduleus is, of inbreuk maakt op uw rechten, laat het ons dan onmiddellijk weten via info@ro-businesshub.be. Wij zullen dit onderzoeken en binnen 72 uur passende actie ondernemen."
         },
         {
           title: "8. Verboden Activiteiten",

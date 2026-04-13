@@ -191,7 +191,9 @@
     "errorTitle": "Error",
     "validationError": "Validation Error",
     "validationErrorMessage": "Please check the form for errors and try again.",
-    "submissionError": "Submission Error"
+    "submissionError": "Submission Error",
+    "reportContentTitle": "Report Content",
+    "reportContentText": "If you believe any content on this platform (listings or reviews) is illegal, fraudulent, or infringes on your rights, please notify us immediately at info@ro-businesshub.be. We will investigate and take appropriate action within 72 hours."
   },
   "faq": {
     "title": "Frequently Asked Questions",

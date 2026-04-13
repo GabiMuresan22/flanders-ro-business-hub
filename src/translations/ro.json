@@ -191,7 +191,9 @@
     "errorTitle": "Eroare",
     "validationError": "Eroare de Validare",
     "validationErrorMessage": "Te rugăm să verifici formularul pentru erori și să încerci din nou.",
-    "submissionError": "Eroare la Trimitere"
+    "submissionError": "Eroare la Trimitere",
+    "reportContentTitle": "Raportează Conținut",
+    "reportContentText": "Dacă considerați că orice conținut de pe această platformă (listări sau recenzii) este ilegal, fraudulos sau vă încalcă drepturile, vă rugăm să ne anunțați imediat la info@ro-businesshub.be. Vom investiga și vom lua măsurile corespunzătoare în termen de 72 de ore."
   },
   "faq": {
     "title": "Întrebări Frecvente",
