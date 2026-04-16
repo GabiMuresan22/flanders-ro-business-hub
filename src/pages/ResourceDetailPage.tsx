@@ -172,6 +172,14 @@ const ResourceDetailPage = () => {
       { q: 'Mai pot trimite facturi PDF pe email dupa 2026?', a: 'Nu. Dupa 1 aprilie 2026, facturile PDF trimise pe email nu vor mai fi considerate conforme pentru tranzactiile B2B.' },
       { q: 'Ce risc daca nu implementez PEPPOL?', a: 'Risti ca facturile sa fie considerate invalide, probleme la deduceri TVA, intarzieri la plati si posibile sanctiuni fiscale.' },
     );
+  } else if (resource.slug === 'srl-vs-nv-belgia-diferente-avantaje') {
+    faqItems.push(
+      { q: 'SRL si NV au raspundere limitata?', a: 'Da, ambele forme juridice ofera raspundere limitata in Belgia. Patrimoniul personal este protejat in ambele cazuri.' },
+      { q: 'Pot incepe singur un SRL?', a: 'Da, SRL (BV) poate avea un singur fondator. Este cea mai populara optiune pentru antreprenorii solo din Belgia.' },
+      { q: 'Pot incepe singur un NV?', a: 'Da, dar rar are sens fara investitori. Capitalul minim de 61.500 EUR si structura complexa fac NV nepotrivit pentru inceput.' },
+      { q: 'Care este mai bun pentru un roman in Belgia?', a: 'In majoritatea cazurilor, SRL (BV) este alegerea potrivita. Ofera flexibilitate, costuri mai mici si o structura simpla, ideala pentru IMM-uri si servicii.' },
+      { q: 'Pot trece de la SRL la NV?', a: 'Da, dar implica costuri si modificari juridice. Este posibil sa transformi un SRL in NV pe masura ce afacerea creste si ai nevoie de o structura mai complexa.' },
+    );
   }
 
   const faqSchema = faqItems.length > 0 ? {
