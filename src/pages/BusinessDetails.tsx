@@ -8,7 +8,7 @@ import BusinessDetailsSkeleton from '../components/skeletons/BusinessDetailsSkel
 import BusinessCard from '../components/BusinessCard';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
-import { MapPin, Phone, Mail, Globe, Star, Home, Edit, Clock, ExternalLink } from 'lucide-react';
+import { MapPin, Phone, Mail, Globe, Star, Home, Edit, Clock, ExternalLink, FileText } from 'lucide-react';
 import SocialMediaLinksInline from '../components/SocialMediaLinks';
 import { ReportIssueDialog } from '../components/ReportIssueDialog';
 import { categoryToSlug, normalizeExternalUrl } from '@/lib/utils';
