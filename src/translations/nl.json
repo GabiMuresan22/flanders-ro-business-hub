@@ -293,7 +293,8 @@
     "similarBusinesses": "Vergelijkbare Bedrijven",
     "mapLocation": "Locatie",
     "appointmentOnly": "Alleen op afspraak",
-    "openInMaps": "Open in Google Maps"
+    "openInMaps": "Open in Google Maps",
+    "hoursDisclaimer": "Openingstijden en contactgegevens worden door het bedrijf verstrekt en kunnen wijzigen. Wij raden u aan te bellen voor bevestiging voordat u langskomt."
   },
   "reviewForm": {
     "leaveReview": "Schrijf een beoordeling",
