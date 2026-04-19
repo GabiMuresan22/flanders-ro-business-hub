@@ -293,7 +293,8 @@
     "similarBusinesses": "Afaceri Similare",
     "mapLocation": "Locație",
     "appointmentOnly": "Doar pe bază de programare",
-    "openInMaps": "Deschide în Google Maps"
+    "openInMaps": "Deschide în Google Maps",
+    "hoursDisclaimer": "Programul de funcționare și datele de contact sunt furnizate de afacere și se pot modifica. Vă recomandăm să sunați pentru confirmare înainte de a vă deplasa."
   },
   "reviewForm": {
     "leaveReview": "Lasă o Recenzie",
