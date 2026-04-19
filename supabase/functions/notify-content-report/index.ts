@@ -64,7 +64,7 @@ const buildUserEmail = (p: ReportPayload, lang: 'ro' | 'en' | 'nl') => {
 const buildAdminEmail = (p: ReportPayload) => `
   <div style="font-family: Arial, sans-serif; max-width: 600px;">
     <h2 style="color:#002B7F;">New DSA Content Report</h2>
-    <p><strong>Report ID:</strong> ${escapeHtml(p.reportId)}</p>
+    ${p.reportId ? `<p><strong>Report ID:</strong> ${escapeHtml(p.reportId)}</p>` : ''}
     <p><strong>Business:</strong> ${escapeHtml(p.businessName)}</p>
     <p><strong>URL:</strong> <a href="${escapeHtml(p.businessUrl)}">${escapeHtml(p.businessUrl)}</a></p>
     <p><strong>Reporter:</strong> ${escapeHtml(p.reporterName)} &lt;${escapeHtml(p.reporterEmail)}&gt;</p>
