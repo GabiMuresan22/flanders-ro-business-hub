@@ -8,7 +8,7 @@ import BusinessDetailsSkeleton from '../components/skeletons/BusinessDetailsSkel
 import BusinessCard from '../components/BusinessCard';
 import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
-import { MapPin, Phone, Mail, Globe, Star, Home, Edit, Clock, ExternalLink } from 'lucide-react';
+import { MapPin, Phone, Mail, Globe, Star, Home, Edit, Clock, ExternalLink, FileText } from 'lucide-react';
 import SocialMediaLinksInline from '../components/SocialMediaLinks';
 import { ReportIssueDialog } from '../components/ReportIssueDialog';
 import { categoryToSlug, normalizeExternalUrl } from '@/lib/utils';
@@ -556,6 +556,32 @@ const BusinessDetails = () => {
                       <div className="flex items-center gap-2 text-sm bg-white/10 rounded-lg px-3 py-2.5">
                         <Clock className="h-4 w-4 flex-shrink-0" />
                         <span>{t('businessDetails.appointmentOnly')}</span>
+                      </div>
+                    )}
+
+                    {/* BTW / Enterprise number with VIES verification */}
+                    {business.btw_number && (
+                      <div className="flex items-start gap-3 group">
+                        <FileText className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
+                        <div className="min-w-0 flex-1">
+                          <span className="text-white/60 text-xs uppercase tracking-wider block mb-0.5">
+                            {t('businessDetails.btwLabel')}
+                          </span>
+                          <span className="font-medium text-sm break-all">
+                            {business.btw_number}
+                          </span>
+                          <p className="text-[11px] text-white/60 italic leading-snug mt-1">
+                            {t('businessDetails.viesDisclaimer')}{' '}
+                            <a
+                              href={`https://ec.europa.eu/taxation_customs/vies/?memberStateCode=BE&number=${business.btw_number.replace(/^BE/i, '').replace(/\D/g, '')}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="underline text-white/80 hover:text-white not-italic font-medium"
+                            >
+                              {t('businessDetails.viesVerifyLink')}
+                            </a>
+                          </p>
+                        </div>
                       </div>
                     )}
 

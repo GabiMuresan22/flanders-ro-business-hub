@@ -294,7 +294,10 @@
     "mapLocation": "Locație",
     "appointmentOnly": "Doar pe bază de programare",
     "openInMaps": "Deschide în Google Maps",
-    "hoursDisclaimer": "Programul de funcționare și datele de contact sunt furnizate de afacere și se pot modifica. Vă recomandăm să sunați pentru confirmare înainte de a vă deplasa."
+    "hoursDisclaimer": "Programul de funcționare și datele de contact sunt furnizate de afacere și se pot modifica. Vă recomandăm să sunați pentru confirmare înainte de a vă deplasa.",
+    "btwLabel": "Număr de întreprindere (BTW)",
+    "viesDisclaimer": "Acest număr de întreprindere este furnizat de afacere. Înainte de a încheia o tranzacție, vă recomandăm să verificați statutul TVA activ în registrul oficial UE VIES.",
+    "viesVerifyLink": "Verifică pe VIES"
   },
   "reviewForm": {
     "leaveReview": "Lasă o Recenzie",
