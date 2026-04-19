@@ -14,7 +14,7 @@ const escapeHtml = (text: string): string => {
 };
 
 interface ReportPayload {
-  reportId: string;
+  reportId?: string;
   reporterEmail: string;
   reporterName: string;
   businessName: string;
