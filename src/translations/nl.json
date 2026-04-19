@@ -293,7 +293,8 @@
     "similarBusinesses": "Vergelijkbare Bedrijven",
     "mapLocation": "Locatie",
     "appointmentOnly": "Alleen op afspraak",
-    "openInMaps": "Open in Google Maps"
+    "openInMaps": "Open in Google Maps",
+    "hoursDisclaimer": "Openingstijden en contactgegevens worden door het bedrijf verstrekt en kunnen wijzigen. Wij raden u aan te bellen voor bevestiging voordat u langskomt."
   },
   "reviewForm": {
     "leaveReview": "Schrijf een beoordeling",
@@ -478,6 +479,7 @@
     "openingHoursHelp": "Voer uw openingstijden in voor elke dag (bijv. \"09:00 - 17:00\" of \"Gesloten\")",
     "openingHoursOptionalWhenAppointment": "Niet vereist bij alleen op afspraak.",
     "openingHoursPlaceholder": "bijv. 09:00 - 17:00",
+    "openingHoursResponsibility": "Zorg ervoor dat uw openingstijden correct zijn. Als bedrijfseigenaar bent u verantwoordelijk voor het actueel houden van deze informatie voor uw klanten.",
     "businessPhoto": "Bedrijfsfoto (Optioneel)",
     "uploadClick": "Klik om te uploaden",
     "uploadDrag": "of sleep en laat los",

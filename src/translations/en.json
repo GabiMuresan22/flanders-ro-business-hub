@@ -293,7 +293,8 @@
     "similarBusinesses": "Similar Businesses",
     "mapLocation": "Location",
     "appointmentOnly": "By appointment only",
-    "openInMaps": "Open in Google Maps"
+    "openInMaps": "Open in Google Maps",
+    "hoursDisclaimer": "Opening hours and contact details are provided by the business and may change. We recommend calling to confirm before visiting."
   },
   "reviewForm": {
     "leaveReview": "Leave a Review",
@@ -478,6 +479,7 @@
     "openingHoursHelp": "Enter your business hours for each day (e.g., \"09:00 - 17:00\" or \"Closed\")",
     "openingHoursOptionalWhenAppointment": "Not required when open by appointment only.",
     "openingHoursPlaceholder": "e.g., 09:00 - 17:00",
+    "openingHoursResponsibility": "Please ensure your hours are accurate. As the business owner, you are responsible for keeping this information up to date for your customers.",
     "businessPhoto": "Business Photo (Optional)",
     "uploadClick": "Click to upload",
     "uploadDrag": "or drag and drop",

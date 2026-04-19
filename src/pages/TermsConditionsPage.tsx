@@ -62,6 +62,10 @@ const TermsConditionsPage = () => {
           content: "Romanian Business Hub provides a directory service 'as is.' While we aim to increase visibility for listed businesses, we do not guarantee a specific increase in turnover, client numbers, or financial results. We are an intermediary platform and are not responsible for the quality, legality, or safety of the services provided by the businesses listed in our directory."
         },
         {
+          title: "11B. Accuracy of Business Information",
+          content: "Business owners are solely responsible for the accuracy of all content provided, including opening hours, contact details, and service descriptions. Romanian Business Hub does not verify this data and is not liable for any inaccuracies or losses resulting from incorrect information. We recommend that users contact the business directly to confirm critical details (such as opening hours, prices, or availability) before relying on them."
+        },
+        {
           title: "12. Indemnification",
           content: "You agree to indemnify and hold harmless Romanian Business Hub, its owners, employees, and affiliates from:\n\n• Claims arising from your use of the Service\n• Violations of these Terms\n• Violations of third-party rights\n• Content you submit to the Service\n• Your business activities listed on the Service"
         },
@@ -145,6 +149,10 @@ const TermsConditionsPage = () => {
           content: "Romanian Business Hub oferă un serviciu de director 'ca atare'. Deși ne propunem să creștem vizibilitatea afacerilor listate, nu garantăm o creștere specifică a cifrei de afaceri, a numărului de clienți sau a rezultatelor financiare. Suntem o platformă intermediară și nu suntem responsabili pentru calitatea, legalitatea sau siguranța serviciilor furnizate de afacerile listate în directorul nostru."
         },
         {
+          title: "11B. Acuratețea Informațiilor despre Afaceri",
+          content: "Proprietarii de afaceri sunt singurii responsabili pentru acuratețea întregului conținut furnizat, inclusiv programul de funcționare, datele de contact și descrierile serviciilor. Romanian Business Hub nu verifică aceste date și nu este răspunzător pentru eventualele inadvertențe sau pierderi rezultate din informații incorecte. Recomandăm utilizatorilor să contacteze direct afacerea pentru a confirma detaliile critice (cum ar fi programul, prețurile sau disponibilitatea) înainte de a se baza pe acestea."
+        },
+        {
           title: "12. Indemnizație",
           content: "Sunteți de acord să despăgubiți și să protejați Romanian Business Hub, proprietarii, angajații și afiliatii săi de:\n\n• Reclamații rezultate din utilizarea Serviciului\n• Încălcări ale acestor Termeni\n• Încălcări ale drepturilor terților\n• Conținut pe care îl trimiteți către Serviciu\n• Activitățile dvs. de afaceri listate pe Serviciu"
         },
@@ -226,6 +234,10 @@ const TermsConditionsPage = () => {
         {
           title: "11A. Aansprakelijkheidsverklaring",
           content: "Romanian Business Hub biedt een gidsdienst 'zoals die is'. Hoewel wij ernaar streven de zichtbaarheid van vermelde bedrijven te vergroten, garanderen wij geen specifieke stijging van omzet, aantal klanten of financiële resultaten. Wij zijn een intermediair platform en zijn niet verantwoordelijk voor de kwaliteit, wettelijkheid of veiligheid van de diensten die worden geleverd door de bedrijven in onze gids."
+        },
+        {
+          title: "11B. Juistheid van Bedrijfsinformatie",
+          content: "Bedrijfseigenaren zijn als enige verantwoordelijk voor de juistheid van alle verstrekte inhoud, inclusief openingstijden, contactgegevens en servicebeschrijvingen. Romanian Business Hub verifieert deze gegevens niet en is niet aansprakelijk voor onjuistheden of verliezen als gevolg van foutieve informatie. Wij raden gebruikers aan om rechtstreeks contact op te nemen met het bedrijf om kritieke gegevens (zoals openingstijden, prijzen of beschikbaarheid) te bevestigen voordat zij erop vertrouwen."
         },
         {
           title: "12. Vrijwaring",

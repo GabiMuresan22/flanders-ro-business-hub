@@ -558,6 +558,9 @@ const AddBusinessPage = () => {
                           ? t('addBusiness.openingHoursOptionalWhenAppointment')
                           : t('addBusiness.openingHoursHelp')}
                       </p>
+                      <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+                        {t('addBusiness.openingHoursResponsibility')}
+                      </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const).map((day) => (
