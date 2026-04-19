@@ -50,7 +50,7 @@ const buildUserEmail = (p: ReportPayload, lang: 'ro' | 'en' | 'nl') => {
       <div style="padding: 24px; background: #ffffff;">
         <p style="font-size: 14px; line-height: 1.6;">${intros[lang]}</p>
         <table style="width:100%; border-collapse: collapse; margin: 20px 0; font-size: 13px;">
-          <tr><td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>${l.ref}:</strong></td><td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">${escapeHtml(p.reportId)}</td></tr>
+          ${p.reportId ? `<tr><td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>${l.ref}:</strong></td><td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">${escapeHtml(p.reportId)}</td></tr>` : ''}
           <tr><td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>${l.cat}:</strong></td><td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">${escapeHtml(p.issueType)}</td></tr>
           <tr><td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><strong>${l.url}:</strong></td><td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><a href="${escapeHtml(p.businessUrl)}" style="color:#002B7F;">${escapeHtml(p.businessUrl)}</a></td></tr>
           <tr><td style="padding: 8px; vertical-align: top;"><strong>${l.desc}:</strong></td><td style="padding: 8px;">${escapeHtml(p.description).replace(/\n/g, '<br>')}</td></tr>
