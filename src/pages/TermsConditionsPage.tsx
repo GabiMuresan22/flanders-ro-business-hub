@@ -62,6 +62,10 @@ const TermsConditionsPage = () => {
           content: "Romanian Business Hub provides a directory service 'as is.' While we aim to increase visibility for listed businesses, we do not guarantee a specific increase in turnover, client numbers, or financial results. We are an intermediary platform and are not responsible for the quality, legality, or safety of the services provided by the businesses listed in our directory."
         },
         {
+          title: "11B. Accuracy of Business Information",
+          content: "Business owners are solely responsible for the accuracy of all content provided, including opening hours, contact details, and service descriptions. Romanian Business Hub does not verify this data and is not liable for any inaccuracies or losses resulting from incorrect information. We recommend that users contact the business directly to confirm critical details (such as opening hours, prices, or availability) before relying on them."
+        },
+        {
           title: "12. Indemnification",
           content: "You agree to indemnify and hold harmless Romanian Business Hub, its owners, employees, and affiliates from:\n\n• Claims arising from your use of the Service\n• Violations of these Terms\n• Violations of third-party rights\n• Content you submit to the Service\n• Your business activities listed on the Service"
         },
