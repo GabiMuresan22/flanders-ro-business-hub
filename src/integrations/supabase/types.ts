@@ -16,34 +16,43 @@ export type Database = {
     Tables: {
       business_reports: {
         Row: {
+          acknowledged_good_faith: boolean
           business_id: string
+          content_url: string | null
           created_at: string
           description: string
           id: string
           issue_type: string
           reporter_email: string
+          reporter_name: string | null
           status: string
           updated_at: string
           user_id: string | null
         }
         Insert: {
+          acknowledged_good_faith?: boolean
           business_id: string
+          content_url?: string | null
           created_at?: string
           description: string
           id?: string
           issue_type: string
           reporter_email: string
+          reporter_name?: string | null
           status?: string
           updated_at?: string
           user_id?: string | null
         }
         Update: {
+          acknowledged_good_faith?: boolean
           business_id?: string
+          content_url?: string | null
           created_at?: string
           description?: string
           id?: string
           issue_type?: string
           reporter_email?: string
+          reporter_name?: string | null
           status?: string
           updated_at?: string
           user_id?: string | null
