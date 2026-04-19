@@ -15,7 +15,7 @@ const PrivacyPolicyPage = () => {
       sections: [
         {
           title: "1. Data Controller",
-          content: "Romanian Business Hub is the data controller responsible for your personal data. For any questions regarding data protection, please contact us at: contact@romanianbusinesshub.com"
+          content: "Romanian Business Hub is the data controller responsible for your personal data. For any questions regarding data protection, please contact us at: info@ro-businesshub.be"
         },
         {
           title: "2. Personal Data We Collect",
@@ -39,7 +39,7 @@ const PrivacyPolicyPage = () => {
         },
         {
           title: "7. Your Rights Under GDPR",
-          content: "You have the right to:\n\n• Access: Request a copy of your personal data\n• Rectification: Correct inaccurate or incomplete data\n• Erasure: Request deletion of your data ('right to be forgotten')\n• Restriction: Limit how we use your data\n• Portability: Receive your data in a structured format\n• Objection: Object to processing based on legitimate interests\n• Withdraw Consent: At any time for consent-based processing\n\nTo exercise these rights, contact us at contact@romanianbusinesshub.com"
+          content: "You have the right to:\n\n• Access: Request a copy of your personal data\n• Rectification: Correct inaccurate or incomplete data\n• Erasure: Request deletion of your data ('right to be forgotten')\n• Restriction: Limit how we use your data\n• Portability: Receive your data in a structured format\n• Objection: Object to processing based on legitimate interests\n• Withdraw Consent: At any time for consent-based processing\n\nTo exercise these rights, contact us at info@ro-businesshub.be"
         },
         {
           title: "8. Data Security",
@@ -71,7 +71,7 @@ const PrivacyPolicyPage = () => {
         },
         {
           title: "15. Contact Us",
-          content: "For questions about this privacy policy or data protection matters:\n\nEmail: contact@romanianbusinesshub.com\nAddress: Romanian Business Hub, West Flanders, Belgium"
+          content: "For questions about this privacy policy or data protection matters:\n\nEmail: info@ro-businesshub.be\nAddress: Romanian Business Hub, West Flanders, Belgium"
         }
       ]
     },
@@ -82,7 +82,7 @@ const PrivacyPolicyPage = () => {
       sections: [
         {
           title: "1. Operator de Date",
-          content: "Romanian Business Hub este operatorul de date responsabil pentru datele dvs. personale. Pentru orice întrebări privind protecția datelor, vă rugăm să ne contactați la: contact@romanianbusinesshub.com"
+          content: "Romanian Business Hub este operatorul de date responsabil pentru datele dvs. personale. Pentru orice întrebări privind protecția datelor, vă rugăm să ne contactați la: info@ro-businesshub.be"
         },
         {
           title: "2. Datele Personale pe Care le Colectăm",
@@ -106,7 +106,7 @@ const PrivacyPolicyPage = () => {
         },
         {
           title: "7. Drepturile Dvs. conform GDPR",
-          content: "Aveți dreptul la:\n\n• Acces: Solicitați o copie a datelor dvs. personale\n• Rectificare: Corectați datele inexacte sau incomplete\n• Ștergere: Solicitați ștergerea datelor dvs. ('dreptul de a fi uitat')\n• Restricționare: Limitați modul în care folosim datele dvs.\n• Portabilitate: Primiți datele dvs. într-un format structurat\n• Opoziție: Opuneți-vă prelucrării bazate pe interese legitime\n• Retragerea Consimțământului: În orice moment pentru prelucrarea bazată pe consimțământ\n\nPentru a exercita aceste drepturi, contactați-ne la contact@romanianbusinesshub.com"
+          content: "Aveți dreptul la:\n\n• Acces: Solicitați o copie a datelor dvs. personale\n• Rectificare: Corectați datele inexacte sau incomplete\n• Ștergere: Solicitați ștergerea datelor dvs. ('dreptul de a fi uitat')\n• Restricționare: Limitați modul în care folosim datele dvs.\n• Portabilitate: Primiți datele dvs. într-un format structurat\n• Opoziție: Opuneți-vă prelucrării bazate pe interese legitime\n• Retragerea Consimțământului: În orice moment pentru prelucrarea bazată pe consimțământ\n\nPentru a exercita aceste drepturi, contactați-ne la info@ro-businesshub.be"
         },
         {
           title: "8. Securitatea Datelor",
@@ -138,7 +138,7 @@ const PrivacyPolicyPage = () => {
         },
         {
           title: "15. Contactați-ne",
-          content: "Pentru întrebări despre această politică de confidențialitate sau probleme de protecție a datelor:\n\nEmail: contact@romanianbusinesshub.com\nAdresă: Romanian Business Hub, Flandra de Vest, Belgia"
+          content: "Pentru întrebări despre această politică de confidențialitate sau probleme de protecție a datelor:\n\nEmail: info@ro-businesshub.be\nAdresă: Romanian Business Hub, Flandra de Vest, Belgia"
         }
       ]
     }
