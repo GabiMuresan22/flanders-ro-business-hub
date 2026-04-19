@@ -479,6 +479,7 @@
     "openingHoursHelp": "Introdu programul afacerii pentru fiecare zi (ex., \"09:00 - 17:00\" sau \"Închis\")",
     "openingHoursOptionalWhenAppointment": "Nu este obligatoriu pentru afacerile doar cu programare.",
     "openingHoursPlaceholder": "ex., 09:00 - 17:00",
+    "openingHoursResponsibility": "Te rugăm să te asiguri că programul este corect. În calitate de proprietar al afacerii, ești responsabil pentru menținerea acestor informații actualizate pentru clienții tăi.",
     "businessPhoto": "Fotografie Afacere (Opțional)",
     "uploadClick": "Click pentru încărcare",
     "uploadDrag": "sau trage și plasează",
