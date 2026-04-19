@@ -236,6 +236,10 @@ const TermsConditionsPage = () => {
           content: "Romanian Business Hub biedt een gidsdienst 'zoals die is'. Hoewel wij ernaar streven de zichtbaarheid van vermelde bedrijven te vergroten, garanderen wij geen specifieke stijging van omzet, aantal klanten of financiële resultaten. Wij zijn een intermediair platform en zijn niet verantwoordelijk voor de kwaliteit, wettelijkheid of veiligheid van de diensten die worden geleverd door de bedrijven in onze gids."
         },
         {
+          title: "11B. Juistheid van Bedrijfsinformatie",
+          content: "Bedrijfseigenaren zijn als enige verantwoordelijk voor de juistheid van alle verstrekte inhoud, inclusief openingstijden, contactgegevens en servicebeschrijvingen. Romanian Business Hub verifieert deze gegevens niet en is niet aansprakelijk voor onjuistheden of verliezen als gevolg van foutieve informatie. Wij raden gebruikers aan om rechtstreeks contact op te nemen met het bedrijf om kritieke gegevens (zoals openingstijden, prijzen of beschikbaarheid) te bevestigen voordat zij erop vertrouwen."
+        },
+        {
           title: "12. Vrijwaring",
           content: "U gaat ermee akkoord Romanian Business Hub, haar eigenaren, werknemers en gelieerde ondernemingen te vrijwaren en schadeloos te stellen van:\n\n• Claims die voortvloeien uit uw gebruik van de Service\n• Schendingen van deze Voorwaarden\n• Schendingen van rechten van derden\n• Inhoud die u indient bij de Service\n• Uw zakelijke activiteiten die op de Service worden vermeld"
         },
