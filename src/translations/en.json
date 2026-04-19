@@ -293,7 +293,8 @@
     "similarBusinesses": "Similar Businesses",
     "mapLocation": "Location",
     "appointmentOnly": "By appointment only",
-    "openInMaps": "Open in Google Maps"
+    "openInMaps": "Open in Google Maps",
+    "hoursDisclaimer": "Opening hours and contact details are provided by the business and may change. We recommend calling to confirm before visiting."
   },
   "reviewForm": {
     "leaveReview": "Leave a Review",
