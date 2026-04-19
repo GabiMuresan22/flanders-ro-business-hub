@@ -558,6 +558,11 @@ const BusinessDetails = () => {
                         <span>{t('businessDetails.appointmentOnly')}</span>
                       </div>
                     )}
+
+                    {/* Accuracy disclaimer */}
+                    <p className="text-[11px] text-white/60 italic leading-snug mt-1">
+                      {t('businessDetails.hoursDisclaimer')}
+                    </p>
                   </div>
 
                   {/* Social media */}
