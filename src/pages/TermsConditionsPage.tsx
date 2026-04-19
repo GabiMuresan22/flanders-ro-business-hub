@@ -149,6 +149,10 @@ const TermsConditionsPage = () => {
           content: "Romanian Business Hub oferă un serviciu de director 'ca atare'. Deși ne propunem să creștem vizibilitatea afacerilor listate, nu garantăm o creștere specifică a cifrei de afaceri, a numărului de clienți sau a rezultatelor financiare. Suntem o platformă intermediară și nu suntem responsabili pentru calitatea, legalitatea sau siguranța serviciilor furnizate de afacerile listate în directorul nostru."
         },
         {
+          title: "11B. Acuratețea Informațiilor despre Afaceri",
+          content: "Proprietarii de afaceri sunt singurii responsabili pentru acuratețea întregului conținut furnizat, inclusiv programul de funcționare, datele de contact și descrierile serviciilor. Romanian Business Hub nu verifică aceste date și nu este răspunzător pentru eventualele inadvertențe sau pierderi rezultate din informații incorecte. Recomandăm utilizatorilor să contacteze direct afacerea pentru a confirma detaliile critice (cum ar fi programul, prețurile sau disponibilitatea) înainte de a se baza pe acestea."
+        },
+        {
           title: "12. Indemnizație",
           content: "Sunteți de acord să despăgubiți și să protejați Romanian Business Hub, proprietarii, angajații și afiliatii săi de:\n\n• Reclamații rezultate din utilizarea Serviciului\n• Încălcări ale acestor Termeni\n• Încălcări ale drepturilor terților\n• Conținut pe care îl trimiteți către Serviciu\n• Activitățile dvs. de afaceri listate pe Serviciu"
         },
