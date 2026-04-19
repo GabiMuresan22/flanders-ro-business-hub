@@ -166,7 +166,7 @@ export const ReportIssueDialog = ({ businessId, businessName }: ReportIssueDialo
     try {
       const { data: { user } } = await supabase.auth.getUser();
 
-      const { data: inserted, error } = await supabase
+      const { error } = await supabase
         .from("business_reports")
         .insert({
           business_id: businessId,
@@ -177,9 +177,7 @@ export const ReportIssueDialog = ({ businessId, businessName }: ReportIssueDialo
           description,
           acknowledged_good_faith: goodFaith,
           content_url: contentUrl,
-        })
-        .select("id")
-        .single();
+        });
 
       if (error) throw error;
 
@@ -187,7 +185,6 @@ export const ReportIssueDialog = ({ businessId, businessName }: ReportIssueDialo
       supabase.functions
         .invoke("notify-content-report", {
           body: {
-            reportId: inserted?.id,
             reporterEmail: email,
             reporterName: name,
             businessName,
