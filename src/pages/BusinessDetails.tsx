@@ -10,6 +10,7 @@ import SEO from '../components/SEO';
 import StructuredData from '../components/StructuredData';
 import { MapPin, Phone, Mail, Globe, Star, Home, Edit, Clock, ExternalLink } from 'lucide-react';
 import SocialMediaLinksInline from '../components/SocialMediaLinks';
+import { ReportIssueDialog } from '../components/ReportIssueDialog';
 import { categoryToSlug, normalizeExternalUrl } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -572,6 +573,11 @@ const BusinessDetails = () => {
                     <MapPin className="h-4 w-4" />
                     {t('businessDetails.viewOnMap')}
                   </a>
+
+                  {/* DSA Art. 16 — Report content */}
+                  <div className="mt-4 pt-4 border-t border-white/15 flex justify-center">
+                    <ReportIssueDialog businessId={business.id} businessName={business.business_name} />
+                  </div>
                 </div>
               </aside>
             </div>
