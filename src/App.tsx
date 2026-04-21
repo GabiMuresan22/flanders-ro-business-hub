@@ -12,7 +12,6 @@ const RedirectToResurse = () => {
 };
 import ErrorBoundary from "./components/ErrorBoundary";
 import { LanguageProvider } from "./contexts/LanguageContext";
-import { CookieConsent } from "./components/CookieConsent";
 import CookieSettingsButton from "./components/CookieSettingsButton";
 import { Analytics } from "./components/Analytics"; // checks cookieConsent; if analytics true, initializes GA and reports route changes
 import ScrollToTop from "./components/ScrollToTop";
@@ -106,7 +105,6 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
-            <CookieConsent />
             <CookieSettingsButton />
           </BrowserRouter>
         </TooltipProvider>
