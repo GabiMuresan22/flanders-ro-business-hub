@@ -13,7 +13,7 @@ const RedirectToResurse = () => {
 import ErrorBoundary from "./components/ErrorBoundary";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import CookieSettingsButton from "./components/CookieSettingsButton";
-import { Analytics } from "./components/Analytics"; // checks cookieConsent; if analytics true, initializes GA and reports route changes
+import { Analytics } from "./components/Analytics";
 import ScrollToTop from "./components/ScrollToTop";
 import { LanguageUrlSync } from "./components/LanguageUrlSync";
 

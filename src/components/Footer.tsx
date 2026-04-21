@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { openCookiePreferences } from '@/components/CookieConsent';
 
 const Footer = () => {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const cookieSettingsLabel = {
+    en: 'Cookie settings',
+    ro: 'Setari cookie',
+    nl: 'Cookie-instellingen',
+  }[language];
 
   return (
     <footer className="bg-gray-900 text-gray-300 pt-12 pb-8" role="contentinfo">
@@ -71,6 +77,15 @@ const Footer = () => {
                 <Link to="/privacy-policy" className="hover:text-white transition-colors">
                   {t('footer.privacyPolicy')}
                 </Link>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={openCookiePreferences}
+                  className="hover:text-white transition-colors"
+                >
+                  {cookieSettingsLabel}
+                </button>
               </li>
               <li>
                 <Link to="/" className="hover:text-white transition-colors">
