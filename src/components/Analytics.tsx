@@ -1,36 +1,19 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-interface CookiePreferences {
-  essential: boolean;
-  analytics: boolean;
-  marketing: boolean;
-}
+/**
+ * Google Analytics 4 - controlled by Cookiebot CMP via Consent Mode v2.
+ *
+ * - index.html sets default consent to "denied" before any script.
+ * - Cookiebot loads gtag.js only after the user grants statistics consent
+ *   (the gtag.js tag is marked data-cookieconsent="statistics" type="text/plain"
+ *   and Cookiebot rewrites it to a real script once allowed).
+ * - This component only forwards SPA route changes to gtag; whether the
+ *   event actually fires is decided by Cookiebot/Consent Mode.
+ */
 
-// Set VITE_GA_ID in .env (e.g. VITE_GA_ID=G-XXXXXXXXXX)
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_ID || 'G-H8JZ4G2QE3';
-
 const DEBUG = import.meta.env.DEV;
-
-function getCookiePreferences(): CookiePreferences {
-  try {
-    const consent = localStorage.getItem('cookieConsent');
-    if (consent) {
-      return JSON.parse(consent) as CookiePreferences;
-    }
-  } catch (error) {
-    if (DEBUG) console.error('[Analytics] Error reading cookie preferences:', error);
-  }
-  return {
-    essential: true,
-    analytics: false,
-    marketing: false,
-  };
-}
-
-function hasAnalyticsConsent(): boolean {
-  return getCookiePreferences().analytics === true;
-}
 
 declare global {
   interface Window {
@@ -39,128 +22,31 @@ declare global {
   }
 }
 
-/**
- * Global hook: report route changes to Google Analytics when path changes.
- * Call only when GA is initialized (consent given) and gtag is available.
- */
-function useGaRouteTracking(measurementId: string) {
+export const Analytics = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (!hasAnalyticsConsent() || typeof window.gtag !== 'function') return;
-
-    window.gtag('config', measurementId, {
+    if (typeof window.gtag !== 'function') return;
+    window.gtag('config', GA_MEASUREMENT_ID, {
       page_path: location.pathname + location.search,
       page_title: document.title,
     });
-    if (DEBUG) console.log('[Analytics] page_view', { path: location.pathname + location.search });
-  }, [measurementId, location.pathname, location.search]);
-}
-
-/**
- * GDPR-compliant Google Analytics 4.
- * - index.html provides the base gtag stub (dataLayer + gtag).
- * - When cookieConsent.analytics is true, we load the gtag/js script and initialize tracking.
- * - useGaRouteTracking reports each route change to GA.
- */
-export const Analytics = () => {
-  const loadedRef = useRef(false);
-  const measurementId = GA_MEASUREMENT_ID;
-
-  // Initialize GA when consent is given: load script and first config
-  const initTracking = () => {
-    const existing = document.querySelector(`script[src*="googletagmanager.com/gtag/js"]`);
-    if (existing) {
-      loadedRef.current = true;
-      if (DEBUG) console.log('[Analytics] GA script already present');
-      return;
-    }
-    if (loadedRef.current) return;
-
-    if (DEBUG) {
-      console.log('[Analytics] Initializing GA4', { measurementId, consent: getCookiePreferences() });
-    }
-
-    // gtag stub already exists from index.html
-    if (typeof window.gtag !== 'function') {
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function gtag(...args: unknown[]) {
-        window.dataLayer!.push(args);
-      };
-    }
-
-    window.gtag('js', new Date());
-    window.gtag('config', measurementId, {
-      anonymize_ip: true,
-      allow_google_signals: false,
-      page_path: window.location.pathname + window.location.search,
-      page_title: document.title,
-    });
-
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-    script.onload = () => {
-      if (DEBUG) console.log('[Analytics] GA script loaded OK');
-      loadedRef.current = true;
-    };
-    script.onerror = () => {
-      console.error('[Analytics] GA script failed to load (e.g. ad blocker or network)');
-      loadedRef.current = false;
-    };
-    document.head.appendChild(script);
-  };
-
-  const removeTracking = () => {
-    document.querySelectorAll(`script[src*="googletagmanager.com/gtag/js"]`).forEach((s) => s.remove());
-    if (window.dataLayer) window.dataLayer = [];
-    // Use no-op instead of delete: some browsers (e.g. in-app) throw "Cannot delete property 'gtag' of #<Window>"
-    window.gtag = () => {};
-    loadedRef.current = false;
-    if (DEBUG) console.log('[Analytics] GA removed (consent revoked)');
-  };
-
-  // Check localStorage cookieConsent and init or remove GA
-  useEffect(() => {
-    const sync = () => {
-      const prefs = getCookiePreferences();
-      if (prefs.analytics) initTracking();
-      else removeTracking();
-    };
-
-    sync();
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === 'cookieConsent') sync();
-    };
-    const onConsent = () => sync();
-
-    window.addEventListener('storage', onStorage);
-    window.addEventListener('cookieConsentUpdated', onConsent);
-    return () => {
-      window.removeEventListener('storage', onStorage);
-      window.removeEventListener('cookieConsentUpdated', onConsent);
-    };
-  }, []);
-
-  // Report route changes to GA whenever path changes
-  useGaRouteTracking(measurementId);
+    if (DEBUG) console.log('[Analytics] page_view', location.pathname + location.search);
+  }, [location.pathname, location.search]);
 
   return null;
 };
 
-/**
- * Send a custom event to GA4. Only sends when user has accepted analytics cookies.
- */
+/** Send a custom event to GA4. Cookiebot/Consent Mode decides whether it actually fires. */
 export const trackEvent = (
   eventName: string,
   eventParams?: Record<string, unknown>
 ) => {
-  if (!hasAnalyticsConsent() || typeof window.gtag !== 'function') return;
+  if (typeof window.gtag !== 'function') return;
   window.gtag('event', eventName, eventParams);
   if (DEBUG) console.log('[Analytics] event', eventName, eventParams);
 };
 
-/** Track contact method clicks (phone, email, website). */
 export const trackContactClick = (method: 'phone' | 'email' | 'website') => {
   trackEvent('contact_click', {
     event_category: 'engagement',
@@ -169,7 +55,6 @@ export const trackContactClick = (method: 'phone' | 'email' | 'website') => {
   });
 };
 
-/** Track language switch. */
 export const trackLanguageChange = (language: string) => {
   trackEvent('language_change', {
     event_category: 'engagement',
@@ -178,7 +63,6 @@ export const trackLanguageChange = (language: string) => {
   });
 };
 
-/** Track "Add business" CTA clicks. */
 export const trackAddBusinessClick = (source: string) => {
   trackEvent('add_business_click', {
     event_category: 'engagement',
