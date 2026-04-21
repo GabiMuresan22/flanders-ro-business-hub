@@ -508,6 +508,8 @@
     "appointmentOnly": "Alleen op afspraak",
     "appointmentOnlyHelp": "Vink aan als uw bedrijf alleen op afspraak werkt",
     "agreeTerms": "Ik ga akkoord met de algemene voorwaarden en het privacybeleid",
+    "agreeTermsPrefix": "Ik ga akkoord met de",
+    "agreeTermsConnector": "en het",
     "submitButton": "Bedrijf Indienen",
     "submitting": "Verzenden...",
     "successTitle": "Bedrijfsinzending ontvangen!",

@@ -508,6 +508,8 @@
     "appointmentOnly": "By appointment only",
     "appointmentOnlyHelp": "Check this if your business operates only by appointment",
     "agreeTerms": "I agree to the terms and conditions and privacy policy",
+    "agreeTermsPrefix": "I agree to the",
+    "agreeTermsConnector": "and the",
     "submitButton": "Submit Business",
     "submitting": "Submitting...",
     "successTitle": "Business submission received!",

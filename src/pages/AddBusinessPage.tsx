@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { formSchema, type FormSchema } from '@/lib/validation/businessFormSchema';
 import Navbar from '../components/Navbar';
@@ -718,16 +718,23 @@ const AddBusinessPage = () => {
                       control={form.control}
                       name="agreeTerms"
                       render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-4 bg-gray-50">
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                           <FormControl>
                             <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
+                              checked={field.value === true}
+                              onCheckedChange={(checked) => field.onChange(checked === true)}
                             />
                           </FormControl>
                           <div className="space-y-1 leading-none">
-                            <FormLabel>
-                              {t('addBusiness.agreeTerms')} *
+                            <FormLabel className="text-sm font-normal leading-relaxed">
+                              {t('addBusiness.agreeTermsPrefix')}{' '}
+                              <Link to="/terms-conditions" className="text-primary underline underline-offset-2">
+                                {t('footer.termsConditions')}
+                              </Link>{' '}
+                              {t('addBusiness.agreeTermsConnector')}{' '}
+                              <Link to="/privacy-policy" className="text-primary underline underline-offset-2">
+                                {t('footer.privacyPolicy')}
+                              </Link>
                             </FormLabel>
                             <FormMessage />
                           </div>

@@ -59,9 +59,12 @@ export const formSchema = z.object({
   }).optional().or(z.literal('')),
   businessImage: z.any().optional(),
   appointmentOnly: z.boolean().default(false),
-  agreeTerms: z.boolean().refine(val => val === true, {
-    message: "You must agree to the terms and conditions."
-  }),
+  agreeTerms: z
+    .boolean()
+    .default(false)
+    .refine((val) => val === true, {
+      message: "You must accept the terms and conditions and privacy policy to proceed.",
+    }),
   openingHours: z.object({
     monday: z.string().optional(),
     tuesday: z.string().optional(),

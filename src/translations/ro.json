@@ -508,6 +508,8 @@
     "appointmentOnly": "Doar cu programare",
     "appointmentOnlyHelp": "Bifează dacă afacerea ta operează doar cu programare",
     "agreeTerms": "Sunt de acord cu termenii și condițiile și politica de confidențialitate",
+    "agreeTermsPrefix": "Sunt de acord cu",
+    "agreeTermsConnector": "și cu",
     "submitButton": "Trimite Afacerea",
     "submitting": "Se trimite...",
     "successTitle": "Cererea pentru afacere a fost primită!",
