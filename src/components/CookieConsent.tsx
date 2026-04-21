@@ -4,9 +4,18 @@ import { Switch } from "@/components/ui/switch";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-// Global function to open cookie preferences from anywhere (e.g. footer link)
+// Global function to open cookie preferences from anywhere (e.g. footer link).
+// Now delegates to Cookiebot CMP loaded in index.html.
+declare global {
+  interface Window {
+    Cookiebot?: { show: () => void; renew: () => void };
+  }
+}
+
 export const openCookiePreferences = () => {
-  window.dispatchEvent(new CustomEvent("open-cookie-preferences"));
+  if (typeof window !== "undefined" && window.Cookiebot) {
+    window.Cookiebot.renew();
+  }
 };
 
 interface CookiePreferences {
