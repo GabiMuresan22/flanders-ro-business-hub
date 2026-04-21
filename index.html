@@ -72,25 +72,26 @@
       rel="stylesheet"
     />
 
-    <!-- Google Consent Mode v2 defaults (must run before any tracking) -->
-    <script data-cookieconsent="ignore">
+    <!-- Google Consent Mode v2 defaults (must run BEFORE Cookiebot & gtag) -->
+    <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('consent', 'default', {
-        'ad_personalization': 'denied',
-        'ad_storage': 'denied',
-        'ad_user_data': 'denied',
-        'analytics_storage': 'denied',
-        'functionality_storage': 'denied',
-        'personalization_storage': 'denied',
-        'security_storage': 'granted',
-        'wait_for_update': 500
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("consent", "default", {
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        analytics_storage: "denied",
+        functionality_storage: "denied",
+        personalization_storage: "denied",
+        security_storage: "granted",
+        wait_for_update: 500,
       });
-      gtag('set', 'ads_data_redaction', true);
-      gtag('set', 'url_passthrough', false);
+      gtag("set", "ads_data_redaction", true);
     </script>
 
-    <!-- Cookiebot CMP -->
+    <!-- Cookiebot CMP (must load first, before any tracking scripts) -->
     <script
       id="Cookiebot"
       src="https://consent.cookiebot.com/uc.js"
@@ -99,8 +100,17 @@
       type="text/javascript"
     ></script>
 
-    <!-- Base gtag stub (kept for compatibility with Analytics.tsx route tracking) -->
-    <script src="/tracking.js"></script>
+    <!-- Google tag (gtag.js) - auto-blocked by Cookiebot until consent -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-H8JZ4G2QE3"
+      data-cookieconsent="statistics"
+      type="text/plain"
+    ></script>
+    <script data-cookieconsent="statistics" type="text/plain">
+      gtag("js", new Date());
+      gtag("config", "G-H8JZ4G2QE3", { anonymize_ip: true });
+    </script>
   </head>
 
   <body>
