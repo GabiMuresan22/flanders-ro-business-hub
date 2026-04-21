@@ -10,6 +10,10 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, Tag, Loader2, Download } from "lucide-react";
+import {
+  getNormalizedResourceCategory,
+  getResourceCategoryLabel,
+} from "@/lib/resourceCategories";
 
 /** Get display string for resource based on language (EN/NL/RO with fallbacks). */
 function getResourceDisplay(
@@ -91,7 +95,10 @@ const ResourceDetailPage = () => {
   const displayTitle = getResourceDisplay(resource, language, 'title');
   const displayExcerpt = getResourceDisplay(resource, language, 'excerpt');
   const displayContent = getResourceDisplay(resource, language, 'content');
-  const categoryLabel = t(`resources.categories.${resource.category}`) !== `resources.categories.${resource.category}` ? t(`resources.categories.${resource.category}`) : resource.category;
+  const categoryLabel = getResourceCategoryLabel(
+    getNormalizedResourceCategory(resource),
+    t,
+  );
 
   const BASE_URL = 'https://www.ro-businesshub.be';
   const resourceUrl = `${BASE_URL}/resurse/${resource.slug}`;

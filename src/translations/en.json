@@ -549,9 +549,9 @@
   },
   "resources": {
     "title": "Useful Resources",
-    "subtitle": "Guides, articles and tips about entrepreneurship, marketing and legislation in Belgium.",
+    "subtitle": "Guides and articles about taxes, company setup, and practical steps for entrepreneurs in Belgium.",
     "seoTitle": "Useful Resources - Romanian Business Hub",
-    "seoDescription": "Guides, articles and tips for Romanian entrepreneurs in Belgium. Legal advice, marketing strategies and more.",
+    "seoDescription": "Clear guides about taxes in Belgium, company setup, and practical resources for Romanian entrepreneurs.",
     "seoKeywords": "Romanian business resources Belgium, entrepreneurship guides, business tips Belgium",
     "allCategories": "All",
     "readMore": "Read More",
@@ -560,10 +560,9 @@
     "notFound": "Article Not Found",
     "notFoundMessage": "Sorry, the article you are looking for does not exist or has been removed.",
     "categories": {
-      "Legal": "Legal",
-      "Marketing": "Marketing",
-      "Business": "Business",
-      "Taxe": "Taxes"
+      "TAXE_BELGIA": "Taxe Belgia",
+      "INFIINTARE_FIRMA_BELGIA": "Înființare firmă Belgia",
+      "GHIDURI_PRACTICE": "Ghiduri practice"
     }
   }
 }

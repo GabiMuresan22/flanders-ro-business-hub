@@ -10,6 +10,13 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Loader2, BookOpen } from "lucide-react";
+import {
+  getResourceCategoryLabel,
+  normalizeResource,
+  RESOURCE_CATEGORY_ID,
+  RESOURCE_FILTER_ORDER,
+  type ResourceCategoryId,
+} from "@/lib/resourceCategories";
 
 /** Get display string for resource based on language (EN/NL/RO with fallbacks). */
 function getResourceDisplay(
@@ -29,7 +36,9 @@ function getResourceDisplay(
 const ResourcesPage = () => {
   const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState<ResourceCategoryId>(
+    RESOURCE_CATEGORY_ID.ALL,
+  );
   const { t, language } = useLanguage();
   const dateLocale = language === 'nl' ? 'nl-BE' : language === 'en' ? 'en-GB' : 'ro-RO';
 
@@ -50,12 +59,14 @@ const ResourcesPage = () => {
     fetchResources();
   }, []);
 
-  const categories = ["All", ...new Set(resources.map((r) => r.category))];
+  const normalizedResources = resources.map(normalizeResource);
 
   const filteredResources =
-    selectedCategory === "All"
-      ? resources
-      : resources.filter((r) => r.category === selectedCategory);
+    selectedCategory === RESOURCE_CATEGORY_ID.ALL
+      ? normalizedResources
+      : normalizedResources.filter(
+          (resource) => resource.normalizedCategory === selectedCategory,
+        );
 
   return (
     <>
@@ -84,15 +95,15 @@ const ResourcesPage = () => {
             <div className="container mx-auto px-4">
               {/* Category Filter */}
               <div className="flex flex-wrap gap-2 justify-center mb-10">
-                {categories.map((cat) => (
+                {RESOURCE_FILTER_ORDER.map((category) => (
                   <Button
-                    key={cat}
-                    variant={selectedCategory === cat ? "default" : "outline"}
-                    onClick={() => setSelectedCategory(cat)}
+                    key={category}
+                    variant={selectedCategory === category ? "default" : "outline"}
+                    onClick={() => setSelectedCategory(category)}
                     className="rounded-full"
                     size="sm"
                   >
-                    {cat === "All" ? t('resources.allCategories') : (t(`resources.categories.${cat}`) !== `resources.categories.${cat}` ? t(`resources.categories.${cat}`) : cat)}
+                    {getResourceCategoryLabel(category, t)}
                   </Button>
                 ))}
               </div>
@@ -111,7 +122,10 @@ const ResourcesPage = () => {
                   {filteredResources.map((resource) => {
                     const displayTitle = getResourceDisplay(resource, language, 'title');
                     const displayExcerpt = getResourceDisplay(resource, language, 'excerpt');
-                    const categoryLabel = t(`resources.categories.${resource.category}`) !== `resources.categories.${resource.category}` ? t(`resources.categories.${resource.category}`) : resource.category;
+                    const categoryLabel = getResourceCategoryLabel(
+                      resource.normalizedCategory,
+                      t,
+                    );
                     return (
                       <Card
                         key={resource.id}

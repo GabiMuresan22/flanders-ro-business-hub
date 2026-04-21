@@ -549,9 +549,9 @@
   },
   "resources": {
     "title": "Nuttige Bronnen",
-    "subtitle": "Gidsen, artikelen en tips over ondernemerschap, marketing en wetgeving in België.",
+    "subtitle": "Gidsen en artikelen over belastingen, bedrijfsoprichting en praktische stappen voor ondernemers in België.",
     "seoTitle": "Nuttige Bronnen - Romanian Business Hub",
-    "seoDescription": "Gidsen, artikelen en tips voor Roemeense ondernemers in België. Juridisch advies, marketingstrategieën en meer.",
+    "seoDescription": "Duidelijke gidsen over belastingen in België, bedrijfsoprichting en praktische hulpmiddelen voor Roemeense ondernemers.",
     "seoKeywords": "Roemeense bedrijfsbronnen België, ondernemerschapsgidsen, bedrijfstips België",
     "allCategories": "Alles",
     "readMore": "Lees Meer",
@@ -560,10 +560,9 @@
     "notFound": "Artikel Niet Gevonden",
     "notFoundMessage": "Sorry, het artikel dat u zoekt bestaat niet of is verwijderd.",
     "categories": {
-      "Legal": "Juridisch",
-      "Marketing": "Marketing",
-      "Business": "Zakelijk",
-      "Taxe": "Belastingen"
+      "TAXE_BELGIA": "Taxe Belgia",
+      "INFIINTARE_FIRMA_BELGIA": "Înființare firmă Belgia",
+      "GHIDURI_PRACTICE": "Ghiduri practice"
     }
   }
 }

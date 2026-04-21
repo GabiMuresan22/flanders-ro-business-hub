@@ -549,9 +549,9 @@
   },
   "resources": {
     "title": "Resurse Utile",
-    "subtitle": "Ghiduri, articole și sfaturi despre antreprenoriat, marketing și legislație în Belgia.",
+    "subtitle": "Ghiduri și articole despre taxe, înființare firmă și pași practici pentru antreprenorii din Belgia.",
     "seoTitle": "Resurse Utile - Romanian Business Hub",
-    "seoDescription": "Ghiduri, articole și sfaturi pentru antreprenorii români din Belgia. Sfaturi juridice, strategii de marketing și multe altele.",
+    "seoDescription": "Ghiduri clare despre taxe în Belgia, înființare firmă și pași practici pentru antreprenorii români.",
     "seoKeywords": "resurse afaceri românești Belgia, ghiduri antreprenoriat, sfaturi afaceri Belgia",
     "allCategories": "Toate",
     "readMore": "Citește mai mult",
@@ -560,10 +560,9 @@
     "notFound": "Articol Negăsit",
     "notFoundMessage": "Ne pare rău, articolul pe care îl cauți nu există sau a fost eliminat.",
     "categories": {
-      "Legal": "Juridic",
-      "Marketing": "Marketing",
-      "Business": "Business",
-      "Taxe": "Taxe"
+      "TAXE_BELGIA": "Taxe Belgia",
+      "INFIINTARE_FIRMA_BELGIA": "Înființare firmă Belgia",
+      "GHIDURI_PRACTICE": "Ghiduri practice"
     }
   }
 }
