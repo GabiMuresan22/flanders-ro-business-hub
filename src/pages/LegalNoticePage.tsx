@@ -2,7 +2,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Mail, Phone, MapPin, Building2, ShieldCheck } from 'lucide-react';
+import { Mail, MapPin, Building2, ShieldCheck, Server } from 'lucide-react';
 
 const content = {
   en: {
@@ -35,6 +35,13 @@ const content = {
         ],
       },
       {
+        heading: 'Hosting & Infrastructure',
+        items: [
+          { label: 'Hosting Platform', value: 'Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA' },
+          { label: 'Database Provider', value: 'Supabase Inc., 970 Summer St, Stamford, CT 06905, USA' },
+        ],
+      },
+      {
         heading: 'Supervisory Authority',
         items: [
           { label: 'Authority', value: 'FPS Economy, SMEs, Self-Employed and Energy' },
@@ -54,7 +61,7 @@ const content = {
       {
         heading: 'Maatschappelijke Zetel',
         items: [
-          { label: 'Adres', value: 'Lucien Boekstalestraat 6, 8800 Roeselare, België' },
+          { label: 'Adres', value: 'Lucien Boekstalestraat 6, 8800 Roeselare, Belgi\u00eb' },
         ],
       },
       {
@@ -72,6 +79,13 @@ const content = {
         ],
       },
       {
+        heading: 'Hosting & Infrastructuur',
+        items: [
+          { label: 'Hosting Platform', value: 'Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA' },
+          { label: 'Database Provider', value: 'Supabase Inc., 970 Summer St, Stamford, CT 06905, USA' },
+        ],
+      },
+      {
         heading: 'Toezichthoudende Autoriteit',
         items: [
           { label: 'Autoriteit', value: 'FOD Economie, KMO, Middenstand en Energie' },
@@ -80,7 +94,7 @@ const content = {
     ],
   },
   ro: {
-    title: 'Mențiuni Legale',
+    title: 'Men\u021biuni Legale',
     sections: [
       {
         heading: 'Editor & Operator',
@@ -91,13 +105,13 @@ const content = {
       {
         heading: 'Sediu Social',
         items: [
-          { label: 'Adresă', value: 'Lucien Boekstalestraat 6, 8800 Roeselare, Belgia' },
+          { label: 'Adres\u0103', value: 'Lucien Boekstalestraat 6, 8800 Roeselare, Belgia' },
         ],
       },
       {
-        heading: 'Înregistrare Comercială',
+        heading: '\u00cenregistrare Comercial\u0103',
         items: [
-          { label: 'Număr de întreprindere (CBE / KBO)', value: '1030.197.309' },
+          { label: 'Num\u0103r de \u00eentreprindere (CBE / KBO)', value: '1030.197.309' },
           { label: 'Identificare TVA', value: 'BE 1030.197.309' },
         ],
       },
@@ -106,6 +120,13 @@ const content = {
         items: [
           { label: 'Email', value: 'info@ro-businesshub.be', href: 'mailto:info@ro-businesshub.be' },
           { label: 'Telefon', value: '+32 467 789 259', href: 'tel:+32467789259' },
+        ],
+      },
+      {
+        heading: 'G\u0103zduire \u0219i Infrastructur\u0103',
+        items: [
+          { label: 'Platform\u0103 G\u0103zduire', value: 'Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, SUA' },
+          { label: 'Furnizor Baz\u0103 de Date', value: 'Supabase Inc., 970 Summer St, Stamford, CT 06905, SUA' },
         ],
       },
       {
@@ -118,7 +139,7 @@ const content = {
   },
 };
 
-const sectionIcons = [Building2, MapPin, ShieldCheck, Mail, ShieldCheck];
+const sectionIcons = [Building2, MapPin, ShieldCheck, Mail, Server, ShieldCheck];
 
 const LegalNoticePage = () => {
   const { language } = useLanguage();
@@ -129,7 +150,7 @@ const LegalNoticePage = () => {
     <>
       <SEO
         title={`${c.title} | Romanian Business Hub`}
-        description="Editor & Operator, registered office, enterprise and VAT details, contact information, and supervisory authority."
+        description="Editor & Operator, registered office, enterprise and VAT details, contact information, hosting and infrastructure providers, and supervisory authority."
         noindex
       />
       <div className="min-h-screen flex flex-col bg-muted/30">
