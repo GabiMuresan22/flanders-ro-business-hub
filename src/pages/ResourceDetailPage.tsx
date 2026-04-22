@@ -41,6 +41,7 @@ const PILLAR_GUIDE_POINTS: Record<string, string[]> = {
 };
 
 // ─── Recommended articles per slug ───────────────────────────────────────────
+/** A related article shown in the "Articole recomandate" section at the bottom of each article page. */
 interface RelatedArticle { slug: string; title: string; excerpt: string; }
 
 const ARTICLE_RECOMMENDATIONS: Record<string, RelatedArticle[]> = {
