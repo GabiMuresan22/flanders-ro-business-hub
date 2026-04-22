@@ -9,11 +9,123 @@ import StructuredData from "@/components/StructuredData";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Calendar, Tag, Loader2, Download } from "lucide-react";
+import { ArrowLeft, Calendar, Tag, Loader2, Download, CheckCircle2, BookOpen } from "lucide-react";
 import {
   getNormalizedResourceCategory,
   getResourceCategoryLabel,
 } from "@/lib/resourceCategories";
+
+// ─── Pillar page: "Ce vei afla din acest ghid" ───────────────────────────────
+const PILLAR_GUIDE_POINTS: Record<string, string[]> = {
+  'taxe-zelfstandig-belgia-ghid-complet-2026': [
+    'Ce taxe plătești ca independent (zelfstandig) în Belgia în 2026',
+    'Cum se împart contribuțiile sociale și impozitul pe venit',
+    'Exemple reale de calcul la diferite niveluri de venit',
+    'Ce poți deduce legal din impozit',
+    'Cum să planifici bani pentru taxe și să nu fii luat prin surprindere',
+  ],
+  'tva-btw-belgia-ghid-complet-2026': [
+    'Ce este TVA (BTW) și cum funcționează în Belgia',
+    'Când trebuie să te înregistrezi ca plătitor de TVA și care este pragul',
+    'Cotele de TVA din Belgia (21%, 12%, 6%)',
+    'Regimul special pentru micii întreprinzători (kleine onderneming)',
+    'Cum calculezi TVA de plată și cum o optimizezi legal',
+  ],
+  'cat-ramane-in-mana-venituri-belgia-2026': [
+    'Cât rămâne efectiv în mână după toate taxele în Belgia',
+    'Exemple reale pentru diferite niveluri de venit brut',
+    'Diferența dintre a fi angajat și independent în Belgia',
+    'Cum poți optimiza legal venitul net',
+    'Comparație: zelfstandig vs. SRL (BV) în Belgia',
+  ],
+};
+
+// ─── Recommended articles per slug ───────────────────────────────────────────
+/** A related article shown in the "Articole recomandate" section at the bottom of each article page. */
+interface RelatedArticle { slug: string; title: string; excerpt: string; }
+
+const ARTICLE_RECOMMENDATIONS: Record<string, RelatedArticle[]> = {
+  'taxe-zelfstandig-belgia-ghid-complet-2026': [
+    { slug: 'tva-btw-belgia-ghid-complet-2026', title: 'TVA în Belgia (BTW) – ghid complet 2026', excerpt: 'Când trebuie să te înregistrezi ca plătitor de TVA și cât plătești.' },
+    { slug: 'cat-ramane-in-mana-venituri-belgia-2026', title: 'Cât rămâne în mână din veniturile tale în Belgia (2026)', excerpt: 'Exemple reale despre venitul net după toate taxele.' },
+    { slug: 'cum-devii-independent-belgia-ghid-complet-2026', title: 'Cum devii independent în Belgia – ghid complet 2026', excerpt: 'Toți pașii pentru a deveni independent în Belgia în 2026.' },
+  ],
+  'tva-btw-belgia-ghid-complet-2026': [
+    { slug: 'taxe-zelfstandig-belgia-ghid-complet-2026', title: 'Ce taxe plătești ca zelfstandig în Belgia – ghid complet 2026', excerpt: 'Contribuții sociale și impozit pe venit explicate simplu.' },
+    { slug: 'cat-ramane-in-mana-venituri-belgia-2026', title: 'Cât rămâne în mână din veniturile tale în Belgia (2026)', excerpt: 'Calculează ce rămâne efectiv după toate taxele.' },
+    { slug: 'srl-vs-nv-belgia-diferente-avantaje', title: 'SRL vs NV în Belgia – diferențe și avantaje', excerpt: 'Compară cele două forme juridice principale pentru afacerea ta.' },
+  ],
+  'cat-ramane-in-mana-venituri-belgia-2026': [
+    { slug: 'taxe-zelfstandig-belgia-ghid-complet-2026', title: 'Ce taxe plătești ca zelfstandig în Belgia – ghid complet 2026', excerpt: 'Ghid complet despre contribuțiile sociale și impozitul pe venit.' },
+    { slug: 'tva-btw-belgia-ghid-complet-2026', title: 'TVA în Belgia (BTW) – ghid complet 2026', excerpt: 'Ghid complet despre TVA pentru independenți și firme.' },
+    { slug: 'srl-vs-nv-belgia-diferente-avantaje', title: 'SRL vs NV în Belgia – diferențe și avantaje', excerpt: 'Compară cele două forme juridice principale.' },
+  ],
+  'taxe-independent-belgia-2026': [
+    { slug: 'taxe-zelfstandig-belgia-ghid-complet-2026', title: 'Ce taxe plătești ca zelfstandig în Belgia – ghid complet 2026', excerpt: 'Ghid complet și actualizat despre taxele pentru independenți.' },
+    { slug: 'tva-btw-belgia-ghid-complet-2026', title: 'TVA în Belgia (BTW) – ghid complet 2026', excerpt: 'Când trebuie să te înregistrezi ca plătitor de TVA.' },
+    { slug: 'cat-ramane-in-mana-venituri-belgia-2026', title: 'Cât rămâne în mână din veniturile tale în Belgia (2026)', excerpt: 'Calculează venitul net după toate taxele.' },
+  ],
+  'srl-vs-nv-belgia-diferente-avantaje': [
+    { slug: 'taxe-zelfstandig-belgia-ghid-complet-2026', title: 'Ce taxe plătești ca zelfstandig în Belgia – ghid complet 2026', excerpt: 'Contribuții sociale și impozit pe venit pentru independenți.' },
+    { slug: 'dividende-belgia-2026-ghid-complet', title: 'Dividende în Belgia 2026 – ghid complet', excerpt: 'Cum se impozitează dividendele și cum le poți optimiza.' },
+    { slug: 'cum-devii-independent-belgia-ghid-complet-2026', title: 'Cum devii independent în Belgia – ghid complet 2026', excerpt: 'Toți pașii pentru a deveni independent sau a-ți deschide firmă.' },
+  ],
+  'cum-devii-independent-belgia-ghid-complet-2026': [
+    { slug: 'taxe-zelfstandig-belgia-ghid-complet-2026', title: 'Ce taxe plătești ca zelfstandig în Belgia – ghid complet 2026', excerpt: 'Ce taxe vei plăti după ce devii independent.' },
+    { slug: 'tva-btw-belgia-ghid-complet-2026', title: 'TVA în Belgia (BTW) – ghid complet 2026', excerpt: 'Când și cum te înregistrezi ca plătitor de TVA.' },
+    { slug: 'checklist-primele-30-zile-independent-belgia', title: 'Checklist primele 30 zile ca independent în Belgia', excerpt: 'Ce trebuie să faci în primele 30 zile după ce devii independent.' },
+  ],
+  'checklist-primele-30-zile-independent-belgia': [
+    { slug: 'cum-devii-independent-belgia-ghid-complet-2026', title: 'Cum devii independent în Belgia – ghid complet 2026', excerpt: 'Pașii pentru a deveni independent în Belgia.' },
+    { slug: 'taxe-zelfstandig-belgia-ghid-complet-2026', title: 'Ce taxe plătești ca zelfstandig în Belgia – ghid complet 2026', excerpt: 'Ce taxe vei plăti ca independent.' },
+    { slug: 'tva-btw-belgia-ghid-complet-2026', title: 'TVA în Belgia (BTW) – ghid complet 2026', excerpt: 'Ghid complet despre TVA pentru independenți.' },
+  ],
+  'peppol-belgia-2026-facturare-electronica-obligatorie': [
+    { slug: 'tva-btw-belgia-ghid-complet-2026', title: 'TVA în Belgia (BTW) – ghid complet 2026', excerpt: 'Ghid complet despre TVA pentru independenți și firme.' },
+    { slug: 'taxe-zelfstandig-belgia-ghid-complet-2026', title: 'Ce taxe plătești ca zelfstandig în Belgia – ghid complet 2026', excerpt: 'Contribuții sociale și impozit pe venit.' },
+    { slug: 'srl-vs-nv-belgia-diferente-avantaje', title: 'SRL vs NV în Belgia – diferențe și avantaje', excerpt: 'Comparație între formele juridice principale.' },
+  ],
+  'impozitul-pe-dividende-belgia-2026': [
+    { slug: 'dividende-belgia-2026-ghid-complet', title: 'Dividende în Belgia 2026 – ghid complet', excerpt: 'Ghid complet despre dividende în Belgia.' },
+    { slug: 'srl-vs-nv-belgia-diferente-avantaje', title: 'SRL vs NV în Belgia – diferențe și avantaje', excerpt: 'Compară formele juridice și impactul fiscal.' },
+    { slug: 'taxe-zelfstandig-belgia-ghid-complet-2026', title: 'Ce taxe plătești ca zelfstandig în Belgia – ghid complet 2026', excerpt: 'Contribuții sociale și impozit pe venit.' },
+  ],
+  'dividende-belgia-2026-ghid-complet': [
+    { slug: 'srl-vs-nv-belgia-diferente-avantaje', title: 'SRL vs NV în Belgia – diferențe și avantaje', excerpt: 'Compară formele juridice și impactul fiscal.' },
+    { slug: 'cat-ramane-in-mana-venituri-belgia-2026', title: 'Cât rămâne în mână din veniturile tale în Belgia (2026)', excerpt: 'Calculează venitul net după toate taxele.' },
+    { slug: 'taxe-zelfstandig-belgia-ghid-complet-2026', title: 'Ce taxe plătești ca zelfstandig în Belgia – ghid complet 2026', excerpt: 'Contribuții sociale și impozit pe venit.' },
+  ],
+  'marketing-afacere-belgia-ghid-pas-cu-pas': [
+    { slug: 'primirii-10-clienti-belgia-ghid-2026', title: 'Cum îți găsești primii 10 clienți în Belgia – ghid 2026', excerpt: 'Strategii practice pentru a atrage primii clienți.' },
+    { slug: 'plan-marketing-12-luni-belgia-ghid-complet', title: 'Plan de marketing 12 luni Belgia – ghid complet', excerpt: 'Structurează-ți marketingul pe un an întreg.' },
+    { slug: 'ghid-google-business-belgia-2026', title: 'Ghid Google Business Belgia 2026', excerpt: 'Cum să-ți optimizezi profilul Google Business.' },
+  ],
+  'plan-marketing-12-luni-belgia-ghid-complet': [
+    { slug: 'marketing-afacere-belgia-ghid-pas-cu-pas', title: 'Marketing pentru afacerea ta în Belgia – ghid pas cu pas', excerpt: 'Cum să-ți faci singur marketingul pentru afacerea din Belgia.' },
+    { slug: 'primirii-10-clienti-belgia-ghid-2026', title: 'Cum îți găsești primii 10 clienți în Belgia – ghid 2026', excerpt: 'Strategii practice pentru primii clienți.' },
+    { slug: 'ghid-google-business-belgia-2026', title: 'Ghid Google Business Belgia 2026', excerpt: 'Optimizează-ți prezența pe Google.' },
+  ],
+  'ghid-google-business-belgia-2026': [
+    { slug: 'marketing-afacere-belgia-ghid-pas-cu-pas', title: 'Marketing pentru afacerea ta în Belgia – ghid pas cu pas', excerpt: 'Ghid complet de marketing pentru afaceri din Belgia.' },
+    { slug: 'primirii-10-clienti-belgia-ghid-2026', title: 'Cum îți găsești primii 10 clienți în Belgia – ghid 2026', excerpt: 'Atrage primii clienți pentru afacerea ta.' },
+    { slug: 'plan-marketing-12-luni-belgia-ghid-complet', title: 'Plan de marketing 12 luni Belgia – ghid complet', excerpt: 'Planifică-ți marketingul pe termen lung.' },
+  ],
+  'primirii-10-clienti-belgia-ghid-2026': [
+    { slug: 'marketing-afacere-belgia-ghid-pas-cu-pas', title: 'Marketing pentru afacerea ta în Belgia – ghid pas cu pas', excerpt: 'Ghid complet de marketing pentru afaceri din Belgia.' },
+    { slug: 'ghid-google-business-belgia-2026', title: 'Ghid Google Business Belgia 2026', excerpt: 'Optimizează-ți profilul Google Business.' },
+    { slug: 'checklist-primele-30-zile-independent-belgia', title: 'Checklist primele 30 zile ca independent în Belgia', excerpt: 'Toți pașii necesari în prima lună de independență.' },
+  ],
+  'cash-flow-antreprenori-belgia-ghid-practic': [
+    { slug: 'taxe-zelfstandig-belgia-ghid-complet-2026', title: 'Ce taxe plătești ca zelfstandig în Belgia – ghid complet 2026', excerpt: 'Planifică-ți taxele pentru un cash flow sănătos.' },
+    { slug: 'cat-ramane-in-mana-venituri-belgia-2026', title: 'Cât rămâne în mână din veniturile tale în Belgia (2026)', excerpt: 'Calculează venitul net disponibil.' },
+    { slug: 'business-canvas-ghid-plan-afacere', title: 'Cum să îți construiești un Business Plan într-o singură pagină', excerpt: 'Model practic pentru planul tău de afaceri.' },
+  ],
+  'business-canvas-ghid-plan-afacere': [
+    { slug: 'cash-flow-antreprenori-belgia-ghid-practic', title: 'Cash Flow pentru antreprenori în Belgia – ghid practic', excerpt: 'Gestionează fluxul de numerar al afacerii tale.' },
+    { slug: 'cum-devii-independent-belgia-ghid-complet-2026', title: 'Cum devii independent în Belgia – ghid complet 2026', excerpt: 'Toți pașii pentru a deveni independent în Belgia.' },
+    { slug: 'taxe-zelfstandig-belgia-ghid-complet-2026', title: 'Ce taxe plătești ca zelfstandig în Belgia – ghid complet 2026', excerpt: 'Contribuții sociale și impozit pe venit.' },
+  ],
+};
 
 /** Get display string for resource based on language (EN/NL/RO with fallbacks). */
 function getResourceDisplay(
@@ -255,6 +367,35 @@ const ResourceDetailPage = () => {
               {displayTitle}
             </h1>
 
+            {/* Pillar: "Ce vei afla din acest ghid" */}
+            {PILLAR_GUIDE_POINTS[resource.slug] && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+                <h2 className="font-playfair text-xl font-bold text-gray-900 mb-4">
+                  Ce vei afla din acest ghid
+                </h2>
+                <ul className="space-y-2">
+                  {PILLAR_GUIDE_POINTS[resource.slug].map((point, i) => (
+                    <li key={i} className="flex items-start gap-2 text-gray-700">
+                      <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* CTA 1 – after intro / before content */}
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <p className="text-gray-800 font-medium">
+                Vrei să știi exact cât ai de plătit în cazul tău?
+              </p>
+              <Link to="/contact" className="shrink-0">
+                <Button className="w-full sm:w-auto bg-romania-blue hover:bg-romania-blue/90">
+                  → Contactează-mă
+                </Button>
+              </Link>
+            </div>
+
             {/* Content */}
             <article
               className="prose prose-lg max-w-none text-gray-700 leading-relaxed
@@ -292,6 +433,57 @@ const ResourceDetailPage = () => {
                 </a>
               </div>
             )}
+
+            {/* CTA 2 – after main content */}
+            <div className="mt-10 bg-romania-blue/5 border border-romania-blue/20 rounded-lg p-6">
+              <p className="text-gray-800 font-medium mb-3">
+                Dacă situația ta este mai complexă, îți pot explica exact ce ai de făcut.
+              </p>
+              <Link to="/contact">
+                <Button variant="outline" className="border-romania-blue text-romania-blue hover:bg-romania-blue hover:text-white">
+                  → Vezi serviciile
+                </Button>
+              </Link>
+            </div>
+
+            {/* Articole recomandate */}
+            {ARTICLE_RECOMMENDATIONS[resource.slug] && (
+              <section className="mt-12">
+                <h2 className="font-playfair text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                  <BookOpen className="h-6 w-6 text-romania-blue" />
+                  Articole recomandate
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {ARTICLE_RECOMMENDATIONS[resource.slug].map((art) => (
+                    <Link
+                      key={art.slug}
+                      to={`/resurse/${art.slug}`}
+                      className="block border border-gray-200 rounded-lg p-4 hover:border-romania-blue hover:shadow-md transition-all duration-200 group"
+                    >
+                      <h3 className="font-semibold text-gray-900 group-hover:text-romania-blue text-sm mb-1 leading-snug">
+                        {art.title}
+                      </h3>
+                      <p className="text-xs text-gray-500 line-clamp-2">{art.excerpt}</p>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* CTA final */}
+            <div className="mt-10 mb-4 bg-romania-blue text-white rounded-lg p-8 text-center">
+              <h2 className="font-playfair text-2xl font-bold mb-3">
+                Ai nevoie de ajutor pentru taxe sau deschiderea unei afaceri în Belgia?
+              </h2>
+              <p className="text-white/85 mb-6 text-base">
+                Îți explic exact ce trebuie să faci, în funcție de situația ta concretă.
+              </p>
+              <Link to="/contact">
+                <Button className="bg-amber-400 hover:bg-amber-300 text-black font-bold px-8 py-3 text-base">
+                  👉 Contactează-mă
+                </Button>
+              </Link>
+            </div>
           </div>
         </main>
         <Footer />
