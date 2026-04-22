@@ -191,7 +191,9 @@
     "errorTitle": "Fout",
     "validationError": "Validatiefout",
     "validationErrorMessage": "Controleer het formulier op fouten en probeer het opnieuw.",
-    "submissionError": "Verzendfout"
+    "submissionError": "Verzendfout",
+    "reportContentTitle": "Content Melden",
+    "reportContentText": "Als u van mening bent dat enige inhoud op dit platform (vermeldingen of beoordelingen) illegaal of frauduleus is, of inbreuk maakt op uw rechten, laat het ons dan onmiddellijk weten via info@ro-businesshub.be. Wij zullen dit onderzoeken en binnen 72 uur passende actie ondernemen."
   },
   "faq": {
     "title": "Veelgestelde Vragen",

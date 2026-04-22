@@ -178,6 +178,11 @@ const ContactPage = () => {
                             </div>
                           </div>
                         </div>
+
+                        <div className="mt-6 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+                          <p className="font-semibold">{t('contact.reportContentTitle')}</p>
+                          <p className="mt-2">{t('contact.reportContentText')}</p>
+                        </div>
                       </div>
 
                       <div className="mt-6 pt-6 border-t border-gray-200 text-center">
