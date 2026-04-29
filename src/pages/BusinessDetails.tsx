@@ -479,6 +479,23 @@ const BusinessDetails = () => {
                     </div>
                   </section>
                 )}
+
+                {/* DSA Art. 16 — Report content (always visible in main flow) */}
+                <section className="bg-card rounded-2xl shadow-sm p-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                      <h2 className="font-semibold text-foreground text-base">
+                        {t('businessDetails.reportSectionTitle')}
+                      </h2>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {t('businessDetails.reportSectionDesc')}
+                      </p>
+                    </div>
+                    <div className="shrink-0">
+                      <ReportIssueDialog businessId={business.id} businessName={business.business_name} />
+                    </div>
+                  </div>
+                </section>
               </div>
 
               {/* ── RIGHT: sticky sidebar ── */}

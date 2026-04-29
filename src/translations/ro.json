@@ -297,7 +297,9 @@
     "hoursDisclaimer": "Programul de funcționare și datele de contact sunt furnizate de afacere și se pot modifica. Vă recomandăm să sunați pentru confirmare înainte de a vă deplasa.",
     "btwLabel": "Număr de întreprindere (BTW)",
     "viesDisclaimer": "Acest număr de întreprindere este furnizat de afacere. Înainte de a încheia o tranzacție, vă recomandăm să verificați statutul TVA activ în registrul oficial UE VIES.",
-    "viesVerifyLink": "Verifică pe VIES"
+    "viesVerifyLink": "Verifică pe VIES",
+    "reportSectionTitle": "Raportează această înregistrare",
+    "reportSectionDesc": "Ai găsit conținut incorect sau ilegal? Îl poți raporta conform Regulamentului UE privind Serviciile Digitale (DSA, art. 16)."
   },
   "reviewForm": {
     "leaveReview": "Lasă o Recenzie",

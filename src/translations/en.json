@@ -297,7 +297,9 @@
     "hoursDisclaimer": "Opening hours and contact details are provided by the business and may change. We recommend calling to confirm before visiting.",
     "btwLabel": "Enterprise Number (BTW)",
     "viesDisclaimer": "This enterprise number is provided by the business. Before entering into a transaction, we recommend verifying the active VAT status on the official EU VIES register.",
-    "viesVerifyLink": "Verify on VIES"
+    "viesVerifyLink": "Verify on VIES",
+    "reportSectionTitle": "Report this listing",
+    "reportSectionDesc": "Found incorrect or illegal content? You can report it under the EU Digital Services Act (DSA, Art. 16)."
   },
   "reviewForm": {
     "leaveReview": "Leave a Review",

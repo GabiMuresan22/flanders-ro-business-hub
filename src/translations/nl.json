@@ -297,7 +297,9 @@
     "hoursDisclaimer": "Openingstijden en contactgegevens worden door het bedrijf verstrekt en kunnen wijzigen. Wij raden u aan te bellen voor bevestiging voordat u langskomt.",
     "btwLabel": "Ondernemingsnummer (BTW)",
     "viesDisclaimer": "Dit ondernemingsnummer wordt door het bedrijf verstrekt. Voordat u een transactie aangaat, raden wij u aan de actieve btw-status te verifiëren in het officiële EU VIES-register.",
-    "viesVerifyLink": "Verifieer op VIES"
+    "viesVerifyLink": "Verifieer op VIES",
+    "reportSectionTitle": "Deze vermelding melden",
+    "reportSectionDesc": "Onjuiste of illegale inhoud gevonden? U kunt dit melden op grond van de EU Digital Services Act (DSA, art. 16)."
   },
   "reviewForm": {
     "leaveReview": "Schrijf een beoordeling",
