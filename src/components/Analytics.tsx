@@ -15,7 +15,7 @@ const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_ID || "G-H8JZ4G2QE3";
 const DEBUG = import.meta.env.DEV;
 
 function hasStatisticsConsent(): boolean {
-  return window.Cookiebot?.consent.statistics === true;
+  return window.Cookiebot?.consent?.statistics === true;
 }
 
 function canTrack(): boolean {
